@@ -1,65 +1,1560 @@
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+// ─── Asset URLs (from Figma, valid for 7 days) ───────────────────────────────
+const SACHET_1 = "https://www.figma.com/api/mcp/asset/d674c4b8-29a3-4d3d-88d0-5a88ea7eba2b";
+const SACHET_2 = "https://www.figma.com/api/mcp/asset/a15c420c-19a3-420a-be1b-24ca885877e6";
+const SACHET_3 = "https://www.figma.com/api/mcp/asset/677531b1-2d69-4d73-87c2-281179e91359";
+const SACHET_4 = "https://www.figma.com/api/mcp/asset/b1bb3d4d-97ee-48e3-bc36-220dd3db3d88";
+const SACHET_5 = "https://www.figma.com/api/mcp/asset/0d273a98-ee7f-4d9d-aa63-37c13639fbc3";
+const SACHET_7 = "https://www.figma.com/api/mcp/asset/85ee366b-3954-4420-b39f-df22ea0d14cf";
+const RESTAURANT_IMG = "https://www.figma.com/api/mcp/asset/f5e87db7-e816-43f1-a164-41edc0c863cc";
+const CAFE_IMG = "https://www.figma.com/api/mcp/asset/ed12eef1-cb28-4e17-a040-477a56c0eb0d";
+const HOTEL_IMG = "https://www.figma.com/api/mcp/asset/b5ef1800-905e-4dd2-91e0-6bdf5b48cd56";
+const INDUSTRIES_BG = "https://www.figma.com/api/mcp/asset/4d98ef40-3c05-4ff6-b0df-28e8cacc5ee9";
+const CHECK_ICON = "https://www.figma.com/api/mcp/asset/97aa1e33-1712-40ca-9a7f-202130b1587c";
+const CLOSE_ICON = "https://www.figma.com/api/mcp/asset/e0297f18-19ba-4436-9a06-b89422824185";
+const HEALTHCARE_ICON = "https://www.figma.com/api/mcp/asset/37194043-88dd-49fc-9817-ffc5fb3c509d";
+const OTHER_ICON = "https://www.figma.com/api/mcp/asset/27c76d7d-f986-4c80-9e11-c84c5e913834";
+const ARROW_WHITE = "https://www.figma.com/api/mcp/asset/b359458f-8ecb-437b-bede-941a9fbd83cf";
+const ARROW_DARK = "https://www.figma.com/api/mcp/asset/f3b749e4-4953-4e11-8852-4d66f96aa3cf";
+const ARROW_CONTACT = "https://www.figma.com/api/mcp/asset/e6c55c53-3649-4256-a304-09447681b56e";
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
+function ArrowIcon({ src }: { src: string }) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <span className="arrow-icon">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt="" width={24} height={24} />
+    </span>
+  );
+}
+
+function SectionHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="section-heading gradient-heading">{children}</h2>
+  );
+}
+
+function SectionSubtitle({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="section-subtitle" style={{ marginTop: 16 }}>{children}</p>
+  );
+}
+
+// ─── NAVBAR ──────────────────────────────────────────────────────────────────
+function Navbar() {
+  return (
+    <nav
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        width: "100%",
+        height: 88,
+        background: "#f6fbf6",
+        borderBottom: "1px solid #e0dfdf",
+        display: "flex",
+        alignItems: "center",
+        padding: "0 39px",
+        justifyContent: "space-between",
+      }}
+    >
+      {/* Logo */}
+      <Link href="/" style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
+        <span
+          style={{
+            fontWeight: 900,
+            fontSize: 24,
+            letterSpacing: "-0.5px",
+            background: "linear-gradient(101deg, #000 0%, rgba(0,0,0,0.5) 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
+          Pixtron
+        </span>
+      </Link>
+
+      {/* Nav links */}
+      <div
+        style={{
+          display: "flex",
+          gap: 24,
+          alignItems: "center",
+          fontSize: 18,
+          fontWeight: 400,
+          color: "#000",
+        }}
+      >
+        {["About", "Product", "Industries", "Sensory Advertising", "Advertisers", "Restaurants"].map(
+          (item) => (
+            <Link
+              key={item}
+              href="#"
+              style={{
+                color: "#000",
+                textDecoration: "none",
+                lineHeight: "30px",
+                whiteSpace: "nowrap",
+                transition: "opacity 0.15s",
+              }}
+            >
+              {item}
+            </Link>
+          )
+        )}
+      </div>
+
+      {/* CTA */}
+      <Link href="#" className="btn-outline" style={{ width: 169, justifyContent: "space-between" }}>
+        <span>Contact Us</span>
+        <ArrowIcon src={ARROW_CONTACT} />
+      </Link>
+    </nav>
+  );
+}
+
+// ─── HERO ─────────────────────────────────────────────────────────────────────
+function Hero() {
+  const sachets = [SACHET_1, SACHET_2, SACHET_3, SACHET_4, SACHET_5, SACHET_7];
+
+  return (
+    <section
+      style={{
+        background: "#f6fbf6",
+        position: "relative",
+        overflow: "hidden",
+        minHeight: 900,
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      {/* Watermark */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          fontSize: "clamp(80px, 13vw, 190px)",
+          fontWeight: 900,
+          whiteSpace: "nowrap",
+          letterSpacing: "-4px",
+          lineHeight: 1,
+          color: "rgba(0,0,0,0.04)",
+          userSelect: "none",
+          pointerEvents: "none",
+          zIndex: 0,
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        SEEN TOUCHED REMEMBERED
+      </div>
+
+      {/* Content */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          maxWidth: 1440,
+          margin: "0 auto",
+          width: "100%",
+          padding: "0 39px",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          alignItems: "center",
+          gap: 40,
+          minHeight: 900,
+        }}
+      >
+        {/* Left: Text + CTAs */}
+        <div style={{ paddingTop: 120, paddingBottom: 120 }}>
+          <p
+            style={{
+              fontSize: 14,
+              fontWeight: 600,
+              letterSpacing: "0.1em",
+              color: "#0f9d58",
+              textTransform: "uppercase",
+              marginBottom: 16,
+            }}
+          >
+            Sensory Advertising
+          </p>
+          <h1
+            style={{
+              fontSize: "clamp(40px, 5vw, 72px)",
+              fontWeight: 700,
+              lineHeight: 1.1,
+              color: "#000",
+              marginBottom: 24,
+              maxWidth: 620,
+            }}
+          >
+            Advertising that people{" "}
+            <span style={{ fontStyle: "italic" }}>touch, see and smell</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+          <p
+            style={{
+              fontSize: 20,
+              fontWeight: 400,
+              lineHeight: 1.6,
+              color: "rgba(0,0,0,0.6)",
+              maxWidth: 520,
+              marginBottom: 40,
+            }}
+          >
+            Pixtron connects your brand with premium restaurant and hospitality
+            audiences through branded wet wipes — a sensory experience customers
+            actually remember.
+          </p>
+
+          {/* Buttons */}
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+            <Link href="#" className="btn-primary">
+              <span>Advertise With Pixtron</span>
+              <ArrowIcon src={ARROW_WHITE} />
+            </Link>
+            <Link href="#" className="btn-outline">
+              <span>For Restaurants</span>
+              <ArrowIcon src={ARROW_DARK} />
+            </Link>
+          </div>
+        </div>
+
+        {/* Right: Sachets */}
+        <div
+          style={{
+            position: "relative",
+            height: 360,
+            overflow: "hidden",
+          }}
+        >
+          {/* Overlay fade edges */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 2,
+              pointerEvents: "none",
+              background:
+                "linear-gradient(90deg, #f6fbf6 2%, rgba(246,251,246,0) 15%, rgba(246,251,246,0) 85%, #f6fbf6 98%)",
+            }}
+          />
+          {/* Row 1 */}
+          <div
+            style={{
+              display: "flex",
+              gap: 16,
+              marginBottom: 12,
+              overflow: "hidden",
+            }}
+          >
+            {sachets.map((src, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={i}
+                src={src}
+                alt="branded wet wipe sachet"
+                style={{
+                  height: 166,
+                  width: "auto",
+                  borderRadius: 8,
+                  objectFit: "cover",
+                  flexShrink: 0,
+                }}
+              />
+            ))}
+          </div>
+          {/* Row 2 */}
+          <div style={{ display: "flex", gap: 16, overflow: "hidden" }}>
+            {[...sachets].reverse().map((src, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={i}
+                src={src}
+                alt="branded wet wipe sachet"
+                style={{
+                  height: 164,
+                  width: "auto",
+                  borderRadius: 8,
+                  objectFit: "cover",
+                  flexShrink: 0,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── HOW PIXTRON WORKS ────────────────────────────────────────────────────────
+function HowPixtronWorks() {
+  const steps = [
+    {
+      number: "Step 1",
+      title: "Partner Venues",
+      description:
+        "We partner with premium restaurants and cafes to provide branded wet wipes at no cost, placing your brand directly in front of their diners.",
+    },
+    {
+      number: "Step 2",
+      title: "Brand Placement",
+      description:
+        "Your brand message reaches customers during their dining experience — a natural, non-intrusive touchpoint that creates lasting impressions.",
+    },
+    {
+      number: "Step 3",
+      title: "Real Engagement",
+      description:
+        "Customers interact with your brand in a physical, tactile way — touching, reading, and experiencing your message up close.",
+    },
+    {
+      number: "Step 4",
+      title: "Track Results",
+      description:
+        "Monitor campaign performance with detailed analytics, tracking reach, engagement, and brand recall across all partner venues.",
+    },
+  ];
+
+  return (
+    <section style={{ background: "#fff", padding: "100px 39px" }}>
+      <div style={{ maxWidth: 1362, margin: "0 auto", textAlign: "center" }}>
+        <SectionHeading>How Pixtron Works</SectionHeading>
+        <SectionSubtitle>
+          A simple, seamless process that connects your brand with premium
+          dining audiences
+        </SectionSubtitle>
+
+        {/* Step progress line */}
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            maxWidth: 1092,
+            margin: "64px auto 0",
+          }}
+        >
+          {/* Connector line */}
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: 48,
+              right: 48,
+              height: 3,
+              background: "#e7e7e7",
+              borderRadius: 2,
+              transform: "translateY(-50%)",
+            }}
+          />
+          {/* Active segment */}
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: 48,
+              width: 90,
+              height: 3,
+              background: "#0f9d58",
+              borderRadius: 2,
+              transform: "translateY(-50%)",
+            }}
+          />
+          {steps.map((_, i) => (
+            <div
+              key={i}
+              style={{
+                position: "relative",
+                zIndex: 1,
+                width: 48,
+                height: 48,
+                borderRadius: "50%",
+                background: i === 0 ? "#0f9d58" : "#e7e7e7",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              <div
+                style={{
+                  width: 24,
+                  height: 24,
+                  borderRadius: "50%",
+                  background: i === 0 ? "#fff" : "rgba(0,0,0,0.2)",
+                }}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Step cards */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: 40,
+            marginTop: 32,
+            textAlign: "left",
+          }}
+        >
+          {steps.map((step, i) => (
+            <div key={i}>
+              <p
+                style={{
+                  fontSize: 18,
+                  fontWeight: 600,
+                  color: "#0f9d58",
+                  marginBottom: 8,
+                  textAlign: "center",
+                }}
+              >
+                {step.number}
+              </p>
+              <h3
+                style={{
+                  fontSize: 24,
+                  fontWeight: 700,
+                  color: "#000",
+                  marginBottom: 12,
+                  textAlign: "center",
+                }}
+              >
+                {step.title}
+              </h3>
+              <p
+                style={{
+                  fontSize: 16,
+                  fontWeight: 400,
+                  lineHeight: 1.6,
+                  color: "rgba(0,0,0,0.6)",
+                  textAlign: "center",
+                }}
+              >
+                {step.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── REAL IMPACT ─────────────────────────────────────────────────────────────
+function RealImpact() {
+  const stats = [
+    {
+      value: "91%",
+      label: "Customer Engagement Rate",
+      description: (
+        <>
+          Customers actively engage with <strong>branded wet wipes</strong>
+        </>
+      ),
+      width: 1130,
+    },
+    {
+      value: "7.8%",
+      label: "Brand Recall",
+      description: <>3x higher than digital display ads</>,
+      width: 1040,
+    },
+    {
+      value: "2.5K+",
+      label: "Partner Venues",
+      description: <>Premium restaurants and cafes worldwide</>,
+      width: 936,
+    },
+    {
+      value: "137B+",
+      label: "Annual Touch Points",
+      description: <>Touch points with customers every year</>,
+      width: 842,
+    },
+  ];
+
+  return (
+    <section style={{ background: "#fff", padding: "100px 39px" }}>
+      <div style={{ maxWidth: 1362, margin: "0 auto" }}>
+        <div style={{ textAlign: "center" }}>
+          <SectionHeading>Real Impact, Real Results</SectionHeading>
+          <SectionSubtitle>
+            A simple, seamless process that connects your brand with premium
+            dining audiences
+          </SectionSubtitle>
+        </div>
+
+        {/* Stat cards — centered stack */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 0,
+            marginTop: 64,
+          }}
+        >
+          {stats.map((stat, i) => (
+            <div
+              key={i}
+              style={{
+                width: "100%",
+                maxWidth: stat.width,
+                background: "#fff",
+                border: "1px solid #e0dfdf",
+                borderRadius: 6,
+                boxShadow: "0px 34px 30px -30px rgba(0,0,0,0.25)",
+                padding: "32px 32px 20px",
+                marginBottom: i < stats.length - 1 ? -20 : 0,
+                position: "relative",
+                zIndex: stats.length - i,
+              }}
             >
-              Learning
-            </a>{" "}
-            center.
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div>
+                  <p
+                    style={{
+                      fontSize: 80,
+                      fontWeight: 500,
+                      lineHeight: 1.4,
+                      color: "#000",
+                      margin: 0,
+                    }}
+                  >
+                    {stat.value}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: 16,
+                      color: "rgba(0,0,0,0.6)",
+                      marginTop: 4,
+                    }}
+                  >
+                    {stat.label}
+                  </p>
+                </div>
+                <p
+                  style={{
+                    fontSize: 24,
+                    lineHeight: 1.3,
+                    color: "#000",
+                    textAlign: "right",
+                    maxWidth: 430,
+                  }}
+                >
+                  {stat.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 64 }}>
+          <Link href="#" className="btn-primary">
+            <span>Advertise With Pixtron</span>
+            <ArrowIcon src={ARROW_WHITE} />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── WHERE PIXTRON WORKS BEST ─────────────────────────────────────────────────
+function WherePixtronWorks() {
+  const venues = [
+    {
+      img: RESTAURANT_IMG,
+      title: "Restaurants",
+      subtitle: "Enhance dining with premium wipes",
+      offsetY: 0,
+    },
+    {
+      img: CAFE_IMG,
+      title: "Cafe's",
+      subtitle: "High-traffic lifestyle touchpoints",
+      offsetY: 95,
+    },
+    {
+      img: HOTEL_IMG,
+      title: "Hotels",
+      subtitle: "Premium hospitality amenities",
+      offsetY: 194,
+    },
+  ];
+
+  return (
+    <section style={{ background: "#fff", padding: "100px 39px" }}>
+      <div style={{ maxWidth: 1362, margin: "0 auto" }}>
+        <div style={{ textAlign: "center" }}>
+          <SectionHeading>Where Pixtron Works Best</SectionHeading>
+          <SectionSubtitle>
+            A simple, seamless process that connects your brand with premium
+            dining audiences
+          </SectionSubtitle>
+        </div>
+
+        {/* Staggered cards */}
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            marginTop: 64,
+            height: 862,
+          }}
+        >
+          {venues.map((venue, i) => (
+            <div
+              key={i}
+              style={{
+                width: 434,
+                height: 668,
+                borderRadius: 20,
+                overflow: "hidden",
+                position: "absolute",
+                left: i === 0 ? 0 : i === 1 ? 464 : 928,
+                top: venue.offsetY,
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={venue.img}
+                alt={venue.title}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
+              {/* Gradient overlay */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%)",
+                  borderRadius: 20,
+                }}
+              />
+              {/* Text */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 40,
+                  left: 32,
+                }}
+              >
+                <h3
+                  style={{
+                    fontSize: 30,
+                    fontWeight: 700,
+                    color: "#fff",
+                    lineHeight: "36px",
+                    marginBottom: 6,
+                  }}
+                >
+                  {venue.title}
+                </h3>
+                <p
+                  style={{
+                    fontSize: 18,
+                    fontWeight: 400,
+                    color: "#fff",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {venue.subtitle}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 64 }}>
+          <Link href="#" className="btn-primary">
+            <span>Advertise With Pixtron</span>
+            <ArrowIcon src={ARROW_WHITE} />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── INDUSTRIES WE SERVE ──────────────────────────────────────────────────────
+function Industries() {
+  const narrowIndustries = [
+    "Legal & Financial Services",
+    "Real Estate & Home Services",
+    "Outdoor & Landscaping Services",
+    "Beauty & Personal Care",
+    "Fitness & Wellness",
+    "Automotive Services",
+    "Events & Creative Services",
+  ];
+
+  return (
+    <section style={{ background: "#fff", padding: "100px 39px" }}>
+      <div style={{ maxWidth: 1362, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <SectionHeading>Industries We Serve</SectionHeading>
+          <SectionSubtitle>
+            Pixtron adapts to any dining environment where memorable brand
+            experiences matter
+          </SectionSubtitle>
+        </div>
+
+        {/* CTA */}
+        <div
+          style={{ display: "flex", justifyContent: "center", marginBottom: 40 }}
+        >
+          <Link href="#" className="btn-primary">
+            <span>Advertise With Pixtron</span>
+            <ArrowIcon src={ARROW_WHITE} />
+          </Link>
+        </div>
+
+        {/* Columns grid */}
+        <div
+          style={{
+            display: "flex",
+            height: 652,
+            borderRadius: 6,
+            overflow: "hidden",
+            gap: 3,
+          }}
+        >
+          {/* Wide column: Healthcare */}
+          <div
+            style={{
+              width: 434,
+              flexShrink: 0,
+              borderRadius: "6px 0 0 6px",
+              overflow: "hidden",
+              position: "relative",
+              background: "#1a1a1a",
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={INDUSTRIES_BG}
+              alt="Healthcare"
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "263%",
+                height: "117%",
+                top: 0,
+                left: "-101%",
+                objectFit: "cover",
+                pointerEvents: "none",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: "linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.7))",
+              }}
+            />
+            {/* Icon */}
+            <div
+              style={{
+                position: "absolute",
+                top: 36,
+                left: 36,
+                width: 48,
+                height: 48,
+                borderRadius: "50%",
+                background: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={HEALTHCARE_ICON} alt="" width={24} height={24} />
+            </div>
+            {/* Title */}
+            <h3
+              style={{
+                position: "absolute",
+                top: 110,
+                left: 36,
+                width: 360,
+                fontSize: 30,
+                fontWeight: 700,
+                color: "#fff",
+                lineHeight: 1.2,
+              }}
+            >
+              Healthcare & Medical Services
+            </h3>
+            {/* List */}
+            <ul
+              style={{
+                position: "absolute",
+                top: 206,
+                left: 36,
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+              }}
+            >
+              {[
+                "Cosmetic Dentistry Services",
+                "Medusa & Aesthetic Services",
+                "Dermatology Services",
+                "Chiropractic Services",
+                "Plastic Surgery Services",
+                "Veterinary Services",
+              ].map((item) => (
+                <li
+                  key={item}
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 500,
+                    color: "#fff",
+                    lineHeight: 1.7,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+                >
+                  <span style={{ fontWeight: 900, fontSize: 18 }}>·</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Narrow columns */}
+          {narrowIndustries.map((industry, i) => (
+            <div
+              key={i}
+              style={{
+                width: 130,
+                flexShrink: 0,
+                background: "#e7e7e7",
+                borderRadius: i === narrowIndustries.length - 1 ? "0 6px 6px 0" : 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+              }}
+            >
+              {/* Icon */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 37,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  width: 48,
+                  height: 48,
+                  borderRadius: "50%",
+                  background: "#fff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={OTHER_ICON} alt="" width={24} height={24} />
+              </div>
+              {/* Vertical text */}
+              <p
+                style={{
+                  writingMode: "vertical-rl",
+                  transform: "rotate(180deg)",
+                  fontSize: 22,
+                  fontWeight: 400,
+                  color: "#000",
+                  lineHeight: 1.2,
+                  marginTop: 60,
+                  background:
+                    "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.5) 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                {industry}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── WHY PIXTRON IS DIFFERENT ─────────────────────────────────────────────────
+function WhyDifferent() {
+  const rows = [
+    { feature: "Physical Engagement", pixtron: "check", digitalAds: "close", socialMedia: "close" },
+    { feature: "Premium Audience", pixtron: "check", digitalAds: "close", socialMedia: "close" },
+    { feature: "High Engagement Rate (91%)", pixtron: "check", digitalAds: "close", socialMedia: "close" },
+    { feature: "Brand Recall", pixtron: "7.8%", digitalAds: "2.5%", socialMedia: "2.1%" },
+    { feature: "Ad Blocking", pixtron: "close", digitalAds: "check", socialMedia: "check" },
+    { feature: "Real-World Touch", pixtron: "check", digitalAds: "close", socialMedia: "close" },
+    { feature: "Venue Targeting", pixtron: "check", digitalAds: "close", socialMedia: "check" },
+    { feature: "Measurable ROI", pixtron: "check", digitalAds: "check", socialMedia: "check" },
+  ];
+
+  function Cell({ value, col }: { value: string; col: "pixtron" | "other" }) {
+    if (value === "check") {
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={CHECK_ICON} alt="Yes" width={32} height={32} />
+      );
+    }
+    if (value === "close") {
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={CLOSE_ICON} alt="No" width={32} height={32} />
+      );
+    }
+    return (
+      <span
+        style={{
+          fontSize: 20,
+          fontWeight: 600,
+          color: col === "pixtron" ? "#000" : "#0ead69",
+        }}
+      >
+        {value}
+      </span>
+    );
+  }
+
+  return (
+    <section style={{ background: "#fff", padding: "100px 39px" }}>
+      <div style={{ maxWidth: 1362, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 64 }}>
+          <SectionHeading>Why Pixtron is Different</SectionHeading>
+          <SectionSubtitle>
+            See how sensory advertising outperforms traditional digital channels
+          </SectionSubtitle>
+        </div>
+
+        {/* Table */}
+        <div
+          style={{
+            border: "1px solid #e0dfdf",
+            borderRadius: 6,
+            overflow: "hidden",
+            marginLeft: "auto",
+            marginRight: "auto",
+            maxWidth: 1130,
+          }}
+        >
+          {/* Header */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 270px 270px 270px",
+              borderBottom: "1px solid #e0dfdf",
+            }}
+          >
+            <div style={{ padding: "20px 30px", fontWeight: 700, fontSize: 18 }}>
+              Feature
+            </div>
+            {[
+              { label: "Pixtron", bg: "#f6f6f6" },
+              { label: "Digital Ads", bg: "#f6f6f6" },
+              { label: "Social Media", bg: "#f6f6f6" },
+            ].map((col) => (
+              <div
+                key={col.label}
+                style={{
+                  padding: "20px 0",
+                  textAlign: "center",
+                  fontWeight: 700,
+                  fontSize: 18,
+                  background: "linear-gradient(101deg, #000 0%, rgba(0,0,0,0.5) 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                {col.label}
+              </div>
+            ))}
+          </div>
+
+          {rows.map((row, i) => (
+            <div
+              key={i}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 270px 270px 270px",
+                borderBottom: i < rows.length - 1 ? "1px solid #e0dfdf" : "none",
+              }}
+            >
+              <div
+                style={{
+                  padding: "22px 30px",
+                  fontSize: 18,
+                  fontWeight: 500,
+                  color: "#000",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {row.feature}
+              </div>
+              {[
+                { value: row.pixtron, col: "pixtron" as const },
+                { value: row.digitalAds, col: "other" as const },
+                { value: row.socialMedia, col: "other" as const },
+              ].map((cell, j) => (
+                <div
+                  key={j}
+                  style={{
+                    background: "#f6f6f6",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "18px 0",
+                  }}
+                >
+                  <Cell value={cell.value} col={cell.col} />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Disclaimer */}
+        <div
+          style={{
+            maxWidth: 1130,
+            margin: "0 auto",
+            background: "#fff",
+            border: "1px solid #e0dfdf",
+            borderTop: "none",
+            borderRadius: "0 0 6px 6px",
+            padding: "20px 30px",
+            textAlign: "center",
+            boxShadow: "inset 0 0 14px rgba(0,0,0,0.08)",
+          }}
+        >
+          <p style={{ fontSize: 16, color: "rgba(0,0,0,0.8)" }}>
+            Based on industry averages and Pixtron internal data from 2025 - 2026
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </div>
+    </section>
+  );
+}
+
+// ─── THE PROCESS ─────────────────────────────────────────────────────────────
+function TheProcess() {
+  const hospitality = [
+    {
+      step: "01",
+      title: "Join Pixtron",
+      description:
+        "Quick onboarding. No upfront cost. We place your venue into our premium restaurant network.",
+      width: 526,
+    },
+    {
+      step: "02",
+      title: "We Handle Everything",
+      description: "",
+      width: 473,
+    },
+    { step: "03", title: "Elevate Your Tables", description: "", width: 426 },
+    { step: "04", title: "Impress Every Guest", description: "", width: 383 },
+  ];
+
+  const advertisers = [
+    {
+      step: "01",
+      title: "Define Your Audience",
+      description:
+        "Target by location, neighbourhood, and venue type. Reach high value customers in real world environments.",
+      width: 526,
+    },
+    {
+      step: "02",
+      title: "Design Your Presence",
+      description: "",
+      width: 473,
+    },
+    { step: "03", title: "Go Live in Restaurants", description: "", width: 426 },
+    { step: "04", title: "Track & Scale", description: "", width: 383 },
+  ];
+
+  function ProcessColumn({
+    label,
+    heading,
+    steps,
+    btnLabel,
+    btnStyle,
+  }: {
+    label: string;
+    heading: string;
+    steps: typeof hospitality;
+    btnLabel: string;
+    btnStyle: "outline" | "primary";
+  }) {
+    return (
+      <div style={{ flex: 1 }}>
+        <p
+          style={{
+            fontSize: 16,
+            fontWeight: 600,
+            color: "#0f9d58",
+            letterSpacing: "0.05em",
+            textTransform: "uppercase",
+            textAlign: "center",
+            marginBottom: 16,
+          }}
+        >
+          {label}
+        </p>
+        <h3
+          style={{
+            fontSize: 30,
+            fontWeight: 400,
+            color: "#000",
+            textAlign: "center",
+            lineHeight: 1.3,
+            marginBottom: 48,
+          }}
+        >
+          {heading.split("\n").map((line, i) => (
+            <span key={i}>
+              {i > 0 && <br />}
+              {i === 1 ? <strong>{line}</strong> : line}
+            </span>
+          ))}
+        </h3>
+
+        {/* Accordion-style steps */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 8,
+          }}
+        >
+          {steps.map((step, i) => {
+            const isFirst = i === 0;
+            return (
+              <div
+                key={i}
+                style={{
+                  background: "#e9e9e9",
+                  border: "1px solid #e0dfdf",
+                  borderRadius: 6,
+                  overflow: "hidden",
+                  boxShadow: isFirst ? "0 24px 30px -20px rgba(0,0,0,0.25)" : undefined,
+                  maxWidth: step.width,
+                  width: "100%",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  padding: isFirst ? "32px 24px" : "18px 24px",
+                  position: "relative",
+                }}
+              >
+                {/* Background */}
+                {isFirst && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background: "#e9e9e9",
+                    }}
+                  />
+                )}
+                <div
+                  style={{
+                    position: "relative",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <p
+                      style={{
+                        fontSize: isFirst ? 24 : 20,
+                        fontWeight: 500,
+                        color: isFirst ? "#000" : "rgba(0,0,0,0.6)",
+                        lineHeight: 1.4,
+                        marginBottom: isFirst && step.description ? 12 : 0,
+                      }}
+                    >
+                      {step.title}
+                    </p>
+                    {isFirst && step.description && (
+                      <p
+                        style={{
+                          fontSize: 16,
+                          color: "#000",
+                          lineHeight: 1.4,
+                          maxWidth: 476,
+                        }}
+                      >
+                        {step.description}
+                      </p>
+                    )}
+                  </div>
+                  <span
+                    style={{
+                      fontSize: isFirst ? 60 : 50,
+                      fontWeight: 700,
+                      color: isFirst ? "#0f9d58" : "rgba(0,0,0,0.15)",
+                      lineHeight: 1,
+                      flexShrink: 0,
+                      marginLeft: 16,
+                    }}
+                  >
+                    {step.step}
+                  </span>
+                </div>
+                {!isFirst && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background: `rgba(255,255,255,${0.9 - i * 0.2})`,
+                      borderRadius: 6,
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
+
+        {/* CTA */}
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 40 }}>
+          {btnStyle === "primary" ? (
+            <Link href="#" className="btn-primary">
+              <span>{btnLabel}</span>
+              <ArrowIcon src={ARROW_WHITE} />
+            </Link>
+          ) : (
+            <Link href="#" className="btn-outline">
+              <span>{btnLabel}</span>
+              <ArrowIcon src={ARROW_DARK} />
+            </Link>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <section
+      style={{
+        background: "#fff",
+        borderTop: "1px solid #e0dfdf",
+        borderBottom: "1px solid #e0dfdf",
+      }}
+    >
+      {/* Heading */}
+      <div style={{ padding: "80px 39px 64px", textAlign: "center" }}>
+        <SectionHeading>The Process</SectionHeading>
+        <SectionSubtitle>
+          Simple steps to get started, whether you&#39;re a venue or an
+          advertiser
+        </SectionSubtitle>
+      </div>
+
+      {/* Two columns */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          borderTop: "1px solid #e0dfdf",
+        }}
+      >
+        <div
+          style={{
+            borderRight: "1px solid #e0dfdf",
+            padding: "64px 39px",
+          }}
+        >
+          <ProcessColumn
+            label="HOSPITALITY PARTNERS"
+            heading={"Upgrade your guest experience\nat zero cost"}
+            steps={hospitality}
+            btnLabel="For Restaurants"
+            btnStyle="outline"
+          />
+        </div>
+        <div style={{ padding: "64px 39px" }}>
+          <ProcessColumn
+            label="ADVERTISERS"
+            heading={"Put your brand directly into\ncustomer's hands"}
+            steps={advertisers}
+            btnLabel="Advertise With Pixtron"
+            btnStyle="primary"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── FOOTER ──────────────────────────────────────────────────────────────────
+function Footer() {
+  const socialPlatforms = [
+    { label: "YouTube", icon: "▶" },
+    { label: "YouTube", icon: "▶" },
+    { label: "YouTube", icon: "▶" },
+    { label: "Instagram", icon: "📷" },
+    { label: "Facebook", icon: "f" },
+    { label: "TikTok", icon: "♪" },
+    { label: "YouTube", icon: "▶" },
+    { label: "YouTube", icon: "▶" },
+    { label: "YouTube", icon: "▶" },
+    { label: "YouTube", icon: "▶" },
+  ];
+
+  const footerCols = [
+    {
+      title: "Column 1",
+      links: ["Link one", "Link two", "Link three", "Link four"],
+    },
+    {
+      title: "Column 2",
+      links: ["Link one", "Link two", "Link three"],
+      soon: [false, false, true],
+    },
+    {
+      title: "Column 3",
+      links: ["Link one", "Link two", "Link three", "Link four"],
+      soon: [true, false, false, false],
+    },
+  ];
+
+  return (
+    <footer>
+      {/* CTA band */}
+      <div
+        style={{
+          background: "#f6f6f6",
+          padding: "56px 39px 0",
+          borderTop: "1px solid #e0dfdf",
+        }}
+      >
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <h2
+            style={{
+              fontSize: 48,
+              fontWeight: 700,
+              lineHeight: 1.2,
+              color: "#000",
+              maxWidth: 393,
+              margin: "0 auto",
+            }}
+          >
+            Get connected with us on social media
+          </h2>
+        </div>
+
+        {/* Social icons row */}
+        <div
+          style={{
+            display: "flex",
+            borderTop: "1px solid #e0dfdf",
+          }}
+        >
+          {socialPlatforms.map((platform, i) => (
+            <div
+              key={i}
+              style={{
+                flex: 1,
+                height: 142,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRight: i < socialPlatforms.length - 1 ? "1px solid #e0dfdf" : "none",
+                gap: 8,
+                cursor: "pointer",
+              }}
+            >
+              <span style={{ fontSize: 28, lineHeight: 1 }}>{platform.icon}</span>
+              <span style={{ fontSize: 13, color: "#000" }}>{platform.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer nav */}
+      <div
+        style={{
+          borderTop: "1px solid #e0dfdf",
+          padding: "40px 39px",
+          display: "grid",
+          gridTemplateColumns: "434px 1fr 1fr 1fr",
+          gap: 40,
+          maxWidth: 1440,
+          margin: "0 auto",
+        }}
+      >
+        {/* Logo + info */}
+        <div>
+          <span
+            style={{
+              fontWeight: 900,
+              fontSize: 28,
+              background: "linear-gradient(101deg, #000 0%, rgba(0,0,0,0.5) 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              display: "block",
+              marginBottom: 16,
+            }}
+          >
+            Pixtron
+          </span>
+          <p
+            style={{
+              fontSize: 16,
+              lineHeight: 1.6,
+              color: "rgba(0,0,0,0.7)",
+              marginBottom: 24,
+            }}
+          >
+            Connecting brands with premium dining audiences through sensory
+            advertising that people touch, see and smell.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ fontSize: 18, flexShrink: 0 }}>📍</span>
+              <span style={{ fontSize: 14, color: "rgba(0,0,0,0.7)" }}>
+                1810 E. Sahara Ave Ste 930 Las Vegas, NV 89104, USA
+              </span>
+            </div>
+            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+              <span style={{ fontSize: 18, flexShrink: 0 }}>✉️</span>
+              <a
+                href="mailto:info@pixtron.net"
+                style={{ fontSize: 14, color: "#000", textDecoration: "none" }}
+              >
+                info@pixtron.net
+              </a>
+            </div>
+            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+              <span style={{ fontSize: 18, flexShrink: 0 }}>📞</span>
+              <a
+                href="tel:7025822228"
+                style={{ fontSize: 14, color: "#000", textDecoration: "none" }}
+              >
+                (702) 582-2228
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Nav columns */}
+        {footerCols.map((col, ci) => (
+          <div key={ci}>
+            <p
+              style={{
+                fontSize: 14,
+                fontWeight: 700,
+                color: "#000",
+                marginBottom: 20,
+              }}
+            >
+              {col.title}
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+              {col.links.map((link, li) => (
+                <div key={li} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <Link
+                    href="#"
+                    style={{
+                      fontSize: 16,
+                      color: "#000",
+                      textDecoration: "none",
+                    }}
+                  >
+                    {link}
+                  </Link>
+                  {col.soon?.[li] && (
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 600,
+                        color: "#0f9d58",
+                        background: "rgba(15,157,88,0.1)",
+                        borderRadius: 20,
+                        padding: "2px 8px",
+                      }}
+                    >
+                      Soon
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom bar */}
+      <div
+        style={{
+          borderTop: "1px solid #e0dfdf",
+          padding: "20px 39px",
+          textAlign: "center",
+        }}
+      >
+        <p style={{ fontSize: 14, color: "rgba(0,0,0,0.6)" }}>
+          © {new Date().getFullYear()} Pixtron. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  );
+}
+
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
+export default function HomePage() {
+  return (
+    <>
+      <Navbar />
+      <main>
+        <Hero />
+        <HowPixtronWorks />
+        <RealImpact />
+        <WherePixtronWorks />
+        <Industries />
+        <WhyDifferent />
+        <TheProcess />
       </main>
-    </div>
+      <Footer />
+    </>
   );
 }
