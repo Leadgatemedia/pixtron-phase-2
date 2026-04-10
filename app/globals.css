@@ -5,6 +5,7 @@
   --foreground: #000000;
   --green: #0f9d58;
   --line-color: #e0dfdf;
+  zoom: 0.8;
 }
 
 body {
