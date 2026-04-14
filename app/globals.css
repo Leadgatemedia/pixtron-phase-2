@@ -1,5 +1,35 @@
 @import "tailwindcss";
 
+/* ── Sandwich reveal — swift spring animations triggered when text lands ──── */
+
+/* Navbar: slams down from fully off-screen with spring overshoot */
+html.intro-done .intro-reveal-nav {
+  animation: animNavDown 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+/* Bottom content: snaps up with spring */
+html.intro-done .intro-reveal-up {
+  animation: animSnapUp 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) 0.04s backwards;
+}
+
+/* Hero headline: no entrance — overlay text glides here, seamless swap */
+
+@keyframes animNavDown {
+  from { opacity: 0; transform: translateY(-110%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes animSnapUp {
+  from { opacity: 0; transform: translateY(48px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes animFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
 :root {
   --background: #f6fbf6;
   --foreground: #000000;

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import HeroIntro from "./components/HeroIntro";
 
 // ─── Asset URLs (from Figma, valid for 7 days) ───────────────────────────────
 const SACHET_1 = "https://www.figma.com/api/mcp/asset/d674c4b8-29a3-4d3d-88d0-5a88ea7eba2b";
@@ -47,14 +48,17 @@ function SectionSubtitle({ children }: { children: React.ReactNode }) {
 function Navbar() {
   return (
     <nav
+      className="intro-reveal-nav"
       style={{
         position: "sticky",
         top: 0,
         zIndex: 50,
         width: "100%",
         height: 88,
-        background: "#f6fbf6",
-        borderBottom: "1px solid #e0dfdf",
+        background: "rgba(255,255,255,0.4)",
+        borderBottom: "1px solid rgba(0,0,0,0.05)",
+        backdropFilter: "blur(24px)",
+        WebkitBackdropFilter: "blur(24px)",
         display: "flex",
         alignItems: "center",
         padding: "0 39px",
@@ -63,19 +67,7 @@ function Navbar() {
     >
       {/* Logo */}
       <Link href="/" style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
-        <span
-          style={{
-            fontWeight: 900,
-            fontSize: 24,
-            letterSpacing: "-0.5px",
-            background: "linear-gradient(101deg, #000 0%, rgba(0,0,0,0.5) 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
-        >
-          Pixtron
-        </span>
+        <Image src="/logo.png" alt="Pixtron" width={82} height={82} priority />
       </Link>
 
       {/* Nav links */}
@@ -97,7 +89,9 @@ function Navbar() {
               style={{
                 color: "#000",
                 textDecoration: "none",
-                lineHeight: "30px",
+                fontSize: 18,
+                fontWeight: 400,
+                lineHeight: "32px",
                 whiteSpace: "nowrap",
                 transition: "opacity 0.15s",
               }}
@@ -109,7 +103,26 @@ function Navbar() {
       </div>
 
       {/* CTA */}
-      <Link href="#" className="btn-outline" style={{ width: 169, justifyContent: "space-between" }}>
+      <Link
+        href="#"
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 12,
+          padding: "16px 20px",
+          borderRadius: 6,
+          outline: "2px solid rgba(0,0,0,0.5)",
+          outlineOffset: -2,
+          color: "#000",
+          fontSize: 18,
+          fontWeight: 500,
+          lineHeight: "32px",
+          textDecoration: "none",
+          whiteSpace: "nowrap",
+          background: "transparent",
+          transition: "background 0.15s",
+        }}
+      >
         <span>Contact Us</span>
         <ArrowIcon src={ARROW_CONTACT} />
       </Link>
@@ -117,179 +130,149 @@ function Navbar() {
   );
 }
 
-// ─── HERO ─────────────────────────────────────────────────────────────────────
+// ─── HERO (Frame 1) ───────────────────────────────────────────────────────────
 function Hero() {
-  const sachets = [SACHET_1, SACHET_2, SACHET_3, SACHET_4, SACHET_5, SACHET_7];
-
   return (
     <section
       style={{
-        background: "#f6fbf6",
+        background: "linear-gradient(180deg, #e8f5e9 0%, #ffffff 100%)",
         position: "relative",
         overflow: "hidden",
         minHeight: 900,
-        display: "flex",
-        alignItems: "center",
+        width: "100%",
       }}
     >
-      {/* Watermark */}
+      {/* ── Centered content ── */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: 84, // 172px from frame top − 88px navbar
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        {/* Headline */}
+        <h1
+          data-hero-headline=""
+          style={{
+            fontSize: 60,
+            fontWeight: 700,
+            lineHeight: 1.2,
+            textAlign: "center",
+            color: "#000",
+            maxWidth: 782,
+            marginBottom: 48,
+          }}
+        >
+          Advertising that people{" "}
+          <span style={{ color: "#0f9d58" }}>touch, see and smell</span>
+        </h1>
+
+        {/* Buttons */}
+        <div
+          className="intro-reveal-up"
+          style={{ display: "inline-flex", gap: 24, alignItems: "center", marginBottom: 48 }}
+        >
+          {/* Advertise With Pixtron — filled black */}
+          <Link
+            href="#"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 12,
+              padding: "16px 20px",
+              background: "#000",
+              borderRadius: 6,
+              outline: "2px solid rgba(0,0,0,0.5)",
+              outlineOffset: -2,
+              color: "#fff",
+              fontSize: 18,
+              fontWeight: 600,
+              lineHeight: "32px",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+            }}
+          >
+            <span>Advertise With Pixtron</span>
+            <ArrowIcon src={ARROW_WHITE} />
+          </Link>
+
+          {/* For Restaurants — outlined */}
+          <Link
+            href="#"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 12,
+              width: 256,
+              padding: "16px 20px",
+              background: "transparent",
+              borderRadius: 6,
+              outline: "2px solid rgba(0,0,0,0.5)",
+              outlineOffset: -2,
+              color: "#000",
+              fontSize: 18,
+              fontWeight: 600,
+              lineHeight: "32px",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+            }}
+          >
+            <span>For Restaurants</span>
+            <ArrowIcon src={ARROW_DARK} />
+          </Link>
+        </div>
+
+        {/* Subtitle */}
+        <p
+          className="intro-reveal-up"
+          style={{
+            fontSize: 22,
+            fontWeight: 500,
+            lineHeight: 1.4,
+            color: "rgba(0,0,0,0.8)",
+            textAlign: "center",
+            maxWidth: 898,
+          }}
+        >
+          Pixtron places your brand in the hands of customers through custom wet
+          wipe sachets at restaurants, hotels, and events.
+        </p>
+      </div>
+
+      {/* ── SEEN / TOUCHED / REMEMBERED watermark ── */}
       <div
         aria-hidden
         style={{
           position: "absolute",
-          top: "50%",
+          top: 589,
           left: "50%",
-          transform: "translate(-50%, -50%)",
-          fontSize: "clamp(80px, 13vw, 190px)",
-          fontWeight: 900,
-          whiteSpace: "nowrap",
-          letterSpacing: "-4px",
-          lineHeight: 1,
-          color: "rgba(0,0,0,0.04)",
-          userSelect: "none",
+          transform: "translateX(-50%)",
+          width: 671,
           pointerEvents: "none",
+          userSelect: "none",
           zIndex: 0,
-          width: "100%",
-          textAlign: "center",
         }}
       >
-        SEEN TOUCHED REMEMBERED
-      </div>
-
-      {/* Content */}
-      <div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: 1440,
-          margin: "0 auto",
-          width: "100%",
-          padding: "0 39px",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          alignItems: "center",
-          gap: 40,
-          minHeight: 900,
-        }}
-      >
-        {/* Left: Text + CTAs */}
-        <div style={{ paddingTop: 120, paddingBottom: 120 }}>
-          <p
-            style={{
-              fontSize: 14,
-              fontWeight: 600,
-              letterSpacing: "0.1em",
-              color: "#0f9d58",
-              textTransform: "uppercase",
-              marginBottom: 16,
-            }}
-          >
-            Sensory Advertising
-          </p>
-          <h1
-            style={{
-              fontSize: "clamp(40px, 5vw, 72px)",
-              fontWeight: 700,
-              lineHeight: 1.1,
-              color: "#000",
-              marginBottom: 24,
-              maxWidth: 620,
-            }}
-          >
-            Advertising that people{" "}
-            <span style={{ fontStyle: "italic" }}>touch, see and smell</span>
-          </h1>
-          <p
-            style={{
-              fontSize: 20,
-              fontWeight: 400,
-              lineHeight: 1.6,
-              color: "rgba(0,0,0,0.6)",
-              maxWidth: 520,
-              marginBottom: 40,
-            }}
-          >
-            Pixtron connects your brand with premium restaurant and hospitality
-            audiences through branded wet wipes — a sensory experience customers
-            actually remember.
-          </p>
-
-          {/* Buttons */}
-          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-            <Link href="#" className="btn-primary">
-              <span>Advertise With Pixtron</span>
-              <ArrowIcon src={ARROW_WHITE} />
-            </Link>
-            <Link href="#" className="btn-outline">
-              <span>For Restaurants</span>
-              <ArrowIcon src={ARROW_DARK} />
-            </Link>
-          </div>
-        </div>
-
-        {/* Right: Sachets */}
-        <div
-          style={{
-            position: "relative",
-            height: 360,
-            overflow: "hidden",
-          }}
-        >
-          {/* Overlay fade edges */}
+        {["SEEN", "TOUCHED", "REMEMBERED"].map((word) => (
           <div
+            key={word}
             style={{
-              position: "absolute",
-              inset: 0,
-              zIndex: 2,
-              pointerEvents: "none",
-              background:
-                "linear-gradient(90deg, #f6fbf6 2%, rgba(246,251,246,0) 15%, rgba(246,251,246,0) 85%, #f6fbf6 98%)",
-            }}
-          />
-          {/* Row 1 */}
-          <div
-            style={{
-              display: "flex",
-              gap: 16,
-              marginBottom: 12,
-              overflow: "hidden",
+              fontSize: 100,
+              fontWeight: 500,
+              lineHeight: "101.779px",
+              color: "rgba(0,0,0,0.06)",
+              textAlign: "center",
             }}
           >
-            {sachets.map((src, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={i}
-                src={src}
-                alt="branded wet wipe sachet"
-                style={{
-                  height: 166,
-                  width: "auto",
-                  borderRadius: 8,
-                  objectFit: "cover",
-                  flexShrink: 0,
-                }}
-              />
-            ))}
+            {word}
           </div>
-          {/* Row 2 */}
-          <div style={{ display: "flex", gap: 16, overflow: "hidden" }}>
-            {[...sachets].reverse().map((src, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={i}
-                src={src}
-                alt="branded wet wipe sachet"
-                style={{
-                  height: 164,
-                  width: "auto",
-                  borderRadius: 8,
-                  objectFit: "cover",
-                  flexShrink: 0,
-                }}
-              />
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
     </section>
   );
@@ -1072,6 +1055,150 @@ function WhyDifferent() {
 }
 
 // ─── THE PROCESS ─────────────────────────────────────────────────────────────
+type ProcessStep = { step: string; title: string; description: string; width: number };
+
+function ProcessColumn({
+  label,
+  heading,
+  steps,
+  btnLabel,
+  btnStyle,
+}: {
+  label: string;
+  heading: string;
+  steps: ProcessStep[];
+  btnLabel: string;
+  btnStyle: "outline" | "primary";
+}) {
+  return (
+    <div style={{ flex: 1 }}>
+      <p
+        style={{
+          fontSize: 16,
+          fontWeight: 600,
+          color: "#0f9d58",
+          letterSpacing: "0.05em",
+          textTransform: "uppercase",
+          textAlign: "center",
+          marginBottom: 16,
+        }}
+      >
+        {label}
+      </p>
+      <h3
+        style={{
+          fontSize: 30,
+          fontWeight: 400,
+          color: "#000",
+          textAlign: "center",
+          lineHeight: 1.3,
+          marginBottom: 48,
+        }}
+      >
+        {heading.split("\n").map((line, i) => (
+          <span key={i}>
+            {i > 0 && <br />}
+            {i === 1 ? <strong>{line}</strong> : line}
+          </span>
+        ))}
+      </h3>
+
+      {/* Accordion-style steps */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {steps.map((step, i) => {
+          const isFirst = i === 0;
+          return (
+            <div
+              key={i}
+              style={{
+                background: "#e9e9e9",
+                border: "1px solid #e0dfdf",
+                borderRadius: 6,
+                overflow: "hidden",
+                boxShadow: isFirst ? "0 24px 30px -20px rgba(0,0,0,0.25)" : undefined,
+                maxWidth: step.width,
+                width: "100%",
+                marginLeft: "auto",
+                marginRight: "auto",
+                padding: isFirst ? "32px 24px" : "18px 24px",
+                position: "relative",
+              }}
+            >
+              {isFirst && (
+                <div style={{ position: "absolute", inset: 0, background: "#e9e9e9" }} />
+              )}
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div>
+                  <p
+                    style={{
+                      fontSize: isFirst ? 24 : 20,
+                      fontWeight: 500,
+                      color: isFirst ? "#000" : "rgba(0,0,0,0.6)",
+                      lineHeight: 1.4,
+                      marginBottom: isFirst && step.description ? 12 : 0,
+                    }}
+                  >
+                    {step.title}
+                  </p>
+                  {isFirst && step.description && (
+                    <p style={{ fontSize: 16, color: "#000", lineHeight: 1.4, maxWidth: 476 }}>
+                      {step.description}
+                    </p>
+                  )}
+                </div>
+                <span
+                  style={{
+                    fontSize: isFirst ? 60 : 50,
+                    fontWeight: 700,
+                    color: isFirst ? "#0f9d58" : "rgba(0,0,0,0.15)",
+                    lineHeight: 1,
+                    flexShrink: 0,
+                    marginLeft: 16,
+                  }}
+                >
+                  {step.step}
+                </span>
+              </div>
+              {!isFirst && (
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: `rgba(255,255,255,${0.9 - i * 0.2})`,
+                    borderRadius: 6,
+                  }}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* CTA */}
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 40 }}>
+        {btnStyle === "primary" ? (
+          <Link href="#" className="btn-primary">
+            <span>{btnLabel}</span>
+            <ArrowIcon src={ARROW_WHITE} />
+          </Link>
+        ) : (
+          <Link href="#" className="btn-outline">
+            <span>{btnLabel}</span>
+            <ArrowIcon src={ARROW_DARK} />
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function TheProcess() {
   const hospitality = [
     {
@@ -1108,168 +1235,6 @@ function TheProcess() {
     { step: "03", title: "Go Live in Restaurants", description: "", width: 426 },
     { step: "04", title: "Track & Scale", description: "", width: 383 },
   ];
-
-  function ProcessColumn({
-    label,
-    heading,
-    steps,
-    btnLabel,
-    btnStyle,
-  }: {
-    label: string;
-    heading: string;
-    steps: typeof hospitality;
-    btnLabel: string;
-    btnStyle: "outline" | "primary";
-  }) {
-    return (
-      <div style={{ flex: 1 }}>
-        <p
-          style={{
-            fontSize: 16,
-            fontWeight: 600,
-            color: "#0f9d58",
-            letterSpacing: "0.05em",
-            textTransform: "uppercase",
-            textAlign: "center",
-            marginBottom: 16,
-          }}
-        >
-          {label}
-        </p>
-        <h3
-          style={{
-            fontSize: 30,
-            fontWeight: 400,
-            color: "#000",
-            textAlign: "center",
-            lineHeight: 1.3,
-            marginBottom: 48,
-          }}
-        >
-          {heading.split("\n").map((line, i) => (
-            <span key={i}>
-              {i > 0 && <br />}
-              {i === 1 ? <strong>{line}</strong> : line}
-            </span>
-          ))}
-        </h3>
-
-        {/* Accordion-style steps */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 8,
-          }}
-        >
-          {steps.map((step, i) => {
-            const isFirst = i === 0;
-            return (
-              <div
-                key={i}
-                style={{
-                  background: "#e9e9e9",
-                  border: "1px solid #e0dfdf",
-                  borderRadius: 6,
-                  overflow: "hidden",
-                  boxShadow: isFirst ? "0 24px 30px -20px rgba(0,0,0,0.25)" : undefined,
-                  maxWidth: step.width,
-                  width: "100%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  padding: isFirst ? "32px 24px" : "18px 24px",
-                  position: "relative",
-                }}
-              >
-                {/* Background */}
-                {isFirst && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      background: "#e9e9e9",
-                    }}
-                  />
-                )}
-                <div
-                  style={{
-                    position: "relative",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <div>
-                    <p
-                      style={{
-                        fontSize: isFirst ? 24 : 20,
-                        fontWeight: 500,
-                        color: isFirst ? "#000" : "rgba(0,0,0,0.6)",
-                        lineHeight: 1.4,
-                        marginBottom: isFirst && step.description ? 12 : 0,
-                      }}
-                    >
-                      {step.title}
-                    </p>
-                    {isFirst && step.description && (
-                      <p
-                        style={{
-                          fontSize: 16,
-                          color: "#000",
-                          lineHeight: 1.4,
-                          maxWidth: 476,
-                        }}
-                      >
-                        {step.description}
-                      </p>
-                    )}
-                  </div>
-                  <span
-                    style={{
-                      fontSize: isFirst ? 60 : 50,
-                      fontWeight: 700,
-                      color: isFirst ? "#0f9d58" : "rgba(0,0,0,0.15)",
-                      lineHeight: 1,
-                      flexShrink: 0,
-                      marginLeft: 16,
-                    }}
-                  >
-                    {step.step}
-                  </span>
-                </div>
-                {!isFirst && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      background: `rgba(255,255,255,${0.9 - i * 0.2})`,
-                      borderRadius: 6,
-                    }}
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* CTA */}
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 40 }}>
-          {btnStyle === "primary" ? (
-            <Link href="#" className="btn-primary">
-              <span>{btnLabel}</span>
-              <ArrowIcon src={ARROW_WHITE} />
-            </Link>
-          ) : (
-            <Link href="#" className="btn-outline">
-              <span>{btnLabel}</span>
-              <ArrowIcon src={ARROW_DARK} />
-            </Link>
-          )}
-        </div>
-      </div>
-    );
-  }
 
   return (
     <section
@@ -1544,6 +1509,7 @@ function Footer() {
 export default function HomePage() {
   return (
     <>
+      <HeroIntro />
       <Navbar />
       <main>
         <Hero />
