@@ -1,126 +1,123 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-
-/**
- * Hero intro sequence:
- *  1. blank
- *  2. words fade in one by one (stay visible — no fade out)
- *  3. headline glides up to exact hero h1 position
- *     simultaneously: header slides down, buttons/subtitle slide up (sandwich)
- */
+import { flushSync } from "react-dom";
 
 type Phase = "blank" | "wordIn" | "hold" | "titleMove" | "done";
 
-const W_IN_DUR  = 320;  // each word fade-in (ms)
-const W_IN_STG  = 100;  // stagger between words (ms)
-const HOLD      = 500;  // pause after all words visible (ms)
-const MOVE_DUR  = 700;  // glide to hero position + overlay fade (ms)
-
-const TOTAL_IN = 6 * W_IN_STG + W_IN_DUR; // time until last word fully visible
+const W_IN_DUR = 1200;
+const W_IN_STG = 400;
+const HOLD     = 200;
+const MOVE_DUR = 1000;
+const TOTAL_IN = 6 * W_IN_STG + W_IN_DUR;
 
 export default function HeroIntro() {
   const [phase, setPhase] = useState<Phase>("blank");
-  const [moveY, setMoveY] = useState(0);
-  const textRef = useRef<HTMLDivElement>(null);
+  const [move, setMove]   = useState({ x: 0, y: 0 });
+  const textRef           = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
+    document.documentElement.classList.add("intro-running");
     document.body.style.overflow = "hidden";
 
     const S = 300;
     const t1 = setTimeout(() => setPhase("wordIn"),    S);
     const t2 = setTimeout(() => setPhase("hold"),      S + TOTAL_IN);
     const t3 = setTimeout(() => setPhase("titleMove"), S + TOTAL_IN + HOLD);
+
+    // Text lands → cut overlay instantly, real h1 fades in at its own position
     const t4 = setTimeout(() => {
-      setPhase("done");
-      document.body.style.overflow = "";
-    }, S + TOTAL_IN + HOLD + MOVE_DUR + 60);
+      document.documentElement.classList.remove("intro-running");
+      document.documentElement.classList.add("intro-done");
+      flushSync(() => {
+        setPhase("done");
+      });
+    }, S + TOTAL_IN + HOLD + MOVE_DUR);
 
     return () => {
       [t1, t2, t3, t4].forEach(clearTimeout);
+      document.documentElement.classList.remove("intro-running");
       document.body.style.overflow = "";
     };
   }, []);
 
   useEffect(() => {
     if (phase !== "titleMove") return;
-
-    // Measure exact centre of hero h1 and calculate delta from overlay text centre
-    const heroH1 = document.querySelector("[data-hero-headline]") as HTMLElement | null;
-    if (heroH1 && textRef.current) {
+    // Restore overflow BEFORE measuring so the scrollbar is already present.
+    // Without this, body is still overflow:hidden (scrollbar hidden, page wider),
+    // measurement is correct, but when overflow restores after the overlay cuts
+    // the scrollbar returns and shifts centred content left — visible drift.
+    document.body.style.overflow = "";
+    requestAnimationFrame(() => {
+      const heroH1 = document.querySelector("[data-hero-headline]") as HTMLElement | null;
+      if (!heroH1 || !textRef.current) return;
       const hRect = heroH1.getBoundingClientRect();
       const tRect = textRef.current.getBoundingClientRect();
-      const dy = (hRect.top + hRect.height / 2) - (tRect.top + tRect.height / 2);
-      setMoveY(dy);
-    }
-
-    // Fire sandwich EXACTLY when text lands (after MOVE_DUR), not at start
-    setTimeout(() => {
-      document.documentElement.classList.add("intro-done");
-    }, MOVE_DUR - 30); // 30ms before overlay fully gone — imperceptible overlap
+      // getBoundingClientRect returns visual (zoom-adjusted) pixels,
+      // but CSS transform uses CSS pixels. With zoom:0.8 on <html> they differ.
+      // Dividing by zoom converts visual → CSS pixel space.
+      const zoom = parseFloat(document.documentElement.style.zoom) || 1;
+      setMove({
+        x: (hRect.left - tRect.left) / zoom,
+        y: (hRect.top  - tRect.top)  / zoom,
+      });
+    });
   }, [phase]);
 
   if (phase === "done") return null;
 
-  const isMoving = phase === "titleMove";
-
-  // Words are visible once wordIn starts, stay visible forever after
+  const isMoving    = phase === "titleMove";
   const wordVisible = phase !== "blank";
 
-  function wordStyle(index: number, green: boolean): React.CSSProperties {
+  function wStyle(i: number): React.CSSProperties {
     return {
-      display: "inline",
-      opacity: wordVisible ? 1 : 0,
+      opacity:    wordVisible ? 1 : 0,
       transition: phase === "wordIn"
-        ? `opacity ${W_IN_DUR}ms ease ${index * W_IN_STG}ms`
+        ? `opacity ${W_IN_DUR}ms ease ${i * W_IN_STG}ms`
         : "none",
-      color: green ? "#0f9d58" : "#000",
-      fontStyle: green ? "italic" : "normal",
     };
   }
-
-  const w = (i: number, g: boolean) => wordStyle(i, g);
 
   return (
     <div
       aria-hidden="true"
       style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 9999,
-        background: "linear-gradient(180deg, #e8f5e9 0%, #ffffff 100%)",
-        display: "flex",
-        alignItems: "center",
+        position:       "fixed",
+        inset:          0,
+        zIndex:         9999,
+        background:     "linear-gradient(180deg, #e8f5e9 0%, #ffffff 100%)",
+        display:        "flex",
+        alignItems:     "center",
         justifyContent: "center",
-        opacity: isMoving ? 0 : 1,
-        transition: isMoving ? `opacity ${MOVE_DUR}ms ease` : "none",
-        pointerEvents: isMoving ? "none" : "all",
+        pointerEvents:  isMoving ? "none" : "all",
       }}
     >
-      <div
+      <h1
         ref={textRef}
         style={{
-          fontSize: 60,
+          fontSize:   60,
           fontWeight: 700,
           lineHeight: 1.2,
-          textAlign: "center",
-          maxWidth: 782,
-          padding: "0 24px",
-          transform: isMoving ? `translateY(${moveY}px)` : "translateY(0)",
-          transition: isMoving
+          textAlign:  "center",
+          color:      "#000",
+          maxWidth:   782,
+          margin:     0,
+          transform:  isMoving ? `translate(${move.x}px, ${move.y}px)` : "translate(0,0)",
+          transition: phase === "titleMove"
             ? `transform ${MOVE_DUR}ms cubic-bezier(0.4, 0, 0.2, 1)`
             : "none",
         }}
       >
-        <span style={w(0, false)}>Advertising </span>
-        <span style={w(1, false)}>that </span>
-        <span style={w(2, false)}>people</span>
-        <br />
-        <span style={w(3, true)}>touch, </span>
-        <span style={w(4, true)}>see </span>
-        <span style={w(5, true)}>and </span>
-        <span style={w(6, true)}>smell</span>
-      </div>
+        <span style={wStyle(0)}>Advertising </span>
+        <span style={wStyle(1)}>that </span>
+        <span style={wStyle(2)}>people </span>
+        <span style={{ color: "#0f9d58" }}>
+          <span style={wStyle(3)}>touch, </span>
+          <span style={wStyle(4)}>see </span>
+          <span style={wStyle(5)}>and </span>
+          <span style={wStyle(6)}>smell</span>
+        </span>
+      </h1>
     </div>
   );
 }

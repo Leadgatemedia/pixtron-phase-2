@@ -50,7 +50,7 @@ function Navbar() {
     <nav
       className="intro-reveal-nav"
       style={{
-        position: "sticky",
+        position: "fixed",
         top: 0,
         zIndex: 50,
         width: "100%",
@@ -148,7 +148,7 @@ function Hero() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: 84, // 172px from frame top − 88px navbar
+          paddingTop: 172, // 172px from frame top (navbar is fixed, not in flow)
           position: "relative",
           zIndex: 1,
         }}
@@ -248,6 +248,7 @@ function Hero() {
       {/* ── SEEN / TOUCHED / REMEMBERED watermark ── */}
       <div
         aria-hidden
+        className="hero-watermark"
         style={{
           position: "absolute",
           top: 589,
