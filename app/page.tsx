@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import HeroIntro from "./components/HeroIntro";
+import HeroScrollSection from "./components/HeroScrollSection";
 
 // ─── Asset URLs (from Figma, valid for 7 days) ───────────────────────────────
 const SACHET_1 = "https://www.figma.com/api/mcp/asset/d674c4b8-29a3-4d3d-88d0-5a88ea7eba2b";
@@ -253,8 +254,8 @@ function Hero() {
           position: "absolute",
           top: 589,
           left: "50%",
-          transform: "translateX(-50%)",
-          width: 671,
+          transform: "translateX(calc(-50% + var(--watermark-scroll-x, 0px)))",
+          width: "max-content",
           pointerEvents: "none",
           userSelect: "none",
           zIndex: 0,
@@ -267,8 +268,8 @@ function Hero() {
               fontSize: 100,
               fontWeight: 500,
               lineHeight: "101.779px",
-              color: "rgba(0,0,0,0.06)",
-              textAlign: "center",
+              color: "rgba(0,0,0,0.12)",
+              textAlign: "left",
             }}
           >
             {word}
@@ -1513,7 +1514,9 @@ export default function HomePage() {
       <HeroIntro />
       <Navbar />
       <main>
-        <Hero />
+        <HeroScrollSection>
+          <Hero />
+        </HeroScrollSection>
         <HowPixtronWorks />
         <RealImpact />
         <WherePixtronWorks />

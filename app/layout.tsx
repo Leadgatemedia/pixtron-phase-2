@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "./components/SmoothScroll";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -24,7 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable} style={{ zoom: 0.8 }}>
-      <body>{children}</body>
+      <body>
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }
