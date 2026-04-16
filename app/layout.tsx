@@ -30,6 +30,7 @@ export default function RootLayout({
         {children}
         {/* Fixed bottom blur overlay — matches Bungee-style viewport edge effect */}
         <div
+          id="bottom-blur-el"
           aria-hidden
           style={{
             position: "fixed",
@@ -43,6 +44,7 @@ export default function RootLayout({
             WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 100%)",
             pointerEvents: "none",
             zIndex: 9999,
+            transition: "backdrop-filter 0.3s ease",
           }}
         />
       </body>

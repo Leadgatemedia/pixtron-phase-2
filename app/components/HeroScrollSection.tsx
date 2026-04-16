@@ -114,6 +114,14 @@ export default function HeroScrollSection({
       const P1 = 0.38;
       const P2 = 0.65;
 
+      // ── Disable bottom blur only while sachets are scrolling ─────────
+      const blurEl = document.getElementById("bottom-blur-el") as HTMLElement | null;
+      if (blurEl) {
+        const v = p >= P1 && p < 1 ? "blur(0px)" : "blur(12px)";
+        blurEl.style.backdropFilter = v;
+        blurEl.style.setProperty("-webkit-backdrop-filter", v);
+      }
+
       // ── Sachets: hidden until P1, then enter from right ───────────────
       const sachetP = p < P1 ? 0 : ease((p - P1) / (1 - P1));
       const BUFFER  = 150;
