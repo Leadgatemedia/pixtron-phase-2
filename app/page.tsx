@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import HeroIntro from "./components/HeroIntro";
 import HeroScrollSection from "./components/HeroScrollSection";
+import HowItWorksScroll from "./components/HowItWorksScroll";
 
 // ─── Asset URLs (from Figma, valid for 7 days) ───────────────────────────────
 const SACHET_1 = "https://www.figma.com/api/mcp/asset/d674c4b8-29a3-4d3d-88d0-5a88ea7eba2b";
@@ -278,162 +279,6 @@ function Hero() {
             {word}
           </div>
         ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── HOW PIXTRON WORKS ────────────────────────────────────────────────────────
-function HowPixtronWorks() {
-  const steps = [
-    {
-      number: "Step 1",
-      title: "Partner Venues",
-      description:
-        "We partner with premium restaurants and cafes to provide branded wet wipes at no cost, placing your brand directly in front of their diners.",
-    },
-    {
-      number: "Step 2",
-      title: "Brand Placement",
-      description:
-        "Your brand message reaches customers during their dining experience — a natural, non-intrusive touchpoint that creates lasting impressions.",
-    },
-    {
-      number: "Step 3",
-      title: "Real Engagement",
-      description:
-        "Customers interact with your brand in a physical, tactile way — touching, reading, and experiencing your message up close.",
-    },
-    {
-      number: "Step 4",
-      title: "Track Results",
-      description:
-        "Monitor campaign performance with detailed analytics, tracking reach, engagement, and brand recall across all partner venues.",
-    },
-  ];
-
-  return (
-    <section style={{ background: "#fff", padding: "100px 39px" }}>
-      <div style={{ maxWidth: 1362, margin: "0 auto", textAlign: "center" }}>
-        <SectionHeading>How Pixtron Works</SectionHeading>
-        <SectionSubtitle>
-          A simple, seamless process that connects your brand with premium
-          dining audiences
-        </SectionSubtitle>
-
-        {/* Step progress line */}
-        <div
-          style={{
-            position: "relative",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            maxWidth: 1092,
-            margin: "64px auto 0",
-          }}
-        >
-          {/* Connector line */}
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: 48,
-              right: 48,
-              height: 3,
-              background: "#e7e7e7",
-              borderRadius: 2,
-              transform: "translateY(-50%)",
-            }}
-          />
-          {/* Active segment */}
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: 48,
-              width: 90,
-              height: 3,
-              background: "#0f9d58",
-              borderRadius: 2,
-              transform: "translateY(-50%)",
-            }}
-          />
-          {steps.map((_, i) => (
-            <div
-              key={i}
-              style={{
-                position: "relative",
-                zIndex: 1,
-                width: 48,
-                height: 48,
-                borderRadius: "50%",
-                background: i === 0 ? "#0f9d58" : "#e7e7e7",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
-              <div
-                style={{
-                  width: 24,
-                  height: 24,
-                  borderRadius: "50%",
-                  background: i === 0 ? "#fff" : "rgba(0,0,0,0.2)",
-                }}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Step cards */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 40,
-            marginTop: 32,
-            textAlign: "left",
-          }}
-        >
-          {steps.map((step, i) => (
-            <div key={i}>
-              <p
-                style={{
-                  fontSize: 18,
-                  fontWeight: 600,
-                  color: "#0f9d58",
-                  marginBottom: 8,
-                  textAlign: "center",
-                }}
-              >
-                {step.number}
-              </p>
-              <h3
-                style={{
-                  fontSize: 24,
-                  fontWeight: 700,
-                  color: "#000",
-                  marginBottom: 12,
-                  textAlign: "center",
-                }}
-              >
-                {step.title}
-              </h3>
-              <p
-                style={{
-                  fontSize: 16,
-                  fontWeight: 400,
-                  lineHeight: 1.6,
-                  color: "rgba(0,0,0,0.6)",
-                  textAlign: "center",
-                }}
-              >
-                {step.description}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -1520,7 +1365,7 @@ export default function HomePage() {
         <HeroScrollSection>
           <Hero />
         </HeroScrollSection>
-        <HowPixtronWorks />
+        <HowItWorksScroll />
         <RealImpact />
         <WherePixtronWorks />
         <Industries />
