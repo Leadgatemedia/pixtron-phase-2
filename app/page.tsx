@@ -5,20 +5,6 @@ import HeroScrollSection from "./components/HeroScrollSection";
 import HowItWorksScroll from "./components/HowItWorksScroll";
 
 // ─── Asset URLs (from Figma, valid for 7 days) ───────────────────────────────
-const SACHET_1 = "https://www.figma.com/api/mcp/asset/d674c4b8-29a3-4d3d-88d0-5a88ea7eba2b";
-const SACHET_2 = "https://www.figma.com/api/mcp/asset/a15c420c-19a3-420a-be1b-24ca885877e6";
-const SACHET_3 = "https://www.figma.com/api/mcp/asset/677531b1-2d69-4d73-87c2-281179e91359";
-const SACHET_4 = "https://www.figma.com/api/mcp/asset/b1bb3d4d-97ee-48e3-bc36-220dd3db3d88";
-const SACHET_5 = "https://www.figma.com/api/mcp/asset/0d273a98-ee7f-4d9d-aa63-37c13639fbc3";
-const SACHET_7 = "https://www.figma.com/api/mcp/asset/85ee366b-3954-4420-b39f-df22ea0d14cf";
-const RESTAURANT_IMG = "https://www.figma.com/api/mcp/asset/f5e87db7-e816-43f1-a164-41edc0c863cc";
-const CAFE_IMG = "https://www.figma.com/api/mcp/asset/ed12eef1-cb28-4e17-a040-477a56c0eb0d";
-const HOTEL_IMG = "https://www.figma.com/api/mcp/asset/b5ef1800-905e-4dd2-91e0-6bdf5b48cd56";
-const INDUSTRIES_BG = "https://www.figma.com/api/mcp/asset/4d98ef40-3c05-4ff6-b0df-28e8cacc5ee9";
-const CHECK_ICON = "https://www.figma.com/api/mcp/asset/97aa1e33-1712-40ca-9a7f-202130b1587c";
-const CLOSE_ICON = "https://www.figma.com/api/mcp/asset/e0297f18-19ba-4436-9a06-b89422824185";
-const HEALTHCARE_ICON = "https://www.figma.com/api/mcp/asset/37194043-88dd-49fc-9817-ffc5fb3c509d";
-const OTHER_ICON = "https://www.figma.com/api/mcp/asset/27c76d7d-f986-4c80-9e11-c84c5e913834";
 const ARROW_WHITE = "https://www.figma.com/api/mcp/asset/b359458f-8ecb-437b-bede-941a9fbd83cf";
 const ARROW_DARK = "https://www.figma.com/api/mcp/asset/f3b749e4-4953-4e11-8852-4d66f96aa3cf";
 const ARROW_CONTACT = "https://www.figma.com/api/mcp/asset/e6c55c53-3649-4256-a304-09447681b56e";
@@ -28,8 +14,22 @@ const ARROW_CONTACT = "https://www.figma.com/api/mcp/asset/e6c55c53-3649-4256-a3
 function ArrowIcon({ src }: { src: string }) {
   return (
     <span className="arrow-icon">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt="" width={24} height={24} />
+      <span
+        aria-hidden
+        style={{
+          width: 24,
+          height: 24,
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: 20,
+          lineHeight: 1,
+          fontWeight: 700,
+          color: src === ARROW_WHITE ? "#fff" : "#000",
+        }}
+      >
+        ↑
+      </span>
     </span>
   );
 }
@@ -415,19 +415,22 @@ function RealImpact() {
 function WherePixtronWorks() {
   const venues = [
     {
-      img: RESTAURANT_IMG,
+      background:
+        "radial-gradient(circle at 20% 20%, rgba(255,255,255,0.18), transparent 35%), linear-gradient(160deg, #365f2d 0%, #132813 100%)",
       title: "Restaurants",
       subtitle: "Enhance dining with premium wipes",
       offsetY: 0,
     },
     {
-      img: CAFE_IMG,
+      background:
+        "radial-gradient(circle at 80% 18%, rgba(255,255,255,0.2), transparent 28%), linear-gradient(160deg, #6a4b2f 0%, #24170f 100%)",
       title: "Cafe's",
       subtitle: "High-traffic lifestyle touchpoints",
       offsetY: 95,
     },
     {
-      img: HOTEL_IMG,
+      background:
+        "radial-gradient(circle at 25% 25%, rgba(255,255,255,0.16), transparent 30%), linear-gradient(160deg, #20344d 0%, #0d1623 100%)",
       title: "Hotels",
       subtitle: "Premium hospitality amenities",
       offsetY: 194,
@@ -467,19 +470,9 @@ function WherePixtronWorks() {
                 position: "absolute",
                 left: i === 0 ? 0 : i === 1 ? 464 : 928,
                 top: venue.offsetY,
+                background: venue.background,
               }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={venue.img}
-                alt={venue.title}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-              />
               {/* Gradient overlay */}
               <div
                 style={{
@@ -587,29 +580,16 @@ function Industries() {
               borderRadius: "6px 0 0 6px",
               overflow: "hidden",
               position: "relative",
-              background: "#1a1a1a",
+              background:
+                "radial-gradient(circle at 50% 15%, rgba(255,255,255,0.14), transparent 35%), linear-gradient(160deg, #0a3a27 0%, #09131d 100%)",
             }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={INDUSTRIES_BG}
-              alt="Healthcare"
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "263%",
-                height: "117%",
-                top: 0,
-                left: "-101%",
-                objectFit: "cover",
-                pointerEvents: "none",
-              }}
-            />
             <div
               style={{
                 position: "absolute",
                 inset: 0,
-                background: "linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.7))",
+                background:
+                  "linear-gradient(to bottom, rgba(10,58,39,0.45), rgba(0,0,0,0.78))",
               }}
             />
             {/* Icon */}
@@ -627,8 +607,7 @@ function Industries() {
                 justifyContent: "center",
               }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={HEALTHCARE_ICON} alt="" width={24} height={24} />
+              <span style={{ fontSize: 22, fontWeight: 700, color: "#0f9d58" }}>+</span>
             </div>
             {/* Title */}
             <h3
@@ -710,12 +689,11 @@ function Industries() {
                   borderRadius: "50%",
                   background: "#fff",
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={OTHER_ICON} alt="" width={24} height={24} />
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+                <span style={{ fontSize: 18, fontWeight: 700, color: "#0f9d58" }}>•</span>
               </div>
               {/* Vertical text */}
               <p
@@ -760,14 +738,22 @@ function WhyDifferent() {
   function Cell({ value, col }: { value: string; col: "pixtron" | "other" }) {
     if (value === "check") {
       return (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={CHECK_ICON} alt="Yes" width={32} height={32} />
+        <span
+          aria-label="Yes"
+          style={{ fontSize: 24, fontWeight: 700, color: "#0f9d58", lineHeight: 1 }}
+        >
+          ✓
+        </span>
       );
     }
     if (value === "close") {
       return (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={CLOSE_ICON} alt="No" width={32} height={32} />
+        <span
+          aria-label="No"
+          style={{ fontSize: 24, fontWeight: 700, color: "#c0392b", lineHeight: 1 }}
+        >
+          ×
+        </span>
       );
     }
     return (

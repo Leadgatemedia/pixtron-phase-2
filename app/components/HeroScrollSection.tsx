@@ -83,6 +83,8 @@ export default function HeroScrollSection({
       }
     }
 
+    const blurEl = document.getElementById("bottom-blur-el") as HTMLElement | null;
+
     // ── Section height = sticky height + horizontal travel distance ───────
     // sticky height = 100vh / ZOOM so it fills the full physical screen.
     const setHeight = () => {
@@ -115,11 +117,12 @@ export default function HeroScrollSection({
       const P2 = 0.65;
 
       // ── Disable bottom blur only while sachets are scrolling ─────────
-      const blurEl = document.getElementById("bottom-blur-el") as HTMLElement | null;
       if (blurEl) {
         const v = p >= P1 && p < 1 ? "blur(0px)" : "blur(12px)";
-        blurEl.style.backdropFilter = v;
-        blurEl.style.setProperty("-webkit-backdrop-filter", v);
+        if (blurEl.style.backdropFilter !== v) {
+          blurEl.style.backdropFilter = v;
+          blurEl.style.setProperty("-webkit-backdrop-filter", v);
+        }
       }
 
       // ── Sachets: hidden until P1, then enter from right ───────────────
@@ -168,11 +171,23 @@ export default function HeroScrollSection({
       }
     };
 
-    window.addEventListener("scroll", update, { passive: true });
-    update();
+    let rafId = 0;
+    let scheduled = false;
+    const scheduleUpdate = () => {
+      if (scheduled) return;
+      scheduled = true;
+      rafId = window.requestAnimationFrame(() => {
+        scheduled = false;
+        update();
+      });
+    };
+
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    scheduleUpdate();
 
     return () => {
-      window.removeEventListener("scroll", update);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.cancelAnimationFrame(rafId);
       ro.disconnect();
       watermark?.removeEventListener("animationend", takeOver);
     };

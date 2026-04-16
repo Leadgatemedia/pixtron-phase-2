@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description:
     "Pixtron connects brands with premium restaurant and hospitality audiences through branded wet wipes – sensory advertising that people touch, see and smell.",
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.png",
   },
 };
 

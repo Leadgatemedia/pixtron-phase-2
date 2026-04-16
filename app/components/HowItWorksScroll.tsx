@@ -108,8 +108,12 @@ export default function HowItWorksScroll() {
 
         // Swap icon image: separate assets for inactive (dark green) vs active (white)
         const imgEl = iconImgRefs.current[i];
-        if (imgEl)
-          imgEl.src = active ? STEPS[i].iconActive : STEPS[i].iconInactive;
+        if (imgEl) {
+          const nextSrc = active ? STEPS[i].iconActive : STEPS[i].iconInactive;
+          if (!imgEl.src.endsWith(nextSrc)) {
+            imgEl.src = nextSrc;
+          }
+        }
 
         // Step content fade-in
         const contentEl = contentRefs.current[i];
@@ -127,11 +131,23 @@ export default function HowItWorksScroll() {
       });
     };
 
-    window.addEventListener("scroll", update, { passive: true });
-    update();
+    let rafId = 0;
+    let scheduled = false;
+    const scheduleUpdate = () => {
+      if (scheduled) return;
+      scheduled = true;
+      rafId = window.requestAnimationFrame(() => {
+        scheduled = false;
+        update();
+      });
+    };
+
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    scheduleUpdate();
 
     return () => {
-      window.removeEventListener("scroll", update);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.cancelAnimationFrame(rafId);
       ro.disconnect();
     };
   }, []);
