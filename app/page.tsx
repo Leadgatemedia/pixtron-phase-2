@@ -139,7 +139,7 @@ function Hero() {
         background: "linear-gradient(180deg, #e8f5e9 0%, #ffffff 100%)",
         position: "relative",
         overflow: "hidden",
-        minHeight: 900,
+        height: "100%",   // fills the 125vh sticky container = full physical screen
         width: "100%",
       }}
     >
@@ -247,12 +247,13 @@ function Hero() {
       </div>
 
       {/* ── SEEN / TOUCHED / REMEMBERED watermark ── */}
+      {/* All vertical values use vh to match the Figma 900px frame proportionally */}
       <div
         aria-hidden
         className="hero-watermark"
         style={{
           position: "absolute",
-          top: 589,
+          top: "86vh",      // clear breathing room below hero text content
           left: "50%",
           transform: "translateX(calc(-50% + var(--watermark-scroll-x, 0px)))",
           width: "max-content",
@@ -265,11 +266,13 @@ function Hero() {
           <div
             key={word}
             style={{
-              fontSize: 100,
+              display:    "block",
+              width:      "max-content",
+              margin:     "0 auto",
+              fontSize:   "min(11.11vh, 100px)",
               fontWeight: 500,
-              lineHeight: "101.779px",
-              color: "rgba(0,0,0,0.12)",
-              textAlign: "left",
+              lineHeight: "11.31vh",
+              color:      "rgba(0,0,0,0.12)",
             }}
           >
             {word}

@@ -28,6 +28,23 @@ export default function RootLayout({
       <body>
         <SmoothScroll />
         {children}
+        {/* Fixed bottom blur overlay — matches Bungee-style viewport edge effect */}
+        <div
+          aria-hidden
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 140,
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 100%)",
+            pointerEvents: "none",
+            zIndex: 9999,
+          }}
+        />
       </body>
     </html>
   );
