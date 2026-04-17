@@ -4,13 +4,15 @@ import HeroIntro from "./components/HeroIntro";
 import HeroScrollSection from "./components/HeroScrollSection";
 import HowItWorksScroll from "./components/HowItWorksScroll";
 import RealImpactScroll from "./components/RealImpactScroll";
-
+import WherePixtronWorksScroll from "./components/WherePixtronWorksScroll";
+import IndustriesScroll from "./components/IndustriesScroll";
 // ─── Arrow color tokens ───────────────────────────────────────────────────────
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
 const ARROW_WHITE   = "white";
 const ARROW_DARK    = "dark";
 const ARROW_CONTACT = "dark";
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
 
 function ArrowIcon({ src }: { src: string }) {
   const color = src === "white" ? "#fff" : "#000";
@@ -98,26 +100,7 @@ function Navbar() {
       </div>
 
       {/* CTA */}
-      <Link
-        href="#"
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 12,
-          padding: "16px 20px",
-          borderRadius: 6,
-          outline: "2px solid rgba(0,0,0,0.5)",
-          outlineOffset: -2,
-          color: "#000",
-          fontSize: 18,
-          fontWeight: 500,
-          lineHeight: "32px",
-          textDecoration: "none",
-          whiteSpace: "nowrap",
-          background: "transparent",
-          transition: "background 0.15s",
-        }}
-      >
+      <Link href="#" className="btn-outline">
         <span>Contact Us</span>
         <ArrowIcon src={ARROW_CONTACT} />
       </Link>
@@ -171,53 +154,13 @@ function Hero() {
           style={{ display: "inline-flex", gap: 24, alignItems: "center", marginBottom: 48 }}
         >
           {/* Advertise With Pixtron — filled black */}
-          <Link
-            href="#"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 12,
-              padding: "16px 20px",
-              background: "#000",
-              borderRadius: 6,
-              outline: "2px solid rgba(0,0,0,0.5)",
-              outlineOffset: -2,
-              color: "#fff",
-              fontSize: 18,
-              fontWeight: 600,
-              lineHeight: "32px",
-              textDecoration: "none",
-              whiteSpace: "nowrap",
-              flexShrink: 0,
-            }}
-          >
+          <Link href="#" className="btn-primary" style={{ flexShrink: 0 }}>
             <span>Advertise With Pixtron</span>
             <ArrowIcon src={ARROW_WHITE} />
           </Link>
 
           {/* For Restaurants — outlined */}
-          <Link
-            href="#"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 12,
-              width: 256,
-              padding: "16px 20px",
-              background: "transparent",
-              borderRadius: 6,
-              outline: "2px solid rgba(0,0,0,0.5)",
-              outlineOffset: -2,
-              color: "#000",
-              fontSize: 18,
-              fontWeight: 600,
-              lineHeight: "32px",
-              textDecoration: "none",
-              whiteSpace: "nowrap",
-              flexShrink: 0,
-            }}
-          >
+          <Link href="#" className="btn-outline" style={{ flexShrink: 0, justifyContent: "center", width: 256 }}>
             <span>For Restaurants</span>
             <ArrowIcon src={ARROW_DARK} />
           </Link>
@@ -277,335 +220,61 @@ function Hero() {
   );
 }
 
-// ─── WHERE PIXTRON WORKS BEST ─────────────────────────────────────────────────
-function WherePixtronWorks() {
-  const venues = [
-    {
-      image: "/restaurent.png",
-      title: "Restaurants",
-      subtitle: "Enhance dining with premium wipes",
-      offsetY: 0,
-    },
-    {
-      image: "/cafe's.png",
-      title: "Cafe's",
-      subtitle: "High-traffic lifestyle touchpoints",
-      offsetY: 95,
-    },
-    {
-      image: "/hotels.png",
-      title: "Hotels",
-      subtitle: "Premium hospitality amenities",
-      offsetY: 194,
-    },
-  ];
-
-  return (
-    <section style={{ background: "#fff", padding: "100px 39px" }}>
-      <div style={{ maxWidth: 1362, margin: "0 auto" }}>
-        <div style={{ textAlign: "center" }}>
-          <SectionHeading>Where Pixtron Works Best</SectionHeading>
-          <SectionSubtitle>
-            A simple, seamless process that connects your brand with premium
-            dining audiences
-          </SectionSubtitle>
-        </div>
-
-        {/* Staggered cards */}
-        <div
-          style={{
-            position: "relative",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            marginTop: 64,
-            height: 862,
-          }}
-        >
-          {venues.map((venue, i) => (
-            <div
-              key={i}
-              style={{
-                width: 434,
-                height: 668,
-                borderRadius: 20,
-                overflow: "hidden",
-                position: "absolute",
-                left: i === 0 ? 0 : i === 1 ? 464 : 928,
-                top: venue.offsetY,
-              }}
-            >
-              {/* Background image */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={venue.image}
-                alt={venue.title}
-                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 64 }}>
-          <Link href="#" className="btn-primary">
-            <span>Advertise With Pixtron</span>
-            <ArrowIcon src={ARROW_WHITE} />
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── INDUSTRIES WE SERVE ──────────────────────────────────────────────────────
-function Industries() {
-  const narrowIndustries = [
-    "Legal & Financial Services",
-    "Real Estate & Home Services",
-    "Outdoor & Landscaping Services",
-    "Beauty & Personal Care",
-    "Fitness & Wellness",
-    "Automotive Services",
-    "Events & Creative Services",
-  ];
-
-  return (
-    <section style={{ background: "#fff", padding: "100px 39px" }}>
-      <div style={{ maxWidth: 1362, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <SectionHeading>Industries We Serve</SectionHeading>
-          <SectionSubtitle>
-            Pixtron adapts to any dining environment where memorable brand
-            experiences matter
-          </SectionSubtitle>
-        </div>
-
-        {/* CTA */}
-        <div
-          style={{ display: "flex", justifyContent: "center", marginBottom: 40 }}
-        >
-          <Link href="#" className="btn-primary">
-            <span>Advertise With Pixtron</span>
-            <ArrowIcon src={ARROW_WHITE} />
-          </Link>
-        </div>
-
-        {/* Columns grid */}
-        <div
-          style={{
-            display: "flex",
-            height: 652,
-            borderRadius: 6,
-            overflow: "hidden",
-            gap: 3,
-          }}
-        >
-          {/* Wide column: Healthcare */}
-          <div
-            style={{
-              width: 434,
-              flexShrink: 0,
-              borderRadius: "6px 0 0 6px",
-              overflow: "hidden",
-              position: "relative",
-            }}
-          >
-            {/* Background photo */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/healthcare_medical.png"
-              alt=""
-              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
-            />
-            {/* Icon */}
-            <div
-              style={{
-                position: "absolute",
-                top: 36,
-                left: 36,
-                width: 48,
-                height: 48,
-                borderRadius: "50%",
-                background: "#fff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect x="2" y="7" width="20" height="14" rx="2" stroke="#0f9d58" strokeWidth="1.5"/>
-                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="#0f9d58" strokeWidth="1.5"/>
-                <line x1="12" y1="12" x2="12" y2="16" stroke="#0f9d58" strokeWidth="1.5" strokeLinecap="round"/>
-                <line x1="10" y1="14" x2="14" y2="14" stroke="#0f9d58" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
-            </div>
-            {/* Title */}
-            <h3
-              style={{
-                position: "absolute",
-                top: 110,
-                left: 36,
-                width: 360,
-                fontSize: 30,
-                fontWeight: 700,
-                color: "#fff",
-                lineHeight: 1.2,
-              }}
-            >
-              Healthcare & Medical Services
-            </h3>
-            {/* List */}
-            <ul
-              style={{
-                position: "absolute",
-                top: 206,
-                left: 36,
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-              }}
-            >
-              {[
-                "Cosmetic Dentistry Services",
-                "Medusa & Aesthetic Services",
-                "Dermatology Services",
-                "Chiropractic Services",
-                "Plastic Surgery Services",
-                "Veterinary Services",
-              ].map((item) => (
-                <li
-                  key={item}
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 500,
-                    color: "#fff",
-                    lineHeight: 1.7,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                  }}
-                >
-                  <span style={{ fontWeight: 900, fontSize: 18 }}>·</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Narrow columns */}
-          {narrowIndustries.map((industry, i) => (
-            <div
-              key={i}
-              style={{
-                width: 128,
-                height: 652,
-                flexShrink: 0,
-                background: "#e7e7e7",
-                borderRadius: i === narrowIndustries.length - 1 ? "0 6px 6px 0" : 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "relative",
-              }}
-            >
-              {/* Icon */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 37,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  width: 48,
-                  height: 48,
-                  borderRadius: "50%",
-                  background: "#fff",
-                  display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="9" stroke="#0f9d58" strokeWidth="1.5"/>
-                    <circle cx="12" cy="12" r="5.5" stroke="#0f9d58" strokeWidth="1.5"/>
-                    <circle cx="12" cy="12" r="2" fill="#0f9d58"/>
-                  </svg>
-              </div>
-              {/* Vertical text — bottom-anchored so all labels end at the same line */}
-              <p
-                style={{
-                  position: "absolute",
-                  bottom: 40,
-                  left: "50%",
-                  transform: "translateX(-50%) rotate(180deg)",
-                  writingMode: "vertical-rl",
-                  fontSize: 22,
-                  fontWeight: 400,
-                  color: "#000",
-                  lineHeight: 1.2,
-                  background:
-                    "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.5) 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {industry}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ─── WHY PIXTRON IS DIFFERENT ─────────────────────────────────────────────────
+function CheckIcon() {
+  return (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="Yes">
+      <path d="M6 16.5L12.5 23L26 9" stroke="#0EAD69" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+function CloseIcon() {
+  return (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="No">
+      <path d="M9 9L23 23M23 9L9 23" stroke="#E63946" strokeWidth="2.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
 function WhyDifferent() {
   const rows = [
-    { feature: "Physical Engagement", pixtron: "check", digitalAds: "close", socialMedia: "close" },
-    { feature: "Premium Audience", pixtron: "check", digitalAds: "close", socialMedia: "close" },
+    { feature: "Physical Engagement",       pixtron: "check", digitalAds: "close", socialMedia: "close" },
+    { feature: "Premium Audience",           pixtron: "check", digitalAds: "close", socialMedia: "close" },
     { feature: "High Engagement Rate (91%)", pixtron: "check", digitalAds: "close", socialMedia: "close" },
-    { feature: "Brand Recall", pixtron: "7.8%", digitalAds: "2.5%", socialMedia: "2.1%" },
-    { feature: "Ad Blocking", pixtron: "close", digitalAds: "check", socialMedia: "check" },
-    { feature: "Real-World Touch", pixtron: "check", digitalAds: "close", socialMedia: "close" },
-    { feature: "Venue Targeting", pixtron: "check", digitalAds: "close", socialMedia: "check" },
-    { feature: "Measurable ROI", pixtron: "check", digitalAds: "check", socialMedia: "check" },
+    { feature: "Brand Recall",               pixtron: "7.8%",  digitalAds: "2.5%",  socialMedia: "2.1%"  },
+    { feature: "Ad Blocking",                pixtron: "close", digitalAds: "check", socialMedia: "check" },
+    { feature: "Real-World Touch",           pixtron: "check", digitalAds: "close", socialMedia: "close" },
+    { feature: "Venue Targeting",            pixtron: "check", digitalAds: "close", socialMedia: "check" },
+    { feature: "Measurable ROI",             pixtron: "check", digitalAds: "check", socialMedia: "check" },
   ];
 
-  function Cell({ value, col }: { value: string; col: "pixtron" | "other" }) {
-    if (value === "check") {
-      return (
-        <span
-          aria-label="Yes"
-          style={{ fontSize: 24, fontWeight: 700, color: "#0f9d58", lineHeight: 1 }}
-        >
-          ✓
-        </span>
-      );
-    }
-    if (value === "close") {
-      return (
-        <span
-          aria-label="No"
-          style={{ fontSize: 24, fontWeight: 700, color: "#c0392b", lineHeight: 1 }}
-        >
-          ×
-        </span>
-      );
-    }
+  const gradientText: React.CSSProperties = {
+    background: "linear-gradient(104.57deg, #000 0%, rgba(0,0,0,0.5) 100%)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+  };
+
+  function Cell({ value, isPixtron }: { value: string; isPixtron: boolean }) {
+    if (value === "check") return <CheckIcon />;
+    if (value === "close") return <CloseIcon />;
     return (
-      <span
-        style={{
-          fontSize: 20,
-          fontWeight: 600,
-          color: col === "pixtron" ? "#000" : "#0ead69",
-        }}
-      >
+      <span style={{
+        fontSize: 20,
+        fontWeight: 600,
+        color: isPixtron ? "#000" : "#0EAD69",
+        mixBlendMode: isPixtron ? "normal" : "luminosity",
+      }}>
         {value}
       </span>
     );
   }
+
+  const ROW_H    = 79;
+  const HEADER_H = 68;
+  const COL_DATA = 270;
+  const COL_FEAT = 319;
 
   return (
     <section style={{ background: "#fff", padding: "100px 39px" }}>
@@ -617,111 +286,57 @@ function WhyDifferent() {
           </SectionSubtitle>
         </div>
 
+      </div>
+
+      {/* Dashed separator — full viewport width */}
+      <div style={{ borderTop: "1px dashed rgba(0,0,0,0.2)", margin: "0 -39px" }} />
+
+      <div style={{ maxWidth: 1362, margin: "0 auto" }}>
         {/* Table */}
-        <div
-          style={{
-            border: "1px solid #e0dfdf",
-            borderRadius: 6,
-            overflow: "hidden",
-            marginLeft: "auto",
-            marginRight: "auto",
-            maxWidth: 1130,
-          }}
-        >
-          {/* Header */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 270px 270px 270px",
-              borderBottom: "1px solid #e0dfdf",
-            }}
-          >
-            <div style={{ padding: "20px 30px", fontWeight: 700, fontSize: 18 }}>
-              Feature
+        <div style={{ maxWidth: 1130, margin: "0 auto", position: "relative" }}>
+          {/* Vertical border lines — absolutely positioned so they span full table height */}
+          <div style={{ position: "absolute", top: 0, bottom: 0, left: COL_FEAT, width: 1, background: "rgba(0,0,0,0.18)", pointerEvents: "none", zIndex: 1 }} />
+          <div style={{ position: "absolute", top: 0, bottom: 0, right: 0, width: 1, background: "rgba(0,0,0,0.18)", pointerEvents: "none", zIndex: 1 }} />
+
+          {/* Header row */}
+          <div style={{ display: "grid", gridTemplateColumns: `${COL_FEAT}px ${COL_DATA}px ${COL_DATA}px ${COL_DATA}px`, height: HEADER_H, borderBottom: "1px solid #e0dfdf" }}>
+            <div style={{ display: "flex", alignItems: "center", paddingLeft: 30 }}>
+              <span style={{ fontSize: 24, fontWeight: 700, ...gradientText }}>Feature</span>
             </div>
-            {[
-              { label: "Pixtron", bg: "#f6f6f6" },
-              { label: "Digital Ads", bg: "#f6f6f6" },
-              { label: "Social Media", bg: "#f6f6f6" },
-            ].map((col) => (
-              <div
-                key={col.label}
-                style={{
-                  padding: "20px 0",
-                  textAlign: "center",
-                  fontWeight: 700,
-                  fontSize: 18,
-                  background: "linear-gradient(101deg, #000 0%, rgba(0,0,0,0.5) 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {col.label}
+            {["Pixtron", "Digital Ads", "Social Media"].map((label) => (
+              <div key={label} style={{ background: "#f6f6f6", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ fontSize: 24, fontWeight: 700, ...gradientText }}>{label}</span>
               </div>
             ))}
           </div>
 
+          {/* Data rows */}
           {rows.map((row, i) => (
             <div
               key={i}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 270px 270px 270px",
-                borderBottom: i < rows.length - 1 ? "1px solid #e0dfdf" : "none",
-              }}
+              style={{ display: "grid", gridTemplateColumns: `${COL_FEAT}px ${COL_DATA}px ${COL_DATA}px ${COL_DATA}px`, height: ROW_H, borderBottom: "1px solid #e0dfdf" }}
             >
-              <div
-                style={{
-                  padding: "22px 30px",
-                  fontSize: 18,
-                  fontWeight: 500,
-                  color: "#000",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
+              <div style={{ display: "flex", alignItems: "center", paddingLeft: 30, fontSize: 20, fontWeight: 500, color: "#000" }}>
                 {row.feature}
               </div>
               {[
-                { value: row.pixtron, col: "pixtron" as const },
-                { value: row.digitalAds, col: "other" as const },
-                { value: row.socialMedia, col: "other" as const },
+                { value: row.pixtron,     isPixtron: true  },
+                { value: row.digitalAds,  isPixtron: false },
+                { value: row.socialMedia, isPixtron: false },
               ].map((cell, j) => (
-                <div
-                  key={j}
-                  style={{
-                    background: "#f6f6f6",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "18px 0",
-                  }}
-                >
-                  <Cell value={cell.value} col={cell.col} />
+                <div key={j} style={{ background: "#f6f6f6", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Cell value={cell.value} isPixtron={cell.isPixtron} />
                 </div>
               ))}
             </div>
           ))}
-        </div>
 
-        {/* Disclaimer */}
-        <div
-          style={{
-            maxWidth: 1130,
-            margin: "0 auto",
-            background: "#fff",
-            border: "1px solid #e0dfdf",
-            borderTop: "none",
-            borderRadius: "0 0 6px 6px",
-            padding: "20px 30px",
-            textAlign: "center",
-            boxShadow: "inset 0 0 14px rgba(0,0,0,0.08)",
-          }}
-        >
-          <p style={{ fontSize: 16, color: "rgba(0,0,0,0.8)" }}>
-            Based on industry averages and Pixtron internal data from 2025 - 2026
-          </p>
+          {/* Footer disclaimer */}
+          <div style={{ background: "#fff", height: 80, borderBottom: "1px solid #e0dfdf", borderRadius: "0 0 6px 6px", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "inset 0 0 14px rgba(0,0,0,0.25)" }}>
+            <p style={{ fontSize: 22, color: "rgba(0,0,0,0.8)", textAlign: "center" }}>
+              Based on industry averages and Pixtron internal data from 2025 - 2026
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -1191,8 +806,8 @@ export default function HomePage() {
         </HeroScrollSection>
         <HowItWorksScroll />
         <RealImpactScroll />
-        <WherePixtronWorks />
-        <Industries />
+        <WherePixtronWorksScroll />
+        <IndustriesScroll />
         <WhyDifferent />
         <TheProcess />
       </main>

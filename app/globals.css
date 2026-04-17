@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 
-/* ── While intro hasn't finished: keep elements hidden + out of flow ──────── */
+/* While intro hasn't finished: keep elements hidden + out of flow */
 /* :not(.intro-done) = zero timing gap, stops applying the same frame          */
 /* intro-done is added. visibility:hidden suppresses backdrop-filter too.      */
 
@@ -25,7 +25,7 @@ html:not(.intro-done) .hero-watermark {
   transform: translateX(calc(-50% + var(--watermark-scroll-x, 0px))) translateY(60px) !important;
 }
 
-/* ── Sandwich reveal ─────────────────────────────────────────────────────── */
+/* Sandwich reveal */
 /* fill-mode "both" = backwards (holds "from" during delay) +                 */
 /*                    forwards  (keeps "to" after animation ends)              */
 
@@ -41,7 +41,7 @@ html.intro-done .hero-watermark {
   animation: animWatermarkUp 1.0s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
 }
 
-/* [data-hero-headline] — no animation. Overlay lands here exactly (zoom-corrected),
+/* [data-hero-headline] no animation. Overlay lands here exactly (zoom-corrected),
    so the real h1 appears instantly with no blink and no drift. */
 
 @keyframes animNavDown {
@@ -118,11 +118,9 @@ body {
   white-space: nowrap;
   cursor: pointer;
   text-decoration: none;
-  transition: opacity 0.2s;
-}
-
-.btn-primary:hover {
-  opacity: 0.85;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.35s ease, color 0.35s ease;
 }
 
 .btn-outline {
@@ -140,11 +138,72 @@ body {
   white-space: nowrap;
   cursor: pointer;
   text-decoration: none;
-  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.35s ease, color 0.35s ease;
 }
 
+/* Green slide-in fill — shared by both button types */
+.btn-primary::before,
+.btn-outline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -15%;
+  width: 130%;
+  height: 100%;
+  background: #0f9d58;
+  transform: skewX(-22deg) translateX(-115%);
+  transition: transform 0.45s cubic-bezier(0.3, 1, 0.8, 1);
+  z-index: 0;
+}
+
+.btn-primary:hover::before,
+.btn-outline:hover::before {
+  transform: skewX(-22deg) translateX(0%);
+}
+
+/* Keep all children above the green fill */
+.btn-primary > *,
+.btn-outline > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* btn-primary: border turns green, text stays white */
+.btn-primary:hover {
+  border-color: #0f9d58;
+}
+
+/* btn-outline: border turns green, text turns white */
 .btn-outline:hover {
-  background: rgba(0,0,0,0.04);
+  border-color: #0f9d58;
+  color: #fff;
+}
+
+/* btn-outline SVG arrows: white on hover */
+.btn-outline:hover svg circle  { fill: #fff; }
+.btn-outline:hover svg line     { stroke: #fff; }
+.btn-outline:hover svg polyline { stroke: #fff; }
+
+/* Press — snaps down instantly, springs back with overshoot on release */
+.btn-primary,
+.btn-outline {
+  transition:
+    border-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-primary:active,
+.btn-outline:active {
+  transform: scale(0.93) translateY(3px);
+  transition:
+    border-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.08s ease,
+    box-shadow 0.08s ease;
 }
 
 .arrow-icon {
@@ -152,7 +211,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 24px;
-  /* no rotation — arrow character already points right */
+  /* no rotation - arrow character already points right */
   height: 24px;
   flex-shrink: 0;
 }
