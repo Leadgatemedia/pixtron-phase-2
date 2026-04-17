@@ -4,33 +4,25 @@ import HeroIntro from "./components/HeroIntro";
 import HeroScrollSection from "./components/HeroScrollSection";
 import HowItWorksScroll from "./components/HowItWorksScroll";
 
-// ─── Asset URLs (from Figma, valid for 7 days) ───────────────────────────────
-const ARROW_WHITE = "https://www.figma.com/api/mcp/asset/b359458f-8ecb-437b-bede-941a9fbd83cf";
-const ARROW_DARK = "https://www.figma.com/api/mcp/asset/f3b749e4-4953-4e11-8852-4d66f96aa3cf";
-const ARROW_CONTACT = "https://www.figma.com/api/mcp/asset/e6c55c53-3649-4256-a304-09447681b56e";
+// ─── Arrow color tokens ───────────────────────────────────────────────────────
+const ARROW_WHITE   = "white";
+const ARROW_DARK    = "dark";
+const ARROW_CONTACT = "dark";
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function ArrowIcon({ src }: { src: string }) {
+  const color = src === "white" ? "#fff" : "#000";
   return (
-    <span className="arrow-icon">
-      <span
-        aria-hidden
-        style={{
-          width: 24,
-          height: 24,
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 20,
-          lineHeight: 1,
-          fontWeight: 700,
-          color: src === ARROW_WHITE ? "#fff" : "#000",
-        }}
-      >
-        ↑
-      </span>
-    </span>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
+      {/* Two dots */}
+      <circle cx="4" cy="12" r="1.5" fill={color} />
+      <circle cx="8.5" cy="12" r="1.5" fill={color} />
+      {/* Arrow shaft */}
+      <line x1="11" y1="12" x2="18" y2="12" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      {/* Arrowhead */}
+      <polyline points="15,8.5 19.5,12 15,15.5" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    </svg>
   );
 }
 
@@ -543,17 +535,14 @@ function Industries() {
               borderRadius: "6px 0 0 6px",
               overflow: "hidden",
               position: "relative",
-              background:
-                "radial-gradient(circle at 50% 15%, rgba(255,255,255,0.14), transparent 35%), linear-gradient(160deg, #0a3a27 0%, #09131d 100%)",
             }}
           >
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background:
-                  "linear-gradient(to bottom, rgba(10,58,39,0.45), rgba(0,0,0,0.78))",
-              }}
+            {/* Background photo */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/healthcare_medical.png"
+              alt=""
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
             />
             {/* Icon */}
             <div
@@ -570,7 +559,12 @@ function Industries() {
                 justifyContent: "center",
               }}
             >
-              <span style={{ fontSize: 22, fontWeight: 700, color: "#0f9d58" }}>+</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="7" width="20" height="14" rx="2" stroke="#0f9d58" strokeWidth="1.5"/>
+                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="#0f9d58" strokeWidth="1.5"/>
+                <line x1="12" y1="12" x2="12" y2="16" stroke="#0f9d58" strokeWidth="1.5" strokeLinecap="round"/>
+                <line x1="10" y1="14" x2="14" y2="14" stroke="#0f9d58" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
             </div>
             {/* Title */}
             <h3
@@ -630,7 +624,8 @@ function Industries() {
             <div
               key={i}
               style={{
-                width: 130,
+                width: 128,
+                height: 652,
                 flexShrink: 0,
                 background: "#e7e7e7",
                 borderRadius: i === narrowIndustries.length - 1 ? "0 6px 6px 0" : 0,
@@ -656,18 +651,24 @@ function Industries() {
                 justifyContent: "center",
               }}
             >
-                <span style={{ fontSize: 18, fontWeight: 700, color: "#0f9d58" }}>•</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="9" stroke="#0f9d58" strokeWidth="1.5"/>
+                    <circle cx="12" cy="12" r="5.5" stroke="#0f9d58" strokeWidth="1.5"/>
+                    <circle cx="12" cy="12" r="2" fill="#0f9d58"/>
+                  </svg>
               </div>
-              {/* Vertical text */}
+              {/* Vertical text — bottom-anchored so all labels end at the same line */}
               <p
                 style={{
+                  position: "absolute",
+                  bottom: 40,
+                  left: "50%",
+                  transform: "translateX(-50%) rotate(180deg)",
                   writingMode: "vertical-rl",
-                  transform: "rotate(180deg)",
                   fontSize: 22,
                   fontWeight: 400,
                   color: "#000",
                   lineHeight: 1.2,
-                  marginTop: 60,
                   background:
                     "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.5) 100%)",
                   WebkitBackgroundClip: "text",

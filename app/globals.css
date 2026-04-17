@@ -152,8 +152,8 @@ body {
   align-items: center;
   justify-content: center;
   width: 24px;
+  /* no rotation — arrow character already points right */
   height: 24px;
-  transform: rotate(-90deg);
   flex-shrink: 0;
 }
 
