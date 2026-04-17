@@ -3,6 +3,7 @@ import Link from "next/link";
 import HeroIntro from "./components/HeroIntro";
 import HeroScrollSection from "./components/HeroScrollSection";
 import HowItWorksScroll from "./components/HowItWorksScroll";
+import RealImpactScroll from "./components/RealImpactScroll";
 
 // ─── Arrow color tokens ───────────────────────────────────────────────────────
 const ARROW_WHITE   = "white";
@@ -271,133 +272,6 @@ function Hero() {
             {word}
           </div>
         ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── REAL IMPACT ─────────────────────────────────────────────────────────────
-function RealImpact() {
-  const stats = [
-    {
-      value: "91%",
-      label: "Customer Engagement Rate",
-      description: (
-        <>
-          Customers actively engage with <strong>branded wet wipes</strong>
-        </>
-      ),
-      width: 1130,
-    },
-    {
-      value: "7.8%",
-      label: "Brand Recall",
-      description: <>3x higher than digital display ads</>,
-      width: 1040,
-    },
-    {
-      value: "2.5K+",
-      label: "Partner Venues",
-      description: <>Premium restaurants and cafes worldwide</>,
-      width: 936,
-    },
-    {
-      value: "137B+",
-      label: "Annual Touch Points",
-      description: <>Touch points with customers every year</>,
-      width: 842,
-    },
-  ];
-
-  return (
-    <section style={{ background: "#fff", padding: "100px 39px" }}>
-      <div style={{ maxWidth: 1362, margin: "0 auto" }}>
-        <div style={{ textAlign: "center" }}>
-          <SectionHeading>Real Impact, Real Results</SectionHeading>
-          <SectionSubtitle>
-            A simple, seamless process that connects your brand with premium
-            dining audiences
-          </SectionSubtitle>
-        </div>
-
-        {/* Stat cards — centered stack */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 0,
-            marginTop: 64,
-          }}
-        >
-          {stats.map((stat, i) => (
-            <div
-              key={i}
-              style={{
-                width: "100%",
-                maxWidth: stat.width,
-                background: "#fff",
-                border: "1px solid #e0dfdf",
-                borderRadius: 6,
-                boxShadow: "0px 34px 30px -30px rgba(0,0,0,0.25)",
-                padding: "32px 32px 20px",
-                marginBottom: i < stats.length - 1 ? -20 : 0,
-                position: "relative",
-                zIndex: stats.length - i,
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div>
-                  <p
-                    style={{
-                      fontSize: 80,
-                      fontWeight: 500,
-                      lineHeight: 1.4,
-                      color: "#000",
-                      margin: 0,
-                    }}
-                  >
-                    {stat.value}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      color: "rgba(0,0,0,0.6)",
-                      marginTop: 4,
-                    }}
-                  >
-                    {stat.label}
-                  </p>
-                </div>
-                <p
-                  style={{
-                    fontSize: 24,
-                    lineHeight: 1.3,
-                    color: "#000",
-                    textAlign: "right",
-                    maxWidth: 430,
-                  }}
-                >
-                  {stat.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 64 }}>
-          <Link href="#" className="btn-primary">
-            <span>Advertise With Pixtron</span>
-            <ArrowIcon src={ARROW_WHITE} />
-          </Link>
-        </div>
       </div>
     </section>
   );
@@ -1316,7 +1190,7 @@ export default function HomePage() {
           <Hero />
         </HeroScrollSection>
         <HowItWorksScroll />
-        <RealImpact />
+        <RealImpactScroll />
         <WherePixtronWorks />
         <Industries />
         <WhyDifferent />
