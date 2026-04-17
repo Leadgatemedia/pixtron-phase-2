@@ -415,22 +415,19 @@ function RealImpact() {
 function WherePixtronWorks() {
   const venues = [
     {
-      background:
-        "radial-gradient(circle at 20% 20%, rgba(255,255,255,0.18), transparent 35%), linear-gradient(160deg, #365f2d 0%, #132813 100%)",
+      image: "/restaurent.png",
       title: "Restaurants",
       subtitle: "Enhance dining with premium wipes",
       offsetY: 0,
     },
     {
-      background:
-        "radial-gradient(circle at 80% 18%, rgba(255,255,255,0.2), transparent 28%), linear-gradient(160deg, #6a4b2f 0%, #24170f 100%)",
+      image: "/cafe's.png",
       title: "Cafe's",
       subtitle: "High-traffic lifestyle touchpoints",
       offsetY: 95,
     },
     {
-      background:
-        "radial-gradient(circle at 25% 25%, rgba(255,255,255,0.16), transparent 30%), linear-gradient(160deg, #20344d 0%, #0d1623 100%)",
+      image: "/hotels.png",
       title: "Hotels",
       subtitle: "Premium hospitality amenities",
       offsetY: 194,
@@ -470,49 +467,15 @@ function WherePixtronWorks() {
                 position: "absolute",
                 left: i === 0 ? 0 : i === 1 ? 464 : 928,
                 top: venue.offsetY,
-                background: venue.background,
               }}
             >
-              {/* Gradient overlay */}
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background:
-                    "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%)",
-                  borderRadius: 20,
-                }}
+              {/* Background image */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={venue.image}
+                alt={venue.title}
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
               />
-              {/* Text */}
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 40,
-                  left: 32,
-                }}
-              >
-                <h3
-                  style={{
-                    fontSize: 30,
-                    fontWeight: 700,
-                    color: "#fff",
-                    lineHeight: "36px",
-                    marginBottom: 6,
-                  }}
-                >
-                  {venue.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: 18,
-                    fontWeight: 400,
-                    color: "#fff",
-                    lineHeight: 1.5,
-                  }}
-                >
-                  {venue.subtitle}
-                </p>
-              </div>
             </div>
           ))}
         </div>
