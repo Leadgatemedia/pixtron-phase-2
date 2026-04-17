@@ -293,10 +293,10 @@ function WhyDifferent() {
 
       <div style={{ maxWidth: 1362, margin: "0 auto" }}>
         {/* Table */}
-        <div style={{ maxWidth: 1130, margin: "0 auto", position: "relative" }}>
-          {/* Vertical border lines — absolutely positioned so they span full table height */}
-          <div style={{ position: "absolute", top: 0, bottom: 0, left: COL_FEAT, width: 1, background: "rgba(0,0,0,0.18)", pointerEvents: "none", zIndex: 1 }} />
-          <div style={{ position: "absolute", top: 0, bottom: 0, right: 0, width: 1, background: "rgba(0,0,0,0.18)", pointerEvents: "none", zIndex: 1 }} />
+          <div style={{ maxWidth: 1130, margin: "0 auto", position: "relative" }}>
+            {/* Vertical border lines — absolutely positioned so they span full table height */}
+            <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: 1, background: "rgba(0,0,0,0.18)", pointerEvents: "none", zIndex: 1 }} />
+            <div style={{ position: "absolute", top: 0, bottom: 0, right: 0, width: 1, background: "rgba(0,0,0,0.18)", pointerEvents: "none", zIndex: 1 }} />
 
           {/* Header row */}
           <div style={{ display: "grid", gridTemplateColumns: `${COL_FEAT}px ${COL_DATA}px ${COL_DATA}px ${COL_DATA}px`, height: HEADER_H, borderBottom: "1px solid #e0dfdf" }}>
@@ -489,6 +489,8 @@ function ProcessColumn({
 }
 
 function TheProcess() {
+  const processBorder = "1px dashed rgba(0,0,0,0.2)";
+
   const hospitality = [
     {
       step: "01",
@@ -529,8 +531,8 @@ function TheProcess() {
     <section
       style={{
         background: "#fff",
-        borderTop: "1px solid #e0dfdf",
-        borderBottom: "1px solid #e0dfdf",
+        borderTop: processBorder,
+        borderBottom: processBorder,
       }}
     >
       {/* Heading */}
@@ -547,12 +549,12 @@ function TheProcess() {
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          borderTop: "1px solid #e0dfdf",
+          borderTop: processBorder,
         }}
       >
         <div
           style={{
-            borderRight: "1px solid #e0dfdf",
+            borderRight: processBorder,
             padding: "64px 39px",
           }}
         >
