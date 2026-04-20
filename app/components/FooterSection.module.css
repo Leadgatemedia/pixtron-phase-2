@@ -5,13 +5,13 @@
   display: flex;
   align-items: stretch;
   gap: 30px;
-  background: #f4f4f4;
+  background: #ffffff;
 }
 
 .footerBrandCard {
   width: 318px;
   min-width: 318px;
-  min-height: 362px;
+  min-height: 344px;
   flex-shrink: 0;
   border-radius: 12px;
   padding: 24px 24px 32px;
@@ -25,7 +25,7 @@
 .footerInfoPanel {
   flex: 1 1 auto;
   min-width: 0;
-  min-height: 362px;
+  min-height: 344px;
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.06);
   background: #f0f0f0;
@@ -33,13 +33,13 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 32px;
+  justify-content: flex-start;
+  gap: 64px;
 }
 
 .footerInfoTop {
   display: grid;
-  grid-template-columns: 136px 112px minmax(280px, 1fr);
+  grid-template-columns: 200px 170px minmax(475px, 1fr);
   column-gap: 24px;
   row-gap: 32px;
   align-items: start;

@@ -399,7 +399,7 @@ export default function IndustriesScroll() {
                 </ul>
               </div>
 
-              {/* Inactive layer — icon + vertical text, visible when narrow */}
+              {/* Inactive layer — vertical text, visible when narrow */}
               <div
                 ref={(el) => { inactiveRefs.current[i] = el; }}
                 style={{
@@ -409,24 +409,6 @@ export default function IndustriesScroll() {
                   pointerEvents: "none",
                 }}
               >
-                {/* Icon */}
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 37,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    width: 48,
-                    height: 48,
-                    borderRadius: "50%",
-                    background: "#fff",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <BullseyeIcon />
-                </div>
                 {/* Vertical text */}
                 <p
                   style={{

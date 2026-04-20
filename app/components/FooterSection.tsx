@@ -154,6 +154,8 @@ function SocialTile({ icon, hoverIcon, label }: SocialTileProps) {
       style={{
         width: 141.3,
         height: 142,
+        position: "relative",
+        zIndex: showHover ? 2 : 1,
         flexShrink: 0,
         background: "#fff",
         borderRadius: 6,
@@ -163,8 +165,9 @@ function SocialTile({ icon, hoverIcon, label }: SocialTileProps) {
         justifyContent: "center",
         gap: showHover ? 14 : 0,
         cursor: isActive ? "pointer" : "default",
-        transition: "box-shadow 0.2s ease",
+        transition: "box-shadow 0.2s ease, transform 0.2s ease",
         boxShadow: showHover ? "0px 12px 34px 0px rgba(0,0,0,0.25)" : "none",
+        transform: showHover ? "translateY(-1px)" : "translateY(0)",
       }}
     >
       {showHover ? hoverIcon : icon}
@@ -226,7 +229,7 @@ export default function FooterSection() {
             <div style={{ fontWeight: 700 }}>on social networks</div>
           </div>
 
-          <div style={{ display: "flex", gap: 3, width: "100%", overflow: "hidden", alignItems: "stretch" }}>
+          <div style={{ display: "flex", gap: 3, width: "100%", overflow: "visible", alignItems: "stretch" }}>
             {/* Left wing — enough tiles to fill any viewport width */}
             <div style={{ flex: 1, minWidth: 0, display: "flex", justifyContent: "flex-end", gap: 3, overflow: "hidden" }}>
               {Array.from({ length: 10 }).map((_, i) => (
@@ -252,42 +255,58 @@ export default function FooterSection() {
         {/* ── Lower shell ── */}
         <div className={styles.footerLowerShell}>
           <div className={styles.footerBrandCard}>
-            <div style={{ flex: 1, width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ flex: 1, width: "100%", display: "flex", alignItems: "center", justifyContent: "center", paddingTop: 8 }}>
               <Image src="/logo.png" alt="Pixtron" width={206} height={166} />
             </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 18, lineHeight: 1.4, color: "rgba(255,255,255,0.6)", marginBottom: 2 }}>
-                Real world advertising that
-              </div>
-              <div style={{ fontSize: 22, lineHeight: 1.4, fontWeight: 600, color: "#fff" }}>
-                Seen. Touch. Remembered.
-              </div>
+          <div style={{ textAlign: "center", width: "100%", maxWidth: 270, margin: "0 auto", paddingBottom: 2 }}>
+            <div
+              style={{
+                fontSize: 18,
+                fontWeight: 500,
+                lineHeight: "24px",
+                color: "rgba(255,255,255,0.6)",
+                marginBottom: 2,
+              }}
+            >
+              Real world advertising that
             </div>
+            <div
+              style={{
+                fontSize: 20,
+                fontWeight: 600,
+                lineHeight: "32px",
+                color: "#fff",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Seen. Touch. Remembered.
+            </div>
+          </div>
           </div>
 
           <div className={styles.footerInfoPanel}>
             <div className={styles.footerInfoTop}>
-              <div style={{ minWidth: 0 }}>
+              <div style={{ width: 200, minWidth: 0 }}>
                 <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: "0.64px", textTransform: "uppercase", marginBottom: 24 }}>Navigation</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                   {navLinks.map((link) => (
                     <Link key={link} href="#" style={{ fontSize: 18, lineHeight: 1.5, letterSpacing: "0.18px", color: "#000", textDecoration: "none" }}>{link}</Link>
                   ))}
                 </div>
               </div>
 
-              <div style={{ minWidth: 0 }}>
+              <div style={{ width: 170, minWidth: 0 }}>
                 <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: "0.64px", textTransform: "uppercase", marginBottom: 24 }}>Company</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                   {companyLinks.map((link) => (
                     <Link key={link} href="#" style={{ fontSize: 18, lineHeight: 1.5, letterSpacing: "0.18px", color: "#000", textDecoration: "none" }}>{link}</Link>
                   ))}
                 </div>
               </div>
 
-              <div style={{ minWidth: 0 }}>
+              <div style={{ width: 475, minWidth: 0 }}>
                 <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: "0.64px", textTransform: "uppercase", marginBottom: 24 }}>Contact</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                   <a href="mailto:info@pixtron.net" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "#000", fontSize: 18, lineHeight: 1.5, letterSpacing: "0.18px", fontWeight: 500 }}>
                     <MailIcon /><span>info@pixtron.net</span>
                   </a>
@@ -296,7 +315,7 @@ export default function FooterSection() {
                   </a>
                   <div style={{ display: "flex", alignItems: "flex-start", gap: 10, color: "#000", fontSize: 18, lineHeight: 1.5, letterSpacing: "0.18px", fontWeight: 500 }}>
                     <div style={{ flexShrink: 0, marginTop: 1 }}><PinIcon /></div>
-                    <span>1810 E. Sahara Ave Ste 930 Las Vegas, NV 89104, USA</span>
+                    <span style={{ whiteSpace: "nowrap" }}>1810 E. Sahara Ave Ste 930 Las Vegas, NV 89104, USA</span>
                   </div>
                 </div>
               </div>
