@@ -7,7 +7,7 @@ import RealImpactScroll from "./components/RealImpactScroll";
 import WherePixtronWorksScroll from "./components/WherePixtronWorksScroll";
 import IndustriesScroll from "./components/IndustriesScroll";
 import FooterSection from "./components/FooterSection";
-import ProcessShuffleColumn from "./components/ProcessShuffleColumn";
+import ProcessScrollSection from "./components/ProcessScrollSection";
 // ─── Arrow color tokens ───────────────────────────────────────────────────────
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -332,8 +332,6 @@ function WhyDifferent() {
 
 // ─── THE PROCESS ─────────────────────────────────────────────────────────────
 function TheProcess() {
-  const processBorder = "1px dashed rgba(0,0,0,0.2)";
-
   const hospitality = [
     {
       step: "01",
@@ -345,11 +343,24 @@ function TheProcess() {
     {
       step: "02",
       title: "We Handle Everything",
-      description: "",
+      description:
+        "Lorum ipsum dolar amet.\nDolar amet lorum ipsum dolar amet & lorum de ante.",
       width: 473,
     },
-    { step: "03", title: "Elevate Your Tables", description: "", width: 426 },
-    { step: "04", title: "Impress Every Guest", description: "", width: 383 },
+    {
+      step: "03",
+      title: "Elevate Your Tables",
+      description:
+        "Lorum ipsum dolar amet.\nDolar amet lorum ipsum dolar amet & lorum de ante.",
+      width: 426,
+    },
+    {
+      step: "04",
+      title: "Impress Every Guest",
+      description:
+        "Lorum ipsum dolar amet.\nDolar amet lorum ipsum dolar amet & lorum de ante.",
+      width: 383,
+    },
   ];
 
   const advertisers = [
@@ -363,67 +374,33 @@ function TheProcess() {
     {
       step: "02",
       title: "Design Your Presence",
-      description: "",
+      description:
+        "Lorum ipsum dolar amet.\nDolar amet lorum ipsum dolar amet & lorum de ante.",
       width: 473,
     },
-    { step: "03", title: "Go Live in Restaurants", description: "", width: 426 },
-    { step: "04", title: "Track & Scale", description: "", width: 383 },
+    {
+      step: "03",
+      title: "Go Live in Restaurants",
+      description:
+        "Lorum ipsum dolar amet.\nDolar amet lorum ipsum dolar amet & lorum de ante.",
+      width: 426,
+    },
+    {
+      step: "04",
+      title: "Track & Scale",
+      description:
+        "Lorum ipsum dolar amet.\nDolar amet lorum ipsum dolar amet & lorum de ante.",
+      width: 383,
+    },
   ];
 
   return (
-    <section
-      style={{
-        background: "#fff",
-        borderTop: processBorder,
-        borderBottom: processBorder,
-      }}
-    >
-      {/* Heading */}
-      <div style={{ padding: "80px 39px 64px", textAlign: "center" }}>
-        <SectionHeading>The Process</SectionHeading>
-        <SectionSubtitle>
-          Simple steps to get started, whether you&#39;re a venue or an
-          advertiser
-        </SectionSubtitle>
-      </div>
-
-      {/* Two columns */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          borderTop: processBorder,
-        }}
-      >
-        <div
-          style={{
-            borderRight: processBorder,
-            padding: "64px 39px",
-          }}
-        >
-          <ProcessShuffleColumn
-            label="HOSPITALITY PARTNERS"
-            heading={"Upgrade your guest experience\nat zero cost"}
-            steps={hospitality}
-            btnLabel="For Restaurants"
-            btnStyle="outline"
-            arrowDark={ARROW_DARK}
-            arrowWhite={ARROW_WHITE}
-          />
-        </div>
-        <div style={{ padding: "64px 39px" }}>
-          <ProcessShuffleColumn
-            label="ADVERTISERS"
-            heading={"Put your brand directly into\ncustomer's hands"}
-            steps={advertisers}
-            btnLabel="Advertise With Pixtron"
-            btnStyle="primary"
-            arrowDark={ARROW_DARK}
-            arrowWhite={ARROW_WHITE}
-          />
-        </div>
-      </div>
-    </section>
+    <ProcessScrollSection
+      hospitality={hospitality}
+      advertisers={advertisers}
+      arrowDark={ARROW_DARK}
+      arrowWhite={ARROW_WHITE}
+    />
   );
 }
 

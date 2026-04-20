@@ -18,7 +18,59 @@ type ProcessShuffleColumnProps = {
   btnStyle: "outline" | "primary";
   arrowDark: string;
   arrowWhite: string;
+  progress?: number;
 };
+
+type CardLayout = {
+  y: number;
+  widthPx: number;
+  paddingY: number;
+  minHeight: number;
+  titleSize: number;
+  stepSize: number;
+  descOpacity: number;
+  cardBg: string;
+  shadowAlpha: number;
+  shadowSpreadAlpha: number;
+  zIndex: number;
+  titleColor: string;
+  stepColor: string;
+  descColor: string;
+};
+
+const TRANSITION_WEIGHTS = [5, 5, 4, 4];
+const TOTAL_WEIGHT = TRANSITION_WEIGHTS.reduce((sum, value) => sum + value, 0);
+const PREVIOUS_OFFSET = 50;
+const FUTURE_OFFSET = 46;
+const FUTURE_CARD_BG = [
+  "rgba(233,233,233,1)",
+  "rgba(240,240,240,1)",
+  "rgba(244,244,244,1)",
+  "rgba(248,248,248,1)",
+];
+
+function resolvePhase(progress: number, cardCount: number) {
+  const cuts = [
+    TRANSITION_WEIGHTS[0] / TOTAL_WEIGHT,
+    (TRANSITION_WEIGHTS[0] + TRANSITION_WEIGHTS[1]) / TOTAL_WEIGHT,
+    (TRANSITION_WEIGHTS[0] + TRANSITION_WEIGHTS[1] + TRANSITION_WEIGHTS[2]) / TOTAL_WEIGHT,
+  ];
+
+  if (progress < cuts[0]) {
+    return { from: 0, to: 1, t: ease(progress / cuts[0]) };
+  }
+
+  if (progress < cuts[1]) {
+    return { from: 1, to: 2, t: ease((progress - cuts[0]) / (cuts[1] - cuts[0])) };
+  }
+
+  if (progress < cuts[2]) {
+    return { from: 2, to: 3, t: ease((progress - cuts[1]) / (cuts[2] - cuts[1])) };
+  }
+
+  const lastIndex = Math.max(0, cardCount - 1);
+  return { from: lastIndex, to: lastIndex, t: 1 };
+}
 
 function ease(t: number) {
   return t * t * (3 - 2 * t);
@@ -72,101 +124,158 @@ export default function ProcessShuffleColumn({
   btnStyle,
   arrowDark,
   arrowWhite,
+  progress,
 }: ProcessShuffleColumnProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>(Array(steps.length).fill(null));
   const titleRefs = useRef<(HTMLParagraphElement | null)[]>(Array(steps.length).fill(null));
   const stepRefs = useRef<(HTMLSpanElement | null)[]>(Array(steps.length).fill(null));
   const descRefs = useRef<(HTMLParagraphElement | null)[]>(Array(steps.length).fill(null));
+  const maxCardWidth = steps[0]?.width ?? 526;
+
+  const buildLayout = (activeIndex: number): CardLayout[] => {
+    const groupOffset = activeIndex * PREVIOUS_OFFSET;
+    const futureWidths = steps.map((step) => step.width);
+    const pastWidths = [
+      steps[1]?.width ?? Math.round(maxCardWidth * 0.9),
+      steps[2]?.width ?? Math.round(maxCardWidth * 0.82),
+      steps[3]?.width ?? Math.round(maxCardWidth * 0.74),
+      steps[3]?.width ?? Math.round(maxCardWidth * 0.74),
+    ];
+
+    return steps.map((_, index) => {
+      if (index === activeIndex) {
+        return {
+          y: groupOffset,
+          widthPx: maxCardWidth,
+          paddingY: 32,
+          minHeight: 156,
+          titleSize: 24,
+          stepSize: 60,
+          descOpacity: 1,
+          cardBg: "rgba(233,233,233,1)",
+          shadowAlpha: 0.25,
+          shadowSpreadAlpha: 0.12,
+          titleColor: "rgba(0,0,0,1)",
+          stepColor: "rgba(15,157,88,1)",
+          descColor: "rgba(0,0,0,1)",
+          zIndex: 20,
+        };
+      }
+
+      if (index < activeIndex) {
+        const distance = activeIndex - index;
+        const clampIndex = Math.min(distance - 1, pastWidths.length - 1);
+        return {
+          y: groupOffset - distance * PREVIOUS_OFFSET,
+          widthPx: pastWidths[clampIndex],
+          paddingY: 18,
+          minHeight: 112,
+          titleSize: 20,
+          stepSize: 50,
+          descOpacity: 1,
+          cardBg: "rgba(233,233,233,1)",
+          shadowAlpha: 0.18,
+          shadowSpreadAlpha: 0.06,
+          titleColor: "rgba(0,0,0,0.6)",
+          stepColor: "rgba(0,0,0,0.14)",
+          descColor: "rgba(0,0,0,0.6)",
+          zIndex: 16 - distance,
+        };
+      }
+
+      const distance = index - activeIndex;
+      const clampIndex = Math.min(distance, FUTURE_CARD_BG.length - 1);
+      return {
+        y: groupOffset + distance * FUTURE_OFFSET,
+        widthPx: futureWidths[Math.min(index, futureWidths.length - 1)] ?? futureWidths[futureWidths.length - 1] ?? maxCardWidth,
+        paddingY: 18,
+        minHeight: 112,
+        titleSize: 20,
+        stepSize: 50,
+        descOpacity: 1,
+        cardBg: FUTURE_CARD_BG[clampIndex],
+        shadowAlpha: distance >= 3 ? 0 : 0.25,
+        shadowSpreadAlpha: distance >= 3 ? 0 : 0.05,
+        titleColor: "rgba(0,0,0,0.6)",
+        stepColor: "rgba(0,0,0,0.12)",
+        descColor: "rgba(0,0,0,0.6)",
+        zIndex: 12 - distance,
+      };
+    });
+  };
+
+  const applyLayouts = (from: CardLayout[], to: CardLayout[], t: number) => {
+    cardRefs.current.forEach((card, index) => {
+      if (!card) return;
+
+      const currentY = lerp(from[index].y, to[index].y, t);
+      const currentWidthPx = lerp(from[index].widthPx, to[index].widthPx, t);
+      const currentPaddingY = lerp(from[index].paddingY, to[index].paddingY, t);
+      const currentMinHeight = lerp(from[index].minHeight, to[index].minHeight, t);
+      const currentTitleSize = lerp(from[index].titleSize, to[index].titleSize, t);
+      const currentStepSize = lerp(from[index].stepSize, to[index].stepSize, t);
+      const currentDescOpacity = lerp(from[index].descOpacity, to[index].descOpacity, t);
+      const currentShadow = lerp(from[index].shadowAlpha, to[index].shadowAlpha, t);
+      const currentSpread = lerp(from[index].shadowSpreadAlpha, to[index].shadowSpreadAlpha, t);
+      const currentZ = Math.round(lerp(from[index].zIndex, to[index].zIndex, t));
+      const leftPx = Math.max(0, (maxCardWidth - currentWidthPx) / 2);
+
+      card.style.transform = `translateY(${currentY}px)`;
+      card.style.width = `${currentWidthPx}px`;
+      card.style.left = `${leftPx}px`;
+      card.style.padding = `${currentPaddingY}px 24px`;
+      card.style.minHeight = `${currentMinHeight}px`;
+      card.style.background = mixColor(from[index].cardBg, to[index].cardBg, t);
+      card.style.zIndex = String(currentZ);
+      card.style.boxShadow = `0px 10px 22px -14px rgba(0,0,0,${currentShadow.toFixed(3)}), 0px 0px 36px rgba(0,0,0,${currentSpread.toFixed(3)})`;
+
+      const titleRef = titleRefs.current[index];
+      if (titleRef) {
+        titleRef.style.color = mixColor(from[index].titleColor, to[index].titleColor, t);
+        titleRef.style.fontSize = `${currentTitleSize}px`;
+      }
+
+      const stepRef = stepRefs.current[index];
+      if (stepRef) {
+        stepRef.style.color = mixColor(from[index].stepColor, to[index].stepColor, t);
+        stepRef.style.fontSize = `${currentStepSize}px`;
+      }
+
+      const descRef = descRefs.current[index];
+      if (descRef) {
+        descRef.style.color = mixColor(from[index].descColor, to[index].descColor, t);
+        descRef.style.opacity = `${currentDescOpacity}`;
+      }
+    });
+  };
+
+  const applyProgress = (animatedProgress: number) => {
+    const phase = resolvePhase(animatedProgress, steps.length);
+    const fromLayout = buildLayout(phase.from);
+    const toLayout = buildLayout(phase.to);
+    applyLayouts(fromLayout, toLayout, phase.t);
+  };
 
   useEffect(() => {
+    if (typeof progress === "number") return;
+
     const root = rootRef.current;
     if (!root) return;
-
-    const previousOffset = 20;
-    const futureOffset = 18;
-
-    const buildLayout = (activeIndex: number) =>
-      steps.map((_, index) => {
-        if (index === activeIndex) {
-          return {
-            y: 0,
-            opacity: 1,
-            shadowAlpha: 0.22,
-            titleColor: "rgba(0,0,0,1)",
-            stepColor: "rgba(15,157,88,1)",
-            descColor: "rgba(0,0,0,1)",
-            zIndex: 20,
-          };
-        }
-
-        if (index < activeIndex) {
-          const distance = activeIndex - index;
-          return {
-            y: -distance * previousOffset,
-            opacity: Math.max(0.36, 0.6 - distance * 0.1),
-            shadowAlpha: 0.1,
-            titleColor: "rgba(0,0,0,0.28)",
-            stepColor: "rgba(0,0,0,0.1)",
-            descColor: "rgba(0,0,0,0.22)",
-            zIndex: 12 - distance,
-          };
-        }
-
-        const distance = index - activeIndex;
-        return {
-          y: distance * futureOffset,
-          opacity: Math.max(0.4, 0.72 - distance * 0.12),
-          shadowAlpha: 0.1,
-          titleColor: "rgba(0,0,0,0.38)",
-          stepColor: "rgba(0,0,0,0.12)",
-          descColor: "rgba(0,0,0,0.18)",
-          zIndex: 12 - distance,
-        };
-      });
-
-    const applyLayout = (fromIndex: number, toIndex: number, t: number) => {
-      const from = buildLayout(fromIndex);
-      const to = buildLayout(toIndex);
-
-      cardRefs.current.forEach((card, index) => {
-        if (!card) return;
-
-        const currentY = lerp(from[index].y, to[index].y, t);
-        const currentOpacity = lerp(from[index].opacity, to[index].opacity, t);
-        const currentShadow = lerp(from[index].shadowAlpha, to[index].shadowAlpha, t);
-        const currentZ = Math.round(lerp(from[index].zIndex, to[index].zIndex, t));
-
-        card.style.transform = `translateY(${currentY}px)`;
-        card.style.opacity = String(currentOpacity);
-        card.style.zIndex = String(currentZ);
-        card.style.boxShadow = `0px 24px 30px -20px rgba(0,0,0,${currentShadow.toFixed(3)})`;
-
-        const titleRef = titleRefs.current[index];
-        if (titleRef) titleRef.style.color = mixColor(from[index].titleColor, to[index].titleColor, t);
-
-        const stepRef = stepRefs.current[index];
-        if (stepRef) stepRef.style.color = mixColor(from[index].stepColor, to[index].stepColor, t);
-
-        const descRef = descRefs.current[index];
-        if (descRef) descRef.style.color = mixColor(from[index].descColor, to[index].descColor, t);
-      });
-    };
 
     const update = () => {
       const rect = root.getBoundingClientRect();
       const viewport = window.innerHeight;
-      const start = viewport * 0.15;
-      const end = Math.max(start + 1, root.offsetHeight - viewport * 0.35);
-      const raw = Math.max(0, Math.min(1, (-rect.top - start) / end));
-      const progress = Math.min(1, raw / 0.88);
-      const segment = 1 / steps.length;
-      const activeRaw = progress / segment;
-      const fromIndex = Math.min(steps.length - 1, Math.floor(activeRaw));
-      const toIndex = Math.min(steps.length - 1, fromIndex + 1);
-      const t = fromIndex === toIndex ? 1 : ease(Math.min(1, activeRaw - fromIndex));
-
-      applyLayout(fromIndex, toIndex, t);
+      const startY = viewport * 0.84;
+      const endY = -root.offsetHeight * 0.36;
+      const travel = Math.max(1, startY - endY);
+      const raw = Math.max(0, Math.min(1, (startY - rect.top) / travel));
+      const animationStart = 0.08;
+      const animationEnd = 0.96;
+      const shifted = Math.max(0, raw - animationStart);
+      const normalized = shifted / Math.max(0.0001, animationEnd - animationStart);
+      const animatedProgress = Math.max(0, Math.min(1, normalized));
+      applyProgress(animatedProgress);
     };
 
     window.addEventListener("scroll", update, { passive: true });
@@ -175,7 +284,12 @@ export default function ProcessShuffleColumn({
     return () => {
       window.removeEventListener("scroll", update);
     };
-  }, [steps]);
+  }, [progress, steps]);
+
+  useEffect(() => {
+    if (typeof progress !== "number") return;
+    applyProgress(Math.max(0, Math.min(1, progress)));
+  }, [progress, steps]);
 
   return (
     <div ref={rootRef} style={{ flex: 1 }}>
@@ -187,7 +301,7 @@ export default function ProcessShuffleColumn({
           letterSpacing: "0.05em",
           textTransform: "uppercase",
           textAlign: "center",
-          marginBottom: 16,
+          marginBottom: 10,
         }}
       >
         {label}
@@ -199,7 +313,7 @@ export default function ProcessShuffleColumn({
           color: "#000",
           textAlign: "center",
           lineHeight: 1.3,
-          marginBottom: 48,
+          marginBottom: 28,
         }}
       >
         {heading.split("\n").map((line, i) => (
@@ -210,7 +324,7 @@ export default function ProcessShuffleColumn({
         ))}
       </h3>
 
-      <div style={{ position: "relative", height: 300 }}>
+      <div style={{ position: "relative", width: maxCardWidth, maxWidth: "100%", height: 300, margin: "0 auto" }}>
         {steps.map((step, index) => (
           <div
             key={step.step}
@@ -222,19 +336,18 @@ export default function ProcessShuffleColumn({
               border: "1px solid #e0dfdf",
               borderRadius: 6,
               overflow: "hidden",
-              maxWidth: step.width,
-              width: "100%",
-              marginLeft: "auto",
-              marginRight: "auto",
+              width: `${step.width}px`,
+              maxWidth: "100%",
+              minHeight: index === 0 ? 156 : 112,
               padding: index === 0 ? "32px 24px" : "18px 24px",
               position: "absolute",
-              inset: "0 0 auto",
-              transform: `translateY(${index * 18}px)`,
-              willChange: "transform, opacity, box-shadow",
-              boxShadow: "0px 24px 30px -20px rgba(0,0,0,0.1)",
+              top: 0,
+              left: `${Math.max(0, (maxCardWidth - step.width) / 2)}px`,
+              transform: `translateY(${index * FUTURE_OFFSET}px)`,
+              willChange: "transform, background, box-shadow",
+              boxShadow: "0px 10px 22px -14px rgba(0,0,0,0.12), 0px 0px 36px rgba(0,0,0,0.03)",
             }}
           >
-            <div style={{ position: "absolute", inset: 0, background: "#e9e9e9" }} />
             <div
               style={{
                 position: "relative",
@@ -265,9 +378,10 @@ export default function ProcessShuffleColumn({
                     }}
                     style={{
                       fontSize: 16,
-                      color: index === 0 ? "#000" : "rgba(0,0,0,0.18)",
+                      color: index === 0 ? "#000" : "rgba(0,0,0,0.22)",
                       lineHeight: 1.4,
                       maxWidth: 476,
+                      whiteSpace: "pre-line",
                       opacity: index === 0 ? 1 : 0,
                       margin: 0,
                     }}
@@ -296,7 +410,7 @@ export default function ProcessShuffleColumn({
         ))}
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 40 }}>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 18 }}>
         {btnStyle === "primary" ? (
           <Link href="#" className="btn-primary">
             <span>{btnLabel}</span>

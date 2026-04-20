@@ -18,12 +18,15 @@ function ArrowIcon() {
   );
 }
 
-function BullseyeIcon({ color = "#0f9d58" }: { color?: string }) {
+function OpenInNewIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="12" r="9" stroke={color} strokeWidth="1.5" />
-      <circle cx="12" cy="12" r="5.5" stroke={color} strokeWidth="1.5" />
-      <circle cx="12" cy="12" r="2" fill={color} />
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden style={{ flexShrink: 0 }}>
+      <mask id="oim" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+        <rect width="24" height="24" fill="#D9D9D9" />
+      </mask>
+      <g mask="url(#oim)">
+        <path d="M5 21C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V5C3 4.45 3.19583 3.97917 3.5875 3.5875C3.97917 3.19583 4.45 3 5 3H12V5H5V19H19V12H21V19C21 19.55 20.8042 20.0208 20.4125 20.4125C20.0208 20.8042 19.55 21 19 21H5ZM9.7 15.7L8.3 14.3L17.6 5H14V3H21V10H19V6.4L9.7 15.7Z" fill="#0F9D58" />
+      </g>
     </svg>
   );
 }
@@ -31,99 +34,99 @@ function BullseyeIcon({ color = "#0f9d58" }: { color?: string }) {
 const INDUSTRIES = [
   {
     title: "Healthcare & Medical Services",
+    icon: "/icons/industry-healthcare.svg",
     bullets: [
-      "Cosmetic Dentistry Services",
-      "Medusa & Aesthetic Services",
-      "Dermatology Services",
-      "Chiropractic Services",
-      "Plastic Surgery Services",
-      "Veterinary Services",
+      "Cosmetic Dentistry",
+      "Med Spa & Aesthetics",
+      "Dermatology",
+      "Chiropractic",
+      "Plastic Surgery",
+      "Veterinary",
     ],
-    image: "/healthcare_medical.png",
   },
   {
     title: "Legal & Financial Services",
+    icon: "/icons/industry-legal.svg",
     bullets: [
-      "Law Firms & Attorneys",
-      "Accounting & Tax Services",
-      "Insurance Agencies",
+      "Personal Injury Legal",
       "Financial Advisory",
-      "Mortgage & Banking",
-      "Notary & Title Services",
+      "Mortgage Brokerage",
+      "Tax & Accounting",
+      "Insurance Agencies",
+      "Notary & Title",
     ],
-    image: "/healthcare_medical.png",
   },
   {
     title: "Real Estate & Home Services",
+    icon: "/icons/industry-realestate.svg",
     bullets: [
-      "Real Estate Brokerages",
-      "Interior Design Studios",
-      "Home Renovation Services",
+      "Real Estate Services",
+      "Home Remodelling",
+      "General Contractor",
+      "House Cleaning",
       "Property Management",
-      "Staging & Photography",
       "Moving & Storage",
     ],
-    image: "/healthcare_medical.png",
   },
   {
     title: "Outdoor & Landscaping Services",
+    icon: "/icons/industry-outdoor.svg",
     bullets: [
+      "Landscaping Services",
       "Lawn Care Services",
-      "Tree & Shrub Services",
-      "Irrigation Systems",
-      "Landscape Design",
-      "Pool & Spa Services",
+      "Hardscaping Services",
+      "Irrigation System Services",
+      "Pool Installation & Maintenance",
       "Pest Control",
     ],
-    image: "/healthcare_medical.png",
   },
   {
     title: "Beauty & Personal Care",
+    icon: "/icons/industry-beauty.svg",
     bullets: [
-      "Hair Salons & Barbershops",
-      "Nail & Spa Studios",
+      "Nail Salon Services",
+      "Hair & Barbershop",
       "Skincare & Facials",
-      "Makeup & Lash Studios",
+      "Makeup & Lash",
       "Tanning & Body Art",
       "Massage Therapy",
     ],
-    image: "/healthcare_medical.png",
   },
   {
     title: "Fitness & Wellness",
+    icon: "/icons/industry-fitness.svg",
     bullets: [
-      "Gyms & Fitness Centers",
-      "Yoga & Pilates Studios",
+      "Fitness Studio Services",
+      "Yoga & Wellness Services",
       "Personal Training",
       "Nutrition & Wellness",
       "CrossFit & Bootcamps",
       "Sports & Recreation",
     ],
-    image: "/healthcare_medical.png",
   },
   {
     title: "Automotive Services",
+    icon: "/icons/industry-automotive.svg",
     bullets: [
-      "Auto Dealerships",
+      "Auto Repair Services",
+      "Luxury Car Dealership",
       "Car Wash & Detailing",
-      "Auto Repair & Service",
       "Tire & Alignment",
       "Towing & Roadside",
       "RV & Powersports",
     ],
-    image: "/healthcare_medical.png",
   },
   {
     title: "Events & Creative Services",
+    icon: "/icons/industry-events.svg",
     bullets: [
+      "Wedding Photography Services",
       "Event Planning & Venues",
-      "Photography & Videography",
-      "Graphic Design Studios",
+      "Graphic Design",
       "Marketing Agencies",
       "Entertainment & DJ",
       "Floral & Décor",
     ],
-    image: "/healthcare_medical.png",
   },
 ];
 
@@ -269,10 +272,30 @@ export default function IndustriesScroll() {
         </div>
 
         {/* CTA */}
-        <div ref={ctaRef} style={{ display: "flex", justifyContent: "center", marginBottom: 40 }}>
+        <div ref={ctaRef} style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16, marginBottom: 40 }}>
           <Link href="#" className="btn-primary">
             <span>Advertise With Pixtron</span>
             <ArrowIcon />
+          </Link>
+          <Link
+            href="#"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "12px 24px",
+              borderRadius: 9999,
+              border: "1.5px solid #d1d5db",
+              background: "#fff",
+              color: "#111",
+              fontSize: 15,
+              fontWeight: 600,
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+              transition: "border-color 0.2s",
+            }}
+          >
+            See All Industries
           </Link>
         </div>
 
@@ -301,29 +324,16 @@ export default function IndustriesScroll() {
                 background: "#e7e7e7",
               }}
             >
-              {/* Image layer — visible when active */}
+              {/* Green background layer — visible when active */}
               <div
                 ref={(el) => { imgLayerRefs.current[i] = el; }}
                 style={{
                   position: "absolute",
                   inset: 0,
                   opacity: i === 0 ? 1 : 0,
+                  background: "linear-gradient(180deg, #0B8148 0%, #0F9D58 100%)",
                 }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={industry.image}
-                  alt=""
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    objectPosition: "center",
-                  }}
-                />
-              </div>
+              />
 
               {/* Content layer — title + bullets, visible when active */}
               <div
@@ -336,22 +346,19 @@ export default function IndustriesScroll() {
                 }}
               >
                 {/* Icon */}
-                <div
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={industry.icon}
+                  alt=""
+                  width={56}
+                  height={56}
                   style={{
                     position: "absolute",
-                    top: 36,
-                    left: 36,
-                    width: 48,
-                    height: 48,
-                    borderRadius: "50%",
-                    background: "#fff",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    top: 28,
+                    left: 28,
+                    filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.25))",
                   }}
-                >
-                  <BullseyeIcon />
-                </div>
+                />
                 {/* Title */}
                 <h3
                   style={{
@@ -368,35 +375,53 @@ export default function IndustriesScroll() {
                 >
                   {industry.title}
                 </h3>
-                {/* Bullets */}
-                <ul
+                {/* Pill tags */}
+                <div
                   style={{
                     position: "absolute",
-                    top: 206,
+                    top: 200,
                     left: 36,
-                    listStyle: "none",
-                    padding: 0,
-                    margin: 0,
+                    right: 36,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 12,
                   }}
                 >
                   {industry.bullets.map((item) => (
-                    <li
+                    <span
                       key={item}
                       style={{
-                        fontSize: 16,
-                        fontWeight: 500,
-                        color: "#fff",
-                        lineHeight: 1.7,
-                        display: "flex",
+                        display: "inline-flex",
                         alignItems: "center",
-                        gap: 8,
+                        alignSelf: "flex-start",
+                        paddingLeft: 16,
+                        paddingRight: 14,
+                        paddingTop: 8,
+                        paddingBottom: 8,
+                        borderRadius: 9999,
+                        background: "#fff",
+                        boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.25)",
+                        outline: "1px solid #e5e7eb",
+                        outlineOffset: -1,
+                        gap: 0,
+                        whiteSpace: "nowrap",
                       }}
                     >
-                      <span style={{ fontWeight: 900, fontSize: 18 }}>·</span>
-                      {item}
-                    </li>
+                      <span
+                        style={{
+                          color: "#000",
+                          fontSize: 15,
+                          fontWeight: 500,
+                          lineHeight: "32px",
+                          marginRight: 16,
+                        }}
+                      >
+                        {item}
+                      </span>
+                      <OpenInNewIcon />
+                    </span>
                   ))}
-                </ul>
+                </div>
               </div>
 
               {/* Inactive layer — vertical text, visible when narrow */}
