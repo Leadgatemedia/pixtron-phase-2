@@ -206,6 +206,32 @@ body {
     box-shadow 0.08s ease;
 }
 
+.nav-link {
+  color: #000 !important;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 32px;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #0f9d58 !important;
+}
+
+.nav-chevron {
+  transition: stroke 0.2s ease;
+}
+
+.nav-product:hover .nav-link {
+  color: #0f9d58 !important;
+}
+
+.nav-product:hover .nav-chevron {
+  stroke: #0f9d58 !important;
+}
+
 .arrow-icon {
   display: flex;
   align-items: center;
