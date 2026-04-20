@@ -7,9 +7,9 @@ import RealImpactScroll from "./components/RealImpactScroll";
 import WherePixtronWorksScroll from "./components/WherePixtronWorksScroll";
 import IndustriesScroll from "./components/IndustriesScroll";
 import FooterSection from "./components/FooterSection";
-// --- Arrow color tokens -------------------------------------------------------
+// ─── Arrow color tokens ───────────────────────────────────────────────────────
 
-// --- Sub-components -----------------------------------------------------------
+// ─── Sub-components ───────────────────────────────────────────────────────────
 
 const ARROW_WHITE   = "white";
 const ARROW_DARK    = "dark";
@@ -42,7 +42,7 @@ function SectionSubtitle({ children }: { children: React.ReactNode }) {
   );
 }
 
-// --- NAVBAR ------------------------------------------------------------------
+// ─── NAVBAR ──────────────────────────────────────────────────────────────────
 function Navbar() {
   return (
     <nav
@@ -69,35 +69,20 @@ function Navbar() {
       </Link>
 
       {/* Nav links */}
-      <div
-        style={{
-          display: "flex",
-          gap: 24,
-          alignItems: "center",
-          fontSize: 18,
-          fontWeight: 400,
-          color: "#000",
-        }}
-      >
-        {["About", "Product", "Industries", "Sensory Advertising", "Advertisers", "Restaurants"].map(
-          (item) => (
-            <Link
-              key={item}
-              href="#"
-              style={{
-                color: "#000",
-                textDecoration: "none",
-                fontSize: 18,
-                fontWeight: 400,
-                lineHeight: "32px",
-                whiteSpace: "nowrap",
-                transition: "opacity 0.15s",
-              }}
-            >
-              {item}
-            </Link>
-          )
-        )}
+      <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+        <Link href="#" className="nav-link">About</Link>
+
+        {/* Product — with dropdown chevron */}
+        <div className="nav-product" style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}>
+          <Link href="#" className="nav-link">Product</Link>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+            <path className="nav-chevron" d="M4 6l4 4 4-4" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+
+        <Link href="#" className="nav-link">Advertisers</Link>
+        <Link href="#" className="nav-link">Industries</Link>
+        <Link href="#" className="nav-link">Restaurants</Link>
       </div>
 
       {/* CTA */}
@@ -109,7 +94,7 @@ function Navbar() {
   );
 }
 
-// --- HERO (Frame 1) -----------------------------------------------------------
+// ─── HERO (Frame 1) ───────────────────────────────────────────────────────────
 function Hero() {
   return (
     <section
@@ -121,7 +106,7 @@ function Hero() {
         width: "100%",
       }}
     >
-      {/* -- Centered content -- */}
+      {/* ── Centered content ── */}
       <div
         style={{
           display: "flex",
@@ -154,13 +139,13 @@ function Hero() {
           className="intro-reveal-up"
           style={{ display: "inline-flex", gap: 24, alignItems: "center", marginBottom: 48 }}
         >
-          {/* Advertise With Pixtron � filled black */}
+          {/* Advertise With Pixtron — filled black */}
           <Link href="#" className="btn-primary" style={{ flexShrink: 0 }}>
             <span>Advertise With Pixtron</span>
             <ArrowIcon src={ARROW_WHITE} />
           </Link>
 
-          {/* For Restaurants � outlined */}
+          {/* For Restaurants — outlined */}
           <Link href="#" className="btn-outline" style={{ flexShrink: 0, justifyContent: "center", width: 256 }}>
             <span>For Restaurants</span>
             <ArrowIcon src={ARROW_DARK} />
@@ -184,7 +169,7 @@ function Hero() {
         </p>
       </div>
 
-      {/* -- SEEN / TOUCHED / REMEMBERED watermark -- */}
+      {/* ── SEEN / TOUCHED / REMEMBERED watermark ── */}
       {/* All vertical values use vh to match the Figma 900px frame proportionally */}
       <div
         aria-hidden
@@ -222,7 +207,7 @@ function Hero() {
 }
 
 
-// --- WHY PIXTRON IS DIFFERENT -------------------------------------------------
+// ─── WHY PIXTRON IS DIFFERENT ─────────────────────────────────────────────────
 function CheckIcon() {
   return (
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="Yes">
@@ -289,13 +274,13 @@ function WhyDifferent() {
 
       </div>
 
-      {/* Dashed separator � full viewport width */}
+      {/* Dashed separator — full viewport width */}
       <div style={{ borderTop: "1px dashed rgba(0,0,0,0.2)", margin: "0 -39px" }} />
 
       <div style={{ maxWidth: 1362, margin: "0 auto" }}>
         {/* Table */}
           <div style={{ maxWidth: 1130, margin: "0 auto", position: "relative" }}>
-            {/* Vertical border lines � absolutely positioned so they span full table height */}
+            {/* Vertical border lines — absolutely positioned so they span full table height */}
             <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: 1, background: "rgba(0,0,0,0.18)", pointerEvents: "none", zIndex: 1 }} />
             <div style={{ position: "absolute", top: 0, bottom: 0, right: 0, width: 1, background: "rgba(0,0,0,0.18)", pointerEvents: "none", zIndex: 1 }} />
 
@@ -344,7 +329,7 @@ function WhyDifferent() {
   );
 }
 
-// --- THE PROCESS -------------------------------------------------------------
+// ─── THE PROCESS ─────────────────────────────────────────────────────────────
 type ProcessStep = { step: string; title: string; description: string; width: number };
 
 function ProcessColumn({
@@ -581,19 +566,19 @@ function TheProcess() {
   );
 }
 
-// --- FOOTER ------------------------------------------------------------------
+// ─── FOOTER ──────────────────────────────────────────────────────────────────
 function Footer() {
   const socialPlatforms = [
-    { label: "YouTube", icon: "?" },
-    { label: "YouTube", icon: "?" },
-    { label: "YouTube", icon: "?" },
-    { label: "Instagram", icon: "??" },
+    { label: "YouTube", icon: "▶" },
+    { label: "YouTube", icon: "▶" },
+    { label: "YouTube", icon: "▶" },
+    { label: "Instagram", icon: "📷" },
     { label: "Facebook", icon: "f" },
-    { label: "TikTok", icon: "?" },
-    { label: "YouTube", icon: "?" },
-    { label: "YouTube", icon: "?" },
-    { label: "YouTube", icon: "?" },
-    { label: "YouTube", icon: "?" },
+    { label: "TikTok", icon: "♪" },
+    { label: "YouTube", icon: "▶" },
+    { label: "YouTube", icon: "▶" },
+    { label: "YouTube", icon: "▶" },
+    { label: "YouTube", icon: "▶" },
   ];
 
   const footerCols = [
@@ -708,13 +693,13 @@ function Footer() {
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-              <span style={{ fontSize: 18, flexShrink: 0 }}>??</span>
+              <span style={{ fontSize: 18, flexShrink: 0 }}>📍</span>
               <span style={{ fontSize: 14, color: "rgba(0,0,0,0.7)" }}>
                 1810 E. Sahara Ave Ste 930 Las Vegas, NV 89104, USA
               </span>
             </div>
             <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-              <span style={{ fontSize: 18, flexShrink: 0 }}>??</span>
+              <span style={{ fontSize: 18, flexShrink: 0 }}>✉️</span>
               <a
                 href="mailto:info@pixtron.net"
                 style={{ fontSize: 14, color: "#000", textDecoration: "none" }}
@@ -723,7 +708,7 @@ function Footer() {
               </a>
             </div>
             <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-              <span style={{ fontSize: 18, flexShrink: 0 }}>??</span>
+              <span style={{ fontSize: 18, flexShrink: 0 }}>📞</span>
               <a
                 href="tel:7025822228"
                 style={{ fontSize: 14, color: "#000", textDecoration: "none" }}
@@ -790,14 +775,14 @@ function Footer() {
         }}
       >
         <p style={{ fontSize: 14, color: "rgba(0,0,0,0.6)" }}>
-          � {new Date().getFullYear()} Pixtron. All rights reserved.
+          © {new Date().getFullYear()} Pixtron. All rights reserved.
         </p>
       </div>
     </footer>
   );
 }
 
-// --- PAGE ---------------------------------------------------------------------
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
 export default function HomePage() {
   return (
     <>
@@ -818,4 +803,3 @@ export default function HomePage() {
     </>
   );
 }
-
