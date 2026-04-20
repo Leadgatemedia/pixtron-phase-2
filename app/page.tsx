@@ -7,6 +7,7 @@ import RealImpactScroll from "./components/RealImpactScroll";
 import WherePixtronWorksScroll from "./components/WherePixtronWorksScroll";
 import IndustriesScroll from "./components/IndustriesScroll";
 import FooterSection from "./components/FooterSection";
+import ProcessShuffleColumn from "./components/ProcessShuffleColumn";
 // ─── Arrow color tokens ───────────────────────────────────────────────────────
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -330,150 +331,6 @@ function WhyDifferent() {
 }
 
 // ─── THE PROCESS ─────────────────────────────────────────────────────────────
-type ProcessStep = { step: string; title: string; description: string; width: number };
-
-function ProcessColumn({
-  label,
-  heading,
-  steps,
-  btnLabel,
-  btnStyle,
-}: {
-  label: string;
-  heading: string;
-  steps: ProcessStep[];
-  btnLabel: string;
-  btnStyle: "outline" | "primary";
-}) {
-  return (
-    <div style={{ flex: 1 }}>
-      <p
-        style={{
-          fontSize: 16,
-          fontWeight: 600,
-          color: "#0f9d58",
-          letterSpacing: "0.05em",
-          textTransform: "uppercase",
-          textAlign: "center",
-          marginBottom: 16,
-        }}
-      >
-        {label}
-      </p>
-      <h3
-        style={{
-          fontSize: 30,
-          fontWeight: 400,
-          color: "#000",
-          textAlign: "center",
-          lineHeight: 1.3,
-          marginBottom: 48,
-        }}
-      >
-        {heading.split("\n").map((line, i) => (
-          <span key={i}>
-            {i > 0 && <br />}
-            {i === 1 ? <strong>{line}</strong> : line}
-          </span>
-        ))}
-      </h3>
-
-      {/* Accordion-style steps */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        {steps.map((step, i) => {
-          const isFirst = i === 0;
-          return (
-            <div
-              key={i}
-              style={{
-                background: "#e9e9e9",
-                border: "1px solid #e0dfdf",
-                borderRadius: 6,
-                overflow: "hidden",
-                boxShadow: isFirst ? "0 24px 30px -20px rgba(0,0,0,0.25)" : undefined,
-                maxWidth: step.width,
-                width: "100%",
-                marginLeft: "auto",
-                marginRight: "auto",
-                padding: isFirst ? "32px 24px" : "18px 24px",
-                position: "relative",
-              }}
-            >
-              {isFirst && (
-                <div style={{ position: "absolute", inset: 0, background: "#e9e9e9" }} />
-              )}
-              <div
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <div>
-                  <p
-                    style={{
-                      fontSize: isFirst ? 24 : 20,
-                      fontWeight: 500,
-                      color: isFirst ? "#000" : "rgba(0,0,0,0.6)",
-                      lineHeight: 1.4,
-                      marginBottom: isFirst && step.description ? 12 : 0,
-                    }}
-                  >
-                    {step.title}
-                  </p>
-                  {isFirst && step.description && (
-                    <p style={{ fontSize: 16, color: "#000", lineHeight: 1.4, maxWidth: 476 }}>
-                      {step.description}
-                    </p>
-                  )}
-                </div>
-                <span
-                  style={{
-                    fontSize: isFirst ? 60 : 50,
-                    fontWeight: 700,
-                    color: isFirst ? "#0f9d58" : "rgba(0,0,0,0.15)",
-                    lineHeight: 1,
-                    flexShrink: 0,
-                    marginLeft: 16,
-                  }}
-                >
-                  {step.step}
-                </span>
-              </div>
-              {!isFirst && (
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: `rgba(255,255,255,${0.9 - i * 0.2})`,
-                    borderRadius: 6,
-                  }}
-                />
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* CTA */}
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 40 }}>
-        {btnStyle === "primary" ? (
-          <Link href="#" className="btn-primary">
-            <span>{btnLabel}</span>
-            <ArrowIcon src={ARROW_WHITE} />
-          </Link>
-        ) : (
-          <Link href="#" className="btn-outline">
-            <span>{btnLabel}</span>
-            <ArrowIcon src={ARROW_DARK} />
-          </Link>
-        )}
-      </div>
-    </div>
-  );
-}
-
 function TheProcess() {
   const processBorder = "1px dashed rgba(0,0,0,0.2)";
 
@@ -544,21 +401,25 @@ function TheProcess() {
             padding: "64px 39px",
           }}
         >
-          <ProcessColumn
+          <ProcessShuffleColumn
             label="HOSPITALITY PARTNERS"
             heading={"Upgrade your guest experience\nat zero cost"}
             steps={hospitality}
             btnLabel="For Restaurants"
             btnStyle="outline"
+            arrowDark={ARROW_DARK}
+            arrowWhite={ARROW_WHITE}
           />
         </div>
         <div style={{ padding: "64px 39px" }}>
-          <ProcessColumn
+          <ProcessShuffleColumn
             label="ADVERTISERS"
             heading={"Put your brand directly into\ncustomer's hands"}
             steps={advertisers}
             btnLabel="Advertise With Pixtron"
             btnStyle="primary"
+            arrowDark={ARROW_DARK}
+            arrowWhite={ARROW_WHITE}
           />
         </div>
       </div>
