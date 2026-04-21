@@ -384,7 +384,7 @@ export default function ProcessShuffleColumn({
         ))}
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 72 }}>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 28 }}>
         {btnStyle === "primary" ? (
           <Link href="#" className="btn-primary">
             <span>{btnLabel}</span>
