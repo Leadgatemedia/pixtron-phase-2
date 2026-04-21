@@ -91,29 +91,9 @@ function mixColor(from: string, to: string, t: number) {
 }
 
 function ArrowIcon({ src }: { src: string }) {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <circle cx="4" cy="12" r="1.5" fill={src.includes("white") ? "#fff" : "#000"} />
-      <circle cx="8.5" cy="12" r="1.5" fill={src.includes("white") ? "#fff" : "#000"} />
-      <line
-        x1="11"
-        y1="12"
-        x2="18"
-        y2="12"
-        stroke={src.includes("white") ? "#fff" : "#000"}
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <polyline
-        points="15,8.5 19.5,12 15,15.5"
-        stroke={src.includes("white") ? "#fff" : "#000"}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-    </svg>
-  );
+  const file = src.includes("white") ? "/arrow-white.png" : "/arrow-black.png";
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={file} width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block", transition: "filter 0.35s ease" }} />;
 }
 
 export default function ProcessShuffleColumn({
@@ -410,7 +390,7 @@ export default function ProcessShuffleColumn({
         ))}
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 18 }}>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 72 }}>
         {btnStyle === "primary" ? (
           <Link href="#" className="btn-primary">
             <span>{btnLabel}</span>

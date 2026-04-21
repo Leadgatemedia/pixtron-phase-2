@@ -17,18 +17,9 @@ const ARROW_DARK    = "dark";
 const ARROW_CONTACT = "dark";
 
 function ArrowIcon({ src }: { src: string }) {
-  const color = src === "white" ? "#fff" : "#000";
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-      {/* Two dots */}
-      <circle cx="4" cy="12" r="1.5" fill={color} />
-      <circle cx="8.5" cy="12" r="1.5" fill={color} />
-      {/* Arrow shaft */}
-      <line x1="11" y1="12" x2="18" y2="12" stroke={color} strokeWidth="2" strokeLinecap="round" />
-      {/* Arrowhead */}
-      <polyline points="15,8.5 19.5,12 15,15.5" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-    </svg>
-  );
+  const file = src === "white" ? "/arrow-white.png" : "/arrow-black.png";
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={file} width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block", transition: "filter 0.35s ease" }} />;
 }
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
@@ -64,12 +55,14 @@ function Navbar() {
         justifyContent: "space-between",
       }}
     >
-      {/* Logo */}
-      <Link href="/" style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
-        <Image src="/logo.png" alt="Pixtron" width={82} height={82} priority />
-      </Link>
+      {/* Logo — flex:1 so it takes equal space as CTA side */}
+      <div style={{ flex: 1, display: "flex", alignItems: "center" }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center" }}>
+          <Image src="/logo.png" alt="Pixtron" width={82} height={82} priority />
+        </Link>
+      </div>
 
-      {/* Nav links */}
+      {/* Nav links — true center */}
       <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
         <Link href="#" className="nav-link">About</Link>
 
@@ -86,11 +79,13 @@ function Navbar() {
         <Link href="#" className="nav-link">Restaurants</Link>
       </div>
 
-      {/* CTA */}
-      <Link href="#" className="btn-outline">
-        <span>Contact Us</span>
-        <ArrowIcon src={ARROW_CONTACT} />
-      </Link>
+      {/* CTA — flex:1 so it takes equal space as logo side */}
+      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+        <Link href="#" className="btn-outline">
+          <span>Contact Us</span>
+          <ArrowIcon src={ARROW_CONTACT} />
+        </Link>
+      </div>
     </nav>
   );
 }

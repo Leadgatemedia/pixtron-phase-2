@@ -379,12 +379,8 @@ export default function RealImpactScroll() {
         <div style={{ marginTop: 4, position: "relative", zIndex: 10, background: "#fff", paddingTop: 0 }}>
           <Link href="#" className="btn-primary">
             <span>Advertise With Pixtron</span>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <circle cx="4" cy="12" r="1.5" fill="#fff" />
-              <circle cx="8.5" cy="12" r="1.5" fill="#fff" />
-              <line x1="11" y1="12" x2="18" y2="12" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
-              <polyline points="15,8.5 19.5,12 15,15.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-            </svg>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/arrow-white.png" width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block" }} />
           </Link>
         </div>
       </div>
