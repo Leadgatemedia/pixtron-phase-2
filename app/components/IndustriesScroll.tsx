@@ -7,15 +7,9 @@ function easeInOut(t: number) {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 }
 
-function ArrowIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <circle cx="4" cy="12" r="1.5" fill="#fff" />
-      <circle cx="8.5" cy="12" r="1.5" fill="#fff" />
-      <line x1="11" y1="12" x2="18" y2="12" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
-      <polyline points="15,8.5 19.5,12 15,15.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-    </svg>
-  );
+function ArrowIcon({ variant = "white" }: { variant?: "white" | "black" }) {
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={variant === "white" ? "/arrow-white.png" : "/arrow-black.png"} width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block", transition: "filter 0.35s ease" }} />;
 }
 
 function OpenInNewIcon() {
@@ -213,16 +207,18 @@ export default function IndustriesScroll() {
           inactiveOpacity = 1;
         } else if (i === segment) {
           // outgoing active → shrinking
+          // content exits in first half, inactive text enters in second half — no overlap
           width = ACTIVE_W - (ACTIVE_W - NARROW_W) * t;
-          imgOpacity = 1 - t;
-          contentOpacity = 1 - t;
-          inactiveOpacity = t;
+          imgOpacity = Math.max(0, 1 - t * 2);
+          contentOpacity = Math.max(0, 1 - t * 2);
+          inactiveOpacity = Math.max(0, (t - 0.5) * 2);
         } else if (i === segment + 1) {
           // incoming → expanding
+          // inactive text exits in first half, content enters in second half — no overlap
           width = NARROW_W + (ACTIVE_W - NARROW_W) * t;
-          imgOpacity = t;
-          contentOpacity = t;
-          inactiveOpacity = 1 - t;
+          imgOpacity = Math.max(0, (t - 0.5) * 2);
+          contentOpacity = Math.max(0, (t - 0.5) * 2);
+          inactiveOpacity = Math.max(0, 1 - t * 2);
         } else {
           // not yet reached — narrow, inactive
           width = NARROW_W;
@@ -269,34 +265,6 @@ export default function IndustriesScroll() {
           <p className="section-subtitle" style={{ marginTop: 16 }}>
             Pixtron adapts to any dining environment where memorable brand experiences matter
           </p>
-        </div>
-
-        {/* CTA */}
-        <div ref={ctaRef} style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16, marginBottom: 40 }}>
-          <Link href="#" className="btn-primary">
-            <span>Advertise With Pixtron</span>
-            <ArrowIcon />
-          </Link>
-          <Link
-            href="#"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "12px 24px",
-              borderRadius: 9999,
-              border: "1.5px solid #d1d5db",
-              background: "#fff",
-              color: "#111",
-              fontSize: 15,
-              fontWeight: 600,
-              textDecoration: "none",
-              whiteSpace: "nowrap",
-              transition: "border-color 0.2s",
-            }}
-          >
-            See All Industries
-          </Link>
         </div>
 
         {/* Columns grid */}
@@ -459,6 +427,21 @@ export default function IndustriesScroll() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* CTA — below the grid, matching Figma */}
+        <div ref={ctaRef} style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16, marginTop: 32 }}>
+          <Link href="#" className="btn-primary">
+            <span>Advertise With Pixtron</span>
+            <ArrowIcon />
+          </Link>
+          <Link
+            href="#"
+            className="btn-outline"
+          >
+            <span>See All Industries</span>
+            <ArrowIcon variant="black" />
+          </Link>
         </div>
       </div>
     </div>

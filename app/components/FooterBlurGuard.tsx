@@ -13,8 +13,10 @@ export default function FooterBlurGuard({
     const root = rootRef.current;
     const blurEl = document.getElementById("bottom-blur-el") as HTMLElement | null;
     if (!root || !blurEl) return;
+    const body = document.body;
 
     const setOverlayState = (hidden: boolean) => {
+      body.dataset.footerBlurDisabled = hidden ? "true" : "false";
       blurEl.style.opacity = hidden ? "0" : "1";
       blurEl.style.visibility = hidden ? "hidden" : "visible";
       const blurValue = hidden ? "blur(0px)" : "blur(12px)";
@@ -24,7 +26,14 @@ export default function FooterBlurGuard({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setOverlayState(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setOverlayState(true);
+        } else {
+          blurEl.style.opacity = "";
+          blurEl.style.visibility = "";
+          blurEl.style.backdropFilter = "";
+          blurEl.style.removeProperty("-webkit-backdrop-filter");
+        }
       },
       {
         threshold: 0.01,
@@ -35,6 +44,7 @@ export default function FooterBlurGuard({
 
     return () => {
       observer.disconnect();
+      delete body.dataset.footerBlurDisabled;
       setOverlayState(false);
     };
   }, []);

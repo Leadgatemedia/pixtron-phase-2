@@ -1,18 +1,21 @@
 .footerLowerShell {
   width: 100%;
   box-sizing: border-box;
-  padding: 40px 39px;
-  display: flex;
-  align-items: stretch;
-  gap: 30px;
+  padding: 28px 39px 44px;
   background: #ffffff;
 }
 
+.footerGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 440px minmax(0, 1fr);
+  gap: 30px;
+  align-items: stretch;
+}
+
 .footerBrandCard {
-  width: 318px;
-  min-width: 318px;
-  min-height: 344px;
-  flex-shrink: 0;
+  grid-column: auto;
+  min-height: 392px;
   border-radius: 12px;
   padding: 24px 24px 32px;
   box-sizing: border-box;
@@ -23,37 +26,63 @@
 }
 
 .footerInfoPanel {
-  flex: 1 1 auto;
+  grid-column: auto;
   min-width: 0;
-  min-height: 344px;
+  min-height: 392px;
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.06);
   background: #f0f0f0;
-  padding: 32px;
+  padding: 24px 20px 18px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 64px;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  column-gap: 24px;
+  row-gap: 36px;
+  align-content: start;
+}
+
+.footerColumn {
+  min-width: 0;
+}
+
+.footerNavColumn {
+  grid-column: span 2;
+}
+
+.footerCompanyColumn {
+  grid-column: span 2;
+}
+
+.footerContactColumn {
+  grid-column: span 5;
 }
 
 .footerInfoTop {
+  grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 200px 170px minmax(475px, 1fr);
-  column-gap: 24px;
+  grid-template-columns: subgrid;
   row-gap: 32px;
   align-items: start;
 }
 
 .footerInfoBottom {
-  display: flex;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 16px 24px;
   width: 100%;
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+.footerCopyright {
+  grid-column: span 5;
+  min-width: 0;
 }
 
 .footerPolicyLinks {
+  grid-column: 7 / -1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -63,46 +92,85 @@
 
 @media (max-width: 1180px) {
   .footerLowerShell {
-    padding: 40px 39px;
+    padding: 28px 39px 40px;
   }
 
-  .footerInfoTop {
-    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  .footerGrid {
+    grid-template-columns: 340px minmax(0, 1fr);
+  }
+
+  .footerInfoPanel {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .footerNavColumn,
+  .footerCompanyColumn {
+    grid-column: span 2;
+  }
+
+  .footerContactColumn {
+    grid-column: 1 / -1;
+  }
+
+  .footerCopyright {
+    grid-column: span 2;
+  }
+
+  .footerPolicyLinks {
+    grid-column: 3 / -1;
   }
 }
 
 @media (max-width: 960px) {
   .footerLowerShell {
-    flex-direction: column;
-    padding: 32px 39px 40px;
+    padding: 24px 39px 36px;
+  }
+
+  .footerGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .footerBrandCard,
+  .footerInfoPanel {
+    grid-column: 1;
   }
 
   .footerBrandCard {
-    width: 100%;
-    min-width: 0;
+    min-height: 300px;
   }
 
   .footerInfoPanel {
     min-height: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 24px;
+  }
+
+  .footerNavColumn,
+  .footerCompanyColumn,
+  .footerContactColumn,
+  .footerCopyright,
+  .footerPolicyLinks {
+    grid-column: 1 / -1;
+  }
+
+  .footerPolicyLinks {
+    justify-content: flex-start;
   }
 }
 
 @media (max-width: 720px) {
   .footerInfoPanel {
-    padding: 24px;
-  }
-
-  .footerInfoTop {
     grid-template-columns: minmax(0, 1fr);
     row-gap: 28px;
   }
 
+  .footerInfoTop,
   .footerInfoBottom {
-    flex-direction: column;
-    align-items: flex-start;
+    grid-template-columns: subgrid;
   }
 
   .footerPolicyLinks {
-    justify-content: flex-start;
+    gap: 12px;
   }
 }

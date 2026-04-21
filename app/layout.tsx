@@ -38,13 +38,15 @@ export default function RootLayout({
             left: 0,
             right: 0,
             height: 140,
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
+            backdropFilter: "blur(0px)",
+            WebkitBackdropFilter: "blur(0px)",
+            opacity: 0,
+            visibility: "hidden" as const,
             maskImage: "linear-gradient(to bottom, transparent 0%, black 100%)",
             WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 100%)",
             pointerEvents: "none",
             zIndex: 9999,
-            transition: "backdrop-filter 0.3s ease",
+            transition: "backdrop-filter 0.3s ease, opacity 0.3s ease",
           }}
         />
       </body>

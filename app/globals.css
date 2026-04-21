@@ -181,10 +181,11 @@ body {
   color: #fff;
 }
 
-/* btn-outline SVG arrows: white on hover */
+/* btn-outline arrows: white on hover (SVG + img) */
 .btn-outline:hover svg circle  { fill: #fff; }
 .btn-outline:hover svg line     { stroke: #fff; }
 .btn-outline:hover svg polyline { stroke: #fff; }
+.btn-outline:hover .btn-arrow-img { filter: brightness(0) invert(1); }
 
 /* Press — snaps down instantly, springs back with overshoot on release */
 .btn-primary,
