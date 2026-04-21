@@ -40,14 +40,14 @@ type CardLayout = {
 
 const TRANSITION_WEIGHTS = [5, 5, 4, 4];
 const TOTAL_WEIGHT = TRANSITION_WEIGHTS.reduce((sum, value) => sum + value, 0);
-const PREVIOUS_OFFSET = 60;
-const FUTURE_OFFSET = 65;
-const FUTURE_WIDTH_PCT = [100, 88, 80, 72];
-const PAST_WIDTH_PCT = [100, 84, 76, 68];
+const PREVIOUS_OFFSET = 58;
+const FUTURE_STACK_Y = [0, 104, 182, 236];
+const FUTURE_WIDTH_PCT = [100, 94, 88, 82];
+const PAST_WIDTH_PCT = [100, 94, 88, 82];
 const FUTURE_CARD_BG = [
   "rgba(233,233,233,1)",
-  "rgba(240,240,240,1)",
-  "rgba(244,244,244,1)",
+  "rgba(241,241,241,1)",
+  "rgba(245,245,245,1)",
   "rgba(248,248,248,1)",
 ];
 
@@ -145,16 +145,16 @@ export default function ProcessShuffleColumn({
           y: groupOffset - distance * PREVIOUS_OFFSET,
           widthPct: PAST_WIDTH_PCT[clampIndex],
           paddingY: 18,
-          minHeight: 112,
-          titleSize: 20,
+          minHeight: 100,
+          titleSize: 19,
           stepSize: 50,
-          descOpacity: 1,
+          descOpacity: 0,
           cardBg: "rgba(233,233,233,1)",
-          shadowAlpha: 0.18,
+          shadowAlpha: 0.14,
           shadowSpreadAlpha: 0.06,
-          titleColor: "rgba(0,0,0,0.6)",
-          stepColor: "rgba(0,0,0,0.14)",
-          descColor: "rgba(0,0,0,0.6)",
+          titleColor: "rgba(0,0,0,0.42)",
+          stepColor: distance === 1 ? "rgba(0,0,0,0.14)" : distance === 2 ? "rgba(0,0,0,0.1)" : "rgba(0,0,0,0.08)",
+          descColor: "rgba(0,0,0,0)",
           zIndex: 16 - distance,
         };
       }
@@ -162,19 +162,19 @@ export default function ProcessShuffleColumn({
       const distance = index - activeIndex;
       const clampIndex = Math.min(distance, FUTURE_CARD_BG.length - 1);
       return {
-        y: groupOffset + distance * FUTURE_OFFSET,
+        y: groupOffset + FUTURE_STACK_Y[Math.min(distance, FUTURE_STACK_Y.length - 1)],
         widthPct: FUTURE_WIDTH_PCT[Math.min(clampIndex, FUTURE_WIDTH_PCT.length - 1)],
         paddingY: 18,
-        minHeight: 112,
-        titleSize: 20,
+        minHeight: 100,
+        titleSize: 19,
         stepSize: 50,
-        descOpacity: 1,
+        descOpacity: 0,
         cardBg: FUTURE_CARD_BG[clampIndex],
-        shadowAlpha: distance >= 3 ? 0 : 0.25,
-        shadowSpreadAlpha: distance >= 3 ? 0 : 0.05,
-        titleColor: "rgba(0,0,0,0.6)",
-        stepColor: "rgba(0,0,0,0.12)",
-        descColor: "rgba(0,0,0,0.6)",
+        shadowAlpha: distance >= 3 ? 0 : 0.16,
+        shadowSpreadAlpha: distance >= 3 ? 0 : 0.04,
+        titleColor: distance === 1 ? "rgba(0,0,0,0.46)" : distance === 2 ? "rgba(0,0,0,0.34)" : "rgba(0,0,0,0.24)",
+        stepColor: distance === 1 ? "rgba(0,0,0,0.14)" : distance === 2 ? "rgba(0,0,0,0.1)" : "rgba(0,0,0,0.08)",
+        descColor: "rgba(0,0,0,0)",
         zIndex: 12 - distance,
       };
     });
@@ -299,7 +299,7 @@ export default function ProcessShuffleColumn({
         ))}
       </h3>
 
-      <div style={{ position: "relative", width: maxCardWidth, maxWidth: "100%", height: 300, margin: "0 auto" }}>
+      <div style={{ position: "relative", width: maxCardWidth, maxWidth: "100%", height: 420, margin: "0 auto" }}>
         {steps.map((step, index) => (
           <div
             key={step.step}
@@ -312,12 +312,12 @@ export default function ProcessShuffleColumn({
               borderRadius: 6,
               overflow: "hidden",
               width: `${FUTURE_WIDTH_PCT[Math.min(index, FUTURE_WIDTH_PCT.length - 1)]}%`,
-              minHeight: index === 0 ? 156 : 112,
+              minHeight: index === 0 ? 156 : 100,
               padding: index === 0 ? "32px 24px" : "18px 24px",
               position: "absolute",
               top: 0,
               left: `${(100 - FUTURE_WIDTH_PCT[Math.min(index, FUTURE_WIDTH_PCT.length - 1)]) / 2}%`,
-              transform: `translateY(${index * FUTURE_OFFSET}px)`,
+              transform: `translateY(${FUTURE_STACK_Y[Math.min(index, FUTURE_STACK_Y.length - 1)]}px)`,
               willChange: "transform, background, box-shadow",
               boxShadow: index < 3 ? "0px 10px 22px -14px rgba(0,0,0,0.25), 0px 0px 36px rgba(0,0,0,0.05)" : "none",
             }}
@@ -336,10 +336,10 @@ export default function ProcessShuffleColumn({
                     titleRefs.current[index] = el;
                   }}
                   style={{
-                    fontSize: index === 0 ? 24 : 20,
+                    fontSize: index === 0 ? 24 : 19,
                     fontWeight: 500,
-                    color: index === 0 ? "#000" : "rgba(0,0,0,0.38)",
-                    lineHeight: 1.4,
+                    color: index === 0 ? "#000" : index === 1 ? "rgba(0,0,0,0.46)" : index === 2 ? "rgba(0,0,0,0.34)" : "rgba(0,0,0,0.24)",
+                    lineHeight: 1.3,
                     marginBottom: index === 0 && step.description ? 12 : 0,
                   }}
                 >
@@ -352,11 +352,11 @@ export default function ProcessShuffleColumn({
                     }}
                     style={{
                       fontSize: 16,
-                      color: index === 0 ? "#000" : "rgba(0,0,0,0.6)",
+                      color: index === 0 ? "#000" : "rgba(0,0,0,0)",
                       lineHeight: 1.4,
                       maxWidth: 476,
                       whiteSpace: "pre-line",
-                      opacity: 1,
+                      opacity: index === 0 ? 1 : 0,
                       margin: 0,
                     }}
                   >
@@ -371,7 +371,7 @@ export default function ProcessShuffleColumn({
                 style={{
                   fontSize: index === 0 ? 60 : 50,
                   fontWeight: 700,
-                  color: index === 0 ? "#0f9d58" : "rgba(0,0,0,0.15)",
+                  color: index === 0 ? "#0f9d58" : index === 1 ? "rgba(0,0,0,0.14)" : index === 2 ? "rgba(0,0,0,0.1)" : "rgba(0,0,0,0.08)",
                   lineHeight: 1,
                   flexShrink: 0,
                   marginLeft: 16,
@@ -384,7 +384,7 @@ export default function ProcessShuffleColumn({
         ))}
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 72 }}>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 28 }}>
         {btnStyle === "primary" ? (
           <Link href="#" className="btn-primary">
             <span>{btnLabel}</span>
