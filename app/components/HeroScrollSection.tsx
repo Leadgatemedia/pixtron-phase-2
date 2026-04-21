@@ -85,6 +85,14 @@ export default function HeroScrollSection({
 
     const blurEl = document.getElementById("bottom-blur-el") as HTMLElement | null;
 
+    // Hide blur overlay immediately — watermark is visible on page load
+    if (blurEl) {
+      blurEl.style.opacity = "0";
+      blurEl.style.visibility = "hidden";
+      blurEl.style.backdropFilter = "blur(0px)";
+      blurEl.style.setProperty("-webkit-backdrop-filter", "blur(0px)");
+    }
+
     // ── Section height = sticky height + horizontal travel distance ───────
     // sticky height = 100vh / ZOOM so it fills the full physical screen.
     const setHeight = () => {
@@ -116,12 +124,21 @@ export default function HeroScrollSection({
       const P1 = 0.38;
       const P2 = 0.65;
 
-      // ── Disable bottom blur only while sachets are scrolling ─────────
+      // ── Hide blur overlay for entire hero section (watermark + sachets) ──
+      // p is clamped to 0 before section enters view, so p < 1 correctly
+      // covers page load AND all scroll phases until the section is fully past.
       if (blurEl) {
-        const v = p >= P1 && p < 1 ? "blur(0px)" : "blur(12px)";
-        if (blurEl.style.backdropFilter !== v) {
-          blurEl.style.backdropFilter = v;
-          blurEl.style.setProperty("-webkit-backdrop-filter", v);
+        const footerBlurDisabled = document.body.dataset.footerBlurDisabled === "true";
+        const inHero = p < 1;
+        const shouldHideBlur = inHero || footerBlurDisabled;
+        const opacity = shouldHideBlur ? "0" : "1";
+        const visibility = shouldHideBlur ? "hidden" : "visible";
+        const blur = shouldHideBlur ? "blur(0px)" : "blur(12px)";
+        if (blurEl.style.opacity !== opacity) {
+          blurEl.style.opacity = opacity;
+          blurEl.style.visibility = visibility;
+          blurEl.style.backdropFilter = blur;
+          blurEl.style.setProperty("-webkit-backdrop-filter", blur);
         }
       }
 

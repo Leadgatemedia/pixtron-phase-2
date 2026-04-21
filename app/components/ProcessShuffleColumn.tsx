@@ -23,7 +23,7 @@ type ProcessShuffleColumnProps = {
 
 type CardLayout = {
   y: number;
-  widthPx: number;
+  widthPct: number;
   paddingY: number;
   minHeight: number;
   titleSize: number;
@@ -40,8 +40,10 @@ type CardLayout = {
 
 const TRANSITION_WEIGHTS = [5, 5, 4, 4];
 const TOTAL_WEIGHT = TRANSITION_WEIGHTS.reduce((sum, value) => sum + value, 0);
-const PREVIOUS_OFFSET = 50;
-const FUTURE_OFFSET = 46;
+const PREVIOUS_OFFSET = 60;
+const FUTURE_OFFSET = 65;
+const FUTURE_WIDTH_PCT = [100, 88, 80, 72];
+const PAST_WIDTH_PCT = [100, 84, 76, 68];
 const FUTURE_CARD_BG = [
   "rgba(233,233,233,1)",
   "rgba(240,240,240,1)",
@@ -115,19 +117,12 @@ export default function ProcessShuffleColumn({
 
   const buildLayout = (activeIndex: number): CardLayout[] => {
     const groupOffset = activeIndex * PREVIOUS_OFFSET;
-    const futureWidths = steps.map((step) => step.width);
-    const pastWidths = [
-      steps[1]?.width ?? Math.round(maxCardWidth * 0.9),
-      steps[2]?.width ?? Math.round(maxCardWidth * 0.82),
-      steps[3]?.width ?? Math.round(maxCardWidth * 0.74),
-      steps[3]?.width ?? Math.round(maxCardWidth * 0.74),
-    ];
 
     return steps.map((_, index) => {
       if (index === activeIndex) {
         return {
           y: groupOffset,
-          widthPx: maxCardWidth,
+          widthPct: 100,
           paddingY: 32,
           minHeight: 156,
           titleSize: 24,
@@ -145,10 +140,10 @@ export default function ProcessShuffleColumn({
 
       if (index < activeIndex) {
         const distance = activeIndex - index;
-        const clampIndex = Math.min(distance - 1, pastWidths.length - 1);
+        const clampIndex = Math.min(distance - 1, PAST_WIDTH_PCT.length - 1);
         return {
           y: groupOffset - distance * PREVIOUS_OFFSET,
-          widthPx: pastWidths[clampIndex],
+          widthPct: PAST_WIDTH_PCT[clampIndex],
           paddingY: 18,
           minHeight: 112,
           titleSize: 20,
@@ -168,7 +163,7 @@ export default function ProcessShuffleColumn({
       const clampIndex = Math.min(distance, FUTURE_CARD_BG.length - 1);
       return {
         y: groupOffset + distance * FUTURE_OFFSET,
-        widthPx: futureWidths[Math.min(index, futureWidths.length - 1)] ?? futureWidths[futureWidths.length - 1] ?? maxCardWidth,
+        widthPct: FUTURE_WIDTH_PCT[Math.min(clampIndex, FUTURE_WIDTH_PCT.length - 1)],
         paddingY: 18,
         minHeight: 112,
         titleSize: 20,
@@ -190,7 +185,7 @@ export default function ProcessShuffleColumn({
       if (!card) return;
 
       const currentY = lerp(from[index].y, to[index].y, t);
-      const currentWidthPx = lerp(from[index].widthPx, to[index].widthPx, t);
+      const currentWidthPct = lerp(from[index].widthPct, to[index].widthPct, t);
       const currentPaddingY = lerp(from[index].paddingY, to[index].paddingY, t);
       const currentMinHeight = lerp(from[index].minHeight, to[index].minHeight, t);
       const currentTitleSize = lerp(from[index].titleSize, to[index].titleSize, t);
@@ -199,11 +194,11 @@ export default function ProcessShuffleColumn({
       const currentShadow = lerp(from[index].shadowAlpha, to[index].shadowAlpha, t);
       const currentSpread = lerp(from[index].shadowSpreadAlpha, to[index].shadowSpreadAlpha, t);
       const currentZ = Math.round(lerp(from[index].zIndex, to[index].zIndex, t));
-      const leftPx = Math.max(0, (maxCardWidth - currentWidthPx) / 2);
+      const leftPct = (100 - currentWidthPct) / 2;
 
       card.style.transform = `translateY(${currentY}px)`;
-      card.style.width = `${currentWidthPx}px`;
-      card.style.left = `${leftPx}px`;
+      card.style.width = `${currentWidthPct}%`;
+      card.style.left = `${leftPct}%`;
       card.style.padding = `${currentPaddingY}px 24px`;
       card.style.minHeight = `${currentMinHeight}px`;
       card.style.background = mixColor(from[index].cardBg, to[index].cardBg, t);
@@ -316,16 +311,15 @@ export default function ProcessShuffleColumn({
               border: "1px solid #e0dfdf",
               borderRadius: 6,
               overflow: "hidden",
-              width: `${step.width}px`,
-              maxWidth: "100%",
+              width: `${FUTURE_WIDTH_PCT[Math.min(index, FUTURE_WIDTH_PCT.length - 1)]}%`,
               minHeight: index === 0 ? 156 : 112,
               padding: index === 0 ? "32px 24px" : "18px 24px",
               position: "absolute",
               top: 0,
-              left: `${Math.max(0, (maxCardWidth - step.width) / 2)}px`,
+              left: `${(100 - FUTURE_WIDTH_PCT[Math.min(index, FUTURE_WIDTH_PCT.length - 1)]) / 2}%`,
               transform: `translateY(${index * FUTURE_OFFSET}px)`,
               willChange: "transform, background, box-shadow",
-              boxShadow: "0px 10px 22px -14px rgba(0,0,0,0.12), 0px 0px 36px rgba(0,0,0,0.03)",
+              boxShadow: index < 3 ? "0px 10px 22px -14px rgba(0,0,0,0.25), 0px 0px 36px rgba(0,0,0,0.05)" : "none",
             }}
           >
             <div
@@ -358,11 +352,11 @@ export default function ProcessShuffleColumn({
                     }}
                     style={{
                       fontSize: 16,
-                      color: index === 0 ? "#000" : "rgba(0,0,0,0.22)",
+                      color: index === 0 ? "#000" : "rgba(0,0,0,0.6)",
                       lineHeight: 1.4,
                       maxWidth: 476,
                       whiteSpace: "pre-line",
-                      opacity: index === 0 ? 1 : 0,
+                      opacity: 1,
                       margin: 0,
                     }}
                   >

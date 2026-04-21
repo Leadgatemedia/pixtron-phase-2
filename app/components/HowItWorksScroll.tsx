@@ -38,7 +38,7 @@ const STEPS = [
 ];
 
 // p value at which each step becomes active
-const THRESHOLDS = [0.1, 0.3, 0.55, 0.75];
+const THRESHOLDS = [0.05, 0.2, 0.38, 0.56];
 // fraction along the bar where each icon sits (0 = far left, 1 = far right)
 const BAR_POS = [0, 1 / 3, 2 / 3, 1];
 
@@ -58,13 +58,12 @@ export default function HowItWorksScroll() {
     if (!outer || !sticky) return;
 
     // Sticky height = 100vh/ZOOM (fills the full physical screen at zoom:0.8).
-    // Total outer height = stickyH + 4 physical screens of scroll.
-    // Steps activate at [0.1, 0.3, 0.55, 0.75] → step 4 at p=0.75 (3 physical screens),
-    // leaving ~1 physical screen of "all 4 complete" hold before the section unsticks.
+    // Total outer height is intentionally shorter here so the timeline reacts
+    // more quickly to scroll and does not feel laggy.
     const setHeight = () => {
       const vh      = window.innerHeight;
       const stickyH = vh / ZOOM;
-      outer.style.height = `${stickyH + (vh / ZOOM) * 4}px`;
+      outer.style.height = `${stickyH + (vh / ZOOM) * 2.8}px`;
     };
     setHeight();
     const ro = new ResizeObserver(setHeight);

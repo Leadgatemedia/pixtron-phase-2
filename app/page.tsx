@@ -45,52 +45,100 @@ function Navbar() {
         zIndex: 50,
         width: "100%",
         height: 88,
-        background: "rgba(255,255,255,0.4)",
+        background: "rgba(255,255,255,0.8)",
         borderBottom: "1px solid rgba(0,0,0,0.05)",
         backdropFilter: "blur(24px)",
         WebkitBackdropFilter: "blur(24px)",
-        display: "flex",
-        alignItems: "center",
-        padding: "0 39px",
-        justifyContent: "space-between",
+        boxSizing: "border-box",
+        padding: "16px 39px",
       }}
     >
-      {/* Logo — flex:1 so it takes equal space as CTA side */}
-      <div style={{ flex: 1, display: "flex", alignItems: "center" }}>
-        <Link href="/" style={{ display: "flex", alignItems: "center" }}>
-          <Image src="/logo.png" alt="Pixtron" width={82} height={82} priority />
-        </Link>
-      </div>
-
-      {/* Nav links — true center */}
-      <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-        <Link href="#" className="nav-link">About</Link>
-
-        {/* Product — with dropdown chevron */}
-        <div className="nav-product" style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}>
-          <Link href="#" className="nav-link">Product</Link>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-            <path className="nav-chevron" d="M4 6l4 4 4-4" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 1820,
+          margin: "0 auto",
+          minHeight: 56,
+          display: "grid",
+          gridTemplateColumns: "480px 1fr 480px",
+          alignItems: "center",
+          columnGap: 16,
+        }}
+      >
+        <div
+          style={{
+            width: 480,
+            minHeight: 56,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+          }}
+        >
+          <Link
+            href="/"
+            style={{
+              width: "100%",
+              minHeight: 56,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start",
+            }}
+          >
+            <Image
+              src="/logo.png"
+              alt="Pixtron"
+              width={82}
+              height={82}
+              priority
+              style={{ width: "auto", height: 52 }}
+            />
+          </Link>
         </div>
 
-        <Link href="#" className="nav-link">Advertisers</Link>
-        <Link href="#" className="nav-link">Industries</Link>
-        <Link href="#" className="nav-link">Restaurants</Link>
-      </div>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+            <Link href="/about" className="nav-link">About</Link>
 
-      {/* CTA — flex:1 so it takes equal space as logo side */}
-      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-        <Link href="#" className="btn-outline">
-          <span>Contact Us</span>
-          <ArrowIcon src={ARROW_CONTACT} />
-        </Link>
+            <div className="nav-product" style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}>
+              <Link href="#" className="nav-link">Product</Link>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <path className="nav-chevron" d="M4 6l4 4 4-4" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+
+            <Link href="#" className="nav-link">Advertisers</Link>
+            <Link href="#" className="nav-link">Industries</Link>
+            <Link href="#" className="nav-link">Restaurants</Link>
+          </div>
+        </div>
+
+        <div
+          style={{
+            width: 480,
+            minHeight: 56,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Link
+            href="#"
+            className="btn-outline"
+            style={{
+              minHeight: 56,
+              padding: "0 20px 0 22px",
+              justifyContent: "center",
+            }}
+          >
+            <span>Contact Us</span>
+            <ArrowIcon src={ARROW_CONTACT} />
+          </Link>
+        </div>
       </div>
     </nav>
   );
 }
 
-// ─── HERO (Frame 1) ───────────────────────────────────────────────────────────
 function Hero() {
   return (
     <section
@@ -363,7 +411,7 @@ function TheProcess() {
       step: "01",
       title: "Define Your Audience",
       description:
-        "Target by location, neighbourhood, and venue type. Reach high value customers in real world environments.",
+        "Target by location, neighbourhood, and venue type.\nReach high-value customers in real-world spaces.",
       width: 526,
     },
     {

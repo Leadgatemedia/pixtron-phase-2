@@ -207,16 +207,18 @@ export default function IndustriesScroll() {
           inactiveOpacity = 1;
         } else if (i === segment) {
           // outgoing active → shrinking
+          // content exits in first half, inactive text enters in second half — no overlap
           width = ACTIVE_W - (ACTIVE_W - NARROW_W) * t;
-          imgOpacity = 1 - t;
-          contentOpacity = 1 - t;
-          inactiveOpacity = t;
+          imgOpacity = Math.max(0, 1 - t * 2);
+          contentOpacity = Math.max(0, 1 - t * 2);
+          inactiveOpacity = Math.max(0, (t - 0.5) * 2);
         } else if (i === segment + 1) {
           // incoming → expanding
+          // inactive text exits in first half, content enters in second half — no overlap
           width = NARROW_W + (ACTIVE_W - NARROW_W) * t;
-          imgOpacity = t;
-          contentOpacity = t;
-          inactiveOpacity = 1 - t;
+          imgOpacity = Math.max(0, (t - 0.5) * 2);
+          contentOpacity = Math.max(0, (t - 0.5) * 2);
+          inactiveOpacity = Math.max(0, 1 - t * 2);
         } else {
           // not yet reached — narrow, inactive
           width = NARROW_W;

@@ -290,8 +290,10 @@ export default function RealImpactScroll() {
             width: "100%",
             maxWidth: 1024,
             marginTop: 12,
-            height: 440,
-            overflow: "hidden",
+            height: 500,
+            padding: "28px 20px 36px",
+            overflow: "visible",
+            boxSizing: "border-box",
           }}
         >
           {STATS.map((stat, index) => (
@@ -302,7 +304,7 @@ export default function RealImpactScroll() {
               }}
               style={{
                 position: "absolute",
-                top: 40,
+                top: 28,
                 left: `${(100 - (FUTURE_WIDTH_PCT[Math.min(index, FUTURE_WIDTH_PCT.length - 1)])) / 2}%`,
                 width: `${FUTURE_WIDTH_PCT[Math.min(index, FUTURE_WIDTH_PCT.length - 1)]}%`,
                 background: FUTURE_CARD_BG[Math.min(index, FUTURE_CARD_BG.length - 1)],

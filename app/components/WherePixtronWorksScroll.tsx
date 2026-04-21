@@ -35,14 +35,20 @@ export default function WherePixtronWorksScroll() {
     const setDimensions = () => {
       const cssZoom = parseFloat(document.documentElement.style.zoom) || 1;
       const viewportHeight = window.innerHeight / cssZoom;
+      const viewportWidth = window.innerWidth / cssZoom;
       const headingApprox = 148;
       const ctaApprox = CTA_BUTTON_HEIGHT;
-      const sectionPadding = 96;
+      const sectionPadding = 72;
       const availableCardsHeight = Math.max(
         520,
         viewportHeight - headingApprox - ctaApprox - sectionPadding - CTA_FINAL_GAP,
       );
-      const nextCardsScale = Math.min(1, availableCardsHeight / CARDS_NATURAL_HEIGHT);
+      const desktopBoost =
+        viewportWidth >= 1680 ? 1.22 :
+        viewportWidth >= 1440 ? 1.16 :
+        viewportWidth >= 1280 ? 1.1 :
+        1;
+      const nextCardsScale = Math.min(1, (availableCardsHeight / CARDS_NATURAL_HEIGHT) * desktopBoost);
 
       setCardsScale(nextCardsScale);
       setCtaTravel(70 + nextCardsScale * 40);
