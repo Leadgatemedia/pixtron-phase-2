@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useAnimationControls, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 function ArrowIcon() {
   // eslint-disable-next-line @next/next/no-img-element
@@ -20,7 +20,7 @@ const CARD_HEIGHT = 782;
 const CARD_GAP = 30;
 const CTA_FINAL_GAP = 0;
 const CTA_BUTTON_HEIGHT = 68;
-const CTA_STAGE_PULLUP = 60;
+const CTA_STAGE_PULLUP = 132;
 const CARDS_NATURAL_HEIGHT = CARD_HEIGHT + venues[2].startY;
 const CARDS_FRAME_WIDTH = CARD_WIDTH * 3 + CARD_GAP * 2;
 
@@ -28,8 +28,7 @@ export default function WherePixtronWorksScroll() {
   const [cardsScale, setCardsScale] = useState(1);
   const [ctaTravel, setCtaTravel] = useState(110);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const controls = useAnimationControls();
-  const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
+  const isInView = useInView(sectionRef, { amount: 0.3 });
 
   useEffect(() => {
     const setDimensions = () => {
@@ -58,12 +57,6 @@ export default function WherePixtronWorksScroll() {
     window.addEventListener("resize", setDimensions);
     return () => window.removeEventListener("resize", setDimensions);
   }, []);
-
-  useEffect(() => {
-    if (!isInView) return;
-
-    controls.start("animate");
-  }, [controls, isInView]);
 
   return (
     <div
@@ -97,7 +90,7 @@ export default function WherePixtronWorksScroll() {
           <motion.div
             key={venue.title}
             initial="initial"
-            animate={controls}
+            animate={isInView ? "animate" : "initial"}
             variants={{
               initial: { y: venue.startY },
               animate: { y: 0 },
@@ -145,7 +138,7 @@ export default function WherePixtronWorksScroll() {
       >
         <motion.div
           initial="initial"
-          animate={controls}
+          animate={isInView ? "animate" : "initial"}
           variants={{
             initial: { y: ctaTravel },
             animate: { y: 0 },

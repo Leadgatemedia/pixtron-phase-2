@@ -299,7 +299,7 @@ export default function ProcessShuffleColumn({
         ))}
       </h3>
 
-      <div style={{ position: "relative", width: maxCardWidth, maxWidth: "100%", height: 420, margin: "0 auto" }}>
+      <div style={{ position: "relative", width: maxCardWidth, maxWidth: "100%", height: 380, margin: "0 auto" }}>
         {steps.map((step, index) => (
           <div
             key={step.step}
@@ -384,7 +384,7 @@ export default function ProcessShuffleColumn({
         ))}
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 28 }}>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 0 }}>
         {btnStyle === "primary" ? (
           <Link href="#" className="btn-primary">
             <span>{btnLabel}</span>

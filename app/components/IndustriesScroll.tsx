@@ -430,7 +430,7 @@ export default function IndustriesScroll() {
         </div>
 
         {/* CTA — below the grid, matching Figma */}
-        <div ref={ctaRef} style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16, marginTop: 32 }}>
+        <div ref={ctaRef} style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16, marginTop: 8 }}>
           <Link href="#" className="btn-primary">
             <span>Advertise With Pixtron</span>
             <ArrowIcon />
