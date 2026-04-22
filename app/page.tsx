@@ -302,6 +302,7 @@ function ComparisonSection() {
     <section
       style={{
         position: "relative",
+        borderTop: "112px solid #fff",
         padding: "128px 39px",
         display: "flex",
         flexDirection: "column",
