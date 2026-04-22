@@ -37,10 +37,13 @@ const STEPS = [
   },
 ];
 
-// p value at which each step becomes active
-const THRESHOLDS = [0.05, 0.2, 0.38, 0.56];
-// fraction along the bar where each icon sits (0 = far left, 1 = far right)
-const BAR_POS = [0, 1 / 3, 2 / 3, 1];
+// p at which each step icon fills + content appears
+const STEP_IN  = [0.05, 0.28, 0.51, 0.74];
+// p at which the bar starts travelling toward the NEXT icon (hold before this)
+const STEP_OUT = [0.14, 0.37, 0.60, 0.83];
+// fraction along the bar track where each icon sits
+const BAR_POS  = [0, 1 / 3, 2 / 3, 1];
+const CONTENT_FADE = 0.07; // scroll range over which content fades in
 
 const ZOOM = 0.8; // must match html zoom in layout.tsx
 
@@ -81,17 +84,23 @@ export default function HowItWorksScroll() {
       // ── Progress bar fill ──────────────────────────────────────────
       if (barFillRef.current) {
         let fill = 0;
-        if (p >= THRESHOLDS[0]) {
-          for (let i = 0; i < 4; i++) {
-            const t0 = THRESHOLDS[i];
-            const t1 = i < 3 ? THRESHOLDS[i + 1] : 1;
-            const p0 = BAR_POS[i];
-            const p1 = i < 3 ? BAR_POS[i + 1] : 1;
-            if (p < t1) {
-              fill = p0 + (p1 - p0) * ease((p - t0) / (t1 - t0));
-              break;
+        if (p >= STEP_IN[0]) {
+          if (p >= STEP_IN[3]) {
+            fill = 1;
+          } else {
+            for (let i = 0; i < 3; i++) {
+              if (p < STEP_IN[i + 1]) {
+                if (p < STEP_OUT[i]) {
+                  // hold: bar stays at current icon
+                  fill = BAR_POS[i];
+                } else {
+                  // travel: bar moves to next icon
+                  const dur = STEP_IN[i + 1] - STEP_OUT[i];
+                  fill = BAR_POS[i] + (BAR_POS[i + 1] - BAR_POS[i]) * ease((p - STEP_OUT[i]) / dur);
+                }
+                break;
+              }
             }
-            fill = p1;
           }
         }
         barFillRef.current.style.width = `${fill * 100}%`;
@@ -99,7 +108,7 @@ export default function HowItWorksScroll() {
 
       // ── Per-step updates ───────────────────────────────────────────
       STEPS.forEach((_, i) => {
-        const active = p >= THRESHOLDS[i];
+        const active = p >= STEP_IN[i];
 
         // Icon circle colour
         const iconEl = iconRefs.current[i];
@@ -114,12 +123,11 @@ export default function HowItWorksScroll() {
           }
         }
 
-        // Step content fade-in
+        // Step content fade-in — starts at same time as icon fill
         const contentEl = contentRefs.current[i];
         if (contentEl) {
           if (active) {
-            const t     = Math.min(1, (p - THRESHOLDS[i]) / 0.08);
-            const eased = ease(t);
+            const eased = ease(Math.min(1, (p - STEP_IN[i]) / CONTENT_FADE));
             contentEl.style.opacity   = String(eased);
             contentEl.style.transform = `translateY(${(1 - eased) * 20}px)`;
           } else {

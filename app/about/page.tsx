@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
 
 import FooterSection from "../components/FooterSection";
+import CoreValuesSection from "../components/CoreValuesSection";
 
 export const metadata: Metadata = {
   title: "About Us | Pixtron",
@@ -15,33 +15,8 @@ const ARROW_WHITE = "white";
 const ARROW_DARK = "dark";
 const ARROW_CONTACT = "dark";
 
-const coreValues = [
-  {
-    title: "Precision",
-    description:
-      "Hyper local targeting that reaches the right audience when they are most receptive.",
-    icon: "/about/icon-precision.svg",
-    circle: "#0f9d58",
-  },
-  {
-    title: "Innovation",
-    description:
-      "Rethinking traditional media channels to create new forms of sensory engagement.",
-    icon: "/about/icon-innovation.svg",
-    circle: "#454545",
-  },
-  {
-    title: "Partnership",
-    description:
-      "Creating win - win ecosystems for venues, advertisers, and everyday consumers.",
-    icon: "/about/icon-partnership.svg",
-    circle: "#454545",
-  },
-];
-
 function ArrowIcon({ src }: { src: string }) {
   const file = src === "white" ? "/arrow-white.png" : "/arrow-black.png";
-
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -119,7 +94,6 @@ function SiteNavbar() {
             <Link href="/about" className="nav-link">
               About
             </Link>
-
             <div
               className="nav-product"
               style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}
@@ -138,7 +112,6 @@ function SiteNavbar() {
                 />
               </svg>
             </div>
-
             <Link href="#" className="nav-link">
               Advertisers
             </Link>
@@ -161,7 +134,7 @@ function SiteNavbar() {
           }}
         >
           <Link
-            href="#"
+            href="/contact"
             className="btn-outline"
             style={{
               minHeight: 56,
@@ -178,266 +151,216 @@ function SiteNavbar() {
   );
 }
 
-function SectionLabel({ children }: { children: ReactNode }) {
-  return (
-    <p
-      style={{
-        color: "#0f9d58",
-        fontSize: 20,
-        fontWeight: 600,
-        lineHeight: "28px",
-        letterSpacing: "0.5px",
-        textTransform: "uppercase",
-      }}
-    >
-      {children}
-    </p>
-  );
-}
-
-function StoryCard({
-  width,
-  height,
-  style,
-}: {
-  width: number;
-  height: number;
-  style?: CSSProperties;
-}) {
-  return (
-    <div
-      style={{
-        width,
-        height,
-        borderRadius: 12,
-        borderLeft: "2px solid #0f9d58",
-        background: "linear-gradient(90deg, rgba(15,157,88,0.02) 0%, rgba(15,157,88,0) 100%)",
-        ...style,
-      }}
-    />
-  );
-}
-
-function ValueCard({
-  title,
-  description,
-  icon,
-  circle,
-}: {
-  title: string;
-  description: string;
-  icon: string;
-  circle: string;
-}) {
-  return (
-    <div
-      style={{
-        width: 320,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "center",
-      }}
-    >
-      <div
-        style={{
-          width: 80,
-          height: 80,
-          borderRadius: "999px",
-          background: circle,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 24,
-        }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={icon} alt="" style={{ width: 24, height: 24, display: "block" }} />
-      </div>
-      <h3
-        style={{
-          color: "#fff",
-          fontSize: 24,
-          fontWeight: 700,
-          lineHeight: "32px",
-          marginBottom: 16,
-        }}
-      >
-        {title}
-      </h3>
-      <p
-        style={{
-          color: "rgba(255,255,255,0.8)",
-          fontSize: 18,
-          fontWeight: 400,
-          lineHeight: "26px",
-          maxWidth: 320,
-        }}
-      >
-        {description}
-      </p>
-    </div>
-  );
-}
-
 export default function AboutPage() {
   return (
     <>
       <SiteNavbar />
 
       <main style={{ background: "#fff" }}>
+        {/* ── Hero Section ── */}
         <section
           style={{
-            minHeight: 900,
-            background: "linear-gradient(180deg, #e8f5e9 0%, #ffffff 100%)",
-            paddingTop: 166,
+            background: "#fff",
+            paddingTop: 168,
             overflow: "hidden",
           }}
         >
           <div
             style={{
-              width: 1440,
-              maxWidth: "100%",
+              width: "100%",
+              maxWidth: 1440,
               margin: "0 auto",
+              paddingInline: 271,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              paddingInline: 40,
+              gap: 72,
             }}
           >
-            <h1
+            {/* Title → Button → Body (Figma order) */}
+            <div
               style={{
-                fontSize: 60,
-                fontWeight: 700,
-                lineHeight: 1.2,
-                textAlign: "center",
-                color: "#000",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 48,
+                width: "100%",
               }}
             >
-              <span>We&apos;re changing how</span>
-              <br />
-              <span style={{ color: "#0f9d58" }}>brands are experienced</span>
-            </h1>
+              <h1
+                style={{
+                  fontSize: 60,
+                  fontWeight: 700,
+                  lineHeight: 1.2,
+                  textAlign: "center",
+                  color: "#000",
+                  margin: 0,
+                }}
+              >
+                We&apos;re changing how
+                <br />
+                <span style={{ color: "#0f9d58" }}>brands are experienced</span>
+              </h1>
 
-            <p
-              style={{
-                width: 900,
-                maxWidth: "100%",
-                marginTop: 40,
-                textAlign: "center",
-                fontSize: 22,
-                fontWeight: 500,
-                lineHeight: 1.4,
-                color: "rgba(0,0,0,0.8)",
-              }}
-            >
-              At Pixtron, we believe the best advertising doesn&apos;t disrupt life, It
-              enhances it. We turn everyday dining moments into premium brand
-              connections.
-            </p>
-
-            <div style={{ marginTop: 48 }}>
-              <Link href="#" className="btn-primary">
+              <Link href="/contact?type=advertiser" className="btn-primary">
                 <span>Advertise With Pixtron</span>
                 <ArrowIcon src={ARROW_WHITE} />
               </Link>
+
+              <p
+                style={{
+                  width: 898,
+                  maxWidth: "100%",
+                  textAlign: "center",
+                  fontSize: 22,
+                  fontWeight: 500,
+                  lineHeight: 1.4,
+                  color: "rgba(0,0,0,0.8)",
+                  margin: 0,
+                }}
+              >
+                At Pixtron, we believe the best advertising doesn&apos;t disrupt life, It
+                enhances it. We turn everyday dining moments into premium brand connections.
+              </p>
             </div>
 
-            <div style={{ marginTop: 72 }}>
-              <Image
-                src="/about/hero-image.png"
-                alt="Pixtron advertising inside restaurants"
-                width={1080}
-                height={803}
-                priority
-                style={{
-                  width: 1080,
-                  maxWidth: "100%",
-                  height: "auto",
-                  display: "block",
-                }}
-              />
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/about/hero-image.png"
+              alt="Pixtron advertising inside restaurants"
+              style={{ width: 897, maxWidth: "100%", height: "auto", display: "block" }}
+            />
           </div>
         </section>
 
-        <section style={{ padding: "180px 0 120px" }}>
+        {/* ── Our Story Section ── */}
+        <section style={{ paddingTop: 184, paddingBottom: 184 }}>
           <div
             style={{
-              width: 1440,
-              maxWidth: "100%",
+              width: "100%",
+              maxWidth: 1440,
               margin: "0 auto",
-              paddingInline: 40,
+              paddingLeft: 155,
               display: "flex",
+              gap: 86,
               alignItems: "flex-start",
-              justifyContent: "space-between",
-              gap: 80,
             }}
           >
-            <div style={{ width: 486, paddingTop: 76 }}>
-              <SectionLabel>Our Story</SectionLabel>
-
-              <div
-                className="gradient-heading"
-                style={{
-                  fontSize: 40,
-                  fontWeight: 700,
-                  lineHeight: 1.2,
-                  marginTop: 32,
-                }}
-              >
-                It started with a simple observation: screens are crowded,
-                attention is scarce, and people are tired of being interrupted.
-              </div>
-
-              <p
-                style={{
-                  marginTop: 48,
-                  fontSize: 22,
-                  fontWeight: 500,
-                  lineHeight: 1.4,
-                  color: "rgba(0,0,0,0.8)",
-                }}
-              >
-                We realized the most valuable real estate isn&apos;t digital, it&apos;s
-                physical. It&apos;s the moment someone sits down for a meal, unwinds,
-                and engages with the physical world in front of them.
-              </p>
-
-              <p
-                style={{
-                  marginTop: 32,
-                  fontSize: 22,
-                  fontWeight: 500,
-                  lineHeight: 1.4,
-                  color: "rgba(0,0,0,0.8)",
-                }}
-              >
-                By transforming an essential hospitality item into a beautifully
-                designed medium, we created a way for brands to offer genuine
-                utility while capturing undivided attention.
-              </p>
-            </div>
-
-            <div
+            <p
               style={{
-                position: "relative",
-                width: 1083,
-                height: 533,
+                color: "#0f9d58",
+                fontSize: 20,
+                fontWeight: 600,
+                lineHeight: "28px",
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+                whiteSpace: "nowrap",
                 flexShrink: 0,
+                margin: 0,
               }}
             >
-              <StoryCard width={1083} height={201} style={{ position: "absolute", top: 0, right: 0 }} />
-              <StoryCard width={967} height={166} style={{ position: "absolute", top: 201, right: 0 }} />
-              <StoryCard width={851} height={166} style={{ position: "absolute", top: 367, right: 0 }} />
+              Our Story
+            </p>
+
+            {/* 3 stacked bordered cards — text lives inside each card */}
+            <div
+              style={{
+                width: 1083,
+                flexShrink: 0,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+              }}
+            >
+              {/* Card 1 — full width, big heading */}
+              <div
+                style={{
+                  width: "100%",
+                  borderLeft: "2px solid #0f9d58",
+                  background:
+                    "linear-gradient(90deg, rgba(15,157,88,0.02) 0%, rgba(15,157,88,0) 100%)",
+                  borderRadius: "0 0 0 12px",
+                  padding: "40px 30px",
+                }}
+              >
+                <div
+                  className="gradient-heading"
+                  style={{ fontSize: 40, fontWeight: 700, lineHeight: 1.2, width: 898 }}
+                >
+                  It started with a simple observation: screens are crowded, attention is
+                  scarce, and people are tired of being interrupted.
+                </div>
+              </div>
+
+              {/* Card 2 — 967 px */}
+              <div
+                style={{
+                  width: 967,
+                  borderLeft: "2px solid #0f9d58",
+                  background:
+                    "linear-gradient(90deg, rgba(15,157,88,0.02) 0%, rgba(15,157,88,0) 100%)",
+                  borderRadius: "0 0 0 12px",
+                  padding: "40px 30px",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: 22,
+                    fontWeight: 500,
+                    lineHeight: 1.4,
+                    color: "rgba(0,0,0,0.8)",
+                    width: 782,
+                    margin: 0,
+                  }}
+                >
+                  We realized the most valuable real estate isn&apos;t digital, it&apos;s
+                  physical. It&apos;s the moment someone sits down for a meal, unwinds, and
+                  engages with the physical world in front of them.
+                </p>
+              </div>
+
+              {/* Card 3 — 851 px */}
+              <div
+                style={{
+                  width: 851,
+                  borderLeft: "2px solid #0f9d58",
+                  background:
+                    "linear-gradient(90deg, rgba(15,157,88,0.02) 0%, rgba(15,157,88,0) 100%)",
+                  borderRadius: "0 0 0 12px",
+                  padding: "40px 30px",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: 22,
+                    fontWeight: 500,
+                    lineHeight: 1.4,
+                    color: "rgba(0,0,0,0.8)",
+                    width: 666,
+                    margin: 0,
+                  }}
+                >
+                  By transforming an essential hospitality item into a beautifully designed
+                  medium, we created a way for brands to offer genuine utility while
+                  capturing undivided attention.
+                </p>
+              </div>
             </div>
           </div>
         </section>
 
-        <section style={{ padding: "0 0 160px" }}>
+        {/* ── Large Typography Section ── */}
+        <section
+          style={{
+            background:
+              "linear-gradient(180deg, #ffffff 0%, #e8f5e9 49.52%, #ffffff 100%)",
+            paddingTop: 184,
+            paddingBottom: 184,
+          }}
+        >
           <div
             style={{
-              width: 1088,
+              width: 900,
               maxWidth: "calc(100% - 80px)",
               margin: "0 auto",
               textAlign: "center",
@@ -445,11 +368,7 @@ export default function AboutPage() {
           >
             <div
               className="gradient-heading"
-              style={{
-                fontSize: 80,
-                fontWeight: 700,
-                lineHeight: 1.2,
-              }}
+              style={{ fontSize: 80, fontWeight: 700, lineHeight: 1.2 }}
             >
               Advertising shouldn&apos;t interrupt
             </div>
@@ -468,152 +387,108 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section style={{ padding: "0 0 180px" }}>
+        {/* ── Mission & Vision Section ── */}
+        <section style={{ paddingTop: 184, paddingBottom: 184 }}>
           <div
             style={{
-              width: 1440,
-              maxWidth: "100%",
+              width: "100%",
+              maxWidth: 1440,
               margin: "0 auto",
-              paddingInline: 40,
+              paddingInline: 155,
               display: "flex",
               flexDirection: "column",
-              gap: 140,
+              gap: 184,
             }}
           >
+            {/* The Mission — label+line above, body below, left-aligned */}
             <div
               style={{
                 display: "flex",
+                flexDirection: "column",
+                gap: 48,
                 alignItems: "flex-start",
-                justifyContent: "space-between",
-                gap: 72,
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 16,
-                  width: 360,
-                  paddingTop: 32,
-                }}
-              >
-                <div style={{ width: 59, height: 1, background: "#0f9d58" }} />
-                <SectionLabel>The Mission</SectionLabel>
+              <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+                <svg width="59" height="16" viewBox="0 0 59 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", flexShrink: 0 }}>
+                  <path d="M59 6.5C59 6.83333 59 7.16667 59 7.5C58.0167 7.49167 57.0333 7.48333 56.05 7.475C38.35 7.325 20.65 7.175 2.95 7.025C1.96667 7.01667 0.98333 7.00833 0 7C0.98333 6.99167 1.96667 6.98333 2.95 6.975C20.65 6.825 38.35 6.675 56.05 6.525C57.0333 6.51667 58.0167 6.50833 59 6.5Z" fill="#0F9D58"/>
+                </svg>
+                <p
+                  style={{
+                    color: "#0f9d58",
+                    fontSize: 20,
+                    fontWeight: 600,
+                    lineHeight: "28px",
+                    letterSpacing: "0.5px",
+                    textTransform: "uppercase",
+                    whiteSpace: "nowrap",
+                    margin: 0,
+                  }}
+                >
+                  The Mission
+                </p>
               </div>
+              <div
+                className="gradient-heading"
+                style={{ fontSize: 60, fontWeight: 300, lineHeight: 1.3, width: 1014 }}
+              >
+                To bridge the physical and digital divide by turning{" "}
+                <span style={{ fontWeight: 700 }}>high dwell environments</span>{" "}
+                into measurable, impactful media spaces.
+              </div>
+            </div>
 
+            {/* The Vision — body above (right-aligned), label+line below, right-aligned */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 48,
+                alignItems: "flex-end",
+              }}
+            >
+              <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+                <p
+                  style={{
+                    color: "#0f9d58",
+                    fontSize: 20,
+                    fontWeight: 600,
+                    lineHeight: "28px",
+                    letterSpacing: "0.5px",
+                    textTransform: "uppercase",
+                    whiteSpace: "nowrap",
+                    margin: 0,
+                  }}
+                >
+                  The Vision
+                </p>
+                <svg width="59" height="16" viewBox="0 0 59 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", flexShrink: 0, transform: "scaleX(-1)" }}>
+                  <path d="M59 6.5C59 6.83333 59 7.16667 59 7.5C58.0167 7.49167 57.0333 7.48333 56.05 7.475C38.35 7.325 20.65 7.175 2.95 7.025C1.96667 7.01667 0.98333 7.00833 0 7C0.98333 6.99167 1.96667 6.98333 2.95 6.975C20.65 6.825 38.35 6.675 56.05 6.525C57.0333 6.51667 58.0167 6.50833 59 6.5Z" fill="#0F9D58"/>
+                </svg>
+              </div>
               <div
                 className="gradient-heading"
                 style={{
-                  width: 892,
                   fontSize: 60,
                   fontWeight: 300,
                   lineHeight: 1.3,
+                  width: 1014,
                   textAlign: "right",
                 }}
               >
-                To bridge the physical and digital divide by turning high dwell
-                environments into{" "}
-                <span style={{ fontWeight: 700 }}>
-                  measurable, impactful media spaces.
-                </span>
-              </div>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                justifyContent: "space-between",
-                gap: 72,
-              }}
-            >
-              <div
-                className="gradient-heading"
-                style={{
-                  width: 904,
-                  fontSize: 60,
-                  fontWeight: 300,
-                  lineHeight: 1.3,
-                }}
-              >
                 A world where brands add value to everyday moments, and{" "}
-                <span style={{ fontWeight: 700 }}>
-                  every table becomes an opportunity
-                </span>{" "}
+                <span style={{ fontWeight: 700 }}>every table becomes an opportunity</span>{" "}
                 for meaningful connection.
               </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                  gap: 16,
-                  width: 320,
-                  paddingTop: 32,
-                }}
-              >
-                <SectionLabel>The Vision</SectionLabel>
-                <div style={{ width: 59, height: 1, background: "#0f9d58" }} />
-              </div>
             </div>
           </div>
         </section>
 
-        <section
-          style={{
-            background: "#171717",
-            padding: "120px 0 128px",
-          }}
-        >
-          <div
-            style={{
-              width: 1440,
-              maxWidth: "100%",
-              margin: "0 auto",
-              paddingInline: 40,
-            }}
-          >
-            <h2
-              style={{
-                textAlign: "center",
-                fontSize: 60,
-                fontWeight: 700,
-                lineHeight: 1.2,
-                marginBottom: 72,
-                background:
-                  "linear-gradient(101deg, #ffffff 0%, rgba(255,255,255,0.5) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                color: "transparent",
-              }}
-            >
-              Core Values
-            </h2>
+        {/* ── Core Values Section ── */}
+        <CoreValuesSection />
 
-            <div
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                justifyContent: "center",
-                gap: 120,
-              }}
-            >
-              {coreValues.map((value) => (
-                <ValueCard key={value.title} {...value} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section
-          style={{
-            position: "relative",
-            minHeight: 709,
-            overflow: "hidden",
-          }}
-        >
+        {/* ── CTA Section ── */}
+        <section style={{ position: "relative", overflow: "hidden" }}>
           <Image
             src="/about/future-touch.jpg"
             alt="Restaurant table experience"
@@ -633,69 +508,62 @@ export default function AboutPage() {
             style={{
               position: "relative",
               zIndex: 1,
-              width: 1440,
-              maxWidth: "100%",
-              margin: "0 auto",
-              paddingInline: 40,
-              minHeight: 709,
+              paddingTop: 234,
+              paddingBottom: 234,
+              paddingInline: 271,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              gap: 64,
             }}
           >
+            {/* Two text lines with 32px gap between them */}
             <div
               style={{
-                width: 1114,
+                width: 898,
                 maxWidth: "100%",
                 textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                gap: 32,
               }}
             >
-              <div
+              <p
                 style={{
                   color: "#fff",
                   fontSize: 66.292,
                   fontWeight: 700,
                   lineHeight: "82.864px",
+                  margin: 0,
                 }}
               >
                 The future of advertising is
-              </div>
-              <div
+              </p>
+              <p
                 style={{
                   color: "#fff",
                   fontSize: 66.292,
                   fontWeight: 200,
                   fontStyle: "italic",
                   lineHeight: "82.864px",
+                  margin: 0,
                 }}
               >
                 something you can touch.
-              </div>
+              </p>
             </div>
 
-            <div style={{ marginTop: 56 }}>
-              <Link
-                href="#"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 12,
-                  background: "#fff",
-                  color: "#000",
-                  border: "2px solid rgba(255,255,255,0.5)",
-                  borderRadius: 6,
-                  padding: "16px 20px 16px 22px",
-                  fontSize: 18,
-                  fontWeight: 600,
-                  lineHeight: "30px",
-                  textDecoration: "none",
-                }}
-              >
-                <span>Advertise With Pixtron</span>
-                <ArrowIcon src={ARROW_DARK} />
-              </Link>
-            </div>
+            <Link
+              href="/contact?type=advertiser"
+              className="btn-outline"
+              style={{
+                background: "#fff",
+              }}
+            >
+              <span>Advertise With Pixtron</span>
+              <ArrowIcon src={ARROW_DARK} />
+            </Link>
           </div>
         </section>
 

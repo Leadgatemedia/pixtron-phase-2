@@ -221,7 +221,13 @@ function SocialTile({ icon, hoverIcon, label }: SocialTileProps) {
 
 export default function FooterSection() {
   const navLinks = ["Signature Sachets", "Custom Sachets", "Advertisers", "Restaurants", "Industries"];
-  const companyLinks = ["Blogs", "About us", "Contact Us", "FAQ", "Product"];
+  const companyLinks = [
+    { label: "Blogs", href: "#" },
+    { label: "About us", href: "/about" },
+    { label: "Contact Us", href: "/contact" },
+    { label: "FAQ", href: "#" },
+    { label: "Product", href: "#" },
+  ];
   const sectionLabelStyle: React.CSSProperties = {
     fontSize: 16,
     fontWeight: 700,
@@ -326,8 +332,8 @@ export default function FooterSection() {
                   <div style={sectionLabelStyle}>Company</div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                     {companyLinks.map((link) => (
-                      <Link key={link} href="#" style={footerLinkStyle}>
-                        {link}
+                      <Link key={link.label} href={link.href} style={footerLinkStyle}>
+                        {link.label}
                       </Link>
                     ))}
                   </div>

@@ -91,48 +91,107 @@ export default function ProcessScrollSection({
             borderBottom: border,
           }}
         >
-          <div style={{ padding: "80px 39px 64px", textAlign: "center" }}>
-            <h2 className="section-heading gradient-heading">The Process</h2>
-            <p className="section-subtitle" style={{ marginTop: 16 }}>
-              Simple steps to get started, whether you&apos;re a venue or an advertiser
-            </p>
-          </div>
-
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              borderTop: border,
+              minHeight: 270,
+              padding: "40px 39px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
             }}
           >
+            <div>
+              <h2 className="section-heading gradient-heading">The Process</h2>
+              <p className="section-subtitle" style={{ marginTop: 16 }}>
+                Simple steps to get started, whether you&apos;re a venue or an advertiser
+              </p>
+            </div>
+          </div>
+
+          <div style={{ borderTop: border }}>
             <div
               style={{
-                borderRight: border,
-                padding: "64px 39px",
+                position: "relative",
+                maxWidth: 1130,
+                margin: "0 auto",
               }}
             >
-              <ProcessShuffleColumn
-                label="HOSPITALITY PARTNERS"
-                heading={"Upgrade your guest experience\nat zero cost"}
-                steps={hospitality}
-                btnLabel="For Restaurants"
-                btnStyle="outline"
-                arrowDark={arrowDark}
-                arrowWhite={arrowWhite}
-                progress={progress}
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  width: 1,
+                  borderLeft: border,
+                  pointerEvents: "none",
+                  zIndex: 1,
+                }}
               />
-            </div>
-            <div style={{ padding: "64px 39px" }}>
-              <ProcessShuffleColumn
-                label="ADVERTISERS"
-                heading={"Put your brand directly into\ncustomer's hands"}
-                steps={advertisers}
-                btnLabel="Advertise With Pixtron"
-                btnStyle="primary"
-                arrowDark={arrowDark}
-                arrowWhite={arrowWhite}
-                progress={progress}
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  width: 1,
+                  borderRight: border,
+                  pointerEvents: "none",
+                  zIndex: 1,
+                }}
               />
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  bottom: 0,
+                  left: "50%",
+                  width: 1,
+                  transform: "translateX(-0.5px)",
+                  borderLeft: border,
+                  pointerEvents: "none",
+                  zIndex: 1,
+                }}
+              />
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "64px 0",
+                  }}
+                >
+                  <ProcessShuffleColumn
+                    label="HOSPITALITY PARTNERS"
+                    heading={"Upgrade your guest experience\nat zero cost"}
+                    steps={hospitality}
+                    btnLabel="For Restaurants"
+                    btnStyle="outline"
+                    arrowDark={arrowDark}
+                    arrowWhite={arrowWhite}
+                    progress={progress}
+                  />
+                </div>
+                <div style={{ padding: "64px 0" }}>
+                  <ProcessShuffleColumn
+                    label="ADVERTISERS"
+                    heading={"Put your brand directly into\ncustomer's hands"}
+                    steps={advertisers}
+                    btnLabel="Advertise With Pixtron"
+                    btnStyle="primary"
+                    arrowDark={arrowDark}
+                    arrowWhite={arrowWhite}
+                    progress={progress}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </section>

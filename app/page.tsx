@@ -122,7 +122,7 @@ function Navbar() {
           }}
         >
           <Link
-            href="#"
+            href="/contact"
             className="btn-outline"
             style={{
               minHeight: 56,
@@ -184,13 +184,13 @@ function Hero() {
           style={{ display: "inline-flex", gap: 24, alignItems: "center", marginBottom: 48 }}
         >
           {/* Advertise With Pixtron — filled black */}
-          <Link href="#" className="btn-primary" style={{ flexShrink: 0 }}>
+          <Link href="/contact?type=advertiser" className="btn-primary" style={{ flexShrink: 0 }}>
             <span>Advertise With Pixtron</span>
             <ArrowIcon src={ARROW_WHITE} />
           </Link>
 
           {/* For Restaurants — outlined */}
-          <Link href="#" className="btn-outline" style={{ flexShrink: 0, justifyContent: "center", width: 256 }}>
+          <Link href="/contact?type=restaurant" className="btn-outline" style={{ flexShrink: 0, justifyContent: "center", width: 256 }}>
             <span>For Restaurants</span>
             <ArrowIcon src={ARROW_DARK} />
           </Link>
