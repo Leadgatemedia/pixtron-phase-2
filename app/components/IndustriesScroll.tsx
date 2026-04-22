@@ -14,7 +14,7 @@ function ArrowIcon({ variant = "white" }: { variant?: "white" | "black" }) {
 
 function OpenInNewIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden style={{ flexShrink: 0 }}>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden style={{ flexShrink: 0 }}>
       <mask id="oim" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
         <rect width="24" height="24" fill="#D9D9D9" />
       </mask>
@@ -364,7 +364,7 @@ export default function IndustriesScroll() {
                         alignItems: "center",
                         alignSelf: "flex-start",
                         paddingLeft: 16,
-                        paddingRight: 14,
+                        paddingRight: 10,
                         paddingTop: 8,
                         paddingBottom: 8,
                         borderRadius: 9999,
@@ -382,7 +382,7 @@ export default function IndustriesScroll() {
                           fontSize: 15,
                           fontWeight: 500,
                           lineHeight: "32px",
-                          marginRight: 16,
+                          marginRight: 10,
                         }}
                       >
                         {item}

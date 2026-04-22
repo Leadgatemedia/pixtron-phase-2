@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 
 import ContactClient from "./ContactClient";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact Us | Pixtron",
+export const metadata: Metadata = createPageMetadata({
+  title: "Contact Pixtron | Restaurant and Advertiser Enquiries",
   description:
-    "Get started with Pixtron. Whether you're a restaurant or an advertiser, we'd love to discuss how Pixtron can work for you.",
-};
+    "Get in touch with Pixtron to discuss restaurant partnerships, advertiser enquiries, or the next step for your sensory media campaign.",
+  path: "/contact",
+});
 
 type ContactPageProps = {
   searchParams?: Promise<{

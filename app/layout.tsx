@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
+import { SITE_ORIGIN } from "@/lib/seo";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -10,9 +11,50 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Pixtron – Advertising that people touch, see and smell",
+  metadataBase: SITE_ORIGIN,
+  title: {
+    default: "Pixtron | Sensory Media Advertising",
+    template: "%s | Pixtron",
+  },
   description:
-    "Pixtron connects brands with premium restaurant and hospitality audiences through branded wet wipes – sensory advertising that people touch, see and smell.",
+    "Pixtron connects brands with restaurant and hospitality audiences through sensory media advertising that people can touch, see, and remember.",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "Pixtron",
+    locale: "en_US",
+    title: "Pixtron | Sensory Media Advertising",
+    description:
+      "Pixtron connects brands with restaurant and hospitality audiences through sensory media advertising that people can touch, see, and remember.",
+    images: [
+      {
+        url: "/logo.png",
+        width: 82,
+        height: 82,
+        alt: "Pixtron logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    site: "@pixtron",
+    title: "Pixtron | Sensory Media Advertising",
+    description:
+      "Pixtron connects brands with restaurant and hospitality audiences through sensory media advertising that people can touch, see, and remember.",
+    images: [
+      {
+        url: "/logo.png",
+        alt: "Pixtron logo",
+      },
+    ],
+  },
   icons: {
     icon: "/favicon.png",
   },
@@ -28,7 +70,7 @@ export default function RootLayout({
       <body>
         <SmoothScroll />
         {children}
-        {/* Fixed bottom blur overlay — matches Bungee-style viewport edge effect */}
+        {/* Fixed bottom blur overlay matches the viewport edge effect without affecting layout. */}
         <div
           id="bottom-blur-el"
           aria-hidden

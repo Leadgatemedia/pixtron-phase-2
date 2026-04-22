@@ -1,5 +1,7 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
 import HeroIntro from "./components/HeroIntro";
 import HeroScrollSection from "./components/HeroScrollSection";
 import HowItWorksScroll from "./components/HowItWorksScroll";
@@ -8,6 +10,13 @@ import WherePixtronWorksScroll from "./components/WherePixtronWorksScroll";
 import IndustriesScroll from "./components/IndustriesScroll";
 import FooterSection from "./components/FooterSection";
 import ProcessScrollSection from "./components/ProcessScrollSection";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Advertising That People Touch, See and Smell",
+  description:
+    "Pixtron helps brands reach restaurant and hospitality audiences through sensory media advertising placed directly into real-world dining moments.",
+  path: "/",
+});
 // ─── Arrow color tokens ───────────────────────────────────────────────────────
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -20,18 +29,6 @@ function ArrowIcon({ src }: { src: string }) {
   const file = src === "white" ? "/arrow-white.png" : "/arrow-black.png";
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={file} width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block", transition: "filter 0.35s ease" }} />;
-}
-
-function SectionHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="section-heading gradient-heading">{children}</h2>
-  );
-}
-
-function SectionSubtitle({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="section-subtitle" style={{ marginTop: 16 }}>{children}</p>
-  );
 }
 
 // ─── NAVBAR ──────────────────────────────────────────────────────────────────
@@ -251,124 +248,331 @@ function Hero() {
 }
 
 
-// ─── WHY PIXTRON IS DIFFERENT ─────────────────────────────────────────────────
-function CheckIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="Yes">
-      <path d="M6 16.5L12.5 23L26 9" stroke="#0EAD69" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  );
-}
-function CloseIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="No">
-      <path d="M9 9L23 23M23 9L9 23" stroke="#E63946" strokeWidth="2.5" strokeLinecap="round"/>
-    </svg>
-  );
-}
-
-function WhyDifferent() {
-  const rows = [
-    { feature: "Physical Engagement",       pixtron: "check", digitalAds: "close", socialMedia: "close" },
-    { feature: "Premium Audience",           pixtron: "check", digitalAds: "close", socialMedia: "close" },
-    { feature: "High Engagement Rate (91%)", pixtron: "check", digitalAds: "close", socialMedia: "close" },
-    { feature: "Brand Recall",               pixtron: "7.8%",  digitalAds: "2.5%",  socialMedia: "2.1%"  },
-    { feature: "Ad Blocking",                pixtron: "close", digitalAds: "check", socialMedia: "check" },
-    { feature: "Real-World Touch",           pixtron: "check", digitalAds: "close", socialMedia: "close" },
-    { feature: "Venue Targeting",            pixtron: "check", digitalAds: "close", socialMedia: "check" },
-    { feature: "Measurable ROI",             pixtron: "check", digitalAds: "check", socialMedia: "check" },
-  ];
-
-  const gradientText: React.CSSProperties = {
-    background: "linear-gradient(104.57deg, #000 0%, rgba(0,0,0,0.5) 100%)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    backgroundClip: "text",
+// ─── COMPARISON SECTION ───────────────────────────────────────────────────────
+function ComparisonSection() {
+  const glass: React.CSSProperties = {
+    backdropFilter: "blur(50px)",
+    WebkitBackdropFilter: "blur(50px)",
+    background: "rgba(255,255,255,0.05)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    borderRadius: 12,
+    boxSizing: "border-box",
   };
 
-  function Cell({ value, isPixtron }: { value: string; isPixtron: boolean }) {
-    if (value === "check") return <CheckIcon />;
-    if (value === "close") return <CloseIcon />;
-    return (
-      <span style={{
-        fontSize: 20,
-        fontWeight: 600,
-        color: isPixtron ? "#000" : "#0EAD69",
-        mixBlendMode: isPixtron ? "normal" : "luminosity",
-      }}>
-        {value}
-      </span>
-    );
-  }
+  const yLabels = [
+    { label: "0",  top: 246 },
+    { label: "10", top: 186 },
+    { label: "20", top: 126 },
+    { label: "30", top: 66  },
+    { label: "40", top: 6   },
+  ];
 
-  const ROW_H    = 79;
-  const HEADER_H = 68;
-  const COL_DATA = 270;
-  const COL_FEAT = 319;
+  // Grid line Y positions: 2.15%, 23.66%, 44.8%, 67.03%, 88.53% of 279px chart height
+  const gridLines = [6, 66, 125, 187, 247];
+
+  // All bars are #0F9D58: small ones at 50% opacity, Pixtron at full — no border-radius (plain rects)
+  const bars = [
+    { left: 32,  top: 238, width: 137, height: 9,   color: "rgba(15,157,88,0.5)" },
+    { left: 179, top: 234, width: 137, height: 13,  color: "rgba(15,157,88,0.5)" },
+    { left: 326, top: 196, width: 137, height: 51,  color: "rgba(15,157,88,0.5)" },
+    { left: 473, top: 32,  width: 137, height: 215, color: "#0f9d58"              },
+  ];
+
+  const barValueLabels = [
+    { value: "1.7s", left: 115,   top: 221.5, align: "right"  as const },
+    { value: "2.5s", left: 265,   top: 217.5, align: "right"  as const },
+    { value: "7.0s", left: 410,   top: 221.5, align: "right"  as const },
+    { value: "35s",  left: 541.5, top: 139.5, align: "center" as const },
+  ];
+
+  const xLabels = [
+    { label: "Digital Banner",  cx: 101   },
+    { label: "Social Ad",       cx: 247.5 },
+    { label: "Video Pre-roll",  cx: 394.5 },
+    { label: "Pixtron Sachet",  cx: 541.5 },
+  ];
+
+  const progressBars = [
+    { label: "Pixtron (Physical + Digital)", value: "$0.45",  rightPct: 70 },
+    { label: "Social Media Ads (Avg)",        value: "$1.20",  rightPct: 30 },
+    { label: "Search Ads (Avg)",              value: "$2.50+", rightPct: 5  },
+  ];
 
   return (
-    <section style={{ background: "#fff", padding: "100px 39px" }}>
-      <div style={{ maxWidth: 1362, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 64 }}>
-          <SectionHeading>Why Pixtron is Different</SectionHeading>
-          <SectionSubtitle>
-            See how sensory advertising outperforms traditional digital channels
-          </SectionSubtitle>
-        </div>
+    <section
+      style={{
+        position: "relative",
+        padding: "128px 39px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 72,
+        overflow: "hidden",
+        background: "#080808",
+      }}
+    >
+      {/* Background texture */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/comparison-bg.jpg"
+        alt=""
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          pointerEvents: "none",
+        }}
+      />
 
+      {/* ── Title & subtitle ── */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 32,
+          alignItems: "center",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        <h2
+          style={{
+            fontSize: 50,
+            fontWeight: 700,
+            lineHeight: 1.2,
+            color: "#fff",
+            margin: 0,
+            whiteSpace: "nowrap",
+          }}
+        >
+          Pixtron vs. Digital Advertising
+        </h2>
+        <p
+          style={{
+            fontSize: 22,
+            fontWeight: 500,
+            lineHeight: 1.4,
+            color: "#fff",
+            textAlign: "center",
+            margin: 0,
+          }}
+        >
+          Why this marketing is better for real estate?
+        </p>
       </div>
 
-      {/* Dashed separator — full viewport width */}
-      <div style={{ borderTop: "1px dashed rgba(0,0,0,0.2)", margin: "0 -39px" }} />
+      {/* ── Data grid — two-column flex so heights stretch to match ── */}
+      <div style={{ width: 1362, display: "flex", gap: 17, zIndex: 1, position: "relative", flexShrink: 0, alignItems: "stretch" }}>
 
-      <div style={{ maxWidth: 1362, margin: "0 auto" }}>
-        {/* Table */}
-          <div style={{ maxWidth: 1130, margin: "0 auto", position: "relative" }}>
-            {/* Vertical border lines — absolutely positioned so they span full table height */}
-            <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: 1, background: "rgba(0,0,0,0.18)", pointerEvents: "none", zIndex: 1 }} />
-            <div style={{ position: "absolute", top: 0, bottom: 0, right: 0, width: 1, background: "rgba(0,0,0,0.18)", pointerEvents: "none", zIndex: 1 }} />
-
-          {/* Header row */}
-          <div style={{ display: "grid", gridTemplateColumns: `${COL_FEAT}px ${COL_DATA}px ${COL_DATA}px ${COL_DATA}px`, height: HEADER_H, borderBottom: "1px solid #e0dfdf" }}>
-            <div style={{ display: "flex", alignItems: "center", paddingLeft: 30 }}>
-              <span style={{ fontSize: 24, fontWeight: 700, ...gradientText }}>Feature</span>
+        {/* LEFT: Engagement Duration bar chart */}
+        <div
+          style={{
+            ...glass,
+            width: 666,
+            flexShrink: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "24px 24px 32px",
+          }}
+        >
+          {/* Card heading */}
+          <div style={{ display: "flex", gap: 8, alignItems: "center", alignSelf: "flex-start" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", paddingTop: 3.5, paddingBottom: 4.5, flexShrink: 0 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/comparison/chart-icon.svg" alt="" width={20} height={20} style={{ display: "block", width: 20, height: 20 }} />
             </div>
-            {["Pixtron", "Digital Ads", "Social Media"].map((label) => (
-              <div key={label} style={{ background: "#f6f6f6", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ fontSize: 24, fontWeight: 700, ...gradientText }}>{label}</span>
+            <span style={{ fontSize: 20, fontWeight: 600, color: "#fff", lineHeight: "28px", whiteSpace: "nowrap" }}>
+              Engagement Duration
+            </span>
+          </div>
+
+          {/* Chart canvas */}
+          <div style={{ width: 610, height: 279, position: "relative", flexShrink: 0 }}>
+            {/* Y-axis labels */}
+            {yLabels.map(({ label, top }) => (
+              <div
+                key={label}
+                style={{
+                  position: "absolute",
+                  left: 21,
+                  top,
+                  transform: "translate(-100%, -50%)",
+                  fontSize: 16,
+                  fontWeight: 500,
+                  color: "rgba(255,255,255,0.5)",
+                  whiteSpace: "nowrap",
+                  lineHeight: "normal",
+                  textAlign: "right",
+                }}
+              >
+                {label}
+              </div>
+            ))}
+
+            {/* Horizontal grid lines */}
+            {gridLines.map((y) => (
+              <div
+                key={y}
+                style={{
+                  position: "absolute",
+                  top: y,
+                  left: 32,
+                  right: 0,
+                  height: 1,
+                  background: "rgba(255,255,255,0.1)",
+                }}
+              />
+            ))}
+
+            {/* Bars */}
+            {bars.map((bar, i) => (
+              <div
+                key={i}
+                style={{
+                  position: "absolute",
+                  left: bar.left,
+                  top: bar.top,
+                  width: bar.width,
+                  height: bar.height,
+                  background: bar.color,
+                }}
+              />
+            ))}
+
+            {/* Bar value labels */}
+            {barValueLabels.map(({ value, left, top, align }) => (
+              <div
+                key={value}
+                style={{
+                  position: "absolute",
+                  left,
+                  top,
+                  transform: align === "center" ? "translate(-50%, -50%)" : "translate(-100%, -50%)",
+                  fontSize: 18,
+                  fontWeight: 500,
+                  color: "#fff",
+                  whiteSpace: "nowrap",
+                  lineHeight: "normal",
+                  textAlign: align,
+                }}
+              >
+                {value}
+              </div>
+            ))}
+
+            {/* X-axis category labels */}
+            {xLabels.map(({ label, cx }) => (
+              <div
+                key={label}
+                style={{
+                  position: "absolute",
+                  left: cx,
+                  top: 273,
+                  transform: "translate(-50%, -50%)",
+                  fontSize: 16,
+                  fontWeight: 500,
+                  color: "rgba(255,255,255,0.5)",
+                  whiteSpace: "nowrap",
+                  lineHeight: "normal",
+                  textAlign: "center",
+                }}
+              >
+                {label}
               </div>
             ))}
           </div>
-
-          {/* Data rows */}
-          {rows.map((row, i) => (
-            <div
-              key={i}
-              style={{ display: "grid", gridTemplateColumns: `${COL_FEAT}px ${COL_DATA}px ${COL_DATA}px ${COL_DATA}px`, height: ROW_H, borderBottom: "1px solid #e0dfdf" }}
-            >
-              <div style={{ display: "flex", alignItems: "center", paddingLeft: 30, fontSize: 20, fontWeight: 500, color: "#000" }}>
-                {row.feature}
-              </div>
-              {[
-                { value: row.pixtron,     isPixtron: true  },
-                { value: row.digitalAds,  isPixtron: false },
-                { value: row.socialMedia, isPixtron: false },
-              ].map((cell, j) => (
-                <div key={j} style={{ background: "#f6f6f6", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Cell value={cell.value} isPixtron={cell.isPixtron} />
-                </div>
-              ))}
-            </div>
-          ))}
-
-          {/* Footer disclaimer */}
-          <div style={{ background: "#fff", height: 80, borderBottom: "1px solid #e0dfdf", borderRadius: "0 0 6px 6px", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "inset 0 0 14px rgba(0,0,0,0.25)" }}>
-            <p style={{ fontSize: 22, color: "rgba(0,0,0,0.8)", textAlign: "center" }}>
-              Based on industry averages and Pixtron internal data from 2025 - 2026
-            </p>
-          </div>
         </div>
-      </div>
+
+        {/* RIGHT column — flex column: [Scan Rate + Recall Rate] then [Cost] */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 17 }}>
+
+          {/* Top row: Scan Rate + Recall Rate — equal width, same height */}
+          <div style={{ display: "flex", gap: 17 }}>
+
+            {/* Scan Rate */}
+            <div style={{ ...glass, flex: 1, padding: 25, display: "flex", flexDirection: "column", gap: 20, justifyContent: "center" }}>
+              <div style={{ fontSize: 20, fontWeight: 600, color: "#fff", lineHeight: "28px", whiteSpace: "nowrap" }}>Scan Rate</div>
+              <div style={{ width: "100%" }}>
+                <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flexShrink: 0 }}>
+                    <span style={{ fontSize: 48, fontWeight: 700, color: "#fff", lineHeight: "48px", whiteSpace: "nowrap" }}>12%</span>
+                  </div>
+                  <div style={{ display: "flex", gap: 8, alignItems: "center", flexShrink: 0 }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/comparison/arrow-up.svg" alt="" width={10.504} height={12.249} style={{ display: "block", width: 10.504, height: 12.249, flexShrink: 0 }} />
+                    <span style={{ fontSize: 18, fontWeight: 400, color: "#0f9d58", lineHeight: "20px", whiteSpace: "nowrap" }}>vs 0.1% CTR</span>
+                  </div>
+                </div>
+              </div>
+              <div style={{ fontSize: 16, fontWeight: 400, color: "rgba(255,255,255,0.5)", lineHeight: "16px", whiteSpace: "nowrap" }}>
+                Compared to digital display ads
+              </div>
+            </div>
+
+            {/* Recall Rate */}
+            <div style={{ ...glass, flex: 1, padding: 25, display: "flex", flexDirection: "column", gap: 20, justifyContent: "center" }}>
+              <div style={{ fontSize: 20, fontWeight: 600, color: "#fff", lineHeight: "28px", whiteSpace: "nowrap" }}>Recall Rate</div>
+              <div style={{ fontSize: 48, fontWeight: 700, color: "#fff", lineHeight: "48px", whiteSpace: "nowrap" }}>78%</div>
+              <div style={{ fontSize: 16, fontWeight: 400, color: "rgba(255,255,255,0.5)", lineHeight: "16px", whiteSpace: "nowrap" }}>
+                Brand recall after 24 hours
+              </div>
+            </div>
+
+          </div>
+
+          {/* Cost Per Meaningful Interaction — fills remaining height */}
+          <div
+            style={{
+              ...glass,
+              flex: 1,
+              padding: 25,
+              display: "flex",
+              flexDirection: "column",
+              gap: 24,
+            }}
+          >
+          <div style={{ fontSize: 20, fontWeight: 600, color: "#fff", lineHeight: "28px", whiteSpace: "nowrap" }}>
+            Cost Per Meaningful Interaction
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16, width: "100%" }}>
+            {progressBars.map(({ label, value, rightPct }) => (
+              <div key={label} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                  <span style={{ fontSize: 14, fontWeight: 400, color: "#fff", lineHeight: "20px" }}>{label}</span>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: "#fff", lineHeight: "20px" }}>{value}</span>
+                </div>
+                <div
+                  style={{
+                    height: 8,
+                    background: "rgba(255,255,255,0.1)",
+                    borderRadius: 9999,
+                    width: "100%",
+                    position: "relative",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      height: 8,
+                      left: 0,
+                      right: `${rightPct}%`,
+                      background: "#0f9d58",
+                      borderRadius: 9999,
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>{/* end Cost card */}
+
+        </div>{/* end right column */}
+
+      </div>{/* end data grid */}
     </section>
   );
 }
@@ -677,7 +881,7 @@ export default function HomePage() {
         <RealImpactScroll />
         <WherePixtronWorksScroll />
         <IndustriesScroll />
-        <WhyDifferent />
+        <ComparisonSection />
         <TheProcess />
       </main>
       <FooterSection />

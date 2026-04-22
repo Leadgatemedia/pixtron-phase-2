@@ -1,295 +1,216 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef, useEffect } from "react";
 import Link from "next/link";
 
 function ArrowIcon() {
-  // eslint-disable-next-line @next/next/no-img-element
-  return <img src="/arrow-white.png" width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block" }} />;
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <circle cx="4"   cy="12" r="1.5" fill="#fff" />
+      <circle cx="8.5" cy="12" r="1.5" fill="#fff" />
+      <line x1="11" y1="12" x2="18" y2="12" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+      <polyline points="15,8.5 19.5,12 15,15.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    </svg>
+  );
 }
 
-const venues = [
-  { image: "/venues/restaurant-figma.png", title: "Restaurants", subtitle: "Enhance dining with premium wipes", startY: 0 },
-  { image: "/venues/cafe-figma.png", title: "Cafe's", subtitle: "High-traffic lifestyle touchpoints", startY: 56 },
-  { image: "/venues/hotels-figma.png", title: "Hotels", subtitle: "Premium hospitality amenities", startY: 112 },
-];
-
-const BASE_CARD_WIDTH = 532;
-const BASE_CARD_HEIGHT = 690;
-const BASE_CARD_GAP = 30;
+const CARD_H   = 668;
+const CARD_W   = 421;
+const CARD_GAP = 30;
 const NAVBAR_HEIGHT = 88;
-const SECTION_TOP_PADDING = 8;
-const SECTION_BOTTOM_PADDING = 28;
-const CTA_GAP = 28;
-const CTA_TRAVEL = 56;
-const CARD_ASPECT_RATIO = BASE_CARD_HEIGHT / BASE_CARD_WIDTH;
-const FALLBACK_FRAME_WIDTH = 1351;
+const CTA_DROP = 76;
 
-const CARD_BANDS = [
-  { card: 1, from: 0.02, to: 0.13 },
-  { card: 2, from: 0.13, to: 0.24 },
+const venues = [
+  { image: "/restaurant_clean.png", title: "Restaurants", subtitle: "Enhance dining with premium wipes",  startY: 0   },
+  { image: "/cafe_clean.png",       title: "Cafe's",       subtitle: "High-traffic lifestyle touchpoints", startY: 100 },
+  { image: "/hotel_clean.png",      title: "Hotels",       subtitle: "Premium hospitality amenities",      startY: 200 },
 ];
-const CTA_START = 0.24;
-const CTA_END = 0.4;
+
+const BANDS = [
+  { from: 0.00, to: 0.16 },
+  { from: 0.16, to: 0.32 },
+];
 
 function easeInOut(t: number) {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 }
 
-function easeOutQuick(t: number) {
-  return 1 - (1 - t) * (1 - t);
-}
-
 export default function WherePixtronWorksScroll() {
-  const outerRef = useRef<HTMLDivElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const cardsFrameRef = useRef<HTMLDivElement>(null);
-  const ctaWrapRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const cardsScaleRef = useRef(1);
+  const outerRef   = useRef<HTMLDivElement>(null);
+  const stickyRef  = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const card2Ref   = useRef<HTMLDivElement>(null);
+  const card3Ref   = useRef<HTMLDivElement>(null);
+  const ctaRef     = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const outer = outerRef.current;
-    const sticky = stickyRef.current;
-    const heading = headingRef.current;
-    const cardsFrame = cardsFrameRef.current;
-    const ctaWrap = ctaWrapRef.current;
-    const cta = ctaRef.current;
-
-    if (!outer || !sticky || !heading || !cardsFrame || !ctaWrap || !cta) return;
+    const outer   = outerRef.current;
+    const sticky  = stickyRef.current;
+    const content = contentRef.current;
+    const cta     = ctaRef.current;
+    if (!outer || !sticky || !content || !cta) return;
 
     const setDimensions = () => {
       const cssZoom = parseFloat(document.documentElement.style.zoom) || 1;
-      const viewportHeight = window.innerHeight / cssZoom;
-      const stickyViewportHeight = Math.max(0, viewportHeight - NAVBAR_HEIGHT);
-      const headingApprox = heading.offsetHeight;
-      const ctaApprox = cta.offsetHeight;
-      const sectionPadding = SECTION_TOP_PADDING + SECTION_BOTTOM_PADDING + 16;
-      const availableCardsHeight = Math.max(
-        520,
-        stickyViewportHeight - headingApprox - ctaApprox - sectionPadding - CTA_GAP,
-      );
-      const industriesGrid = document.querySelector<HTMLElement>('[data-industries-grid="true"]');
-      const industriesRect = industriesGrid?.getBoundingClientRect();
-      const stickyRect = sticky.getBoundingClientRect();
-      const frameWidth = industriesRect?.width || FALLBACK_FRAME_WIDTH;
-      const frameOffsetLeft = industriesRect ? industriesRect.left - stickyRect.left : Math.max(0, (stickyRect.width - frameWidth) / 2);
-      const cardGap = BASE_CARD_GAP;
-      const cardWidth = Math.max(0, (frameWidth - cardGap * (venues.length - 1)) / venues.length);
-      const cardHeight = cardWidth * CARD_ASPECT_RATIO;
-      const offsetScale = cardHeight / BASE_CARD_HEIGHT;
-      const startOffsets = venues.map((venue) => venue.startY * offsetScale);
-      const cardsScale = cardHeight / BASE_CARD_HEIGHT;
-      cardsScaleRef.current = cardsScale;
+      const viewportH = window.innerHeight / cssZoom;
+      const stickyH = Math.max(0, viewportH - NAVBAR_HEIGHT);
+      sticky.style.height = `${stickyH}px`;
+      outer.style.height  = `${stickyH * 2.6 + NAVBAR_HEIGHT}px`;
 
-      sticky.style.height = `${stickyViewportHeight}px`;
-      outer.style.height = `${stickyViewportHeight * 4.1 + NAVBAR_HEIGHT}px`;
-      cardsFrame.style.alignSelf = "flex-start";
-      cardsFrame.style.width = `${frameWidth}px`;
-      cardsFrame.style.marginLeft = `${frameOffsetLeft}px`;
-      cardsFrame.style.height = `${cardHeight + startOffsets[venues.length - 1]}px`;
-      cardsFrame.style.transform = "none";
-      ctaWrap.style.alignSelf = "flex-start";
-      ctaWrap.style.width = `${frameWidth}px`;
-      ctaWrap.style.marginLeft = `${frameOffsetLeft}px`;
-      ctaWrap.style.height = `${ctaApprox}px`;
-      ctaWrap.style.marginTop = `${CTA_GAP}px`;
-      ctaWrap.style.setProperty("--cta-travel", `${CTA_TRAVEL}px`);
-
-      cardRefs.current.forEach((card, index) => {
-        if (!card) return;
-
-        card.style.width = `${cardWidth}px`;
-        card.style.height = `${cardHeight}px`;
-        card.style.left = `${index * (cardWidth + cardGap)}px`;
-        card.style.top = `${startOffsets[index]}px`;
-      });
+      const contentH = content.offsetHeight;
+      const scale    = contentH > 0 ? Math.min(1, (stickyH - 32) / contentH) : 1;
+      content.style.transform = `translate(-50%, -50%) scale(${scale})`;
     };
+
+    // Two rAFs: first paints, second measures correct offsetHeight
+    requestAnimationFrame(() => requestAnimationFrame(setDimensions));
+    window.addEventListener("resize", setDimensions);
 
     const update = () => {
-      const rect = outer.getBoundingClientRect();
-      const outerHeight = outer.offsetHeight;
-      const stickyHeight = sticky.offsetHeight;
-      const scrolled = -rect.top;
-      const maxScroll = Math.max(1, outerHeight - stickyHeight);
-      const progress = Math.max(0, Math.min(1, scrolled / maxScroll));
+      const rect      = outer.getBoundingClientRect();
+      const outerH    = outer.offsetHeight;
+      const stickyH   = sticky.offsetHeight;
+      const scrolled  = -rect.top;
+      const maxScroll = Math.max(1, outerH - stickyH);
+      const progress  = Math.max(0, Math.min(1, scrolled / maxScroll));
 
-      cardRefs.current.forEach((card, index) => {
-        if (!card) return;
+      // Card 2 — top: 100 → 0 during band 0
+      if (card2Ref.current) {
+        const { from, to } = BANDS[0];
+        const t = Math.max(0, Math.min(1, (progress - from) / (to - from)));
+        card2Ref.current.style.top = `${venues[1].startY * (1 - easeInOut(t))}px`;
+      }
 
-        if (index === 0) {
-          card.style.top = "0px";
-          return;
-        }
+      // Card 3 — top: 200 → 0 during band 1
+      if (card3Ref.current) {
+        const { from, to } = BANDS[1];
+        const t = Math.max(0, Math.min(1, (progress - from) / (to - from)));
+        card3Ref.current.style.top = `${venues[2].startY * (1 - easeInOut(t))}px`;
+      }
 
-        const band = CARD_BANDS[index - 1];
-        const t = easeOutQuick(Math.max(0, Math.min(1, (progress - band.from) / (band.to - band.from))));
-        const y = venues[index].startY * cardsScaleRef.current * (1 - t);
-        card.style.top = `${y}px`;
-      });
-
-      const ctaProgress = easeInOut(Math.max(0, Math.min(1, (progress - CTA_START) / (CTA_END - CTA_START))));
-      cta.style.transform = `translateY(calc(var(--cta-travel, 140px) * ${1 - ctaProgress}))`;
-      cta.style.opacity = `${Math.max(0, Math.min(1, (progress - 0.22) / 0.08))}`;
+      const ctaProgress = Math.max(0, Math.min(1, progress / BANDS[1].to));
+      cta.style.transform = `translateY(${CTA_DROP * (1 - easeInOut(ctaProgress))}px)`;
     };
 
-    setDimensions();
-    window.addEventListener("resize", setDimensions);
     window.addEventListener("scroll", update, { passive: true });
     update();
-
-    const industriesGrid = document.querySelector<HTMLElement>('[data-industries-grid="true"]');
-    const ro = industriesGrid ? new ResizeObserver(() => setDimensions()) : null;
-    if (industriesGrid && ro) {
-      ro.observe(industriesGrid);
-    }
-
     return () => {
-      window.removeEventListener("resize", setDimensions);
       window.removeEventListener("scroll", update);
-      ro?.disconnect();
+      window.removeEventListener("resize", setDimensions);
     };
   }, []);
 
+  const totalW = CARD_W * 3 + CARD_GAP * 2;
+
   return (
-    <div ref={outerRef} style={{ position: "relative", background: "#fff" }}>
+    <div style={{ background: "#fff" }}>
+      {/* Heading scrolls normally — exits viewport before cards start sticking */}
+      <div style={{ background: "#fff", textAlign: "center", padding: "104px 39px 48px", display: "flex", flexDirection: "column", gap: 32 }}>
+        <h2 className="section-heading gradient-heading">Where Pixtron Works Best</h2>
+        <p className="section-subtitle">
+          From upscale restaurants to casual cafes, Pixtron fits seamlessly into any dining environment
+        </p>
+      </div>
+
+    <div ref={outerRef} style={{ position: "relative", minHeight: "400vh" }}>
+      {/* Sticky panel — clips stagger overflow at viewport edges */}
       <div
         ref={stickyRef}
-        style={{
-          position: "sticky",
-          top: NAVBAR_HEIGHT,
-          background: "#fff",
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          padding: `${SECTION_TOP_PADDING}px 0 ${SECTION_BOTTOM_PADDING}px`,
-        }}
+        style={{ position: "sticky", top: NAVBAR_HEIGHT, background: "#fff", overflow: "hidden", minHeight: `calc(100vh - ${NAVBAR_HEIGHT}px)` }}
       >
-        <div ref={headingRef} style={{ textAlign: "center", marginBottom: 36 }}>
-          <h2 className="section-heading gradient-heading">Where Pixtron Works Best</h2>
-          <p className="section-subtitle" style={{ marginTop: 16 }}>
-            From upscale restaurants to casual cafes, Pixtron fits seamlessly into any dining environment
-          </p>
-        </div>
-
+        {/* Content — absolutely centered + scaled to always fit */}
         <div
-          ref={cardsFrameRef}
+          ref={contentRef}
           style={{
-            position: "relative",
-            width: FALLBACK_FRAME_WIDTH,
-            height: BASE_CARD_HEIGHT + venues[venues.length - 1].startY,
-            transformOrigin: "top center",
-            alignSelf: "flex-start",
+            position:        "absolute",
+            top:             "50%",
+            left:            "50%",
+            transform:       "translate(-50%, -50%)",
+            transformOrigin: "center center",
+            display:         "flex",
+            flexDirection:   "column",
+            alignItems:      "center",
+            gap:             40,
           }}
         >
-          {venues.map((venue, index) => (
-            <div
-              key={venue.title}
-              ref={(el) => {
-                cardRefs.current[index] = el;
-              }}
-              style={{
-                width: BASE_CARD_WIDTH,
-                height: BASE_CARD_HEIGHT,
-                borderRadius: 20,
-                overflow: "hidden",
-                position: "absolute",
-                left: index * (BASE_CARD_WIDTH + BASE_CARD_GAP),
-                top: venue.startY,
-                willChange: "top",
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={venue.image}
-                alt={venue.title}
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-              {/* Dark gradient scrim at top */}
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background:
-                    "linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 42%)",
-                  pointerEvents: "none",
-                }}
-              />
-              {/* Card label */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 20,
-                  left: 20,
-                  pointerEvents: "none",
-                }}
-              >
-                <p
-                  style={{
-                    color: "#fff",
-                    fontSize: 20,
-                    fontWeight: 700,
-                    lineHeight: 1.25,
-                    margin: 0,
-                    textShadow: "0 1px 3px rgba(0,0,0,0.3)",
-                  }}
-                >
-                  {venue.title}
-                </p>
-                <p
-                  style={{
-                    color: "rgba(255,255,255,0.88)",
-                    fontSize: 13,
-                    fontWeight: 400,
-                    lineHeight: 1.4,
-                    margin: "5px 0 0",
-                    textShadow: "0 1px 2px rgba(0,0,0,0.25)",
-                  }}
-                >
-                  {venue.subtitle}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div
-          ref={ctaWrapRef}
-          style={{
-            position: "relative",
-            width: FALLBACK_FRAME_WIDTH,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            overflow: "visible",
-            alignSelf: "flex-start",
-          }}
-        >
+          {/* Cards — absolutely positioned within a fixed-size relative container.
+              No overflow:hidden here — the sticky clips stagger overflow at its own boundary.
+              This removes the visible "pocket box" that appeared during animation. */}
           <div
-            ref={ctaRef}
             style={{
-              position: "relative",
-              transform: "translateY(var(--cta-travel, 140px))",
-              opacity: 0,
-              willChange: "transform, opacity",
+              position:   "relative",
+              width:      totalW,
+              height:     CARD_H,
+              flexShrink: 0,
             }}
           >
+            {/* Card 1 — always at top=0 */}
+            <div style={{ position: "absolute", left: 0, top: 0, width: CARD_W, height: CARD_H }}>
+              <CardEl venue={venues[0]} />
+            </div>
+
+            {/* Card 2 — starts at top=100, rises to 0 */}
+            <div ref={card2Ref} style={{ position: "absolute", left: CARD_W + CARD_GAP, top: venues[1].startY, width: CARD_W, height: CARD_H }}>
+              <CardEl venue={venues[1]} />
+            </div>
+
+            {/* Card 3 — starts at top=200, rises to 0 */}
+            <div ref={card3Ref} style={{ position: "absolute", left: (CARD_W + CARD_GAP) * 2, top: venues[2].startY, width: CARD_W, height: CARD_H }}>
+              <CardEl venue={venues[2]} />
+            </div>
+          </div>
+
+          {/* CTA — above any card overflow via z-index */}
+          <div ref={ctaRef} style={{ position: "relative", zIndex: 2, transform: `translateY(${CTA_DROP}px)` }}>
             <Link href="/contact?type=advertiser" className="btn-primary">
               <span>Advertise With Pixtron</span>
               <ArrowIcon />
             </Link>
           </div>
         </div>
+      </div>
+    </div>
+    </div>
+  );
+}
+
+function CardEl({ venue }: { venue: typeof venues[number] }) {
+  return (
+    <div
+      style={{
+        width: "100%", height: "100%",
+        borderRadius: 20,
+        overflow:     "hidden",
+        position:     "relative",
+      }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={venue.image}
+        alt={venue.title}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+      />
+      {/* Figma: gradient h-274, p-32, gap-20, dark-to-transparent top-down */}
+      <div
+        style={{
+          position:      "absolute",
+          top: 0, left: 0, right: 0,
+          height:        274,
+          background:    "linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%)",
+          padding:       32,
+          display:       "flex",
+          flexDirection: "column",
+          gap:           12,
+          boxSizing:     "border-box",
+          borderRadius:  "20px 20px 0 0",
+        }}
+      >
+        <p style={{ fontSize: 30, fontWeight: 700, color: "#fff", lineHeight: "36px", margin: 0 }}>
+          {venue.title}
+        </p>
+        <p style={{ fontSize: 18, fontWeight: 400, color: "#fff", lineHeight: 1.5, margin: 0 }}>
+          {venue.subtitle}
+        </p>
       </div>
     </div>
   );
