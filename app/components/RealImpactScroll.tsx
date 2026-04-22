@@ -191,7 +191,7 @@ export default function RealImpactScroll() {
     const setHeight = () => {
       const vh = window.innerHeight;
       const stickyH = vh / ZOOM;
-      outer.style.height = `${stickyH + stickyH * 3.2}px`;
+      outer.style.height = `${stickyH + stickyH * 1.9}px`;
     };
 
     const applyLayouts = (from: CardLayout[], to: CardLayout[], t: number) => {
@@ -240,8 +240,8 @@ export default function RealImpactScroll() {
       const scrolled = -rect.top;
       const maxScroll = Math.max(1, outer.offsetHeight - stickyH);
       const raw = Math.max(0, Math.min(1, scrolled / maxScroll));
-      const animationStart = 0.12;
-      const animationEnd = 0.72;
+      const animationStart = 0.06;
+      const animationEnd = 0.38;
       const shifted = Math.max(0, raw - animationStart);
       const normalized = shifted / Math.max(0.0001, animationEnd - animationStart);
       const animatedProgress = Math.max(0, Math.min(1, normalized));

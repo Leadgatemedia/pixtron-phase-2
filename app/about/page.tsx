@@ -4,12 +4,14 @@ import Link from "next/link";
 
 import FooterSection from "../components/FooterSection";
 import CoreValuesSection from "../components/CoreValuesSection";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "About Us | Pixtron",
+export const metadata: Metadata = createPageMetadata({
+  title: "About Pixtron | Sensory Media Advertising",
   description:
-    "Learn how Pixtron is changing how brands are experienced through utility-first sensory advertising.",
-};
+    "Learn how Pixtron approaches sensory media advertising and why the brand focuses on real-world utility, presence, and memorability.",
+  path: "/about",
+});
 
 const ARROW_WHITE = "white";
 const ARROW_DARK = "dark";
@@ -156,11 +158,11 @@ export default function AboutPage() {
     <>
       <SiteNavbar />
 
-      <main style={{ background: "#fff" }}>
+      <main>
         {/* ── Hero Section ── */}
         <section
           style={{
-            background: "#fff",
+            background: "linear-gradient(180deg, #e8f5e9 0%, #ffffff 100%)",
             paddingTop: 168,
             overflow: "hidden",
           }}

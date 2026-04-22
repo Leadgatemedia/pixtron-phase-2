@@ -43,13 +43,15 @@ const STEP_IN  = [0.05, 0.28, 0.51, 0.74];
 const STEP_OUT = [0.14, 0.37, 0.60, 0.83];
 // fraction along the bar track where each icon sits
 const BAR_POS  = [0, 1 / 3, 2 / 3, 1];
-const CONTENT_FADE = 0.07; // scroll range over which content fades in
+const CONTENT_FADE = 0.03; // text starts fading in at icon activation and finishes quickly
+const STEP_SETTLE = 0.02; // brief hold after reveal before the bar travels onward
 
 const ZOOM = 0.8; // must match html zoom in layout.tsx
 
 export default function HowItWorksScroll() {
   const outerRef        = useRef<HTMLDivElement>(null);
   const stickyRef       = useRef<HTMLDivElement>(null);
+  const timelineRef     = useRef<HTMLDivElement>(null);
   const barFillRef      = useRef<HTMLDivElement>(null);
   const iconRefs    = useRef<(HTMLDivElement   | null)[]>(Array(4).fill(null));
   const iconImgRefs = useRef<(HTMLImageElement | null)[]>(Array(4).fill(null));
@@ -84,19 +86,26 @@ export default function HowItWorksScroll() {
       // ── Progress bar fill ──────────────────────────────────────────
       if (barFillRef.current) {
         let fill = 0;
+        const timelineWidth = timelineRef.current?.clientWidth ?? 1092;
+        const trackWidth = Math.max(1, timelineWidth - 96);
+        const iconRadiusFraction = 24 / trackWidth;
+
         if (p >= STEP_IN[0]) {
           if (p >= STEP_IN[3]) {
             fill = 1;
           } else {
             for (let i = 0; i < 3; i++) {
               if (p < STEP_IN[i + 1]) {
-                if (p < STEP_OUT[i]) {
+                const travelStart = Math.max(STEP_OUT[i], STEP_IN[i] + CONTENT_FADE + STEP_SETTLE);
+                const nextStop = Math.max(BAR_POS[i], BAR_POS[i + 1] - iconRadiusFraction);
+
+                if (p < travelStart) {
                   // hold: bar stays at current icon
                   fill = BAR_POS[i];
                 } else {
-                  // travel: bar moves to next icon
-                  const dur = STEP_IN[i + 1] - STEP_OUT[i];
-                  fill = BAR_POS[i] + (BAR_POS[i + 1] - BAR_POS[i]) * ease((p - STEP_OUT[i]) / dur);
+                  // travel: bar moves toward the next icon, but stops just before it
+                  const dur = Math.max(0.0001, STEP_IN[i + 1] - travelStart);
+                  fill = BAR_POS[i] + (nextStop - BAR_POS[i]) * ease((p - travelStart) / dur);
                 }
                 break;
               }
@@ -128,10 +137,10 @@ export default function HowItWorksScroll() {
         if (contentEl) {
           if (active) {
             const eased = ease(Math.min(1, (p - STEP_IN[i]) / CONTENT_FADE));
-            contentEl.style.opacity   = String(eased);
+            contentEl.style.opacity = String(eased);
             contentEl.style.transform = `translateY(${(1 - eased) * 20}px)`;
           } else {
-            contentEl.style.opacity   = "0";
+            contentEl.style.opacity = "0";
             contentEl.style.transform = "translateY(20px)";
           }
         }
@@ -186,6 +195,7 @@ export default function HowItWorksScroll() {
 
         {/* ── Timeline bar + icons ────────────────────────────────────── */}
         <div
+          ref={timelineRef}
           style={{
             position:  "relative",
             width:     "100%",
@@ -246,7 +256,7 @@ export default function HowItWorksScroll() {
                   alignItems:     "center",
                   justifyContent: "center",
                   flexShrink:     0,
-                  transition:     "background 0.35s ease",
+                  transition:     "background 0.18s ease",
                 }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}

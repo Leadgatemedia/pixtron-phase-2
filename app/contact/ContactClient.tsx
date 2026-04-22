@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 
 import FooterSection from "../components/FooterSection";
 import { sendContactInquiry } from "./emailjs";
@@ -1067,6 +1067,24 @@ export default function ContactClient({ initialStep = "select" }: { initialStep?
   const router = useRouter();
   const [step, setStep] = useState<Step>(initialStep);
 
+  useEffect(() => {
+    setStep(initialStep);
+  }, [initialStep]);
+
+  const handleSelect = (nextStep: Step) => {
+    if (nextStep === "restaurant") {
+      router.push("/contact?type=restaurant");
+      return;
+    }
+
+    if (nextStep === "advertiser") {
+      router.push("/contact?type=advertiser");
+      return;
+    }
+
+    setStep("select");
+  };
+
   const handleBack = () => {
     if (window.history.length > 1) {
       router.back();
@@ -1080,7 +1098,7 @@ export default function ContactClient({ initialStep = "select" }: { initialStep?
     <>
       <SiteNavbar />
       <main style={{ background: "#fff" }}>
-        {step === "select" && <SelectionView onSelect={setStep} />}
+        {step === "select" && <SelectionView onSelect={handleSelect} />}
         {step === "restaurant" && <RestaurantForm onBack={handleBack} />}
         {step === "advertiser" && <AdvertiserForm onBack={handleBack} />}
       </main>
