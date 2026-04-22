@@ -244,7 +244,7 @@ export default function IndustriesScroll() {
   }, []);
 
   return (
-    <div ref={outerRef} style={{ position: "relative" }}>
+    <div ref={outerRef} style={{ position: "relative", borderTop: "160px solid #fff" }}>
       <div
         ref={stickyRef}
         style={{
@@ -403,6 +403,21 @@ export default function IndustriesScroll() {
                   pointerEvents: "none",
                 }}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={industry.icon}
+                  alt=""
+                  width={56}
+                  height={56}
+                  style={{
+                    position: "absolute",
+                    top: 28,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    display: "block",
+                  }}
+                />
+
                 {/* Vertical text */}
                 <p
                   style={{
