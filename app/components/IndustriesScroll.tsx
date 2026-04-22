@@ -270,6 +270,7 @@ export default function IndustriesScroll() {
         {/* Columns grid */}
         <div
           ref={gridRef}
+          data-industries-grid="true"
           style={{
             display: "flex",
             height: CARD_H,
@@ -431,7 +432,7 @@ export default function IndustriesScroll() {
 
         {/* CTA — below the grid, matching Figma */}
         <div ref={ctaRef} style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16, marginTop: 8 }}>
-          <Link href="#" className="btn-primary">
+          <Link href="/contact?type=advertiser" className="btn-primary">
             <span>Advertise With Pixtron</span>
             <ArrowIcon />
           </Link>

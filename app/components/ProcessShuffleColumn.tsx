@@ -19,6 +19,7 @@ type ProcessShuffleColumnProps = {
   arrowDark: string;
   arrowWhite: string;
   progress?: number;
+  stackAlign?: "center" | "left" | "right";
 };
 
 type CardLayout = {
@@ -107,6 +108,7 @@ export default function ProcessShuffleColumn({
   arrowDark,
   arrowWhite,
   progress,
+  stackAlign = "center",
 }: ProcessShuffleColumnProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>(Array(steps.length).fill(null));
@@ -266,40 +268,51 @@ export default function ProcessShuffleColumn({
     applyProgress(Math.max(0, Math.min(1, progress)));
   }, [progress, steps]);
 
+  const stackMargin =
+    stackAlign === "left"
+      ? "0 auto 0 0"
+      : stackAlign === "right"
+        ? "0 0 0 auto"
+        : "0 auto";
+  const contentWidth = { width: maxCardWidth, maxWidth: "100%", margin: stackMargin };
+  const ctaHref = btnLabel === "For Restaurants" ? "/contact?type=restaurant" : "/contact?type=advertiser";
+
   return (
     <div ref={rootRef} style={{ flex: 1 }}>
-      <p
-        style={{
-          fontSize: 16,
-          fontWeight: 600,
-          color: "#0f9d58",
-          letterSpacing: "0.05em",
-          textTransform: "uppercase",
-          textAlign: "center",
-          marginBottom: 10,
-        }}
-      >
-        {label}
-      </p>
-      <h3
-        style={{
-          fontSize: 30,
-          fontWeight: 400,
-          color: "#000",
-          textAlign: "center",
-          lineHeight: 1.3,
-          marginBottom: 28,
-        }}
-      >
-        {heading.split("\n").map((line, i) => (
-          <span key={i}>
-            {i > 0 && <br />}
-            {i === 1 ? <strong>{line}</strong> : line}
-          </span>
-        ))}
-      </h3>
+      <div style={contentWidth}>
+        <p
+          style={{
+            fontSize: 16,
+            fontWeight: 600,
+            color: "#0f9d58",
+            letterSpacing: "0.05em",
+            textTransform: "uppercase",
+            textAlign: "center",
+            marginBottom: 10,
+          }}
+        >
+          {label}
+        </p>
+        <h3
+          style={{
+            fontSize: 30,
+            fontWeight: 400,
+            color: "#000",
+            textAlign: "center",
+            lineHeight: 1.3,
+            marginBottom: 28,
+          }}
+        >
+          {heading.split("\n").map((line, i) => (
+            <span key={i}>
+              {i > 0 && <br />}
+              {i === 1 ? <strong>{line}</strong> : line}
+            </span>
+          ))}
+        </h3>
+      </div>
 
-      <div style={{ position: "relative", width: maxCardWidth, maxWidth: "100%", height: 380, margin: "0 auto" }}>
+      <div style={{ position: "relative", width: maxCardWidth, maxWidth: "100%", height: 380, margin: stackMargin }}>
         {steps.map((step, index) => (
           <div
             key={step.step}
@@ -384,14 +397,14 @@ export default function ProcessShuffleColumn({
         ))}
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 0 }}>
+      <div style={{ ...contentWidth, display: "flex", justifyContent: "center", marginTop: 0 }}>
         {btnStyle === "primary" ? (
-          <Link href="#" className="btn-primary">
+          <Link href={ctaHref} className="btn-primary">
             <span>{btnLabel}</span>
             <ArrowIcon src={arrowWhite} />
           </Link>
         ) : (
-          <Link href="#" className="btn-outline">
+          <Link href={ctaHref} className="btn-outline">
             <span>{btnLabel}</span>
             <ArrowIcon src={arrowDark} />
           </Link>

@@ -78,6 +78,11 @@ const TOTAL_WEIGHT = TRANSITION_WEIGHTS.reduce((sum, value) => sum + value, 0);
 const PREVIOUS_OFFSET = 60;
 const FUTURE_OFFSET = 65;
 
+function ArrowIcon() {
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src="/arrow-white.png" width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block", transition: "filter 0.35s ease" }} />;
+}
+
 function ease(t: number) {
   return t * t * (3 - 2 * t);
 }
@@ -235,8 +240,8 @@ export default function RealImpactScroll() {
       const scrolled = -rect.top;
       const maxScroll = Math.max(1, outer.offsetHeight - stickyH);
       const raw = Math.max(0, Math.min(1, scrolled / maxScroll));
-      const animationStart = 0.18;
-      const animationEnd = 0.94;
+      const animationStart = 0.12;
+      const animationEnd = 0.72;
       const shifted = Math.max(0, raw - animationStart);
       const normalized = shifted / Math.max(0.0001, animationEnd - animationStart);
       const animatedProgress = Math.max(0, Math.min(1, normalized));
@@ -290,7 +295,7 @@ export default function RealImpactScroll() {
             width: "100%",
             maxWidth: 1024,
             marginTop: 12,
-            height: 500,
+            height: 380,
             padding: "28px 20px 36px",
             overflow: "visible",
             boxSizing: "border-box",
@@ -378,11 +383,10 @@ export default function RealImpactScroll() {
           ))}
         </div>
 
-        <div style={{ marginTop: 4, position: "relative", zIndex: 10, background: "#fff", paddingTop: 0 }}>
-          <Link href="#" className="btn-primary">
+        <div style={{ marginTop: 22, position: "relative", zIndex: 10, background: "#fff", paddingTop: 0 }}>
+          <Link href="/contact?type=advertiser" className="btn-primary">
             <span>Advertise With Pixtron</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/arrow-white.png" width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block" }} />
+            <ArrowIcon />
           </Link>
         </div>
       </div>
