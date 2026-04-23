@@ -15,6 +15,22 @@ const absFill: React.CSSProperties = {
   height: "100%",
 };
 
+const navigationLinks = [
+  { label: "Signature Sachets", href: "#" },
+  { label: "Custom Sachets", href: "#" },
+  { label: "Advertisers", href: "#" },
+  { label: "Restaurants", href: "#" },
+  { label: "Industries", href: "#" },
+];
+
+const companyLinks = [
+  { label: "Blogs", href: "#" },
+  { label: "About us", href: "/about" },
+  { label: "Contact us", href: "/contact" },
+  { label: "FAQ", href: "#" },
+  { label: "Product", href: "#" },
+];
+
 function InstagramDefaultIcon() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -138,50 +154,15 @@ function YoutubeHoverIcon() {
   );
 }
 
-function MailIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden>
-      <rect x="3" y="5.5" width="16" height="11" rx="2" stroke="#0F9D58" strokeWidth="1.8" />
-      <path d="M4.5 7L11 12L17.5 7" stroke="#0F9D58" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function PhoneIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden>
-      <path
-        d="M6.4 4.2L8.9 3.4C9.5 3.2 10 3.5 10.3 4L11.5 6.8C11.7 7.3 11.6 7.8 11.2 8.1L9.8 9.5C10.7 11.2 12 12.5 13.7 13.4L15.1 12C15.4 11.6 15.9 11.5 16.4 11.7L19.2 12.9C19.7 13.2 20 13.7 19.8 14.3L19 16.8C18.8 17.5 18.2 17.9 17.5 17.9C10.7 17.9 5.1 12.3 5.1 5.5C5.1 4.8 5.5 4.4 6.4 4.2Z"
-        stroke="#0F9D58"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function PinIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden>
-      <path
-        d="M11 19C14.5 15 16.2 12.3 16.2 9.7C16.2 6.6 13.8 4.2 11 4.2C8.2 4.2 5.8 6.6 5.8 9.7C5.8 12.3 7.5 15 11 19Z"
-        stroke="#0F9D58"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-      <circle cx="11" cy="9.5" r="1.8" fill="#0F9D58" />
-    </svg>
-  );
-}
-
-interface SocialTileProps {
+function SocialTile({
+  icon,
+  hoverIcon,
+  label,
+}: {
   icon: React.ReactNode;
   hoverIcon?: React.ReactNode;
   label?: string;
-}
-
-function SocialTile({ icon, hoverIcon, label }: SocialTileProps) {
+}) {
   const [hovered, setHovered] = useState(false);
   const isActive = !!hoverIcon;
   const showHover = hovered && isActive;
@@ -190,228 +171,232 @@ function SocialTile({ icon, hoverIcon, label }: SocialTileProps) {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      className={styles.socialTile}
       style={{
-        width: 141.3,
-        height: 142,
-        position: "relative",
         zIndex: showHover ? 2 : 1,
-        flexShrink: 0,
-        background: "#fff",
-        borderRadius: 6,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
         gap: showHover ? 14 : 0,
         cursor: isActive ? "pointer" : "default",
-        transition: "box-shadow 0.2s ease, transform 0.2s ease",
         boxShadow: showHover ? "0px 12px 34px 0px rgba(0,0,0,0.25)" : "none",
         transform: showHover ? "translateY(-1px)" : "translateY(0)",
       }}
     >
       {showHover ? hoverIcon : icon}
-      {showHover && label && (
-        <span style={{ fontSize: 18, fontWeight: 500, color: "rgba(0,0,0,0.84)", lineHeight: 1.5, whiteSpace: "nowrap" }}>
-          {label}
-        </span>
-      )}
+      {showHover && label ? <span className={styles.socialTileLabel}>{label}</span> : null}
     </div>
   );
 }
 
-export default function FooterSection() {
-  const navLinks = ["Signature Sachets", "Custom Sachets", "Advertisers", "Restaurants", "Industries"];
-  const companyLinks = [
-    { label: "Blogs", href: "#" },
-    { label: "About us", href: "/about" },
-    { label: "Contact Us", href: "/contact" },
-    { label: "FAQ", href: "#" },
-    { label: "Product", href: "#" },
-  ];
-  const sectionLabelStyle: React.CSSProperties = {
-    fontSize: 16,
-    fontWeight: 700,
-    letterSpacing: "0.64px",
-    textTransform: "uppercase",
-    marginBottom: 24,
-  };
-  const footerLinkStyle: React.CSSProperties = {
-    fontSize: 18,
-    lineHeight: 1.5,
-    letterSpacing: "0.18px",
-    color: "#000",
-    textDecoration: "none",
-  };
+function MobileSocialTile({ children }: { children: React.ReactNode }) {
+  return <div className={styles.mobileSocialTile}>{children}</div>;
+}
 
+function DesktopSocialBand() {
   return (
-    <FooterBlurGuard>
-      <footer style={{ background: "#fff", width: "100%" }}>
-        <div style={{ width: "100%", background: "#f4f4f4", paddingTop: 56, paddingBottom: 3 }}>
-          <div
-            style={{
-              fontSize: 40,
-              lineHeight: 1.2,
-              textAlign: "center",
-              marginBottom: 56,
-              backgroundImage: "linear-gradient(94.773deg, #000 0%, rgba(0,0,0,0.5) 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            <div style={{ fontWeight: 400 }}>Get connected with us</div>
-            <div style={{ fontWeight: 700 }}>on social networks</div>
-          </div>
+    <div className={styles.desktopSocialBand}>
+      <div className={styles.desktopSocialHeading}>
+        <div>Get connected with us</div>
+        <div>on social networks</div>
+      </div>
 
-          <div style={{ display: "flex", gap: 3, width: "100%", overflow: "visible", alignItems: "stretch" }}>
-            <div style={{ flex: 1, minWidth: 0, display: "flex", justifyContent: "flex-end", gap: 3, overflow: "hidden" }}>
-              {Array.from({ length: 10 }).map((_, i) => (
-                <SocialTile key={i} icon={<YoutubeDefaultIcon blurred />} />
-              ))}
+      <div className={styles.footerSocialRow}>
+        <div className={styles.socialBlurLaneLeft}>
+          {Array.from({ length: 10 }).map((_, i) => (
+            <SocialTile key={`left-${i}`} icon={<YoutubeDefaultIcon blurred />} />
+          ))}
+        </div>
+
+        <SocialTile icon={<InstagramDefaultIcon />} hoverIcon={<InstagramHoverIcon />} label="Instagram" />
+        <SocialTile icon={<FacebookDefaultIcon />} hoverIcon={<FacebookHoverIcon />} label="Facebook" />
+        <SocialTile icon={<TikTokDefaultIcon />} hoverIcon={<TikTokHoverIcon />} label="TikTok" />
+        <SocialTile icon={<YoutubeDefaultIcon />} hoverIcon={<YoutubeHoverIcon />} label="YouTube" />
+
+        <div className={styles.socialBlurLaneRight}>
+          {Array.from({ length: 10 }).map((_, i) => (
+            <SocialTile key={`right-${i}`} icon={<YoutubeDefaultIcon blurred />} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MobileSocialBand() {
+  return (
+    <section className={styles.mobileSocialBand}>
+      <div className={styles.mobileSocialHeading}>
+        <div>Get connected with us</div>
+        <div>on social networks</div>
+      </div>
+
+      <div className={styles.mobileSocialGrid}>
+        <MobileSocialTile>
+          <InstagramDefaultIcon />
+        </MobileSocialTile>
+        <MobileSocialTile>
+          <FacebookDefaultIcon />
+        </MobileSocialTile>
+        <MobileSocialTile>
+          <TikTokDefaultIcon />
+        </MobileSocialTile>
+        <MobileSocialTile>
+          <YoutubeDefaultIcon />
+        </MobileSocialTile>
+      </div>
+    </section>
+  );
+}
+
+function DesktopFooterLayout() {
+  return (
+    <section className={styles.desktopFooterShell}>
+      <div className={styles.desktopFooterTop}>
+        <div className={styles.desktopFooterCol}>
+          <div className={styles.desktopBrandBlock}>
+            <Image src="/logo.png" alt="Pixtron" width={86} height={64} />
+            <div className={styles.footerTagline}>
+              <div>Real world advertising that</div>
+              <div className={styles.footerTaglineBold}>Seen. Touch. Remembered.</div>
             </div>
+            <div className={styles.footerContactBlock}>
+              <div className={styles.footerSectionLabel}>Contact</div>
+              <a href="tel:7025822228" className={styles.footerBigLink}>
+                (702) 582-2228
+              </a>
+              <a href="mailto:info@pixtron.net" className={styles.footerBigLink}>
+                info@pixtron.net
+              </a>
+            </div>
+          </div>
+        </div>
 
-            <SocialTile icon={<InstagramDefaultIcon />} hoverIcon={<InstagramHoverIcon />} label="Instagram" />
-            <SocialTile icon={<FacebookDefaultIcon />} hoverIcon={<FacebookHoverIcon />} label="Facebook" />
-            <SocialTile icon={<TikTokDefaultIcon />} hoverIcon={<TikTokHoverIcon />} label="TikTok" />
-            <SocialTile icon={<YoutubeDefaultIcon />} hoverIcon={<YoutubeHoverIcon />} label="YouTube" />
-
-            <div style={{ flex: 1, minWidth: 0, display: "flex", justifyContent: "flex-start", gap: 3, overflow: "hidden" }}>
-              {Array.from({ length: 10 }).map((_, i) => (
-                <SocialTile key={i} icon={<YoutubeDefaultIcon blurred />} />
+        <div className={styles.desktopFooterCol}>
+          <div className={styles.footerListBlock}>
+            <div className={styles.footerSectionLabel}>Navigation</div>
+            <div className={styles.footerLinkList}>
+              {navigationLinks.map((link) => (
+                <Link key={link.label} href={link.href} className={styles.footerTextLink}>
+                  {link.label}
+                </Link>
               ))}
             </div>
           </div>
         </div>
 
-        <div className={styles.footerLowerShell}>
-          <div className={styles.footerGrid}>
-            <div className={styles.footerBrandCard}>
-              <div style={{ flex: 1, width: "100%", display: "flex", alignItems: "center", justifyContent: "center", paddingTop: 8 }}>
-                <Image src="/logo.png" alt="Pixtron" width={206} height={166} />
-              </div>
-              <div style={{ textAlign: "center", width: "100%", maxWidth: 270, margin: "0 auto", paddingBottom: 2 }}>
-                <div
-                  style={{
-                    fontSize: 18,
-                    fontWeight: 500,
-                    lineHeight: "24px",
-                    color: "rgba(255,255,255,0.6)",
-                    marginBottom: 2,
-                  }}
-                >
-                  Real world advertising that
-                </div>
-                <div
-                  style={{
-                    fontSize: 20,
-                    fontWeight: 600,
-                    lineHeight: "32px",
-                    color: "#fff",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  Seen. Touch. Remembered.
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.footerInfoPanel}>
-              <div className={styles.footerInfoTop}>
-                <div className={`${styles.footerColumn} ${styles.footerNavColumn}`}>
-                  <div style={sectionLabelStyle}>Navigation</div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-                    {navLinks.map((link) => (
-                      <Link key={link} href="#" style={footerLinkStyle}>
-                        {link}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                <div className={`${styles.footerColumn} ${styles.footerCompanyColumn}`}>
-                  <div style={sectionLabelStyle}>Company</div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-                    {companyLinks.map((link) => (
-                      <Link key={link.label} href={link.href} style={footerLinkStyle}>
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                <div className={`${styles.footerColumn} ${styles.footerContactColumn}`}>
-                  <div style={sectionLabelStyle}>Contact</div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-                    <a
-                      href="mailto:info@pixtron.net"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 10,
-                        textDecoration: "none",
-                        color: "#000",
-                        fontSize: 18,
-                        lineHeight: 1.5,
-                        letterSpacing: "0.18px",
-                        fontWeight: 500,
-                      }}
-                    >
-                      <MailIcon />
-                      <span>info@pixtron.net</span>
-                    </a>
-                    <a
-                      href="tel:7025822228"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 10,
-                        textDecoration: "none",
-                        color: "#000",
-                        fontSize: 18,
-                        lineHeight: 1.5,
-                        letterSpacing: "0.18px",
-                        fontWeight: 500,
-                      }}
-                    >
-                      <PhoneIcon />
-                      <span>(702) 582-2228</span>
-                    </a>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "flex-start",
-                        gap: 10,
-                        color: "#000",
-                        fontSize: 18,
-                        lineHeight: 1.5,
-                        letterSpacing: "0.18px",
-                        fontWeight: 500,
-                      }}
-                    >
-                      <div style={{ flexShrink: 0, marginTop: 1 }}>
-                        <PinIcon />
-                      </div>
-                      <span style={{ maxWidth: 440 }}>1810 E. Sahara Ave Ste 930 Las Vegas, NV 89104, USA</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.footerInfoBottom}>
-                <div className={styles.footerCopyright} style={{ fontSize: 18, fontWeight: 500, color: "rgba(0,0,0,0.5)" }}>
-                  © 2026 Pixtron, All Rights Reserved
-                </div>
-                <div className={styles.footerPolicyLinks}>
-                  <Link href="#" style={footerLinkStyle}>
-                    Privacy Policy
-                  </Link>
-                  <Link href="#" style={{ ...footerLinkStyle, whiteSpace: "nowrap" }}>
-                    Terms &amp; Conditions
-                  </Link>
-                </div>
-              </div>
+        <div className={styles.desktopFooterCol}>
+          <div className={styles.footerListBlock}>
+            <div className={styles.footerSectionLabel}>Company</div>
+            <div className={styles.footerLinkList}>
+              {companyLinks.map((link) => (
+                <Link key={link.label} href={link.href} className={styles.footerTextLink}>
+                  {link.label}
+                </Link>
+              ))}
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className={styles.desktopFooterBottom}>
+        <div className={styles.desktopFooterCopyright}>© 2026 Pixtron, All Rights Reserved</div>
+        <div className={styles.desktopFooterPolicies}>
+          <Link href="#" className={styles.footerPolicyLink}>
+            Privacy Policy
+          </Link>
+          <Link href="#" className={styles.footerPolicyLink}>
+            Terms &amp; Conditions
+          </Link>
+        </div>
+      </div>
+
+      <div className={styles.desktopFooterWordmark} aria-hidden>
+        {["P", "I", "X", "T", "R", "O", "N"].map((letter) => (
+          <span key={letter}>{letter}</span>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function MobileFooterLayout() {
+  return (
+    <section className={styles.mobileFooterShell}>
+      <div className={styles.mobileFooterTop}>
+        <div className={styles.mobileFooterBrandArea}>
+          <Image src="/logo.png" alt="Pixtron" width={86} height={64} />
+          <div className={styles.mobileFooterBody}>
+            <div>Real world advertising that</div>
+            <div className={styles.mobileFooterBodyBold}>Seen. Touch. Remembered.</div>
+          </div>
+
+          <div className={styles.mobileFooterContactArea}>
+            <div className={styles.footerSectionLabel}>Contact</div>
+            <div className={styles.mobileFooterContactLinks}>
+              <a href="tel:7025822228" className={styles.footerBigLink}>
+                (702) 582-2228
+              </a>
+              <a href="mailto:info@pixtron.net" className={styles.footerBigLink}>
+                info@pixtron.net
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.mobileFooterColumns}>
+          <div className={styles.mobileFooterColumn}>
+            <div className={styles.footerSectionLabel}>Navigation</div>
+            <div className={styles.mobileFooterLinkList}>
+              {navigationLinks.map((link) => (
+                <Link key={link.label} href={link.href} className={styles.mobileFooterTextLink}>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.mobileFooterColumn}>
+            <div className={styles.footerSectionLabel}>Company</div>
+            <div className={styles.mobileFooterLinkList}>
+              {companyLinks.map((link) => (
+                <Link key={link.label} href={link.href} className={styles.mobileFooterTextLink}>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.mobileFooterBottom}>
+        <div className={styles.mobileFooterPolicies}>
+          <Link href="#" className={styles.footerPolicyLink}>
+            Privacy Policy
+          </Link>
+          <Link href="#" className={styles.footerPolicyLink}>
+            Terms &amp; Conditions
+          </Link>
+        </div>
+        <div className={styles.mobileFooterCopyright}>© 2026 Pixtron, All Rights Reserved</div>
+      </div>
+
+      <div className={styles.mobileFooterWordmark} aria-hidden>
+        PIXTRON
+      </div>
+    </section>
+  );
+}
+
+export default function FooterSection() {
+  return (
+    <FooterBlurGuard>
+      <footer className={styles.footerRoot}>
+        <div className={styles.desktopOnly}>
+          <DesktopSocialBand />
+          <DesktopFooterLayout />
+        </div>
+
+        <div className={styles.mobileOnly}>
+          <MobileSocialBand />
+          <MobileFooterLayout />
         </div>
       </footer>
     </FooterBlurGuard>

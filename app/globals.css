@@ -11,6 +11,16 @@
 .mobile-how-it-works { display: none; }
 .desktop-real-impact { display: block; }
 .mobile-real-impact { display: none; }
+.desktop-where-pixtron { display: block; }
+.mobile-where-pixtron { display: none; }
+.desktop-industries { display: block; }
+.mobile-industries { display: none; }
+.desktop-comparison { display: block; }
+.mobile-comparison { display: none; }
+.desktop-process { display: block; }
+.mobile-process { display: none; }
+.desktop-mid-cta { display: block; }
+.mobile-mid-cta { display: none; }
 
 @media (max-width: 767px) {
   .about-desktop-only { display: none !important; }
@@ -23,6 +33,23 @@
   .mobile-how-it-works { display: flex !important; }
   .desktop-real-impact { display: none !important; }
   .mobile-real-impact { display: flex !important; }
+  .desktop-where-pixtron { display: none !important; }
+  .mobile-where-pixtron { display: flex !important; }
+  .desktop-industries { display: none !important; }
+  .mobile-industries { display: flex !important; }
+  .desktop-comparison { display: none !important; }
+  .mobile-comparison { display: flex !important; }
+  .desktop-process { display: none !important; }
+  .mobile-process { display: flex !important; }
+  .desktop-mid-cta { display: none !important; }
+  .mobile-mid-cta { display: block !important; }
+}
+
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+  .desktop-process { display: none !important; }
+  .mobile-process { display: flex !important; }
+  .desktop-mid-cta { display: none !important; }
+  .mobile-mid-cta { display: block !important; }
 }
 
 /* While intro hasn't finished: keep elements hidden + out of flow */
@@ -41,6 +68,10 @@ html:not(.intro-done) .intro-reveal-up {
 }
 
 html:not(.intro-done) [data-hero-headline] {
+  opacity: 0 !important;
+}
+
+html:not(.intro-done) [data-mobile-hero-headline] {
   opacity: 0 !important;
 }
 

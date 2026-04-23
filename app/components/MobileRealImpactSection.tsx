@@ -189,7 +189,8 @@ export default function MobileRealImpactSection() {
       <div
         style={{
           position: "relative",
-          width: "min(361px, calc(100vw / 0.8 - 32px))",
+          width: "100%",
+          maxWidth: 361,
           height: 458,
           flexShrink: 0,
           isolation: "isolate",
@@ -241,7 +242,8 @@ export default function MobileRealImpactSection() {
         href="/contact?type=advertiser"
         className="btn-primary"
         style={{
-          width: "min(361px, calc(100vw / 0.8 - 32px))",
+          width: "100%",
+          maxWidth: 361,
           minHeight: 58,
           boxSizing: "border-box",
           justifyContent: "space-between",

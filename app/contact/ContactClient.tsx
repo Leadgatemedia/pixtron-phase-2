@@ -212,7 +212,7 @@ function SelectionView({
   const iconBoxSize = isMobile ? 32 : 64;
   const restaurantActive = selected === "restaurant" || hovered === "restaurant";
   const advertiserActive = selected === "advertiser" || hovered === "advertiser";
-  const mobileSelectorWidth = "min(361px, calc(100vw / 0.8 - 32px))";
+  const mobileSelectorWidth = "100%";
 
   return (
     <section
@@ -286,7 +286,7 @@ function SelectionView({
         <div
           style={{
             width: isMobile ? mobileSelectorWidth : "100%",
-            maxWidth: isMobile ? undefined : 666,
+            maxWidth: isMobile ? 361 : 666,
             display: "flex",
             flexDirection: "column",
             gap: isMobile ? 24 : 40,
