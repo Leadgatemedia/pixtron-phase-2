@@ -1,176 +1,395 @@
-.footerLowerShell {
+.footerRoot {
   width: 100%;
-  box-sizing: border-box;
-  padding: 28px 39px 44px;
   background: #ffffff;
 }
 
-.footerGrid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 440px minmax(0, 1fr);
-  gap: 30px;
-  align-items: stretch;
+.desktopOnly {
+  display: block;
 }
 
-.footerBrandCard {
-  grid-column: auto;
-  min-height: 392px;
-  border-radius: 12px;
-  padding: 24px 24px 32px;
+.mobileOnly {
+  display: none;
+}
+
+.desktopSocialBand {
+  width: 100%;
+  background: #f4f4f4;
+  padding: 56px 0 3px;
+  box-sizing: border-box;
+}
+
+.desktopSocialHeading {
+  margin-bottom: 56px;
+  font-size: 40px;
+  line-height: 1.2;
+  text-align: center;
+  background-image: linear-gradient(94.773deg, #000 0%, rgba(0, 0, 0, 0.5) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.desktopSocialHeading div:last-child {
+  font-weight: 700;
+}
+
+.footerSocialRow {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+  align-items: stretch;
+  overflow: visible;
+}
+
+.socialBlurLaneLeft,
+.socialBlurLaneRight {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 3px;
+  overflow: hidden;
+}
+
+.socialBlurLaneLeft {
+  justify-content: flex-end;
+}
+
+.socialBlurLaneRight {
+  justify-content: flex-start;
+}
+
+.socialTile {
+  width: 141.3px;
+  height: 142px;
+  position: relative;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.socialTileLabel {
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.84);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.desktopFooterShell {
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.desktopFooterTop {
+  display: grid;
+  grid-template-columns: 503px 464px minmax(0, 1fr);
+  width: 100%;
+  min-height: 400px;
+}
+
+.desktopFooterCol {
+  min-width: 0;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.desktopFooterCol:last-child {
+  border-right: none;
+}
+
+.desktopBrandBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 40px 39px 56px;
+  box-sizing: border-box;
+}
+
+.footerTagline {
+  font-size: 18px;
+  line-height: 26px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.footerTaglineBold {
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.footerContactBlock,
+.footerListBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footerContactBlock {
+  gap: 24px;
+}
+
+.footerListBlock {
+  gap: 45px;
+  padding: 27px 39px 40px;
+  box-sizing: border-box;
+}
+
+.footerSectionLabel {
+  font-size: 18px;
+  line-height: 26px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.footerBigLink {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  color: #000000;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  width: fit-content;
+}
+
+.footerLinkList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.footerTextLink {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #000000;
+  text-decoration: none;
+}
+
+.desktopFooterBottom {
+  min-height: 77px;
+  padding: 32px 39px;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.desktopFooterCopyright,
+.mobileFooterCopyright {
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.desktopFooterPolicies,
+.mobileFooterPolicies {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.footerPolicyLink {
+  font-size: 18px;
+  line-height: 1;
+  color: #000000;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.desktopFooterWordmark {
+  width: 100%;
+  overflow: hidden;
+  font-size: 247px;
+  line-height: 0.78;
+  font-weight: 500;
+  color: #d9d9d9;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-top: 18px;
+  box-sizing: border-box;
+}
+
+.desktopFooterWordmark span {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.mobileSocialBand {
+  padding: 48px 16px 24px;
+  background: #f4f4f4;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+.mobileSocialHeading {
+  margin-bottom: 24px;
+  font-size: 30px;
+  line-height: 1.2;
+  text-align: center;
+  background-image: linear-gradient(94.773deg, #000 0%, rgba(0, 0, 0, 0.5) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mobileSocialHeading div:last-child {
+  font-weight: 700;
+}
+
+.mobileSocialGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.mobileSocialTile {
+  height: 72px;
+  background: #ffffff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.mobileFooterShell {
+  background: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.mobileFooterTop {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.mobileFooterBrandArea {
+  min-height: 352px;
+  padding: 40px 16px 48px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: radial-gradient(circle at 50% 2%, #1a7eff 0%, #0d5ec6 50%, #074eaa 75%, #003e8d 100%);
 }
 
-.footerInfoPanel {
-  grid-column: auto;
-  min-width: 0;
-  min-height: 392px;
-  border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background: #f0f0f0;
-  padding: 24px 20px 18px;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
-  column-gap: 24px;
-  row-gap: 36px;
-  align-content: start;
-}
-
-.footerColumn {
-  min-width: 0;
-}
-
-.footerNavColumn {
-  grid-column: span 2;
-}
-
-.footerCompanyColumn {
-  grid-column: span 2;
-}
-
-.footerContactColumn {
-  grid-column: span 5;
-}
-
-.footerInfoTop {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: subgrid;
-  row-gap: 32px;
-  align-items: start;
-}
-
-.footerInfoBottom {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: subgrid;
-  align-items: center;
-  gap: 16px 24px;
+.mobileFooterBody {
   width: 100%;
-  margin-top: auto;
-  padding-top: 18px;
+  margin-top: 24px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 26px;
+  color: rgba(0, 0, 0, 0.8);
 }
 
-.footerCopyright {
-  grid-column: span 5;
-  min-width: 0;
+.mobileFooterBodyBold {
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 700;
+  color: #000000;
 }
 
-.footerPolicyLinks {
-  grid-column: 7 / -1;
+.mobileFooterContactArea {
+  width: 100%;
+  margin-top: 40px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  gap: 16px;
+  gap: 24px;
+}
+
+.mobileFooterContactLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.mobileFooterColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.mobileFooterColumn {
+  min-height: 260px;
+  padding: 22px 16px 32px;
+  box-sizing: border-box;
+}
+
+.mobileFooterColumn + .mobileFooterColumn {
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.mobileFooterLinkList {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mobileFooterTextLink {
+  font-size: 18px;
+  line-height: 24px;
+  color: #000000;
+  text-decoration: none;
+}
+
+.mobileFooterBottom {
+  min-height: 114px;
+  padding: 32px 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.mobileFooterPolicies {
+  justify-content: center;
   flex-wrap: wrap;
+  gap: 16px;
 }
 
-@media (max-width: 1180px) {
-  .footerLowerShell {
-    padding: 28px 39px 40px;
+.mobileFooterCopyright {
+  text-align: center;
+}
+
+.mobileFooterWordmark {
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  font-size: 92px;
+  line-height: 0.72;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  color: #d9d9d9;
+  white-space: nowrap;
+}
+
+@media (max-width: 1200px) {
+  .desktopFooterTop {
+    grid-template-columns: 1.25fr 1fr 1fr;
   }
 
-  .footerGrid {
-    grid-template-columns: 340px minmax(0, 1fr);
-  }
-
-  .footerInfoPanel {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-
-  .footerNavColumn,
-  .footerCompanyColumn {
-    grid-column: span 2;
-  }
-
-  .footerContactColumn {
-    grid-column: 1 / -1;
-  }
-
-  .footerCopyright {
-    grid-column: span 2;
-  }
-
-  .footerPolicyLinks {
-    grid-column: 3 / -1;
+  .desktopFooterWordmark {
+    font-size: 200px;
   }
 }
 
-@media (max-width: 960px) {
-  .footerLowerShell {
-    padding: 24px 39px 36px;
+@media (max-width: 767px) {
+  .desktopOnly {
+    display: none;
   }
 
-  .footerGrid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
-  }
-
-  .footerBrandCard,
-  .footerInfoPanel {
-    grid-column: 1;
-  }
-
-  .footerBrandCard {
-    min-height: 300px;
-  }
-
-  .footerInfoPanel {
-    min-height: auto;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 24px;
-  }
-
-  .footerNavColumn,
-  .footerCompanyColumn,
-  .footerContactColumn,
-  .footerCopyright,
-  .footerPolicyLinks {
-    grid-column: 1 / -1;
-  }
-
-  .footerPolicyLinks {
-    justify-content: flex-start;
-  }
-}
-
-@media (max-width: 720px) {
-  .footerInfoPanel {
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 28px;
-  }
-
-  .footerInfoTop,
-  .footerInfoBottom {
-    grid-template-columns: subgrid;
-  }
-
-  .footerPolicyLinks {
-    gap: 12px;
+  .mobileOnly {
+    display: block;
   }
 }

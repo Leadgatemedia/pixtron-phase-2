@@ -15,14 +15,10 @@ export default function HeroIntro() {
   const [phase, setPhase] = useState<Phase>("blank");
   const [move, setMove]   = useState({ x: 0, y: 0 });
   const textRef           = useRef<HTMLHeadingElement>(null);
+  const isMobile          = useRef(false);
 
   useEffect(() => {
-    if (window.innerWidth < 768) {
-      document.documentElement.classList.remove("intro-running");
-      document.documentElement.classList.add("intro-done");
-      setPhase("done");
-      return;
-    }
+    isMobile.current = window.innerWidth < 768;
 
     document.documentElement.classList.add("intro-running");
     document.body.style.overflow = "hidden";
@@ -56,7 +52,8 @@ export default function HeroIntro() {
     // the scrollbar returns and shifts centred content left — visible drift.
     document.body.style.overflow = "";
     requestAnimationFrame(() => {
-      const heroH1 = document.querySelector("[data-hero-headline]") as HTMLElement | null;
+      const selector = isMobile.current ? "[data-mobile-hero-headline]" : "[data-hero-headline]";
+      const heroH1 = document.querySelector(selector) as HTMLElement | null;
       if (!heroH1 || !textRef.current) return;
       const hRect = heroH1.getBoundingClientRect();
       const tRect = textRef.current.getBoundingClientRect();
@@ -102,13 +99,14 @@ export default function HeroIntro() {
       <h1
         ref={textRef}
         style={{
-          fontSize:   60,
+          fontSize:   isMobile.current ? 30 : 60,
           fontWeight: 700,
           lineHeight: 1.2,
           textAlign:  "center",
           color:      "#000",
-          maxWidth:   782,
+          maxWidth:   isMobile.current ? 361 : 782,
           margin:     0,
+          padding:    isMobile.current ? "0 16px" : 0,
           transform:  isMoving ? `translate(${move.x}px, ${move.y}px)` : "translate(0,0)",
           transition: phase === "titleMove"
             ? `transform ${MOVE_DUR}ms cubic-bezier(0.4, 0, 0.2, 1)`

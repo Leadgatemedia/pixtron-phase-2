@@ -14,6 +14,11 @@ import MobileHeader from "./components/MobileHeader";
 import MobileHomeHero from "./components/MobileHomeHero";
 import MobileHowItWorksSection from "./components/MobileHowItWorksSection";
 import MobileRealImpactSection from "./components/MobileRealImpactSection";
+import MobileWherePixtronWorksSection from "./components/MobileWherePixtronWorksSection";
+import MobileIndustriesSection from "./components/MobileIndustriesSection";
+import MobileComparisonSection from "./components/MobileComparisonSection";
+import MobileProcessSection from "./components/MobileProcessSection";
+import HomeMidCtaSection from "./components/HomeMidCtaSection";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Advertising That People Touch, See and Smell",
@@ -898,10 +903,23 @@ export default function HomePage() {
           <RealImpactScroll />
         </div>
         <MobileRealImpactSection />
-        <WherePixtronWorksScroll />
-        <IndustriesScroll />
-        <ComparisonSection />
-        <TheProcess />
+        <div className="desktop-real-impact desktop-where-pixtron">
+          <WherePixtronWorksScroll />
+        </div>
+        <MobileWherePixtronWorksSection />
+        <div className="desktop-industries">
+          <IndustriesScroll />
+        </div>
+        <MobileIndustriesSection />
+        <div className="desktop-comparison">
+          <ComparisonSection />
+        </div>
+        <MobileComparisonSection />
+        <div className="desktop-process">
+          <TheProcess />
+        </div>
+        <MobileProcessSection />
+        <HomeMidCtaSection />
       </main>
       <FooterSection />
     </>

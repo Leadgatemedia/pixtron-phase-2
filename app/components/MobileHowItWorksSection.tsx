@@ -152,7 +152,8 @@ export default function MobileHowItWorksSection() {
           flexDirection: "column",
           alignItems: "center",
           gap: 24,
-          width: "min(361px, calc(100vw / 0.8 - 32px))",
+          width: "100%",
+          maxWidth: 361,
           textAlign: "center",
         }}
       >
@@ -180,7 +181,8 @@ export default function MobileHowItWorksSection() {
       <div
         style={{
           position: "relative",
-          width: "min(361px, calc(100vw / 0.8 - 32px))",
+          width: "100%",
+          maxWidth: 361,
           height: 856,
           flexShrink: 0,
         }}

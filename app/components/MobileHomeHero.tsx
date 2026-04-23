@@ -13,10 +13,10 @@ const SACHETS = [
   "/sachets/sachet-5.png",
 ];
 
-const ZOOM = 0.8;
 const STRIP_W = 1328.575;
 const SACHET_W = 295.366;
 const SPACING = 188.66;
+const SACHET_EDGE_PEEK = 48;
 
 function ArrowIcon({ color }: { color: "white" | "dark" }) {
   const file = color === "white" ? "/arrow-white.png" : "/arrow-black.png";
@@ -39,8 +39,7 @@ export default function MobileHomeHero() {
 
   useEffect(() => {
     const updateViewport = () => {
-      const zoom = parseFloat(document.documentElement.style.zoom) || ZOOM;
-      setViewportW(window.innerWidth / zoom);
+      setViewportW(window.innerWidth);
     };
 
     updateViewport();
@@ -49,8 +48,8 @@ export default function MobileHomeHero() {
   }, []);
 
   const dragDistance = Math.max(1, viewportW * 1.35);
-  const stripStartX = viewportW - 35.82;
-  const stripEndX = -Math.max(0, STRIP_W - viewportW + 35.82);
+  const stripStartX = viewportW - SACHET_EDGE_PEEK;
+  const stripEndX = -Math.max(0, STRIP_W - viewportW + SACHET_EDGE_PEEK);
   const stripX = stripStartX + (stripEndX - stripStartX) * ease(progress);
 
   const alignProgress = clamp(progress / 0.45);
@@ -99,7 +98,8 @@ export default function MobileHomeHero() {
     >
       <div
         style={{
-          width: "min(361px, calc(100vw / 0.8 - 32px))",
+          width: "100%",
+          maxWidth: 361,
           margin: "0 auto",
           display: "flex",
           flexDirection: "column",
@@ -109,6 +109,7 @@ export default function MobileHomeHero() {
       >
         <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 40 }}>
           <h1
+            data-mobile-hero-headline=""
             style={{
               margin: 0,
               width: "100%",
@@ -186,10 +187,11 @@ export default function MobileHomeHero() {
           onPointerCancel={handlePointerEnd}
           style={{
             position: "relative",
-            width: "calc(100vw / 0.8)",
+            width: "100vw",
             height: 242,
             overflow: "hidden",
-            marginInline: "calc((min(361px, calc(100vw / 0.8 - 32px)) - (100vw / 0.8)) / 2)",
+            marginInline: "calc((100% - 100vw) / 2)",
+            contain: "layout paint",
             cursor: "grab",
             touchAction: "pan-y",
             userSelect: "none",
@@ -228,6 +230,7 @@ export default function MobileHomeHero() {
                 width: STRIP_W,
                 height: rowIndex === 0 ? 106.708 : 105.375,
                 overflow: "hidden",
+                contain: "layout paint",
                 transform: `translateX(${stripX}px)`,
                 willChange: "transform",
                 zIndex: 2,
@@ -262,7 +265,7 @@ export default function MobileHomeHero() {
               inset: "-1px 0 0",
               height: 243,
               background:
-                "linear-gradient(90deg, #f6fbf6 2.4%, rgba(246,251,246,0) 15%, rgba(246,251,246,0) 85%, #f6fbf6 98%)",
+                "linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.92) 5%, rgba(255,255,255,0) 18%, rgba(255,255,255,0) 82%, rgba(255,255,255,0.92) 95%, #fff 100%)",
               zIndex: 3,
               pointerEvents: "none",
             }}
