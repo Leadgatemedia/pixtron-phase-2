@@ -41,10 +41,18 @@ type CardLayout = {
 
 const TRANSITION_WEIGHTS = [5, 5, 4, 4];
 const TOTAL_WEIGHT = TRANSITION_WEIGHTS.reduce((sum, value) => sum + value, 0);
-const PREVIOUS_OFFSET = 58;
-const FUTURE_STACK_Y = [0, 104, 182, 236];
-const FUTURE_WIDTH_PCT = [100, 94, 88, 82];
-const PAST_WIDTH_PCT = [100, 94, 88, 82];
+// 40px consistent peek between every stacked card
+const PREVIOUS_OFFSET = 60;
+const INACTIVE_H = 100; // min-height of collapsed card
+const ACTIVE_H = 156; // min-height of expanded card
+const FUTURE_STACK_Y = [
+  0,
+  ACTIVE_H - 40, // 116 - 40px peek from active
+  ACTIVE_H - 40 + INACTIVE_H - 40, // 176 - 40px peek from card 1
+  ACTIVE_H - 40 + (INACTIVE_H - 40) * 2, // 236 - 40px peek from card 2
+];
+const FUTURE_WIDTH_PCT = [100, 86, 74, 64];
+const PAST_WIDTH_PCT = [100, 86, 74, 64];
 const FUTURE_CARD_BG = [
   "rgba(233,233,233,1)",
   "rgba(241,241,241,1)",
@@ -142,7 +150,7 @@ export default function ProcessShuffleColumn({
 
       if (index < activeIndex) {
         const distance = activeIndex - index;
-        const clampIndex = Math.min(distance - 1, PAST_WIDTH_PCT.length - 1);
+        const clampIndex = Math.min(distance, PAST_WIDTH_PCT.length - 1);
         return {
           y: groupOffset - distance * PREVIOUS_OFFSET,
           widthPct: PAST_WIDTH_PCT[clampIndex],
@@ -312,7 +320,7 @@ export default function ProcessShuffleColumn({
         </h3>
       </div>
 
-      <div style={{ position: "relative", width: maxCardWidth, maxWidth: "100%", height: 380, margin: stackMargin }}>
+      <div style={{ position: "relative", width: maxCardWidth, maxWidth: "100%", height: 400, margin: stackMargin }}>
         {steps.map((step, index) => (
           <div
             key={step.step}

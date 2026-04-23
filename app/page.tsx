@@ -10,6 +10,7 @@ import WherePixtronWorksScroll from "./components/WherePixtronWorksScroll";
 import IndustriesScroll from "./components/IndustriesScroll";
 import FooterSection from "./components/FooterSection";
 import ProcessScrollSection from "./components/ProcessScrollSection";
+import MobileHeader from "./components/MobileHeader";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Advertising That People Touch, See and Smell",
@@ -583,30 +584,30 @@ function TheProcess() {
   const hospitality = [
     {
       step: "01",
-      title: "Join Pixtron",
+      title: "Fill the Form",
       description:
-        "Quick onboarding. No upfront cost. We place your venue into our premium restaurant network.",
+        "Fill out our quick form and tell us about your restaurant, location, and table setup.",
       width: 526,
     },
     {
       step: "02",
-      title: "We Handle Everything",
+      title: "Share Your Details",
       description:
-        "Lorum ipsum dolar amet.\nDolar amet lorum ipsum dolar amet & lorum de ante.",
+        "Tell us your table count, location, and wipe preferences so we can set everything up perfectly.",
       width: 473,
     },
     {
       step: "03",
-      title: "Elevate Your Tables",
+      title: "Sit Back, We Deliver",
       description:
-        "Lorum ipsum dolar amet.\nDolar amet lorum ipsum dolar amet & lorum de ante.",
+        "Pixtron delivers high-quality branded wet wipes directly to your restaurant on a regular schedule.",
       width: 426,
     },
     {
       step: "04",
-      title: "Impress Every Guest",
+      title: "Delight Every Guest",
       description:
-        "Lorum ipsum dolar amet.\nDolar amet lorum ipsum dolar amet & lorum de ante.",
+        "Your customers enjoy a clean, premium dining experience that elevates your restaurant's overall impression.",
       width: 383,
     },
   ];
@@ -614,30 +615,30 @@ function TheProcess() {
   const advertisers = [
     {
       step: "01",
-      title: "Define Your Audience",
+      title: "Fill the Form",
       description:
-        "Target by location, neighbourhood, and venue type.\nReach high-value customers in real-world spaces.",
+        "Fill out our quick form, share your brand goals, and tell us which audience you want to reach.",
       width: 526,
     },
     {
       step: "02",
-      title: "Design Your Presence",
+      title: "Design Your Ad",
       description:
-        "Lorum ipsum dolar amet.\nDolar amet lorum ipsum dolar amet & lorum de ante.",
+        "Work with our team to craft a bold, eye-catching ad placed directly on the wipe.",
       width: 473,
     },
     {
       step: "03",
-      title: "Go Live in Restaurants",
+      title: "We Handle Everything",
       description:
-        "Lorum ipsum dolar amet.\nDolar amet lorum ipsum dolar amet & lorum de ante.",
+        "We print, package, and distribute your ads to every partnered restaurant on your list.",
       width: 426,
     },
     {
       step: "04",
-      title: "Track & Scale",
+      title: "Go Live & Get Seen",
       description:
-        "Lorum ipsum dolar amet.\nDolar amet lorum ipsum dolar amet & lorum de ante.",
+        "Your brand lands in diners' hands at the table — personal, tactile, and impossible to ignore.",
       width: 383,
     },
   ];
@@ -873,7 +874,12 @@ export default function HomePage() {
   return (
     <>
       <HeroIntro />
-      <Navbar />
+      <div className="desktop-nav-only">
+        <Navbar />
+      </div>
+      <div className="mobile-nav-only">
+        <MobileHeader />
+      </div>
       <main>
         <HeroScrollSection>
           <Hero />

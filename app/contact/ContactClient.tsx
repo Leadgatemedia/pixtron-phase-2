@@ -3,13 +3,26 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 
 import FooterSection from "../components/FooterSection";
+import MobileHeader from "../components/MobileHeader";
 import { sendContactInquiry } from "./emailjs";
 
 type Step = "select" | "restaurant" | "advertiser";
 type SubmitState = "idle" | "sending" | "success" | "error";
+const MOBILE_CONTENT_MAX = 344;
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
 
 function getFormFieldValue(formData: FormData, name: string) {
   return String(formData.get(name) ?? "").trim();
@@ -30,7 +43,7 @@ function ArrowIcon({ color = "dark" }: { color?: "white" | "dark" }) {
   );
 }
 
-function SiteNavbar() {
+function SiteNavbar({ isMobile }: { isMobile: boolean }) {
   return (
     <nav
       style={{
@@ -38,100 +51,94 @@ function SiteNavbar() {
         top: 0,
         zIndex: 50,
         width: "100%",
-        height: 88,
+        height: isMobile ? 96 : 88,
         background: "rgba(255,255,255,0.8)",
-        borderBottom: "1px solid rgba(0,0,0,0.05)",
-        backdropFilter: "blur(24px)",
-        WebkitBackdropFilter: "blur(24px)",
+        borderBottom: isMobile ? undefined : "1px solid rgba(0,0,0,0.05)",
+        backdropFilter: isMobile ? "blur(35px)" : "blur(24px)",
+        WebkitBackdropFilter: isMobile ? "blur(35px)" : "blur(24px)",
         boxSizing: "border-box",
-        padding: "16px 39px",
+        padding: isMobile ? "16px" : "16px 39px",
       }}
     >
       <div
         style={{
           width: "100%",
-          maxWidth: 1820,
+          maxWidth: isMobile ? "100%" : 1820,
           margin: "0 auto",
-          minHeight: 56,
-          display: "grid",
-          gridTemplateColumns: "480px 1fr 480px",
+          minHeight: isMobile ? 64 : 56,
+          display: isMobile ? "flex" : "grid",
+          gridTemplateColumns: isMobile ? undefined : "480px 1fr 480px",
           alignItems: "center",
+          justifyContent: isMobile ? "space-between" : undefined,
           columnGap: 16,
         }}
       >
-        <div
+        <Link
+          href="/"
           style={{
-            width: 480,
-            minHeight: 56,
+            minHeight: isMobile ? 64 : 56,
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-start",
           }}
         >
-          <Link
-            href="/"
-            style={{
-              width: "100%",
-              minHeight: 56,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <Image
-              src="/logo.png"
-              alt="Pixtron"
-              width={82}
-              height={82}
-              priority
-              style={{ width: "auto", height: 52 }}
-            />
-          </Link>
-        </div>
+          <Image
+            src="/logo.png"
+            alt="Pixtron"
+            width={isMobile ? 138 : 82}
+            height={isMobile ? 64 : 82}
+            priority
+            style={{ width: isMobile ? 86 : "auto", height: isMobile ? 64 : 52 }}
+          />
+        </Link>
 
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-            <Link href="/about" className="nav-link">About</Link>
-            <div
-              className="nav-product"
-              style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}
-            >
-              <Link href="#" className="nav-link">Product</Link>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path
-                  className="nav-chevron"
-                  d="M4 6l4 4 4-4"
-                  stroke="#000"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+        {!isMobile && (
+          <>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+                <Link href="/about" className="nav-link">About</Link>
+                <div
+                  className="nav-product"
+                  style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}
+                >
+                  <Link href="#" className="nav-link">Product</Link>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+                    <path
+                      className="nav-chevron"
+                      d="M4 6l4 4 4-4"
+                      stroke="#000"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <Link href="#" className="nav-link">Advertisers</Link>
+                <Link href="#" className="nav-link">Industries</Link>
+                <Link href="#" className="nav-link">Restaurants</Link>
+              </div>
             </div>
-            <Link href="#" className="nav-link">Advertisers</Link>
-            <Link href="#" className="nav-link">Industries</Link>
-            <Link href="#" className="nav-link">Restaurants</Link>
-          </div>
-        </div>
 
-        <div
-          style={{
-            width: 480,
-            minHeight: 56,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Link
-            href="/contact"
-            className="btn-outline"
-            style={{ minHeight: 56, padding: "0 20px 0 22px", justifyContent: "center" }}
-          >
-            <span>Contact Us</span>
-            <ArrowIcon color="dark" />
-          </Link>
-        </div>
+            <div
+              style={{
+                width: 480,
+                minHeight: 56,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Link
+                href="/contact"
+                className="btn-outline"
+                style={{ minHeight: 56, padding: "0 20px 0 22px", justifyContent: "center" }}
+              >
+                <span>Contact Us</span>
+                <ArrowIcon color="dark" />
+              </Link>
+            </div>
+          </>
+        )}
       </div>
     </nav>
   );
@@ -139,41 +146,81 @@ function SiteNavbar() {
 
 /* ─── Selection view ──────────────────────────────────────────────── */
 
-function SelectionView({ onSelect }: { onSelect: (step: Step) => void }) {
+function SelectionView({
+  onSelect,
+  isMobile,
+}: {
+  onSelect: (step: Step) => void;
+  isMobile: boolean;
+}) {
   const [hovered, setHovered] = useState<"restaurant" | "advertiser" | null>(null);
+  const [selected, setSelected] = useState<"restaurant" | "advertiser" | null>(null);
+  const routeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (routeTimeoutRef.current) {
+        clearTimeout(routeTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleCardSelect = (nextStep: "restaurant" | "advertiser") => {
+    if (routeTimeoutRef.current) {
+      clearTimeout(routeTimeoutRef.current);
+    }
+
+    setSelected(nextStep);
+    setHovered(nextStep);
+    routeTimeoutRef.current = setTimeout(() => {
+      onSelect(nextStep);
+    }, isMobile ? 140 : 0);
+  };
 
   const cardBase: React.CSSProperties = {
-    width: 318,
     background: "#fff",
-    borderRadius: 12,
-    padding: "30px 28px",
+    borderRadius: isMobile ? 10 : 12,
     display: "flex",
     flexDirection: "column",
     cursor: "pointer",
-    transition: "box-shadow 0.2s ease, border-color 0.2s ease, height 0.2s ease",
+    transition: "box-shadow 0.4s ease, border-color 0.4s ease, transform 0.4s ease, height 0.4s ease",
+    textAlign: "left",
+    boxSizing: "border-box",
   };
 
   const cardNormal: React.CSSProperties = {
     ...cardBase,
-    height: 281,
+    width: isMobile ? undefined : 318,
+    flex: isMobile ? 1 : undefined,
+    height: isMobile ? undefined : 281,
+    padding: isMobile ? "16px 18px 20px" : "30px 28px",
     border: "2px solid rgba(0,0,0,0.02)",
     boxShadow: "0px 4px 6px -1px rgba(0,0,0,0.1), 0px 2px 4px -1px rgba(0,0,0,0.06)",
   };
 
   const cardActive: React.CSSProperties = {
     ...cardBase,
-    height: 349,
-    border: "2px solid #0f9d58",
+    width: isMobile ? undefined : 318,
+    flex: isMobile ? 1 : undefined,
+    height: isMobile ? undefined : 349,
+    padding: isMobile ? "16px 18px 20px" : "30px 28px",
+    border: isMobile ? "2px solid rgba(0,0,0,0.02)" : "2px solid #0f9d58",
     boxShadow: "0px 25px 50px -12px rgba(0,0,0,0.25)",
   };
+
+  const iconSize = isMobile ? 32 : 64;
+  const iconBoxSize = isMobile ? 32 : 64;
+  const restaurantActive = selected === "restaurant" || hovered === "restaurant";
+  const advertiserActive = selected === "advertiser" || hovered === "advertiser";
+  const mobileSelectorWidth = "min(361px, calc(100vw / 0.8 - 32px))";
 
   return (
     <section
       style={{
         paddingTop: 64 + 88,
-        paddingBottom: 144,
-        paddingInline: 39,
-        background: "#fff",
+        paddingBottom: isMobile ? 48 : 144,
+        paddingInline: isMobile ? 16 : 39,
+        background: isMobile ? "#f5f5f5" : "#fff",
         minHeight: "100vh",
       }}
     >
@@ -185,17 +232,17 @@ function SelectionView({ onSelect }: { onSelect: (step: Step) => void }) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 56,
+          gap: isMobile ? 40 : 56,
         }}
       >
         {/* Tag + Headline + Body */}
         <div
           style={{
-            width: 1130,
-            maxWidth: "100%",
+            width: "100%",
+            maxWidth: isMobile ? MOBILE_CONTENT_MAX : 1130,
             display: "flex",
             flexDirection: "column",
-            gap: 32,
+            gap: isMobile ? 20 : 32,
             alignItems: "center",
             textAlign: "center",
           }}
@@ -213,16 +260,16 @@ function SelectionView({ onSelect }: { onSelect: (step: Step) => void }) {
           >
             Get Started
           </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 32, width: "100%" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? 16 : 32, width: "100%" }}>
             <h1
               className="gradient-heading"
-              style={{ fontSize: 40, fontWeight: 700, lineHeight: 1.2, margin: 0 }}
+              style={{ fontSize: isMobile ? 30 : 40, fontWeight: 700, lineHeight: 1.2, margin: 0 }}
             >
               Let&apos;s Create Something Remarkable
             </h1>
             <p
               style={{
-                fontSize: 22,
+                fontSize: isMobile ? 16 : 22,
                 fontWeight: 500,
                 lineHeight: 1.4,
                 color: "rgba(0,0,0,0.5)",
@@ -238,11 +285,11 @@ function SelectionView({ onSelect }: { onSelect: (step: Step) => void }) {
         {/* I am a... + Cards */}
         <div
           style={{
-            width: 666,
-            maxWidth: "100%",
+            width: isMobile ? mobileSelectorWidth : "100%",
+            maxWidth: isMobile ? undefined : 666,
             display: "flex",
             flexDirection: "column",
-            gap: 40,
+            gap: isMobile ? 24 : 40,
             alignItems: "center",
           }}
         >
@@ -259,24 +306,27 @@ function SelectionView({ onSelect }: { onSelect: (step: Step) => void }) {
             I am a...
           </p>
 
-          <div style={{ display: "flex", gap: 30, width: "100%" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: isMobile ? 16 : 30,
+              width: "100%",
+            }}
+          >
             {/* Restaurant card */}
             <button
-              onClick={() => onSelect("restaurant")}
+              onClick={() => handleCardSelect("restaurant")}
               onMouseEnter={() => setHovered("restaurant")}
-              onMouseLeave={() => setHovered(null)}
-              style={{
-                ...(hovered === "restaurant" ? cardActive : cardNormal),
-                textAlign: "left",
-                background: "#fff",
-              }}
+              onMouseLeave={() => selected !== "restaurant" && setHovered(null)}
+              style={restaurantActive ? cardActive : cardNormal}
             >
               <div
                 style={{
-                  width: 64,
-                  height: 64,
+                  width: iconBoxSize,
+                  height: iconBoxSize,
                   borderRadius: 6,
-                  background: hovered === "restaurant" ? "#0f9d58" : "#e5e5e5",
+                  background: isMobile ? "transparent" : restaurantActive ? "#0f9d58" : "#e5e5e5",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -288,66 +338,64 @@ function SelectionView({ onSelect }: { onSelect: (step: Step) => void }) {
                 <img
                   src="/icons/contact-restaurant.svg"
                   alt=""
-                  width={30}
-                  height={27}
+                  width={iconSize}
+                  height={iconSize}
                   style={{
                     display: "block",
-                    filter: hovered === "restaurant" ? "brightness(0) invert(1)" : "none",
+                    width: isMobile ? 32 : 30,
+                    height: isMobile ? 32 : 27,
+                    filter: restaurantActive && !isMobile ? "brightness(0) invert(1)" : "none",
                     transition: "filter 0.2s ease",
                   }}
                 />
               </div>
 
-              <div style={{ marginTop: 24 }}>
-                <p style={{ fontSize: 20, fontWeight: 700, lineHeight: 1.5, color: "#000", margin: 0 }}>
+              <div style={{ marginTop: isMobile ? 18 : 24 }}>
+                <p style={{ fontSize: 20, fontWeight: isMobile ? 500 : 700, lineHeight: 1.5, color: "#000", margin: 0 }}>
                   Restaurant
                 </p>
-                <p style={{ fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: "#000", margin: "12px 0 0", maxWidth: 262 }}>
+                <p style={{ display: isMobile ? "none" : undefined, fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: "#000", margin: "8px 0 0", maxWidth: 262 }}>
                   Restaurant, café, hotel, venue, or event organiser looking to enhance guest
                   experience.
                 </p>
               </div>
 
-              {/* Arrow — only visible on hover */}
-              {hovered === "restaurant" ? (
-              <div
-                style={{
-                  height: 40,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                  transition: "opacity 0.2s ease",
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/icons/arrow-forward.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                  style={{ display: "block" }}
-                />
-              </div>
+              {/* Arrow — only visible on hover (desktop only) */}
+              {restaurantActive && !isMobile ? (
+                <div
+                  style={{
+                    height: 40,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    transition: "opacity 0.2s ease",
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/icons/arrow-forward.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                    style={{ display: "block" }}
+                  />
+                </div>
               ) : null}
             </button>
 
             {/* Advertiser card */}
             <button
-              onClick={() => onSelect("advertiser")}
+              onClick={() => handleCardSelect("advertiser")}
               onMouseEnter={() => setHovered("advertiser")}
-              onMouseLeave={() => setHovered(null)}
-              style={{
-                ...(hovered === "advertiser" ? cardActive : cardNormal),
-                textAlign: "left",
-                background: "#fff",
-              }}
+              onMouseLeave={() => selected !== "advertiser" && setHovered(null)}
+              style={advertiserActive ? cardActive : cardNormal}
             >
               <div
                 style={{
-                  width: 64,
-                  height: 64,
+                  width: iconBoxSize,
+                  height: iconBoxSize,
                   borderRadius: 6,
-                  background: hovered === "advertiser" ? "#0f9d58" : "#e5e5e5",
+                  background: isMobile ? "transparent" : advertiserActive ? "#0f9d58" : "#e5e5e5",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -359,46 +407,48 @@ function SelectionView({ onSelect }: { onSelect: (step: Step) => void }) {
                 <img
                   src="/icons/contact-advertiser.svg"
                   alt=""
-                  width={32}
-                  height={32}
+                  width={iconSize}
+                  height={iconSize}
                   style={{
                     display: "block",
-                    filter: hovered === "advertiser" ? "brightness(0) invert(1)" : "none",
+                    width: 32,
+                    height: 32,
+                    filter: advertiserActive && !isMobile ? "brightness(0) invert(1)" : "none",
                     transition: "filter 0.2s ease",
                   }}
                 />
               </div>
 
-              <div style={{ marginTop: 24 }}>
-                <p style={{ fontSize: 20, fontWeight: 700, lineHeight: 1.5, color: "#000", margin: 0 }}>
+              <div style={{ marginTop: isMobile ? 18 : 24 }}>
+                <p style={{ fontSize: 20, fontWeight: isMobile ? 500 : 700, lineHeight: 1.5, color: "#000", margin: 0 }}>
                   Advertiser
                 </p>
-                <p style={{ fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: "#000", margin: "12px 0 0", maxWidth: 262 }}>
+                <p style={{ display: isMobile ? "none" : undefined, fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: "#000", margin: "8px 0 0", maxWidth: 262 }}>
                   Brand, Service Provider, or Marketing Team looking for
                   high impact physical advertising.
                 </p>
               </div>
 
-              {/* Arrow — only visible on hover */}
-              {hovered === "advertiser" ? (
-              <div
-                style={{
-                  height: 40,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                  transition: "opacity 0.2s ease",
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/icons/arrow-forward.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                  style={{ display: "block" }}
-                />
-              </div>
+              {/* Arrow — only visible on hover (desktop only) */}
+              {advertiserActive && !isMobile ? (
+                <div
+                  style={{
+                    height: 40,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    transition: "opacity 0.2s ease",
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/icons/arrow-forward.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                    style={{ display: "block" }}
+                  />
+                </div>
               ) : null}
             </button>
           </div>
@@ -417,6 +467,7 @@ function InputField({
   required,
   placeholder,
   type = "text",
+  isMobile,
 }: {
   id: string;
   name: string;
@@ -424,12 +475,13 @@ function InputField({
   required?: boolean;
   placeholder: string;
   type?: string;
+  isMobile?: boolean;
 }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8, width: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? 12 : 8, width: "100%" }}>
       <label
         style={{
-          fontSize: 18,
+          fontSize: isMobile ? 16 : 18,
           fontWeight: 400,
           lineHeight: 1.5,
           color: "#000",
@@ -452,7 +504,7 @@ function InputField({
           border: "1px solid #000",
           borderRadius: 4,
           padding: "0 14px",
-          fontSize: 18,
+          fontSize: isMobile ? 16 : 18,
           fontWeight: 400,
           lineHeight: 1.5,
           color: "#000",
@@ -471,18 +523,20 @@ function TextareaField({
   label,
   required,
   placeholder,
+  isMobile,
 }: {
   id: string;
   name: string;
   label: string;
   required?: boolean;
   placeholder: string;
+  isMobile?: boolean;
 }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8, width: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? 12 : 8, width: "100%" }}>
       <label
         style={{
-          fontSize: 18,
+          fontSize: isMobile ? 16 : 18,
           fontWeight: 400,
           lineHeight: 1.5,
           color: "#000",
@@ -500,11 +554,11 @@ function TextareaField({
         required={required}
         style={{
           width: "100%",
-          height: 88,
+          height: isMobile ? 104 : 88,
           border: "1px solid #000",
           borderRadius: 4,
           padding: "12px 14px",
-          fontSize: 18,
+          fontSize: isMobile ? 16 : 18,
           fontWeight: 400,
           lineHeight: 1.5,
           color: "#000",
@@ -521,7 +575,7 @@ function TextareaField({
 
 /* ─── Restaurant form ─────────────────────────────────────────────── */
 
-function RestaurantForm({ onBack }: { onBack: () => void }) {
+function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: boolean }) {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
@@ -584,21 +638,21 @@ function RestaurantForm({ onBack }: { onBack: () => void }) {
     <section
       style={{
         paddingTop: 24 + 88,
-        paddingBottom: 72,
-        paddingInline: 387,
-        background: "#fff",
+        paddingBottom: isMobile ? 48 : 72,
+        paddingInline: isMobile ? 16 : 387,
+        background: isMobile ? "#f5f5f5" : "#fff",
         minHeight: "100vh",
       }}
     >
       <div
         style={{
           width: "100%",
-          maxWidth: 666,
+          maxWidth: isMobile ? MOBILE_CONTENT_MAX : 666,
           margin: "0 auto",
           display: "flex",
           flexDirection: "column",
           gap: 24,
-          alignItems: "flex-start",
+          alignItems: "stretch",
         }}
       >
         {/* Back + type tag */}
@@ -637,8 +691,8 @@ function RestaurantForm({ onBack }: { onBack: () => void }) {
               alignItems: "center",
               background: "#e0dfdf",
               border: "1px solid rgba(0,0,0,0.1)",
-              borderRadius: 12,
-              padding: "16px 20px 16px 16px",
+              borderRadius: isMobile ? 6 : 12,
+              padding: isMobile ? "8px 20px 8px 14px" : "16px 20px 16px 16px",
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -657,16 +711,22 @@ function RestaurantForm({ onBack }: { onBack: () => void }) {
 
         {/* Title */}
         <h2
+          className={isMobile ? "gradient-heading" : undefined}
           style={{
-            fontSize: 28,
+            fontSize: isMobile ? 20 : 28,
             fontWeight: 700,
             lineHeight: 1.2,
-            color: "#000",
+            color: isMobile ? undefined : "#000",
             margin: 0,
+            textAlign: isMobile ? "center" : "left",
           }}
         >
           Tell us about your{" "}
-          <span style={{ color: "#0f9d58" }}>restaurant</span>
+          {isMobile ? (
+            "restaurant"
+          ) : (
+            <span style={{ color: "#0f9d58" }}>restaurant</span>
+          )}
         </h2>
 
         {/* Form */}
@@ -686,6 +746,7 @@ function RestaurantForm({ onBack }: { onBack: () => void }) {
               label="Name"
               required
               placeholder="Your full name"
+              isMobile={isMobile}
             />
             <InputField
               id="restaurant-email"
@@ -694,6 +755,7 @@ function RestaurantForm({ onBack }: { onBack: () => void }) {
               required
               placeholder="you@company.com"
               type="email"
+              isMobile={isMobile}
             />
             <InputField
               id="restaurant-business"
@@ -701,12 +763,14 @@ function RestaurantForm({ onBack }: { onBack: () => void }) {
               label="Restaurant Name"
               required
               placeholder="Your restaurant name"
+              isMobile={isMobile}
             />
             <TextareaField
               id="restaurant-message"
               name="message"
               label="Note"
               placeholder="Your message"
+              isMobile={isMobile}
             />
           </div>
 
@@ -758,7 +822,7 @@ function RestaurantForm({ onBack }: { onBack: () => void }) {
               />
               <span
                 style={{
-                  fontSize: 18,
+                  fontSize: isMobile ? 14 : 18,
                   fontWeight: 400,
                   lineHeight: 1.5,
                   color: "rgba(0,0,0,0.6)",
@@ -792,7 +856,7 @@ function RestaurantForm({ onBack }: { onBack: () => void }) {
 
 /* ─── Advertiser form ─────────────────────────────────────────────── */
 
-function AdvertiserForm({ onBack }: { onBack: () => void }) {
+function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: boolean }) {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
@@ -855,21 +919,21 @@ function AdvertiserForm({ onBack }: { onBack: () => void }) {
     <section
       style={{
         paddingTop: 24 + 88,
-        paddingBottom: 72,
-        paddingInline: 387,
-        background: "#fff",
+        paddingBottom: isMobile ? 48 : 72,
+        paddingInline: isMobile ? 16 : 387,
+        background: isMobile ? "#f5f5f5" : "#fff",
         minHeight: "100vh",
       }}
     >
       <div
         style={{
           width: "100%",
-          maxWidth: 666,
+          maxWidth: isMobile ? MOBILE_CONTENT_MAX : 666,
           margin: "0 auto",
           display: "flex",
           flexDirection: "column",
           gap: 24,
-          alignItems: "flex-start",
+          alignItems: "stretch",
         }}
       >
         {/* Back + type tag */}
@@ -908,8 +972,8 @@ function AdvertiserForm({ onBack }: { onBack: () => void }) {
               alignItems: "center",
               background: "#e0dfdf",
               border: "1px solid rgba(0,0,0,0.1)",
-              borderRadius: 12,
-              padding: "16px 20px 16px 16px",
+              borderRadius: isMobile ? 6 : 12,
+              padding: isMobile ? "8px 20px 8px 14px" : "16px 20px 16px 16px",
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -928,16 +992,22 @@ function AdvertiserForm({ onBack }: { onBack: () => void }) {
 
         {/* Title */}
         <h2
+          className={isMobile ? "gradient-heading" : undefined}
           style={{
-            fontSize: 28,
+            fontSize: isMobile ? 20 : 28,
             fontWeight: 700,
             lineHeight: 1.2,
-            color: "#000",
+            color: isMobile ? undefined : "#000",
             margin: 0,
+            textAlign: isMobile ? "center" : "left",
           }}
         >
           Tell us about your{" "}
-          <span style={{ color: "#0f9d58" }}>brand</span>
+          {isMobile ? (
+            "brand"
+          ) : (
+            <span style={{ color: "#0f9d58" }}>brand</span>
+          )}
         </h2>
 
         {/* Form */}
@@ -957,6 +1027,7 @@ function AdvertiserForm({ onBack }: { onBack: () => void }) {
               label="Name"
               required
               placeholder="Your full name"
+              isMobile={isMobile}
             />
             <InputField
               id="advertiser-email"
@@ -965,6 +1036,7 @@ function AdvertiserForm({ onBack }: { onBack: () => void }) {
               required
               placeholder="you@company.com"
               type="email"
+              isMobile={isMobile}
             />
             <InputField
               id="advertiser-business"
@@ -972,12 +1044,14 @@ function AdvertiserForm({ onBack }: { onBack: () => void }) {
               label="Brand Name"
               required
               placeholder="Your brand name"
+              isMobile={isMobile}
             />
             <TextareaField
               id="advertiser-message"
               name="message"
               label="Note"
               placeholder="Your message"
+              isMobile={isMobile}
             />
           </div>
 
@@ -1029,7 +1103,7 @@ function AdvertiserForm({ onBack }: { onBack: () => void }) {
               />
               <span
                 style={{
-                  fontSize: 18,
+                  fontSize: isMobile ? 14 : 18,
                   fontWeight: 400,
                   lineHeight: 1.5,
                   color: "rgba(0,0,0,0.6)",
@@ -1066,6 +1140,7 @@ function AdvertiserForm({ onBack }: { onBack: () => void }) {
 export default function ContactClient({ initialStep = "select" }: { initialStep?: Step }) {
   const router = useRouter();
   const [step, setStep] = useState<Step>(initialStep);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setStep(initialStep);
@@ -1096,11 +1171,11 @@ export default function ContactClient({ initialStep = "select" }: { initialStep?
 
   return (
     <>
-      <SiteNavbar />
-      <main style={{ background: "#fff" }}>
-        {step === "select" && <SelectionView onSelect={handleSelect} />}
-        {step === "restaurant" && <RestaurantForm onBack={handleBack} />}
-        {step === "advertiser" && <AdvertiserForm onBack={handleBack} />}
+      {isMobile ? <MobileHeader /> : <SiteNavbar isMobile={isMobile} />}
+      <main style={{ background: isMobile ? "#f5f5f5" : "#fff" }}>
+        {step === "select" && <SelectionView onSelect={handleSelect} isMobile={isMobile} />}
+        {step === "restaurant" && <RestaurantForm onBack={handleBack} isMobile={isMobile} />}
+        {step === "advertiser" && <AdvertiserForm onBack={handleBack} isMobile={isMobile} />}
       </main>
       <FooterSection />
     </>
