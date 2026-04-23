@@ -58,8 +58,9 @@ export default function WherePixtronWorksScroll() {
       outer.style.height  = `${stickyH * 2.6 + NAVBAR_HEIGHT}px`;
 
       const contentH = content.offsetHeight;
-      const scale    = contentH > 0 ? Math.min(1, (stickyH - 32) / contentH) : 1;
-      content.style.transform = `translate(-50%, -50%) scale(${scale})`;
+      const scale    = contentH > 0 ? Math.min(1, (stickyH - 16) / contentH) : 1;
+      // Anchor from top so card1 top is flush with the sticky top when progress=0
+      content.style.transform = `translateX(-50%) scale(${scale})`;
     };
 
     // Two rAFs: first paints, second measures correct offsetHeight
@@ -118,15 +119,15 @@ export default function WherePixtronWorksScroll() {
         ref={stickyRef}
         style={{ position: "sticky", top: NAVBAR_HEIGHT, background: "#fff", overflow: "hidden", minHeight: `calc(100vh - ${NAVBAR_HEIGHT}px)` }}
       >
-        {/* Content — absolutely centered + scaled to always fit */}
+        {/* Content — anchored to top so card1 aligns with viewport top on first pin */}
         <div
           ref={contentRef}
           style={{
             position:        "absolute",
-            top:             "50%",
+            top:             0,
             left:            "50%",
-            transform:       "translate(-50%, -50%)",
-            transformOrigin: "center center",
+            transform:       "translateX(-50%)",
+            transformOrigin: "top center",
             display:         "flex",
             flexDirection:   "column",
             alignItems:      "center",
