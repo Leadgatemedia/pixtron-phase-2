@@ -17,6 +17,13 @@ export default function HeroIntro() {
   const textRef           = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
+    if (window.innerWidth < 768) {
+      document.documentElement.classList.remove("intro-running");
+      document.documentElement.classList.add("intro-done");
+      setPhase("done");
+      return;
+    }
+
     document.documentElement.classList.add("intro-running");
     document.body.style.overflow = "hidden";
 

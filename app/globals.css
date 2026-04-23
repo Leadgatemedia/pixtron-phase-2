@@ -5,12 +5,24 @@
 .about-mobile-only  { display: none; }
 .desktop-nav-only { display: block; }
 .mobile-nav-only { display: none; }
+.desktop-home-hero { display: block; }
+.mobile-home-hero { display: none; }
+.desktop-how-it-works { display: block; }
+.mobile-how-it-works { display: none; }
+.desktop-real-impact { display: block; }
+.mobile-real-impact { display: none; }
 
 @media (max-width: 767px) {
   .about-desktop-only { display: none !important; }
   .about-mobile-only  { display: block !important; }
   .desktop-nav-only { display: none !important; }
   .mobile-nav-only { display: block !important; }
+  .desktop-home-hero { display: none !important; }
+  .mobile-home-hero { display: block !important; }
+  .desktop-how-it-works { display: none !important; }
+  .mobile-how-it-works { display: flex !important; }
+  .desktop-real-impact { display: none !important; }
+  .mobile-real-impact { display: flex !important; }
 }
 
 /* While intro hasn't finished: keep elements hidden + out of flow */
@@ -91,10 +103,16 @@ body {
 }
 
 @media (max-width: 767px) {
-  html,
+  html {
+    zoom: 1 !important;
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
   body {
-    width: calc(100vw / 0.8);
-    min-width: calc(100vw / 0.8);
+    width: 100%;
+    min-width: 0;
     overflow-x: hidden;
   }
 }

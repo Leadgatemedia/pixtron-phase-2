@@ -11,6 +11,9 @@ import IndustriesScroll from "./components/IndustriesScroll";
 import FooterSection from "./components/FooterSection";
 import ProcessScrollSection from "./components/ProcessScrollSection";
 import MobileHeader from "./components/MobileHeader";
+import MobileHomeHero from "./components/MobileHomeHero";
+import MobileHowItWorksSection from "./components/MobileHowItWorksSection";
+import MobileRealImpactSection from "./components/MobileRealImpactSection";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Advertising That People Touch, See and Smell",
@@ -881,11 +884,20 @@ export default function HomePage() {
         <MobileHeader />
       </div>
       <main>
-        <HeroScrollSection>
-          <Hero />
-        </HeroScrollSection>
-        <HowItWorksScroll />
-        <RealImpactScroll />
+        <MobileHomeHero />
+        <div className="desktop-home-hero">
+          <HeroScrollSection>
+            <Hero />
+          </HeroScrollSection>
+        </div>
+        <div className="desktop-how-it-works">
+          <HowItWorksScroll />
+        </div>
+        <MobileHowItWorksSection />
+        <div className="desktop-real-impact">
+          <RealImpactScroll />
+        </div>
+        <MobileRealImpactSection />
         <WherePixtronWorksScroll />
         <IndustriesScroll />
         <ComparisonSection />

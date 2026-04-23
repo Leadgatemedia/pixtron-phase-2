@@ -618,7 +618,7 @@ export default function AboutPage() {
                 style={{
                   fontSize: 18,
                   fontWeight: 500,
-                  lineHeight: 1.5,
+                  lineHeight: "28px",
                   color: "rgba(0,0,0,0.8)",
                   textAlign: "center",
                   margin: 0,
