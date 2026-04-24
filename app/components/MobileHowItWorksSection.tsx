@@ -144,6 +144,8 @@ export default function MobileHowItWorksSection() {
         position: "relative",
         background: "#fff",
         boxSizing: "border-box",
+        WebkitTextSizeAdjust: "100%",
+        textSizeAdjust: "100%",
       }}
     >
       <div
@@ -249,11 +251,11 @@ export default function MobileHowItWorksSection() {
                   position: "absolute",
                   left: 64,
                   top: CONTENT_TOP[index],
-                  width: 297,
+                  right: 0,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-                  gap: 24,
+                  gap: 20,
                 }}
               >
                 <p style={{ margin: 0, width: "100%", fontSize: 18, fontWeight: 500, lineHeight: "20px", color: "#0f9d58", textTransform: "uppercase" }}>
@@ -262,7 +264,7 @@ export default function MobileHowItWorksSection() {
                 <h3 style={{ margin: 0, width: "100%", fontSize: 24, fontWeight: 700, lineHeight: "32px", color: "#000" }}>
                   {step.title}
                 </h3>
-                <p style={{ margin: 0, width: "100%", fontSize: 18, fontWeight: 400, lineHeight: "26px", color: "rgba(0,0,0,0.8)" }}>
+                <p style={{ margin: 0, width: "100%", fontSize: 18, fontWeight: 400, lineHeight: "28px", color: "rgba(0,0,0,0.8)" }}>
                   {step.description}
                 </p>
               </div>
