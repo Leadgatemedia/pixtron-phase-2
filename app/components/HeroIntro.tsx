@@ -1,9 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 type Phase = "blank" | "wordIn" | "hold" | "titleMove" | "done";
+type TargetMetrics = {
+  width: number;
+  fontSize: string;
+  lineHeight: string;
+};
 
 const W_IN_DUR = 1200;
 const W_IN_STG = 400;
@@ -13,13 +18,36 @@ const TOTAL_IN = 6 * W_IN_STG + W_IN_DUR;
 
 export default function HeroIntro() {
   const [phase, setPhase] = useState<Phase>("blank");
-  const [move, setMove]   = useState({ x: 0, y: 0 });
-  const textRef           = useRef<HTMLHeadingElement>(null);
-  const isMobile          = useRef(false);
+  const [move, setMove] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+  const [targetMetrics, setTargetMetrics] = useState<TargetMetrics | null>(null);
+  const textRef = useRef<HTMLHeadingElement>(null);
+
+  const getTargetSelector = (mobile: boolean) => (mobile ? "[data-mobile-hero-headline]" : "[data-hero-headline]");
+
+  useLayoutEffect(() => {
+    const updateTargetMetrics = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+
+      const heroH1 = document.querySelector(getTargetSelector(mobile)) as HTMLElement | null;
+      if (!heroH1) return;
+
+      const rect = heroH1.getBoundingClientRect();
+      const computed = window.getComputedStyle(heroH1);
+      setTargetMetrics({
+        width: rect.width,
+        fontSize: computed.fontSize,
+        lineHeight: computed.lineHeight,
+      });
+    };
+
+    updateTargetMetrics();
+    window.addEventListener("resize", updateTargetMetrics);
+    return () => window.removeEventListener("resize", updateTargetMetrics);
+  }, []);
 
   useEffect(() => {
-    isMobile.current = window.innerWidth < 768;
-
     document.documentElement.classList.add("intro-running");
     document.body.style.overflow = "hidden";
 
@@ -52,7 +80,7 @@ export default function HeroIntro() {
     // the scrollbar returns and shifts centred content left — visible drift.
     document.body.style.overflow = "";
     requestAnimationFrame(() => {
-      const selector = isMobile.current ? "[data-mobile-hero-headline]" : "[data-hero-headline]";
+      const selector = getTargetSelector(isMobile);
       const heroH1 = document.querySelector(selector) as HTMLElement | null;
       if (!heroH1 || !textRef.current) return;
       const hRect = heroH1.getBoundingClientRect();
@@ -99,14 +127,15 @@ export default function HeroIntro() {
       <h1
         ref={textRef}
         style={{
-          fontSize:   isMobile.current ? 30 : 60,
+          width:      isMobile ? (targetMetrics?.width ?? 361) : 782,
+          maxWidth:   "100%",
+          fontSize:   isMobile ? (targetMetrics?.fontSize ?? 30) : 60,
           fontWeight: 700,
-          lineHeight: 1.2,
+          lineHeight: isMobile ? (targetMetrics?.lineHeight ?? "1.2") : 1.2,
           textAlign:  "center",
           color:      "#000",
-          maxWidth:   isMobile.current ? 361 : 782,
           margin:     0,
-          padding:    isMobile.current ? "0 16px" : 0,
+          padding:    0,
           transform:  isMoving ? `translate(${move.x}px, ${move.y}px)` : "translate(0,0)",
           transition: phase === "titleMove"
             ? `transform ${MOVE_DUR}ms cubic-bezier(0.4, 0, 0.2, 1)`

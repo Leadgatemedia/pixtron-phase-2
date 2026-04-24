@@ -176,6 +176,7 @@
   padding: 32px 39px;
   box-sizing: border-box;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -366,12 +367,14 @@
   width: 100%;
   overflow: hidden;
   text-align: center;
-  font-size: 92px;
-  line-height: 0.72;
+  font-size: clamp(78px, 22.5vw, 92px);
+  line-height: 0.74;
   font-weight: 500;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   color: #d9d9d9;
   white-space: nowrap;
+  padding: 0 4px;
+  box-sizing: border-box;
 }
 
 @media (max-width: 1200px) {

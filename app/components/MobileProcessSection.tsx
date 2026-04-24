@@ -32,8 +32,7 @@ type CardLayout = {
   descMarginTop: number;
 };
 
-const FULL_BLEED_WIDTH = "calc(100vw / 0.8)";
-const CONTENT_WIDTH = "min(361px, calc(100vw / 0.8 - 32px))";
+const FULL_BLEED_WIDTH = "100vw";
 const DIVIDER = "1px dashed rgba(0,0,0,0.2)";
 const FIGMA_SECTION_GAP = 75;
 
@@ -302,7 +301,8 @@ function MobilePinnedProcessBlock({ column }: { column: ProcessColumn }) {
       style={{
         position: "relative",
         width: FULL_BLEED_WIDTH,
-        marginInline: `calc((min(361px, calc(100vw / 0.8 - 32px)) - (${FULL_BLEED_WIDTH})) / 2)`,
+        marginLeft: "calc(50% - 50vw)",
+        marginRight: "calc(50% - 50vw)",
         marginBottom: `${FIGMA_SECTION_GAP - PINNED_SCROLL_DISTANCE}px`,
         background: "#fff",
         borderTop: DIVIDER,
@@ -319,13 +319,15 @@ function MobilePinnedProcessBlock({ column }: { column: ProcessColumn }) {
           flexDirection: "column",
           alignItems: "center",
           gap: 40,
-          padding: "56px 16px 40px",
+          padding: "56px 20px 40px",
           boxSizing: "border-box",
           overflow: "hidden",
           zIndex: 1,
+          WebkitTextSizeAdjust: "100%",
+          textSizeAdjust: "100%",
         }}
       >
-        <div style={{ width: CONTENT_WIDTH, display: "flex", flexDirection: "column", alignItems: "center", gap: 24, textAlign: "center" }}>
+        <div style={{ width: "100%", maxWidth: 361, display: "flex", flexDirection: "column", alignItems: "center", gap: 24, textAlign: "center" }}>
           <p style={{ margin: 0, fontSize: 18, fontWeight: 600, lineHeight: 1.4, color: "#0f9d58" }}>{column.label}</p>
           <div style={{ width: "100%", color: "#000", fontSize: 24, lineHeight: 1.3 }}>
             <p style={{ margin: 0, fontWeight: 400 }}>{column.headingTop}</p>
@@ -333,7 +335,7 @@ function MobilePinnedProcessBlock({ column }: { column: ProcessColumn }) {
           </div>
         </div>
 
-        <div style={{ position: "relative", width: CONTENT_WIDTH, height: STACK_HEIGHT, flexShrink: 0 }}>
+        <div style={{ position: "relative", width: "100%", maxWidth: 361, height: STACK_HEIGHT, flexShrink: 0 }}>
           {column.steps.map((step, index) => (
             <div
               key={step.step}
@@ -407,7 +409,7 @@ function MobilePinnedProcessBlock({ column }: { column: ProcessColumn }) {
                     margin: 0,
                     fontSize: 18,
                     fontWeight: 400,
-                    lineHeight: 1.3,
+                    lineHeight: 1.45,
                     color: "rgba(0,0,0,0.8)",
                     opacity: index === 0 ? 1 : 0,
                   }}
@@ -423,7 +425,8 @@ function MobilePinnedProcessBlock({ column }: { column: ProcessColumn }) {
           href={column.ctaHref}
           className={column.ctaVariant === "primary" ? "btn-primary" : "btn-outline"}
           style={{
-            width: CONTENT_WIDTH,
+            width: "100%",
+            maxWidth: 361,
             minHeight: 64,
             boxSizing: "border-box",
             justifyContent: "space-between",
@@ -460,12 +463,13 @@ export default function MobileProcessSection() {
         <div
           style={{
             width: FULL_BLEED_WIDTH,
-            marginInline: `calc((min(361px, calc(100vw / 0.8 - 32px)) - (${FULL_BLEED_WIDTH})) / 2)`,
+            marginLeft: "calc(50% - 50vw)",
+            marginRight: "calc(50% - 50vw)",
             borderTop: DIVIDER,
           }}
         />
 
-        <div style={{ width: CONTENT_WIDTH, display: "flex", flexDirection: "column", alignItems: "center", gap: 24, textAlign: "center" }}>
+        <div style={{ width: "100%", maxWidth: 361, display: "flex", flexDirection: "column", alignItems: "center", gap: 24, textAlign: "center" }}>
           <h2 className="gradient-heading" style={{ margin: 0, width: "100%", fontSize: 30, fontWeight: 700, lineHeight: 1.2 }}>
             The Process
           </h2>
