@@ -6,6 +6,13 @@ const progressRows = [
   { label: "Search Ads (Avg)", value: "$2.50+", right: "5%" },
 ];
 
+const chartBars = [
+  { label: "1.7s", name: "Digital Banner", left: "0%", width: "23.53%", height: 9, center: "11.76%" },
+  { label: "2.5s", name: "Social Ad", left: "25.26%", width: "23.88%", height: 13, center: "37.02%" },
+  { label: "7.0s", name: "Video Pre-roll", left: "50.87%", width: "23.88%", height: 51, center: "62.63%" },
+  { label: "35s", name: "Pixtron Sachet", left: "76.47%", width: "23.53%", height: 215, center: "88.24%" },
+];
+
 function ArrowIcon() {
   // eslint-disable-next-line @next/next/no-img-element
   return <img src="/arrow-black.png" width={24} height={24} alt="" style={{ display: "block" }} />;
@@ -46,47 +53,100 @@ export default function MobileComparisonSection() {
         overflow: "hidden",
         background: "#080808",
         boxSizing: "border-box",
+        WebkitTextSizeAdjust: "100%",
+        textSizeAdjust: "100%",
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/comparison-bg.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", pointerEvents: "none" }} />
-      <div style={{ position: "relative", zIndex: 1, width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 24, textAlign: "center", color: "#fff" }}>
+
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          maxWidth: 361,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 24,
+          textAlign: "center",
+          color: "#fff",
+        }}
+      >
         <h2 style={{ margin: 0, width: "100%", fontSize: 30, fontWeight: 700, lineHeight: 1.2 }}>Pixtron vs. Digital Advertising</h2>
         <p style={{ margin: 0, width: "100%", fontSize: 18, fontWeight: 500, lineHeight: 1.5 }}>Why this marketing is better for real estate?</p>
       </div>
 
-      <div style={{ position: "relative", zIndex: 1, width: "100%", display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 361, display: "flex", flexDirection: "column", gap: 16 }}>
         <GlassCard>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 24 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/comparison/chart-icon.svg" width={20} height={20} alt="" />
             <span style={{ color: "#fff", fontSize: 18, fontWeight: 600, lineHeight: "28px" }}>Engagement Duration</span>
           </div>
+
           <div style={{ position: "relative", height: 262 }}>
             {[6, 66, 126, 186, 241].map((top) => (
               <div key={top} style={{ position: "absolute", left: 24, right: 0, top, height: 1, background: "rgba(255,255,255,0.1)" }} />
             ))}
+
             {[40, 30, 20, 10, 0].map((label, i) => (
-              <span key={label} style={{ position: "absolute", left: 0, top: [0, 60, 120, 180, 235][i], color: "rgba(255,255,255,0.5)", fontSize: 12, fontWeight: 500 }}>
+              <span
+                key={label}
+                style={{ position: "absolute", left: 0, top: [0, 60, 120, 180, 235][i], color: "rgba(255,255,255,0.5)", fontSize: 12, fontWeight: 500 }}
+              >
                 {label}
               </span>
             ))}
-            {[
-              { x: 24, h: 9, label: "1.7s", name: "Digital Banner" },
-              { x: 97, h: 13, label: "2.5s", name: "Social Ad" },
-              { x: 171, h: 51, label: "7.0s", name: "Video Pre-roll" },
-              { x: 245, h: 215, label: "35s", name: "Pixtron Sachet" },
-            ].map((bar) => (
-              <div key={bar.name}>
-                <div style={{ position: "absolute", left: bar.x, bottom: 15, width: bar.x === 24 || bar.x === 245 ? 68 : 69, height: bar.h, background: "#0F9D58" }} />
-                <span style={{ position: "absolute", left: bar.x + 34, bottom: bar.h + 24, transform: "translateX(-50%)", color: "#fff", fontSize: 18, fontWeight: 500 }}>
-                  {bar.label}
-                </span>
-                <span style={{ position: "absolute", left: bar.x + 34, bottom: 0, transform: "translateX(-50%)", color: "rgba(255,255,255,0.5)", fontSize: 10, fontWeight: 500, whiteSpace: "nowrap" }}>
-                  {bar.name}
-                </span>
-              </div>
-            ))}
+
+            <div style={{ position: "absolute", left: 24, right: 0, top: 0, bottom: 15 }}>
+              {chartBars.map((bar) => (
+                <div key={bar.name}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: bar.left,
+                      bottom: 0,
+                      width: bar.width,
+                      height: bar.height,
+                      background: "#0F9D58",
+                    }}
+                  />
+
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: bar.center,
+                      bottom: bar.height + 9,
+                      transform: "translateX(-50%)",
+                      color: "#fff",
+                      fontSize: 18,
+                      fontWeight: 500,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {bar.label}
+                  </span>
+
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: bar.center,
+                      bottom: -14,
+                      transform: "translateX(-50%)",
+                      color: "rgba(255,255,255,0.5)",
+                      fontSize: 9,
+                      fontWeight: 500,
+                      whiteSpace: "nowrap",
+                      textAlign: "center",
+                    }}
+                  >
+                    {bar.name}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </GlassCard>
 
@@ -110,9 +170,9 @@ export default function MobileComparisonSection() {
           <div style={{ display: "flex", flexDirection: "column", gap: 32, marginTop: 32 }}>
             {progressRows.map((row) => (
               <div key={row.label} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", color: "#fff", fontSize: 16, lineHeight: "20px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", color: "#fff", fontSize: 16, lineHeight: "20px", gap: 8 }}>
                   <span>{row.label}</span>
-                  <strong style={{ fontWeight: 600 }}>{row.value}</strong>
+                  <strong style={{ fontWeight: 600, flexShrink: 0 }}>{row.value}</strong>
                 </div>
                 <div style={{ position: "relative", width: "100%", height: 8, borderRadius: 9999, background: "rgba(255,255,255,0.1)" }}>
                   <div style={{ position: "absolute", left: 0, right: row.right, top: 0, height: 8, borderRadius: 9999, background: "#0F9D58" }} />
@@ -122,7 +182,26 @@ export default function MobileComparisonSection() {
           </div>
         </GlassCard>
 
-        <Link href="/contact?type=advertiser" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", minHeight: 56, padding: "0 20px 0 22px", borderRadius: 6, border: "2px solid rgba(255,255,255,0.5)", background: "#fff", color: "#000", textDecoration: "none", boxSizing: "border-box", fontSize: 18, fontWeight: 600, lineHeight: "30px" }}>
+        <Link
+          href="/contact?type=advertiser"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            minHeight: 56,
+            padding: "0 20px 0 22px",
+            borderRadius: 6,
+            border: "2px solid rgba(255,255,255,0.5)",
+            background: "#fff",
+            color: "#000",
+            textDecoration: "none",
+            boxSizing: "border-box",
+            fontSize: 18,
+            fontWeight: 600,
+            lineHeight: "30px",
+          }}
+        >
           <span>Advertise With Pixtron</span>
           <ArrowIcon />
         </Link>

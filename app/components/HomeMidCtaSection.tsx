@@ -57,7 +57,7 @@ function DesktopMidCta() {
     <section
       className="desktop-mid-cta"
       style={{
-        padding: "0 39px 56px",
+        padding: "56px 39px 56px",
         background: "#fff",
         boxSizing: "border-box",
       }}
