@@ -34,15 +34,18 @@ function SoonBadge() {
     <span style={{
       display: "inline-flex",
       alignItems: "center",
-      padding: "2px 10px",
-      borderRadius: 999,
-      background: "rgba(15,157,88,0.12)",
+      justifyContent: "center",
+      width: 56,
+      height: 24,
+      borderRadius: 24,
+      background: "rgba(15,157,88,0.2)",
       color: "#0f9d58",
       fontSize: 13,
       fontWeight: 500,
-      lineHeight: "20px",
+      lineHeight: 1,
       marginLeft: 8,
       verticalAlign: "middle",
+      flexShrink: 0,
     }}>
       Soon
     </span>

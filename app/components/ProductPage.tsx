@@ -3,8 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 import FooterSection from "./FooterSection";
+import HeroScrollSection from "./HeroScrollSection";
 import HomeMidCtaSection from "./HomeMidCtaSection";
 import MobileHeader from "./MobileHeader";
+import MobileHomeHero from "./MobileHomeHero";
 import styles from "./ProductPage.module.css";
 
 type HighlightHeading = {
@@ -53,8 +55,7 @@ type SeriesPageConfig = {
         title: HighlightHeading;
         body: string;
         button: ButtonConfig;
-        images: string[];
-        hotelImage: string;
+        sachetStrip: string;
       }
     | {
         type: "dual";
@@ -125,6 +126,9 @@ type ProductShowcase = {
   items: Array<{
     title: string;
     body: string;
+    image: string;
+    imageAlt: string;
+    imageCrop?: "lavender";
   }>;
 };
 
@@ -201,7 +205,6 @@ const JOURNEY_STEPS = [
 ];
 
 const PRODUCT_PAGE_ASSETS = "/product-pages";
-
 export const RESTAURANTS_PAGE: RestaurantPageConfig = {
   kind: "restaurant",
   activeHref: "/restaurants",
@@ -345,15 +348,7 @@ export const SIGNATURE_SERIES_PAGE: SeriesPageConfig = {
     title: { before: "Our", highlight: "Signature Series" },
     button: { label: "Get Signature Series", href: "/contact?type=signature", variant: "primary" },
     body: "Pixtron places your brand in the hands of customers through custom wet wipe sachets at restaurants, hotels, and events.",
-    images: [
-      `${PRODUCT_PAGE_ASSETS}/signature-sachet-1.png`,
-      `${PRODUCT_PAGE_ASSETS}/signature-sachet-2.png`,
-      `${PRODUCT_PAGE_ASSETS}/signature-sachet-3.png`,
-      `${PRODUCT_PAGE_ASSETS}/signature-sachet-4.png`,
-      `${PRODUCT_PAGE_ASSETS}/signature-sachet-5.png`,
-      `${PRODUCT_PAGE_ASSETS}/signature-sachet-7.png`,
-    ],
-    hotelImage: `${PRODUCT_PAGE_ASSETS}/signature-hotel.jpg`,
+    sachetStrip: `${PRODUCT_PAGE_ASSETS}/signature-sachets-strip.png`,
   },
   products: {
     eyebrow: "Crafted for Experience",
@@ -370,22 +365,32 @@ export const SIGNATURE_SERIES_PAGE: SeriesPageConfig = {
       {
         title: "Green Tea",
         body: "Smooth and balanced. A calm, refreshing aroma with soft herbal tones that bring a sense of harmony and quiet sophistication.",
+        image: `${PRODUCT_PAGE_ASSETS}/signature-green-tea.png`,
+        imageAlt: "Green Tea Signature Series wet wipe sachet",
       },
       {
         title: "Mandarin",
         body: "Bright, lively, and full of energy. A fresh citrus note that uplifts the mood and leaves a cheerful impression.",
+        image: `${PRODUCT_PAGE_ASSETS}/signature-mandarin.png`,
+        imageAlt: "Mandarin Signature Series wet wipe sachet",
       },
       {
         title: "Ocean Breeze",
         body: "A cool, refreshing scent that captures the feeling of a gentle sea breeze, crisp, clean, and effortlessly revitalizing.",
+        image: `${PRODUCT_PAGE_ASSETS}/signature-ocean-breeze.png`,
+        imageAlt: "Ocean Breeze Signature Series wet wipe sachet",
       },
       {
         title: "Pure Clean",
         body: "Pure and timeless. A subtle, comforting scent that feels fresh, balanced, and effortlessly clean.",
+        image: `${PRODUCT_PAGE_ASSETS}/signature-pure-clean.png`,
+        imageAlt: "Pure Clean Signature Series wet wipe sachet",
       },
       {
         title: "Pink Floral",
         body: "Delicate and graceful. A tender floral fragrance that adds a soft, elegant touch to every experience.",
+        image: `${PRODUCT_PAGE_ASSETS}/signature-pink-floral.png`,
+        imageAlt: "Pink Floral Signature Series wet wipe sachet",
       },
     ],
   },
@@ -426,10 +431,15 @@ export const CUSTOM_SERIES_PAGE: SeriesPageConfig = {
       {
         title: "The Perfect Touch",
         body: "Our wipes are crafted from ultra-soft, biodegradable bamboo cotton. They carry substantial weight and density, elevating a simple hygiene necessity into a moment of pure comfort.",
+        image: `${PRODUCT_PAGE_ASSETS}/custom-perfect-touch.jpg`,
+        imageAlt: "A folded Pixtron wet towel on a green surface",
       },
       {
         title: "The Signature Scent",
         body: "Infused with a subtle, refreshing citrus-aloe fragrance that invigorates without overpowering the dining experience. A scent designed specifically to cleanse the palate.",
+        image: `${PRODUCT_PAGE_ASSETS}/custom-signature-scent.jpg`,
+        imageAlt: "Lavender fragrance ingredients for Pixtron wet wipes",
+        imageCrop: "lavender",
       },
     ],
   },
@@ -800,30 +810,49 @@ function FaqSection({ faqs }: { faqs: FaqItem[] }) {
 }
 
 function SignatureHero({ hero }: { hero: Extract<SeriesPageConfig["hero"], { type: "sachets" }> }) {
-  const images = [...hero.images, hero.hotelImage];
-
   return (
-    <section className={styles.signatureHero}>
-      <div className={styles.signatureHeroTop}>
-        <h1>
-          {hero.title.before} <span>{hero.title.highlight}</span>
-        </h1>
-        <ProductButton button={hero.button} width={260} />
-        <p>{hero.body}</p>
+    <>
+      <div className={styles.signatureDesktopHero}>
+        <HeroScrollSection
+          stripImage={hero.sachetStrip}
+          stripWidth={1550}
+          stripTop="calc(125vh - 334px)"
+          finalAlign="center"
+          watermarkSelector=".signature-hero-watermark"
+          waitForIntro={false}
+        >
+          <section className={styles.signatureAnimatedHero}>
+            <div className={styles.signatureAnimatedContent}>
+              <h1>
+                {hero.title.before} <span>{hero.title.highlight}</span>
+              </h1>
+              <div className={styles.signatureAnimatedButton}>
+                <ProductButton button={hero.button} width={260} />
+              </div>
+              <p>{hero.body}</p>
+            </div>
+
+            <div className={`signature-hero-watermark ${styles.signatureAnimatedWatermark}`} aria-hidden>
+              {["SEEN", "TOUCHED", "REMEMBERED"].map((word) => (
+                <div key={word}>{word}</div>
+              ))}
+            </div>
+          </section>
+        </HeroScrollSection>
       </div>
-      <div className={styles.sachetStage}>
-        <div className={styles.watermarkWords} aria-hidden>
-          <span>SEEN</span>
-          <span>TOUCHED</span>
-          <span>REMEMBERED</span>
-        </div>
-        <div className={styles.sachetRail}>
-          {images.map((src, index) => (
-            <img key={`${src}-${index}`} src={src} alt="" />
-          ))}
-        </div>
-      </div>
-    </section>
+      <MobileHomeHero
+        stripImage={hero.sachetStrip}
+        stripWidth={940}
+        finalAlign="center"
+        headlineBefore={hero.title.before}
+        headlineHighlight={hero.title.highlight}
+        body={hero.body}
+        primaryButton={hero.button}
+        secondaryButton={null}
+        paddingTop={56}
+        useIntroReveal={false}
+      />
+    </>
   );
 }
 
@@ -836,33 +865,31 @@ function CustomHero({ hero }: { hero: Extract<SeriesPageConfig["hero"], { type: 
           <h1>{hero.title}</h1>
           <p>{hero.body}</p>
         </div>
-        <div className={styles.dualRow}>
-          <div className={styles.dualCopy}>
-            <span>The Front</span>
-            <h2>The Hook</h2>
-            <p>Your primary visual real estate. High resolution edge to edge printing designed to capture immediate attention the moment they sit down.</p>
+        <div className={styles.dualRows}>
+          <div className={styles.dualRow}>
+            <div className={styles.dualCopy}>
+              <span>The Front</span>
+              <h2>The Hook</h2>
+              <p>Your primary visual real estate. High resolution edge to edge printing designed to capture immediate attention the moment they sit down.</p>
+            </div>
+            <div className={styles.dualImageTop}>
+              <img src={hero.image} alt="Front side custom Pixtron sachet design" />
+            </div>
           </div>
-          <div className={styles.dualImageTop}>
-            <img src={hero.image} alt="Front side custom Pixtron sachet design" />
-          </div>
-        </div>
-        <div className={`${styles.dualRow} ${styles.dualRowBack}`}>
-          <div className={styles.dualImageBottom}>
-            <img src={hero.image} alt="Back side custom Pixtron sachet design" />
-          </div>
-          <div className={styles.dualCopy}>
-            <span>The Back</span>
-            <h2>The Action</h2>
-            <p>The perfect space for deeper engagement. Include QR codes, exclusive offers, location details, or a compelling call-to-action.</p>
+          <div className={`${styles.dualRow} ${styles.dualRowBack}`}>
+            <div className={styles.dualImageBottom}>
+              <img src={hero.image} alt="Back side custom Pixtron sachet design" />
+            </div>
+            <div className={styles.dualCopy}>
+              <span>The Back</span>
+              <h2>The Action</h2>
+              <p>The perfect space for deeper engagement. Include QR codes, exclusive offers, location details, or a compelling call-to-action.</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
-}
-
-function Checkerboard() {
-  return <div className={styles.productImagePlaceholder} aria-hidden />;
 }
 
 function ProductShowcaseSection({ showcase }: { showcase: ProductShowcase }) {
@@ -879,7 +906,9 @@ function ProductShowcaseSection({ showcase }: { showcase: ProductShowcase }) {
       <div className={styles.productRows}>
         {showcase.items.map((item, index) => (
           <article key={item.title} className={`${styles.productRow} ${index % 2 === 1 ? styles.productRowReversed : ""}`}>
-            <Checkerboard />
+            <div className={`${styles.productImage} ${item.imageCrop === "lavender" ? styles.productImageLavender : ""}`}>
+              <img src={item.image} alt={item.imageAlt} />
+            </div>
             <div className={styles.productCopy}>
               <h3>{item.title}</h3>
               <p>{item.body}</p>

@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
-// Sachet images in left-to-right visual order
-const SACHETS = [
+// Sachet images in left-to-right visual order.
+const DEFAULT_SACHETS = [
   "/sachets/sachet-1.png",
   "/sachets/sachet-2.png",
   "/sachets/sachet-4.png",
@@ -28,9 +28,8 @@ const STRIP2_CROP = "-21vh";
 
 const SACHET_H = "42vh";
 const OVERLAY_H = "42vh";
-
-const N = SACHETS.length;
-const STRIP_W = SACHET_W + (N - 1) * SPACING;
+const STRIP_SOURCE_W = 1855;
+const STRIP_SOURCE_H = 400;
 
 // Must match layout zoom.
 const ZOOM = 0.8;
@@ -40,15 +39,33 @@ const ENTRY_BUFFER = 150;
 const MOTION_SCROLL_RATIO = 0.68;
 const FINAL_HOLD_RATIO = 0.42;
 
+type HeroScrollSectionProps = {
+  children: React.ReactNode;
+  sachets?: string[];
+  stripImage?: string;
+  stripWidth?: number;
+  stripTop?: string;
+  finalAlign?: "edge" | "center";
+  watermarkSelector?: string;
+  waitForIntro?: boolean;
+};
+
 export default function HeroScrollSection({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+  sachets = DEFAULT_SACHETS,
+  stripImage,
+  stripWidth,
+  stripTop,
+  finalAlign = "edge",
+  watermarkSelector = ".hero-watermark",
+  waitForIntro = true,
+}: HeroScrollSectionProps) {
   const outerRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const strip1Ref = useRef<HTMLDivElement>(null);
   const strip2Ref = useRef<HTMLDivElement>(null);
+  const stripW = stripImage ? (stripWidth ?? 1484) : SACHET_W + (sachets.length - 1) * SPACING;
+  const stripH = stripImage ? (stripW * STRIP_SOURCE_H) / STRIP_SOURCE_W : 0;
 
   useEffect(() => {
     const outer = outerRef.current;
@@ -57,8 +74,10 @@ export default function HeroScrollSection({
     const strip2 = strip2Ref.current;
     if (!outer || !sticky || !strip1 || !strip2) return;
 
-    const watermark = document.querySelector(".hero-watermark") as HTMLElement | null;
+    const watermark = sticky.querySelector(watermarkSelector) as HTMLElement | null;
     let wmReady = false;
+    let introObserver: MutationObserver | null = null;
+    let takeoverTimer = 0;
 
     const takeOver = () => {
       if (wmReady || !watermark) return;
@@ -67,21 +86,27 @@ export default function HeroScrollSection({
     };
 
     if (watermark) {
-      watermark.addEventListener("animationend", takeOver, { once: true });
+      if (waitForIntro) {
+        watermark.addEventListener("animationend", takeOver, { once: true });
 
-      const html = document.documentElement;
-      const armTakeover = () => setTimeout(takeOver, 1400);
+        const html = document.documentElement;
+        const armTakeover = () => {
+          takeoverTimer = window.setTimeout(takeOver, 1400);
+        };
 
-      if (html.classList.contains("intro-done")) {
-        armTakeover();
+        if (html.classList.contains("intro-done")) {
+          armTakeover();
+        } else {
+          introObserver = new MutationObserver(() => {
+            if (html.classList.contains("intro-done")) {
+              introObserver?.disconnect();
+              armTakeover();
+            }
+          });
+          introObserver.observe(html, { attributes: true, attributeFilter: ["class"] });
+        }
       } else {
-        const mo = new MutationObserver(() => {
-          if (html.classList.contains("intro-done")) {
-            mo.disconnect();
-            armTakeover();
-          }
-        });
-        mo.observe(html, { attributes: true, attributeFilter: ["class"] });
+        takeOver();
       }
     }
 
@@ -102,11 +127,13 @@ export default function HeroScrollSection({
       const stickyH = vh;
       const leadScroll = stickyH * 0.62;
       const holdScroll = stickyH * FINAL_HOLD_RATIO;
-      const maxTx = Math.max(0, STRIP_W - vw);
+      const maxTx = Math.max(0, stripW - vw);
+      const txStart = vw + ENTRY_BUFFER;
+      const txEnd = finalAlign === "center" ? (vw - stripW) / 2 : -maxTx;
 
       // Horizontal motion starts fully off-screen right and stops exactly when
-      // the final sachet is fully visible at the viewport edge.
-      const travelDistance = vw + ENTRY_BUFFER + maxTx;
+      // the final sachet reaches its target alignment.
+      const travelDistance = Math.abs(txStart - txEnd);
       const travelScroll = travelDistance * MOTION_SCROLL_RATIO;
 
       return {
@@ -115,6 +142,8 @@ export default function HeroScrollSection({
         leadScroll,
         holdScroll,
         maxTx,
+        txStart,
+        txEnd,
         travelScroll,
         totalScroll: leadScroll + travelScroll + holdScroll,
       };
@@ -134,7 +163,8 @@ export default function HeroScrollSection({
       const {
         vw,
         leadScroll,
-        maxTx,
+        txStart,
+        txEnd,
         travelScroll,
         totalScroll,
       } = getMetrics();
@@ -163,8 +193,6 @@ export default function HeroScrollSection({
         0,
         Math.min(1, (scrolled - leadScroll) / Math.max(1, travelScroll))
       );
-      const txStart = vw + ENTRY_BUFFER;
-      const txEnd = -maxTx;
       const tx = txStart + (txEnd - txStart) * ease(sachetProgress);
 
       strip1.style.transform = `translateX(${tx}px)`;
@@ -239,9 +267,64 @@ export default function HeroScrollSection({
       window.removeEventListener("scroll", scheduleUpdate);
       window.cancelAnimationFrame(rafId);
       ro.disconnect();
+      introObserver?.disconnect();
+      window.clearTimeout(takeoverTimer);
       watermark?.removeEventListener("animationend", takeOver);
     };
-  }, []);
+  }, [finalAlign, stripW, watermarkSelector, waitForIntro]);
+
+  const renderStrip = (cropTop: string | number = 0) => {
+    if (stripImage) {
+      return (
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            top: cropTop,
+            width: stripW,
+            height: stripH,
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={stripImage}
+            alt=""
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+              display: "block",
+            }}
+          />
+        </div>
+      );
+    }
+
+    return sachets.map((src, i) => (
+      <div
+        key={i}
+        style={{
+          position: "absolute",
+          left: i * SPACING,
+          top: cropTop,
+          width: SACHET_W,
+          height: SACHET_H,
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt=""
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
+      </div>
+    ));
+  };
 
   return (
     <div ref={outerRef} style={{ position: "relative" }}>
@@ -260,40 +343,17 @@ export default function HeroScrollSection({
           ref={strip1Ref}
           style={{
             position: "absolute",
-            top: STRIP1_TOP,
+            top: stripImage ? (stripTop ?? STRIP1_TOP) : STRIP1_TOP,
             left: 0,
-            width: STRIP_W,
-            height: STRIP1_H,
-            overflow: "hidden",
+            width: stripW,
+            height: stripImage ? stripH : STRIP1_H,
+            overflow: stripImage ? "visible" : "hidden",
             willChange: "transform",
             zIndex: 3,
             transform: "translateX(9999px)",
           }}
         >
-          {SACHETS.map((src, i) => (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                left: i * SPACING,
-                top: STRIP1_CROP,
-                width: SACHET_W,
-                height: SACHET_H,
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt=""
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-              />
-            </div>
-          ))}
+          {renderStrip(stripImage ? 0 : STRIP1_CROP)}
         </div>
 
         <div
@@ -302,47 +362,25 @@ export default function HeroScrollSection({
             position: "absolute",
             top: STRIP2_TOP,
             left: 0,
-            width: STRIP_W,
+            width: stripW,
             height: STRIP2_H,
             overflow: "hidden",
             willChange: "transform",
             zIndex: 3,
             transform: "translateX(9999px)",
+            display: stripImage ? "none" : "block",
           }}
         >
-          {SACHETS.map((src, i) => (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                left: i * SPACING,
-                top: STRIP2_CROP,
-                width: SACHET_W,
-                height: SACHET_H,
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt=""
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-              />
-            </div>
-          ))}
+          {stripImage ? null : renderStrip(STRIP2_CROP)}
         </div>
 
         <div
           style={{
             position: "absolute",
-            top: STRIP1_TOP,
+            top: stripImage ? (stripTop ?? STRIP1_TOP) : STRIP1_TOP,
             left: 0,
             right: 0,
-            height: OVERLAY_H,
+            height: stripImage ? stripH : OVERLAY_H,
             background:
               "linear-gradient(90deg, #f6fbf6 3%, transparent 18%, transparent 82%, #f6fbf6 97%)",
             zIndex: 4,

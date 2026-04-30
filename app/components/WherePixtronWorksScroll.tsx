@@ -13,7 +13,7 @@ const CARD_H   = 668;
 const CARD_W   = 421;
 const CARD_GAP = 30;
 const NAVBAR_HEIGHT = 88;
-const CTA_DROP = 76;
+const CTA_DROP = 200;
 
 const venues = [
   { image: "/restaurant_clean.png", title: "Restaurants", subtitle: "Enhance dining with premium wipes",  startY: 0   },
