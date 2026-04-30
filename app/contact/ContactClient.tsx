@@ -115,7 +115,7 @@ function SiteNavbar({ isMobile }: { isMobile: boolean }) {
                 </div>
                 <Link href="#" className="nav-link">Advertisers</Link>
                 <Link href="#" className="nav-link">Industries</Link>
-                <Link href="#" className="nav-link">Restaurants</Link>
+                <Link href="/restaurants" className="nav-link">Restaurants</Link>
               </div>
             </div>
 
@@ -182,8 +182,9 @@ function SelectionView({
     borderRadius: isMobile ? 10 : 12,
     display: "flex",
     flexDirection: "column",
+    gap: isMobile ? 18 : 28,
     cursor: "pointer",
-    transition: "box-shadow 0.4s ease, border-color 0.4s ease, transform 0.4s ease, height 0.4s ease",
+    transition: "box-shadow 0.4s ease, border-color 0.4s ease, transform 0.4s ease",
     textAlign: "left",
     boxSizing: "border-box",
   };
@@ -192,9 +193,8 @@ function SelectionView({
     ...cardBase,
     width: isMobile ? undefined : 318,
     flex: isMobile ? 1 : undefined,
-    height: isMobile ? undefined : 281,
-    padding: isMobile ? "16px 18px 20px" : "30px 28px",
-    border: "2px solid rgba(0,0,0,0.02)",
+    padding: isMobile ? "16px 16px 20px" : "30px 28px",
+    border: isMobile ? "2px solid rgba(0,0,0,0.02)" : "1px solid rgba(0,0,0,0.06)",
     boxShadow: "0px 4px 6px -1px rgba(0,0,0,0.1), 0px 2px 4px -1px rgba(0,0,0,0.06)",
   };
 
@@ -202,14 +202,13 @@ function SelectionView({
     ...cardBase,
     width: isMobile ? undefined : 318,
     flex: isMobile ? 1 : undefined,
-    height: isMobile ? undefined : 349,
-    padding: isMobile ? "16px 18px 20px" : "30px 28px",
+    padding: isMobile ? "16px 16px 20px" : "30px 28px",
     border: isMobile ? "2px solid rgba(0,0,0,0.02)" : "2px solid #0f9d58",
     boxShadow: "0px 25px 50px -12px rgba(0,0,0,0.25)",
   };
 
-  const iconSize = isMobile ? 32 : 64;
-  const iconBoxSize = isMobile ? 32 : 64;
+  const iconSize = 32;
+  const iconBoxSize = 54;
   const restaurantActive = selected === "restaurant" || hovered === "restaurant";
   const advertiserActive = selected === "advertiser" || hovered === "advertiser";
   const mobileSelectorWidth = "100%";
@@ -303,7 +302,7 @@ function SelectionView({
               margin: 0,
             }}
           >
-            I am a...
+            I need...
           </p>
 
           <div
@@ -326,7 +325,8 @@ function SelectionView({
                   width: iconBoxSize,
                   height: iconBoxSize,
                   borderRadius: 6,
-                  background: isMobile ? "transparent" : restaurantActive ? "#0f9d58" : "#e5e5e5",
+                  background: restaurantActive && !isMobile ? "#0f9d58" : "rgba(0,0,0,0.06)",
+                  border: "1px solid rgba(0,0,0,0.1)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -336,27 +336,26 @@ function SelectionView({
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/icons/contact-restaurant.svg"
+                  src="/icons/award-star.svg"
                   alt=""
                   width={iconSize}
                   height={iconSize}
                   style={{
                     display: "block",
-                    width: isMobile ? 32 : 30,
-                    height: isMobile ? 32 : 27,
+                    width: iconSize,
+                    height: iconSize,
                     filter: restaurantActive && !isMobile ? "brightness(0) invert(1)" : "none",
                     transition: "filter 0.2s ease",
                   }}
                 />
               </div>
 
-              <div style={{ marginTop: isMobile ? 18 : 24 }}>
-                <p style={{ fontSize: 20, fontWeight: isMobile ? 500 : 700, lineHeight: 1.5, color: "#000", margin: 0 }}>
-                  Restaurant
+              <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? 0 : 20, width: "100%" }}>
+                <p style={{ fontSize: isMobile ? 18 : 20, fontWeight: isMobile ? 600 : 700, lineHeight: 1.5, color: "#000", margin: 0, whiteSpace: isMobile ? "nowrap" : undefined }}>
+                  Signature Series
                 </p>
-                <p style={{ display: isMobile ? "none" : undefined, fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: "#000", margin: "8px 0 0", maxWidth: 262 }}>
-                  Restaurant, café, hotel, venue, or event organiser looking to enhance guest
-                  experience.
+                <p style={{ display: isMobile ? "none" : undefined, fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: "#000", margin: 0, maxWidth: 262 }}>
+                  Ready to use premium wet wipe sachets with clean, modern designs. Ideal for restaurants that want to elevate guest experience without custom branding or added complexity.
                 </p>
               </div>
 
@@ -395,7 +394,8 @@ function SelectionView({
                   width: iconBoxSize,
                   height: iconBoxSize,
                   borderRadius: 6,
-                  background: isMobile ? "transparent" : advertiserActive ? "#0f9d58" : "#e5e5e5",
+                  background: advertiserActive && !isMobile ? "#0f9d58" : "rgba(0,0,0,0.06)",
+                  border: "1px solid rgba(0,0,0,0.1)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -405,7 +405,7 @@ function SelectionView({
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/icons/contact-advertiser.svg"
+                  src="/icons/format-shapes.svg"
                   alt=""
                   width={iconSize}
                   height={iconSize}
@@ -419,13 +419,12 @@ function SelectionView({
                 />
               </div>
 
-              <div style={{ marginTop: isMobile ? 18 : 24 }}>
-                <p style={{ fontSize: 20, fontWeight: isMobile ? 500 : 700, lineHeight: 1.5, color: "#000", margin: 0 }}>
-                  Advertiser
+              <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? 0 : 20, width: "100%" }}>
+                <p style={{ fontSize: isMobile ? 18 : 20, fontWeight: isMobile ? 600 : 700, lineHeight: 1.5, color: "#000", margin: 0, whiteSpace: isMobile ? "nowrap" : undefined }}>
+                  Custom Series
                 </p>
-                <p style={{ display: isMobile ? "none" : undefined, fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: "#000", margin: "8px 0 0", maxWidth: 262 }}>
-                  Brand, Service Provider, or Marketing Team looking for
-                  high impact physical advertising.
+                <p style={{ display: isMobile ? "none" : undefined, fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: "#000", margin: 0, maxWidth: 262 }}>
+                  Fully branded sachets designed for businesses that want to place their logo, message, or campaign directly into real-world customer moments.
                 </p>
               </div>
 
@@ -478,11 +477,11 @@ function InputField({
   isMobile?: boolean;
 }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? 12 : 8, width: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, width: "100%" }}>
       <label
         style={{
           fontSize: isMobile ? 16 : 18,
-          fontWeight: 400,
+          fontWeight: isMobile ? 500 : 400,
           lineHeight: 1.5,
           color: "#000",
           display: "flex",
@@ -505,7 +504,7 @@ function InputField({
           borderRadius: 4,
           padding: "0 14px",
           fontSize: isMobile ? 16 : 18,
-          fontWeight: 400,
+          fontWeight: isMobile ? 500 : 400,
           lineHeight: 1.5,
           color: "#000",
           background: "#fff",
@@ -533,11 +532,11 @@ function TextareaField({
   isMobile?: boolean;
 }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? 12 : 8, width: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, width: "100%" }}>
       <label
         style={{
           fontSize: isMobile ? 16 : 18,
-          fontWeight: 400,
+          fontWeight: isMobile ? 500 : 400,
           lineHeight: 1.5,
           color: "#000",
           display: "flex",
@@ -554,12 +553,12 @@ function TextareaField({
         required={required}
         style={{
           width: "100%",
-          height: isMobile ? 104 : 88,
+          height: 104,
           border: "1px solid #000",
           borderRadius: 4,
-          padding: "12px 14px",
+          padding: "16px 14px",
           fontSize: isMobile ? 16 : 18,
-          fontWeight: 400,
+          fontWeight: isMobile ? 500 : 400,
           lineHeight: 1.5,
           color: "#000",
           background: "#fff",
@@ -590,10 +589,11 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
     const formData = new FormData(form);
     const name = getFormFieldValue(formData, "name");
     const email = getFormFieldValue(formData, "email");
+    const phone = getFormFieldValue(formData, "phone");
     const business = getFormFieldValue(formData, "business");
     const message = getFormFieldValue(formData, "message");
 
-    if (!name || !email || !business) {
+    if (!name || !email || !phone || !business) {
       setSubmitState("error");
       setFeedbackMessage("Please complete all required fields before sending.");
       return;
@@ -614,6 +614,7 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
         },
         name,
         email,
+        phone,
         business,
         message,
       });
@@ -637,8 +638,8 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
   return (
     <section
       style={{
-        paddingTop: 24 + 88,
-        paddingBottom: isMobile ? 48 : 72,
+        paddingTop: (isMobile ? 24 : 48) + (isMobile ? 96 : 88),
+        paddingBottom: isMobile ? 48 : 144,
         paddingInline: isMobile ? 16 : 387,
         background: isMobile ? "#f5f5f5" : "#fff",
         minHeight: "100vh",
@@ -651,12 +652,12 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
           margin: "0 auto",
           display: "flex",
           flexDirection: "column",
-          gap: 24,
+          gap: isMobile ? 32 : 40,
           alignItems: "stretch",
         }}
       >
         {/* Back + type tag */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 24, alignItems: "flex-start", width: "100%" }}>
           <button
             onClick={onBack}
             style={{
@@ -691,42 +692,39 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
               alignItems: "center",
               background: "#e0dfdf",
               border: "1px solid rgba(0,0,0,0.1)",
-              borderRadius: isMobile ? 6 : 12,
-              padding: isMobile ? "8px 20px 8px 14px" : "16px 20px 16px 16px",
+              borderRadius: 6,
+              justifyContent: isMobile ? "center" : undefined,
+              width: isMobile ? "100%" : undefined,
+              boxSizing: "border-box",
+              padding: isMobile ? "12px 20px 12px 14px" : "16px 20px 16px 16px",
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/icons/contact-restaurant.svg"
+              src="/icons/award-star.svg"
               alt=""
               width={24}
               height={24}
               style={{ display: "block" }}
             />
             <span style={{ fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: "#000" }}>
-              Restaurant
+              Signature Series
             </span>
           </div>
         </div>
 
         {/* Title */}
         <h2
-          className={isMobile ? "gradient-heading" : undefined}
+          className="gradient-heading"
           style={{
             fontSize: isMobile ? 20 : 28,
             fontWeight: 700,
             lineHeight: 1.2,
-            color: isMobile ? undefined : "#000",
             margin: 0,
             textAlign: isMobile ? "center" : "left",
           }}
         >
-          Tell us about your{" "}
-          {isMobile ? (
-            "restaurant"
-          ) : (
-            <span style={{ color: "#0f9d58" }}>restaurant</span>
-          )}
+          Tell us about your restaurant
         </h2>
 
         {/* Form */}
@@ -734,12 +732,12 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: 16,
+            gap: 24,
             width: "100%",
           }}
           onSubmit={handleSubmit}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             <InputField
               id="restaurant-name"
               name="name"
@@ -748,15 +746,26 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
               placeholder="Your full name"
               isMobile={isMobile}
             />
-            <InputField
-              id="restaurant-email"
-              name="email"
-              label="Email"
-              required
-              placeholder="you@company.com"
-              type="email"
-              isMobile={isMobile}
-            />
+            <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: 24, width: "100%" }}>
+              <InputField
+                id="restaurant-email"
+                name="email"
+                label="Email"
+                required
+                placeholder="you@company.com"
+                type="email"
+                isMobile={isMobile}
+              />
+              <InputField
+                id="restaurant-phone"
+                name="phone"
+                label="Phone Number"
+                required
+                placeholder="(123) 456 7890"
+                type="tel"
+                isMobile={isMobile}
+              />
+            </div>
             <InputField
               id="restaurant-business"
               name="business"
@@ -779,7 +788,7 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 16,
+              gap: 24,
               alignItems: "center",
               width: "100%",
             }}
@@ -791,7 +800,7 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
                 width: "100%",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: isMobile ? "space-between" : "center",
                 gap: 12,
                 background: "#000",
                 color: "#fff",
@@ -806,9 +815,14 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
               }}
             >
               <span>{submitState === "sending" ? "Sending..." : "Send Message"}</span>
-              <div style={{ transform: "rotate(-90deg)", display: "flex" }}>
-                <ArrowIcon color="white" />
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/icons/arrow-forward.svg"
+                alt=""
+                width={24}
+                height={24}
+                style={{ display: "block", filter: "brightness(0) invert(1)" }}
+              />
             </button>
 
             <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
@@ -822,8 +836,8 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
               />
               <span
                 style={{
-                  fontSize: isMobile ? 14 : 18,
-                  fontWeight: 400,
+                  fontSize: isMobile ? 16 : 18,
+                  fontWeight: isMobile ? 500 : 400,
                   lineHeight: 1.5,
                   color: "rgba(0,0,0,0.6)",
                 }}
@@ -871,10 +885,11 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
     const formData = new FormData(form);
     const name = getFormFieldValue(formData, "name");
     const email = getFormFieldValue(formData, "email");
+    const phone = getFormFieldValue(formData, "phone");
     const business = getFormFieldValue(formData, "business");
     const message = getFormFieldValue(formData, "message");
 
-    if (!name || !email || !business) {
+    if (!name || !email || !phone || !business) {
       setSubmitState("error");
       setFeedbackMessage("Please complete all required fields before sending.");
       return;
@@ -890,11 +905,12 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
           badgeLabel: "Advertiser / Brand",
           inquiryLabel: "Advertiser / Brand Inquiry",
           titleText: "Tell us about your brand",
-          businessFieldLabel: "Brand Name",
+          businessFieldLabel: "Restaurant Name",
           clientIntro: "your brand, campaign goals, and advertising objectives",
         },
         name,
         email,
+        phone,
         business,
         message,
       });
@@ -918,8 +934,8 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
   return (
     <section
       style={{
-        paddingTop: 24 + 88,
-        paddingBottom: isMobile ? 48 : 72,
+        paddingTop: (isMobile ? 24 : 48) + (isMobile ? 96 : 88),
+        paddingBottom: isMobile ? 48 : 144,
         paddingInline: isMobile ? 16 : 387,
         background: isMobile ? "#f5f5f5" : "#fff",
         minHeight: "100vh",
@@ -932,12 +948,12 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
           margin: "0 auto",
           display: "flex",
           flexDirection: "column",
-          gap: 24,
+          gap: isMobile ? 32 : 40,
           alignItems: "stretch",
         }}
       >
         {/* Back + type tag */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 24, alignItems: "flex-start", width: "100%" }}>
           <button
             onClick={onBack}
             style={{
@@ -972,42 +988,39 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
               alignItems: "center",
               background: "#e0dfdf",
               border: "1px solid rgba(0,0,0,0.1)",
-              borderRadius: isMobile ? 6 : 12,
-              padding: isMobile ? "8px 20px 8px 14px" : "16px 20px 16px 16px",
+              borderRadius: 6,
+              justifyContent: isMobile ? "center" : undefined,
+              width: isMobile ? "100%" : undefined,
+              boxSizing: "border-box",
+              padding: isMobile ? "12px 20px 12px 14px" : "16px 20px 16px 16px",
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/icons/contact-advertiser.svg"
+              src="/icons/format-shapes.svg"
               alt=""
               width={24}
               height={24}
               style={{ display: "block" }}
             />
             <span style={{ fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: "#000" }}>
-              Advertiser / Brand
+              Custom Series
             </span>
           </div>
         </div>
 
         {/* Title */}
         <h2
-          className={isMobile ? "gradient-heading" : undefined}
+          className="gradient-heading"
           style={{
             fontSize: isMobile ? 20 : 28,
             fontWeight: 700,
             lineHeight: 1.2,
-            color: isMobile ? undefined : "#000",
             margin: 0,
             textAlign: isMobile ? "center" : "left",
           }}
         >
-          Tell us about your{" "}
-          {isMobile ? (
-            "brand"
-          ) : (
-            <span style={{ color: "#0f9d58" }}>brand</span>
-          )}
+          {isMobile ? "Tell us about your restaurant" : "Tell us about your brand"}
         </h2>
 
         {/* Form */}
@@ -1015,12 +1028,12 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: 16,
+            gap: 24,
             width: "100%",
           }}
           onSubmit={handleSubmit}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             <InputField
               id="advertiser-name"
               name="name"
@@ -1029,21 +1042,32 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
               placeholder="Your full name"
               isMobile={isMobile}
             />
-            <InputField
-              id="advertiser-email"
-              name="email"
-              label="Email"
-              required
-              placeholder="you@company.com"
-              type="email"
-              isMobile={isMobile}
-            />
+            <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: 24, width: "100%" }}>
+              <InputField
+                id="advertiser-email"
+                name="email"
+                label="Email"
+                required
+                placeholder="you@company.com"
+                type="email"
+                isMobile={isMobile}
+              />
+              <InputField
+                id="advertiser-phone"
+                name="phone"
+                label="Phone Number"
+                required
+                placeholder="(123) 456 7890"
+                type="tel"
+                isMobile={isMobile}
+              />
+            </div>
             <InputField
               id="advertiser-business"
               name="business"
-              label="Brand Name"
+              label="Restaurant Name"
               required
-              placeholder="Your brand name"
+              placeholder="Your restaurant name"
               isMobile={isMobile}
             />
             <TextareaField
@@ -1060,7 +1084,7 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 16,
+              gap: 24,
               alignItems: "center",
               width: "100%",
             }}
@@ -1072,7 +1096,7 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
                 width: "100%",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: isMobile ? "space-between" : "center",
                 gap: 12,
                 background: "#000",
                 color: "#fff",
@@ -1087,9 +1111,14 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
               }}
             >
               <span>{submitState === "sending" ? "Sending..." : "Send Message"}</span>
-              <div style={{ transform: "rotate(-90deg)", display: "flex" }}>
-                <ArrowIcon color="white" />
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/icons/arrow-forward.svg"
+                alt=""
+                width={24}
+                height={24}
+                style={{ display: "block", filter: "brightness(0) invert(1)" }}
+              />
             </button>
 
             <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
@@ -1103,8 +1132,8 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
               />
               <span
                 style={{
-                  fontSize: isMobile ? 14 : 18,
-                  fontWeight: 400,
+                  fontSize: isMobile ? 16 : 18,
+                  fontWeight: isMobile ? 500 : 400,
                   lineHeight: 1.5,
                   color: "rgba(0,0,0,0.6)",
                 }}
@@ -1148,12 +1177,12 @@ export default function ContactClient({ initialStep = "select" }: { initialStep?
 
   const handleSelect = (nextStep: Step) => {
     if (nextStep === "restaurant") {
-      router.push("/contact?type=restaurant");
+      router.push("/contact?type=signature");
       return;
     }
 
     if (nextStep === "advertiser") {
-      router.push("/contact?type=advertiser");
+      router.push("/contact?type=custom");
       return;
     }
 
@@ -1161,12 +1190,7 @@ export default function ContactClient({ initialStep = "select" }: { initialStep?
   };
 
   const handleBack = () => {
-    if (window.history.length > 1) {
-      router.back();
-      return;
-    }
-
-    router.push("/");
+    router.push("/contact");
   };
 
   return (

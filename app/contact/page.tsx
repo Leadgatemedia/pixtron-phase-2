@@ -20,9 +20,9 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
   const params = await searchParams;
   const type = params?.type;
   const initialStep =
-    type === "restaurant"
+    type === "restaurant" || type === "signature"
       ? "restaurant"
-      : type === "advertiser"
+      : type === "advertiser" || type === "custom"
         ? "advertiser"
         : "select";
 

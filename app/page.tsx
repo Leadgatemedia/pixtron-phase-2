@@ -7,7 +7,6 @@ import HeroScrollSection from "./components/HeroScrollSection";
 import HowItWorksScroll from "./components/HowItWorksScroll";
 import RealImpactScroll from "./components/RealImpactScroll";
 import WherePixtronWorksScroll from "./components/WherePixtronWorksScroll";
-import IndustriesScroll from "./components/IndustriesScroll";
 import FooterSection from "./components/FooterSection";
 import ProcessScrollSection from "./components/ProcessScrollSection";
 import MobileHeader from "./components/MobileHeader";
@@ -15,13 +14,12 @@ import MobileHomeHero from "./components/MobileHomeHero";
 import MobileHowItWorksSection from "./components/MobileHowItWorksSection";
 import MobileRealImpactSection from "./components/MobileRealImpactSection";
 import MobileWherePixtronWorksSection from "./components/MobileWherePixtronWorksSection";
-import MobileIndustriesSection from "./components/MobileIndustriesSection";
 import MobileComparisonSection from "./components/MobileComparisonSection";
 import MobileProcessSection from "./components/MobileProcessSection";
 import HomeMidCtaSection from "./components/HomeMidCtaSection";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Advertising That People Touch, See and Smell",
+  title: "Branding That People Touch, See and Smell",
   description:
     "Pixtron helps brands reach restaurant and hospitality audiences through sensory media advertising placed directly into real-world dining moments.",
   path: "/",
@@ -41,6 +39,11 @@ function ArrowIcon({ src }: { src: string }) {
 }
 
 // ─── NAVBAR ──────────────────────────────────────────────────────────────────
+// Navbar logo + arrow assets (from Figma node 7102:107891)
+const NAV_LOGO_MASK = "https://www.figma.com/api/mcp/asset/d15125d9-8287-40ee-a5bc-1cf8fb64c799";
+const NAV_LOGO_IMG  = "https://www.figma.com/api/mcp/asset/6e0dc938-89d2-48b7-8b9e-6dc6a3bf1312";
+const NAV_ARROW     = "https://www.figma.com/api/mcp/asset/5322ed99-2a8c-452f-8c53-28967405df87";
+
 function Navbar() {
   return (
     <nav
@@ -52,11 +55,13 @@ function Navbar() {
         width: "100%",
         height: 88,
         background: "rgba(255,255,255,0.8)",
-        borderBottom: "1px solid rgba(0,0,0,0.05)",
-        backdropFilter: "blur(24px)",
-        WebkitBackdropFilter: "blur(24px)",
+        borderBottom: "1px solid rgba(0,0,0,0.06)",
+        backdropFilter: "blur(35px)",
+        WebkitBackdropFilter: "blur(35px)",
         boxSizing: "border-box",
-        padding: "16px 39px",
+        display: "flex",
+        alignItems: "center",
+        padding: "0 39px",
       }}
     >
       <div
@@ -64,80 +69,49 @@ function Navbar() {
           width: "100%",
           maxWidth: 1820,
           margin: "0 auto",
-          minHeight: 56,
           display: "grid",
           gridTemplateColumns: "480px 1fr 480px",
           alignItems: "center",
           columnGap: 16,
         }}
       >
-        <div
-          style={{
-            width: 480,
-            minHeight: 56,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Link
-            href="/"
-            style={{
-              width: "100%",
-              minHeight: 56,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
+        {/* Logo */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
+          <Link href="/" style={{ display: "inline-flex", alignItems: "center" }}>
             <Image
               src="/logo.png"
               alt="Pixtron"
-              width={82}
-              height={82}
+              width={86}
+              height={64}
               priority
               style={{ width: "auto", height: 52 }}
             />
           </Link>
         </div>
 
+        {/* Nav links */}
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-            <Link href="/about" className="nav-link">About</Link>
-
-            <div className="nav-product" style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}>
-              <Link href="#" className="nav-link">Product</Link>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path className="nav-chevron" d="M4 6l4 4 4-4" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-
-            <Link href="#" className="nav-link">Advertisers</Link>
-            <Link href="#" className="nav-link">Industries</Link>
-            <Link href="#" className="nav-link">Restaurants</Link>
+          <div style={{ display: "flex", gap: 24, alignItems: "center", fontSize: 18, fontWeight: 400 }}>
+            {([
+              { label: "About", href: "/about" },
+              { label: "Restaurants", href: "/restaurants" },
+              { label: "Signature Series", href: "/signature-series" },
+              { label: "Custom Series", href: "/custom-series" },
+            ] as const).map(({ label, href }) => (
+              <Link key={label} href={href} className="nav-link">{label}</Link>
+            ))}
           </div>
         </div>
 
-        <div
-          style={{
-            width: 480,
-            minHeight: 56,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
-          }}
-        >
+        {/* CTA */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
           <Link
             href="/contact"
             className="btn-outline"
-            style={{
-              minHeight: 56,
-              padding: "0 20px 0 22px",
-              justifyContent: "center",
-            }}
+            style={{ minHeight: 56, padding: "0 20px 0 22px", justifyContent: "center" }}
           >
             <span>Contact Us</span>
-            <ArrowIcon src={ARROW_CONTACT} />
+            <ArrowIcon src={NAV_ARROW} />
           </Link>
         </div>
       </div>
@@ -180,7 +154,7 @@ function Hero() {
             marginBottom: 48,
           }}
         >
-          Advertising that people{" "}
+          Branding that people{" "}
           <span style={{ color: "#0f9d58" }}>touch, see and smell</span>
         </h1>
 
@@ -189,15 +163,15 @@ function Hero() {
           className="intro-reveal-up"
           style={{ display: "inline-flex", gap: 24, alignItems: "center", marginBottom: 48 }}
         >
-          {/* Advertise With Pixtron — filled black */}
-          <Link href="/contact?type=advertiser" className="btn-primary" style={{ flexShrink: 0 }}>
-            <span>Advertise With Pixtron</span>
+          {/* Get Signature Series — filled black */}
+          <Link href="/signature-series" className="btn-primary" style={{ width: 256, flexShrink: 0 }}>
+            <span>Get Signature Series</span>
             <ArrowIcon src={ARROW_WHITE} />
           </Link>
 
-          {/* For Restaurants — outlined */}
-          <Link href="/contact?type=restaurant" className="btn-outline" style={{ flexShrink: 0, justifyContent: "center", width: 256 }}>
-            <span>For Restaurants</span>
+          {/* Get Custom Series — outlined */}
+          <Link href="/custom-series" className="btn-outline" style={{ width: 256, flexShrink: 0 }}>
+            <span>Get Custom Series</span>
             <ArrowIcon src={ARROW_DARK} />
           </Link>
         </div>
@@ -583,6 +557,33 @@ function ComparisonSection() {
         </div>{/* end right column */}
 
       </div>{/* end data grid */}
+
+      {/* CTA */}
+      <div style={{ position: "relative", zIndex: 2, display: "flex", justifyContent: "center" }}>
+        <Link
+          href="/custom-series"
+          style={{
+            width: 256,
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            boxSizing: "border-box",
+            padding: "16px 20px 16px 22px",
+            borderRadius: 6,
+            background: "#fff",
+            border: "2px solid rgba(255,255,255,0.5)",
+            color: "#000",
+            textDecoration: "none",
+            fontSize: 18,
+            fontWeight: 600,
+            lineHeight: "30px",
+            whiteSpace: "nowrap",
+          }}
+        >
+          <span>Get Custom Series</span>
+          <ArrowIcon src={ARROW_DARK} />
+        </Link>
+      </div>
     </section>
   );
 }
@@ -907,10 +908,6 @@ export default function HomePage() {
           <WherePixtronWorksScroll />
         </div>
         <MobileWherePixtronWorksSection />
-        <div className="desktop-industries">
-          <IndustriesScroll />
-        </div>
-        <MobileIndustriesSection />
         <div className="desktop-comparison">
           <ComparisonSection />
         </div>

@@ -3,15 +3,10 @@
 import { useRef, useEffect } from "react";
 import Link from "next/link";
 
-function ArrowIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <circle cx="4"   cy="12" r="1.5" fill="#fff" />
-      <circle cx="8.5" cy="12" r="1.5" fill="#fff" />
-      <line x1="11" y1="12" x2="18" y2="12" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
-      <polyline points="15,8.5 19.5,12 15,15.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-    </svg>
-  );
+function ArrowIcon({ color = "white" }: { color?: "white" | "dark" }) {
+  const file = color === "dark" ? "/arrow-black.png" : "/arrow-white.png";
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={file} width={24} height={24} alt="" style={{ display: "block" }} />;
 }
 
 const CARD_H   = 668;
@@ -162,10 +157,14 @@ export default function WherePixtronWorksScroll() {
           </div>
 
           {/* CTA — above any card overflow via z-index */}
-          <div ref={ctaRef} style={{ position: "relative", zIndex: 2, transform: `translateY(${CTA_DROP}px)` }}>
-            <Link href="/contact?type=advertiser" className="btn-primary">
-              <span>Advertise With Pixtron</span>
-              <ArrowIcon />
+          <div ref={ctaRef} style={{ position: "relative", zIndex: 2, transform: `translateY(${CTA_DROP}px)`, display: "flex", gap: 24, alignItems: "center" }}>
+            <Link href="/signature-series" className="btn-primary" style={{ width: 256, flexShrink: 0 }}>
+              <span>Get Signature Series</span>
+              <ArrowIcon color="white" />
+            </Link>
+            <Link href="/custom-series" className="btn-outline" style={{ width: 256, flexShrink: 0 }}>
+              <span>Get Custom Series</span>
+              <ArrowIcon color="dark" />
             </Link>
           </div>
         </div>

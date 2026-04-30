@@ -83,7 +83,6 @@
 .desktopFooterShell {
   width: 100%;
   background: #ffffff;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .desktopFooterTop {
@@ -95,11 +94,6 @@
 
 .desktopFooterCol {
   min-width: 0;
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.desktopFooterCol:last-child {
-  border-right: none;
 }
 
 .desktopBrandBlock {
@@ -175,8 +169,6 @@
   min-height: 77px;
   padding: 32px 39px;
   box-sizing: border-box;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -227,14 +219,15 @@
 }
 
 .mobileSocialBand {
-  padding: 48px 16px 24px;
+  padding: 56px 0 3px;
   background: #f4f4f4;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
 }
 
 .mobileSocialHeading {
-  margin-bottom: 24px;
+  margin-bottom: 56px;
+  padding-inline: 16px;
   font-size: 30px;
   line-height: 1.2;
   text-align: center;
@@ -251,35 +244,39 @@
 .mobileSocialGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
+  gap: 3px;
 }
 
 .mobileSocialTile {
-  height: 72px;
+  height: 95px;
   background: #ffffff;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.mobileSocialTile img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .mobileFooterShell {
   background: #ffffff;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .mobileFooterTop {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .mobileFooterBrandArea {
-  min-height: 352px;
-  padding: 40px 16px 48px;
+  padding: 40px 16px 32px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
 }
 
 .mobileFooterBody {
@@ -317,6 +314,8 @@
 .mobileFooterColumns {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  width: 100%;
 }
 
 .mobileFooterColumn {
@@ -326,7 +325,6 @@
 }
 
 .mobileFooterColumn + .mobileFooterColumn {
-  border-left: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .mobileFooterLinkList {

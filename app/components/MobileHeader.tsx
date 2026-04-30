@@ -6,10 +6,9 @@ import { useEffect, useState } from "react";
 
 const NAV_ITEMS = [
   { label: "About", href: "/about", available: true },
-  { label: "Product", href: "#", available: false },
-  { label: "Advertisers", href: "#", available: false },
-  { label: "Industries", href: "#", available: false },
-  { label: "Restaurants", href: "#", available: false },
+  { label: "Restaurants", href: "/restaurants", available: true },
+  { label: "Signature Series", href: "/signature-series", available: true },
+  { label: "Custom Series", href: "/custom-series", available: true },
 ];
 
 const itemTransition =
@@ -18,6 +17,16 @@ const itemTransition =
 export default function MobileHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [shouldRenderMenu, setShouldRenderMenu] = useState(false);
+
+  const toggleMenu = () => {
+    if (isOpen) {
+      setIsOpen(false);
+      return;
+    }
+
+    setShouldRenderMenu(true);
+    setIsOpen(true);
+  };
 
   useEffect(() => {
     const previousBodyOverflow = document.body.style.overflow;
@@ -40,9 +49,7 @@ export default function MobileHeader() {
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-    if (isOpen) {
-      setShouldRenderMenu(true);
-    } else if (shouldRenderMenu) {
+    if (!isOpen && shouldRenderMenu) {
       timeoutId = setTimeout(() => setShouldRenderMenu(false), 320);
     }
 
@@ -84,7 +91,7 @@ export default function MobileHeader() {
           type="button"
           aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={isOpen}
-          onClick={() => setIsOpen((current) => !current)}
+          onClick={toggleMenu}
           style={{
             display: "flex",
             alignItems: "center",
@@ -229,107 +236,80 @@ export default function MobileHeader() {
             display: "flex",
             flexDirection: "column",
             gap: 32,
+            alignItems: "center",
+            justifyContent: "center",
             opacity: isOpen ? 1 : 0,
             transform: isOpen ? "translateY(0px)" : "translateY(10px)",
             transition: "opacity 320ms cubic-bezier(0.22, 1, 0.36, 1), transform 360ms cubic-bezier(0.22, 1, 0.36, 1)",
             transitionDelay: isOpen ? "180ms" : "0ms",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            <div
-              style={{
-                marginLeft: -16,
-                width: "calc(100% + 32px)",
-                height: 1,
-                background: "rgba(0,0,0,0.12)",
-              }}
-            />
+          {/* Contact Us button — Figma: 2px border rgba(0,0,0,0.5), arrow-black icon */}
+          <Link
+            href="/contact"
+            onClick={() => setIsOpen(false)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              padding: "16px 20px",
+              boxSizing: "border-box",
+              borderRadius: 6,
+              border: "2px solid rgba(0,0,0,0.5)",
+              background: "#fff",
+              color: "#000",
+              textDecoration: "none",
+              fontSize: 18,
+              fontWeight: 500,
+              lineHeight: "30px",
+            }}
+          >
+            <span>Contact Us</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/arrow-black.png" width={24} height={24} alt="" style={{ display: "block" }} />
+          </Link>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              <div style={{ fontSize: 18, fontWeight: 400, lineHeight: "26px", color: "rgba(0,0,0,0.8)" }}>Contact</div>
+          {/* Links + copyright — no dividers, gap: 40px total */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 40, width: "100%" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+              <Link
+                href="#"
+                onClick={(e) => e.preventDefault()}
+                style={{
+                  fontSize: 18,
+                  fontWeight: 400,
+                  lineHeight: "27px",
+                  letterSpacing: "0.18px",
+                  color: "#000",
+                  textDecoration: "underline",
+                  textUnderlineOffset: "3px",
+                  width: "fit-content",
+                }}
+              >
+                Privacy Policy
+              </Link>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-                <a
-                  href="tel:7025822228"
-                  onClick={() => setIsOpen(false)}
-                  style={{
-                    fontSize: 24,
-                    fontWeight: 600,
-                    lineHeight: "32px",
-                    color: "#000",
-                    textDecoration: "underline",
-                    textUnderlineOffset: "3px",
-                  }}
-                >
-                  (702) 582-2228
-                </a>
-
-                <a
-                  href="mailto:info@pixtron.net"
-                  onClick={() => setIsOpen(false)}
-                  style={{
-                    fontSize: 24,
-                    fontWeight: 600,
-                    lineHeight: "32px",
-                    color: "#000",
-                    textDecoration: "underline",
-                    textUnderlineOffset: "3px",
-                  }}
-                >
-                  info@pixtron.net
-                </a>
-              </div>
+              <Link
+                href="#"
+                onClick={(e) => e.preventDefault()}
+                style={{
+                  fontSize: 18,
+                  fontWeight: 400,
+                  lineHeight: "27px",
+                  letterSpacing: "0.18px",
+                  color: "#000",
+                  textDecoration: "underline",
+                  textUnderlineOffset: "3px",
+                  width: "fit-content",
+                }}
+              >
+                Terms &amp; Conditions
+              </Link>
             </div>
-          </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
-            <div
-              style={{
-                marginLeft: -16,
-                width: "calc(100% + 32px)",
-                height: 1,
-                background: "rgba(0,0,0,0.12)",
-              }}
-            />
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-                <Link
-                  href="#"
-                  onClick={(event) => event.preventDefault()}
-                  style={{
-                    fontSize: 18,
-                    fontWeight: 400,
-                    lineHeight: "27px",
-                    color: "#000",
-                    textDecoration: "underline",
-                    textUnderlineOffset: "3px",
-                    width: "fit-content",
-                  }}
-                >
-                  Privacy Policy
-                </Link>
-
-                <Link
-                  href="#"
-                  onClick={(event) => event.preventDefault()}
-                  style={{
-                    fontSize: 18,
-                    fontWeight: 400,
-                    lineHeight: "27px",
-                    color: "#000",
-                    textDecoration: "underline",
-                    textUnderlineOffset: "3px",
-                    width: "fit-content",
-                  }}
-                >
-                  Terms &amp; Conditions
-                </Link>
-              </div>
-
-              <div style={{ fontSize: 18, fontWeight: 500, lineHeight: "normal", color: "rgba(0,0,0,0.5)" }}>
-                © 2026 Pixtron, All Rights Reserved
-              </div>
+            <div style={{ fontSize: 18, fontWeight: 500, lineHeight: "normal", color: "rgba(0,0,0,0.5)" }}>
+              © 2026 Pixtron, All Rights Reserved
             </div>
           </div>
         </div>

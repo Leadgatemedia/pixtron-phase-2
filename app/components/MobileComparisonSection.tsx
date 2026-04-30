@@ -297,14 +297,13 @@ export default function MobileComparisonSection() {
         </GlassCard>
 
         <Link
-          href="/contact?type=advertiser"
+          href="/custom-series"
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             width: "100%",
-            minHeight: 56,
-            padding: "0 20px 0 22px",
+            padding: "16px 20px 16px 22px",
             borderRadius: 6,
             border: "2px solid rgba(255,255,255,0.5)",
             background: "#fff",
@@ -316,7 +315,7 @@ export default function MobileComparisonSection() {
             lineHeight: "30px",
           }}
         >
-          <span>Advertise With Pixtron</span>
+          <span>Get Custom Series</span>
           <ArrowIcon />
         </Link>
       </div>

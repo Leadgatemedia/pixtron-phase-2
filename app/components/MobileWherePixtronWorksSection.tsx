@@ -18,9 +18,10 @@ const VENUES = [
   },
 ];
 
-function ArrowIcon() {
+function ArrowIcon({ color = "white" }: { color?: "white" | "dark" }) {
+  const file = color === "dark" ? "/arrow-black.png" : "/arrow-white.png";
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src="/arrow-white.png" width={24} height={24} alt="" style={{ display: "block" }} />;
+  return <img src={file} width={24} height={24} alt="" style={{ display: "block" }} />;
 }
 
 export default function MobileWherePixtronWorksSection() {
@@ -156,18 +157,24 @@ export default function MobileWherePixtronWorksSection() {
         ))}
       </div>
 
-      <Link
-        href="/contact?type=advertiser"
-        className="btn-primary"
-        style={{
-          width: "100%",
-          boxSizing: "border-box",
-          justifyContent: "space-between",
-        }}
-      >
-        <span>Advertise With Pixtron</span>
-        <ArrowIcon />
-      </Link>
+      <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 16 }}>
+        <Link
+          href="/signature-series"
+          className="btn-primary"
+          style={{ width: "100%", boxSizing: "border-box", justifyContent: "space-between" }}
+        >
+          <span>Get Signature Series</span>
+          <ArrowIcon color="white" />
+        </Link>
+        <Link
+          href="/custom-series"
+          className="btn-outline"
+          style={{ width: "100%", boxSizing: "border-box", justifyContent: "space-between" }}
+        >
+          <span>Get Custom Series</span>
+          <ArrowIcon color="dark" />
+        </Link>
+      </div>
     </section>
   );
 }
