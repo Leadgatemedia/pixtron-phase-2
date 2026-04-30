@@ -6,17 +6,17 @@ const VALUES = [
   {
     icon: "/about/icon-precision.svg",
     title: "Precision",
-    description: "Hyper local targeting that reaches the right audience when they are most receptive.",
+    description: "We focus on details that shape how people experience a space, ensuring every interaction feels refined.",
   },
   {
     icon: "/about/icon-innovation.svg",
     title: "Innovation",
-    description: "Rethinking traditional media channels to create new forms of sensory engagement.",
+    description: "We rethink traditional products and turn them into meaningful, modern experiences.",
   },
   {
     icon: "/about/icon-partnership.svg",
     title: "Partnership",
-    description: "Creating win - win ecosystems for venues, advertisers, and everyday consumers.",
+    description: "We build long term relationships with businesses by delivering consistent value and quality.",
   },
 ];
 

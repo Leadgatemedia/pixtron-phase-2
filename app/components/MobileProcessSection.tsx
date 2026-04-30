@@ -58,9 +58,9 @@ const PROCESS_COLUMNS: ProcessColumn[] = [
     label: "HOSPITALITY PARTNERS",
     headingTop: "Upgrade your guest experience",
     headingBottom: "at zero cost",
-    ctaLabel: "For Restaurants",
-    ctaHref: "/contact?type=restaurant",
-    ctaVariant: "outline",
+    ctaLabel: "Get Signature Series",
+    ctaHref: "/signature-series",
+    ctaVariant: "primary",
     steps: [
       {
         step: "01",
@@ -92,9 +92,9 @@ const PROCESS_COLUMNS: ProcessColumn[] = [
     label: "ADVERTISERS",
     headingTop: "Put your brand directly into",
     headingBottom: "customer's hands",
-    ctaLabel: "Advertise With Pixtron",
-    ctaHref: "/contact?type=advertiser",
-    ctaVariant: "primary",
+    ctaLabel: "Get Custom Series",
+    ctaHref: "/custom-series",
+    ctaVariant: "outline",
     steps: [
       {
         step: "01",

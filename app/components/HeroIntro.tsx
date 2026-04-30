@@ -142,7 +142,7 @@ export default function HeroIntro() {
             : "none",
         }}
       >
-        <span style={wStyle(0)}>Advertising </span>
+        <span style={wStyle(0)}>Branding </span>
         <span style={wStyle(1)}>that </span>
         <span style={wStyle(2)}>people </span>
         <span style={{ color: "#0f9d58" }}>

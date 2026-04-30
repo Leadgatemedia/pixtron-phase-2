@@ -20,6 +20,7 @@ export type ContactEmailPayload = {
   variant: ContactVariant;
   name: string;
   email: string;
+  phone?: string;
   business: string;
   message: string;
 };
@@ -66,7 +67,9 @@ export function buildContactTemplateParams(payload: ContactEmailPayload) {
     timeStyle: "short",
   }).format(new Date());
 
-  const message = payload.message.trim() || "No message provided.";
+  const note = payload.message.trim() || "No message provided.";
+  const phone = payload.phone?.trim();
+  const message = phone ? `Phone: ${phone}\n\n${note}` : note;
 
   return {
     admin_subject: `New ${payload.variant.inquiryLabel} from ${payload.name}`,
@@ -81,6 +84,7 @@ export function buildContactTemplateParams(payload: ContactEmailPayload) {
     page_title: payload.variant.titleText,
     business_label: payload.variant.businessFieldLabel,
     business_name: payload.business,
+    phone_number: phone ?? "",
     message,
     client_intro: payload.variant.clientIntro,
     site_name: "Pixtron",

@@ -13,40 +13,45 @@ type CardLayout = {
 
 const STATS = [
   {
-    value: "91%",
-    label: "Customer Engagement Rate",
+    value: "100%",
+    label: "Ready to Serve",
     description: (
       <>
-        Customers actively engage with <strong>branded wet wipes</strong>
-      </>
-    ),
-  },
-  {
-    value: "7.8%",
-    label: "Brand Recall",
-    description: (
-      <>
-        <strong>3x higher</strong>
+        No setup, No preparation
         <br />
-        than digital display ads
+        <strong>simply place &amp; serve</strong>
       </>
     ),
   },
   {
-    value: "2.5K+",
-    label: "Partner Venues",
+    value: "0",
+    label: "Extra Staff Effort",
     description: (
       <>
-        <strong>Premium restaurants and cafes</strong> worldwide
+        <strong>Fits seamlessly</strong>
+        <br />
+        into your existing service flow
       </>
     ),
   },
   {
-    value: "137B+",
-    label: "Annual Impressions",
+    value: "Consistent",
+    label: "Every Time",
     description: (
       <>
-        Touch points with customers <strong>every year</strong>
+        <strong>Uniform quality and experience </strong>
+        for every guest
+      </>
+    ),
+  },
+  {
+    value: "Premium",
+    label: "by Design",
+    description: (
+      <>
+        Crafted to match modern
+        <br />
+        <strong>hospitality standards</strong>
       </>
     ),
   },
@@ -182,7 +187,7 @@ export default function MobileRealImpactSection() {
           Real Impact, Real Results
         </h2>
         <p style={{ margin: 0, width: "100%", fontSize: 18, fontWeight: 500, lineHeight: 1.5, color: "rgba(0,0,0,0.8)" }}>
-          Data-driven insights that prove the power of sensory advertising
+          Premium details that elevate guest satisfaction and dining perception
         </p>
       </div>
 
@@ -239,7 +244,7 @@ export default function MobileRealImpactSection() {
       </div>
 
       <Link
-        href="/contact?type=advertiser"
+        href="/signature-series"
         className="btn-primary"
         style={{
           width: "100%",
@@ -253,7 +258,7 @@ export default function MobileRealImpactSection() {
           lineHeight: "30px",
         }}
       >
-        <span>Advertise With Pixtron</span>
+        <span>Get Signature Series</span>
         <ArrowIcon />
       </Link>
     </section>

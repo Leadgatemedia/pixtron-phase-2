@@ -17,46 +17,45 @@ type CardLayout = {
 
 const STATS = [
   {
-    value: "91%",
-    label: "Customer Engagement Rate",
+    value: "100%",
+    label: "Ready to Serve",
     description: (
       <>
-        Customers actively engage with
+        No setup, No preparation
         <br />
-        <strong>branded wet wipes</strong>
+        <strong>simply place &amp; serve</strong>
       </>
     ),
   },
   {
-    value: "7.8%",
-    label: "Brand Recall",
+    value: "0",
+    label: "Extra Staff Effort",
     description: (
       <>
-        <strong>3x higher</strong>
+        <strong>Fits seamlessly</strong>
         <br />
-        than digital display ads
+        into your existing service flow
       </>
     ),
   },
   {
-    value: "2.5K+",
-    label: "Partner Venues",
+    value: "Consistent",
+    label: "Every Time",
     description: (
       <>
-        <strong>Premium restaurants and cafes</strong>
-        <br />
-        worldwide
+        <strong>Uniform quality and experience </strong>
+        for every guest
       </>
     ),
   },
   {
-    value: "137B+",
-    label: "Annual Impressions",
+    value: "Premium",
+    label: "by Design",
     description: (
       <>
-        Touch points with customers
+        Crafted to match modern
         <br />
-        <strong>every year</strong>
+        <strong>hospitality standards</strong>
       </>
     ),
   },
@@ -285,7 +284,7 @@ export default function RealImpactScroll() {
         <div style={{ position: "relative", zIndex: 10, background: "#fff", width: "100%", textAlign: "center", paddingBottom: 48 }}>
           <h2 className="section-heading gradient-heading">Real Impact, Real Results</h2>
           <p className="section-subtitle" style={{ marginTop: 16 }}>
-            Data-driven insights that prove the power of sensory advertising
+            Premium details that elevate guest satisfaction and dining perception
           </p>
         </div>
 
@@ -384,8 +383,8 @@ export default function RealImpactScroll() {
         </div>
 
         <div style={{ marginTop: 22, position: "relative", zIndex: 10, background: "#fff", paddingTop: 0 }}>
-          <Link href="/contact?type=advertiser" className="btn-primary">
-            <span>Advertise With Pixtron</span>
+          <Link href="/signature-series" className="btn-primary">
+            <span>Get Signature Series</span>
             <ArrowIcon />
           </Link>
         </div>

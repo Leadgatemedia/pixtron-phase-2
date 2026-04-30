@@ -79,8 +79,8 @@ function DesktopMidCta() {
           style={{
             position: "absolute",
             left: "50%",
-            top: 136,
-            transform: "translateX(-50%)",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
             width: 898,
             display: "flex",
             flexDirection: "column",
@@ -91,44 +91,31 @@ function DesktopMidCta() {
           }}
         >
           <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 48 }}>
-            <div style={{ width: "100%", fontSize: 72, fontWeight: 700, lineHeight: 1.2 }}>
-              <p style={{ margin: 0 }}>Stop Renting Attention.</p>
-              <p
-                style={{
-                  margin: 0,
-                  background: "linear-gradient(90deg, #0d846e 0%, #40fb56 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  color: "transparent",
-                }}
-              >
-                Own The Moment.
-              </p>
+            <div style={{ width: "100%", fontSize: 60, fontWeight: 700, lineHeight: "72px", whiteSpace: "nowrap" }}>
+              <span style={{ color: "#fff" }}>Elevate Every Guest Experience.<br /></span>
+              <span style={{ background: "linear-gradient(90deg, #0D846E 0%, #40FB56 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Bring Premium to Every Table.</span>
             </div>
 
             <p
               style={{
                 margin: 0,
                 width: "100%",
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: 500,
-                lineHeight: 1.4,
+                lineHeight: "32px",
                 color: "#fff",
               }}
             >
-              Every day, thousands of diners across Los Angeles sit down, eat, and reach for a wet wipe.
-              That moment belongs to someone&apos;s brand. If you&apos;re a local business, put yours on it.
-              If you&apos;re a restaurant, bring a premium touch to every table.
+              Every detail shapes how guests remember your space. With Pixtron Signature Series, you add a clean,
+              refined touch to every table, without adding complexity to your service.
             </p>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
             <Link
-              href="/contact?type=advertiser"
+              href="/signature-series"
               style={{
-                width: 282,
-                minHeight: 64,
+                width: 256,
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -145,15 +132,14 @@ function DesktopMidCta() {
                 whiteSpace: "nowrap",
               }}
             >
-              <span>Advertise With Pixtron</span>
+              <span>Get Signature Series</span>
               <ArrowIcon color="dark" />
             </Link>
 
             <Link
-              href="/contact"
+              href="/custom-series"
               style={{
-                width: 282,
-                minHeight: 64,
+                width: 256,
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -170,7 +156,7 @@ function DesktopMidCta() {
                 whiteSpace: "nowrap",
               }}
             >
-              <span>Contact Us</span>
+              <span>Get Custom Series</span>
               <ArrowIcon color="white" />
             </Link>
           </div>
@@ -223,20 +209,9 @@ function MobileMidCta() {
           }}
         >
           <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
-            <div style={{ width: "100%", maxWidth: 329, fontSize: 30, fontWeight: 700, lineHeight: 1.2 }}>
-              <p style={{ margin: 0 }}>Stop Renting Attention.</p>
-              <p
-                style={{
-                  margin: 0,
-                  background: "linear-gradient(90deg, #0d846e 0%, #40fb56 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  color: "transparent",
-                }}
-              >
-                Own The Moment.
-              </p>
+            <div style={{ width: "100%", maxWidth: 329, fontSize: 30, fontWeight: 700, lineHeight: "36px", textAlign: "center" }}>
+              <span style={{ color: "#fff" }}>Elevate Every Guest Experience. </span>
+              <span style={{ background: "linear-gradient(90deg, #0D846E 0%, #40FB56 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Bring Premium to Every Table.</span>
             </div>
 
             <p
@@ -246,22 +221,21 @@ function MobileMidCta() {
                 maxWidth: 329,
                 fontSize: 18,
                 fontWeight: 500,
-                lineHeight: 1.4,
+                lineHeight: "24px",
                 color: "#fff",
+                textAlign: "center",
               }}
             >
-              Every day, thousands of diners across Los Angeles sit down, eat, and reach for a wet wipe.
-              That moment belongs to someone&apos;s brand. If you&apos;re a local business, put yours on it.
-              If you&apos;re a restaurant, bring a premium touch to every table.
+              Every detail shapes how guests remember your space. With Pixtron Signature Series, you add a clean,
+              refined touch to every table, without adding complexity to your service.
             </p>
           </div>
 
           <div style={{ width: "100%", maxWidth: 329, display: "flex", flexDirection: "column", gap: 24 }}>
             <Link
-              href="/contact?type=advertiser"
+              href="/signature-series"
               style={{
                 width: "100%",
-                minHeight: 64,
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -275,18 +249,16 @@ function MobileMidCta() {
                 fontSize: 18,
                 fontWeight: 600,
                 lineHeight: "30px",
-                whiteSpace: "nowrap",
               }}
             >
-              <span>Advertise With Pixtron</span>
+              <span>Get Signature Series</span>
               <ArrowIcon color="dark" />
             </Link>
 
             <Link
-              href="/contact"
+              href="/custom-series"
               style={{
                 width: "100%",
-                minHeight: 64,
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -300,10 +272,9 @@ function MobileMidCta() {
                 fontSize: 18,
                 fontWeight: 600,
                 lineHeight: "30px",
-                whiteSpace: "nowrap",
               }}
             >
-              <span>Contact Us</span>
+              <span>Get Custom Series</span>
               <ArrowIcon color="white" />
             </Link>
           </div>

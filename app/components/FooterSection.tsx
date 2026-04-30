@@ -16,20 +16,38 @@ const absFill: React.CSSProperties = {
 };
 
 const navigationLinks = [
-  { label: "Signature Sachets", href: "#" },
-  { label: "Custom Sachets", href: "#" },
-  { label: "Advertisers", href: "#" },
-  { label: "Restaurants", href: "#" },
-  { label: "Industries", href: "#" },
+  { label: "Restaurants", href: "/restaurants", soon: false },
+  { label: "Signature Sachets", href: "/signature-series", soon: false },
+  { label: "Custom Sachets", href: "/custom-series", soon: false },
+  { label: "Advertisers", href: "#", soon: true },
+  { label: "Industries", href: "#", soon: true },
 ];
 
 const companyLinks = [
-  { label: "Blogs", href: "#" },
-  { label: "About us", href: "/about" },
-  { label: "Contact us", href: "/contact" },
-  { label: "FAQ", href: "#" },
-  { label: "Product", href: "#" },
+  { label: "About us", href: "/about", soon: false },
+  { label: "Contact us", href: "/contact", soon: false },
+  { label: "Blogs", href: "#", soon: true },
 ];
+
+function SoonBadge() {
+  return (
+    <span style={{
+      display: "inline-flex",
+      alignItems: "center",
+      padding: "2px 10px",
+      borderRadius: 999,
+      background: "rgba(15,157,88,0.12)",
+      color: "#0f9d58",
+      fontSize: 13,
+      fontWeight: 500,
+      lineHeight: "20px",
+      marginLeft: 8,
+      verticalAlign: "middle",
+    }}>
+      Soon
+    </span>
+  );
+}
 
 function InstagramDefaultIcon() {
   return (
@@ -252,19 +270,17 @@ function DesktopFooterLayout() {
       <div className={styles.desktopFooterTop}>
         <div className={styles.desktopFooterCol}>
           <div className={styles.desktopBrandBlock}>
-            <Image src="/logo.png" alt="Pixtron" width={86} height={64} />
-            <div className={styles.footerTagline}>
-              <div>Real world advertising that</div>
-              <div className={styles.footerTaglineBold}>Seen. Touch. Remembered.</div>
-            </div>
-            <div className={styles.footerContactBlock}>
-              <div className={styles.footerSectionLabel}>Contact</div>
-              <a href="tel:7025822228" className={styles.footerBigLink}>
-                (702) 582-2228
-              </a>
+            <Image src="/logo.png" alt="Pixtron" width={86} height={64} style={{ width: "auto", height: 52 }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <a href="mailto:info@pixtron.net" className={styles.footerBigLink}>
                 info@pixtron.net
               </a>
+              <span style={{ fontSize: 18, fontWeight: 500, lineHeight: "26px", color: "#000" }}>
+                +1 (702) 582-2228
+              </span>
+              <span style={{ fontSize: 16, lineHeight: "24px", color: "rgba(0,0,0,0.6)" }}>
+                1810 E. Sahara Ave Ste 930 Las Vegas, NV 89104, USA
+              </span>
             </div>
           </div>
         </div>
@@ -275,7 +291,7 @@ function DesktopFooterLayout() {
             <div className={styles.footerLinkList}>
               {navigationLinks.map((link) => (
                 <Link key={link.label} href={link.href} className={styles.footerTextLink}>
-                  {link.label}
+                  {link.label}{link.soon && <SoonBadge />}
                 </Link>
               ))}
             </div>
@@ -288,7 +304,7 @@ function DesktopFooterLayout() {
             <div className={styles.footerLinkList}>
               {companyLinks.map((link) => (
                 <Link key={link.label} href={link.href} className={styles.footerTextLink}>
-                  {link.label}
+                  {link.label}{link.soon && <SoonBadge />}
                 </Link>
               ))}
             </div>
@@ -308,11 +324,6 @@ function DesktopFooterLayout() {
         </div>
       </div>
 
-      <div className={styles.desktopFooterWordmark} aria-hidden>
-        {["P", "I", "X", "T", "R", "O", "N"].map((letter) => (
-          <span key={letter}>{letter}</span>
-        ))}
-      </div>
     </section>
   );
 }
@@ -322,22 +333,17 @@ function MobileFooterLayout() {
     <section className={styles.mobileFooterShell}>
       <div className={styles.mobileFooterTop}>
         <div className={styles.mobileFooterBrandArea}>
-          <Image src="/logo.png" alt="Pixtron" width={86} height={64} />
-          <div className={styles.mobileFooterBody}>
-            <div>Real world advertising that</div>
-            <div className={styles.mobileFooterBodyBold}>Seen. Touch. Remembered.</div>
-          </div>
-
-          <div className={styles.mobileFooterContactArea}>
-            <div className={styles.footerSectionLabel}>Contact</div>
-            <div className={styles.mobileFooterContactLinks}>
-              <a href="tel:7025822228" className={styles.footerBigLink}>
-                (702) 582-2228
-              </a>
-              <a href="mailto:info@pixtron.net" className={styles.footerBigLink}>
-                info@pixtron.net
-              </a>
-            </div>
+          <Image src="/logo.png" alt="Pixtron" width={86} height={64} style={{ width: "auto", height: 52 }} />
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <a href="mailto:info@pixtron.net" className={styles.footerBigLink}>
+              info@pixtron.net
+            </a>
+            <span style={{ fontSize: 16, fontWeight: 500, lineHeight: "24px", color: "#000" }}>
+              +1 (702) 582-2228
+            </span>
+            <span style={{ fontSize: 14, lineHeight: "22px", color: "rgba(0,0,0,0.6)" }}>
+              1810 E. Sahara Ave Ste 930 Las Vegas, NV 89104, USA
+            </span>
           </div>
         </div>
 
@@ -347,7 +353,7 @@ function MobileFooterLayout() {
             <div className={styles.mobileFooterLinkList}>
               {navigationLinks.map((link) => (
                 <Link key={link.label} href={link.href} className={styles.mobileFooterTextLink}>
-                  {link.label}
+                  {link.label}{link.soon && <SoonBadge />}
                 </Link>
               ))}
             </div>
@@ -358,7 +364,7 @@ function MobileFooterLayout() {
             <div className={styles.mobileFooterLinkList}>
               {companyLinks.map((link) => (
                 <Link key={link.label} href={link.href} className={styles.mobileFooterTextLink}>
-                  {link.label}
+                  {link.label}{link.soon && <SoonBadge />}
                 </Link>
               ))}
             </div>
@@ -378,9 +384,6 @@ function MobileFooterLayout() {
         <div className={styles.mobileFooterCopyright}>© 2026 Pixtron, All Rights Reserved</div>
       </div>
 
-      <div className={styles.mobileFooterWordmark} aria-hidden>
-        PIXTRON
-      </div>
     </section>
   );
 }

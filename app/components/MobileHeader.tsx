@@ -6,10 +6,9 @@ import { useEffect, useState } from "react";
 
 const NAV_ITEMS = [
   { label: "About", href: "/about", available: true },
-  { label: "Product", href: "#", available: false },
-  { label: "Advertisers", href: "#", available: false },
-  { label: "Industries", href: "#", available: false },
-  { label: "Restaurants", href: "#", available: false },
+  { label: "Restaurants", href: "/restaurants", available: true },
+  { label: "Signature Series", href: "/signature-series", available: true },
+  { label: "Custom Series", href: "/custom-series", available: true },
 ];
 
 const itemTransition =
@@ -18,6 +17,16 @@ const itemTransition =
 export default function MobileHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [shouldRenderMenu, setShouldRenderMenu] = useState(false);
+
+  const toggleMenu = () => {
+    if (isOpen) {
+      setIsOpen(false);
+      return;
+    }
+
+    setShouldRenderMenu(true);
+    setIsOpen(true);
+  };
 
   useEffect(() => {
     const previousBodyOverflow = document.body.style.overflow;
@@ -40,9 +49,7 @@ export default function MobileHeader() {
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-    if (isOpen) {
-      setShouldRenderMenu(true);
-    } else if (shouldRenderMenu) {
+    if (!isOpen && shouldRenderMenu) {
       timeoutId = setTimeout(() => setShouldRenderMenu(false), 320);
     }
 
@@ -84,7 +91,7 @@ export default function MobileHeader() {
           type="button"
           aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={isOpen}
-          onClick={() => setIsOpen((current) => !current)}
+          onClick={toggleMenu}
           style={{
             display: "flex",
             alignItems: "center",

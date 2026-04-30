@@ -25,7 +25,7 @@ export default function IntroAnimation() {
   return (
     <div ref={ref} className="intro-overlay" aria-hidden="true">
       <p className="intro-text">
-        Advertising that people
+        Branding that people
         <br />
         <span className="intro-text-green">touch, see and smell</span>
       </p>

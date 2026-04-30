@@ -120,13 +120,13 @@ export default function MobileHomeHero() {
               textAlign: "center",
             }}
           >
-            Advertising that people{" "}
+            Branding that people{" "}
             <span style={{ color: "#0f9d58" }}>touch, see and smell</span>
           </h1>
 
           <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 16 }}>
             <Link
-              href="/contact?type=advertiser"
+              href="/signature-series"
               className="btn-primary"
               style={{
                 width: "100%",
@@ -139,12 +139,12 @@ export default function MobileHomeHero() {
                 lineHeight: "30px",
               }}
             >
-              <span>Advertise With Pixtron</span>
+              <span>Get Signature Series</span>
               <ArrowIcon color="white" />
             </Link>
 
             <Link
-              href="/contact?type=restaurant"
+              href="/custom-series"
               className="btn-outline"
               style={{
                 width: "100%",
@@ -157,7 +157,7 @@ export default function MobileHomeHero() {
                 lineHeight: "30px",
               }}
             >
-              <span>For Restaurants</span>
+              <span>Get Custom Series</span>
               <ArrowIcon color="dark" />
             </Link>
           </div>

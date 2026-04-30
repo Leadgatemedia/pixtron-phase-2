@@ -7,7 +7,6 @@ import HeroScrollSection from "./components/HeroScrollSection";
 import HowItWorksScroll from "./components/HowItWorksScroll";
 import RealImpactScroll from "./components/RealImpactScroll";
 import WherePixtronWorksScroll from "./components/WherePixtronWorksScroll";
-import IndustriesScroll from "./components/IndustriesScroll";
 import FooterSection from "./components/FooterSection";
 import ProcessScrollSection from "./components/ProcessScrollSection";
 import MobileHeader from "./components/MobileHeader";
@@ -15,13 +14,12 @@ import MobileHomeHero from "./components/MobileHomeHero";
 import MobileHowItWorksSection from "./components/MobileHowItWorksSection";
 import MobileRealImpactSection from "./components/MobileRealImpactSection";
 import MobileWherePixtronWorksSection from "./components/MobileWherePixtronWorksSection";
-import MobileIndustriesSection from "./components/MobileIndustriesSection";
 import MobileComparisonSection from "./components/MobileComparisonSection";
 import MobileProcessSection from "./components/MobileProcessSection";
 import HomeMidCtaSection from "./components/HomeMidCtaSection";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Advertising That People Touch, See and Smell",
+  title: "Branding That People Touch, See and Smell",
   description:
     "Pixtron helps brands reach restaurant and hospitality audiences through sensory media advertising placed directly into real-world dining moments.",
   path: "/",
@@ -61,7 +59,9 @@ function Navbar() {
         backdropFilter: "blur(35px)",
         WebkitBackdropFilter: "blur(35px)",
         boxSizing: "border-box",
-        padding: "10px 39px",
+        display: "flex",
+        alignItems: "center",
+        padding: "0 39px",
       }}
     >
       <div
@@ -69,7 +69,6 @@ function Navbar() {
           width: "100%",
           maxWidth: 1820,
           margin: "0 auto",
-          minHeight: 56,
           display: "grid",
           gridTemplateColumns: "480px 1fr 480px",
           alignItems: "center",
@@ -77,43 +76,35 @@ function Navbar() {
         }}
       >
         {/* Logo */}
-        <div style={{ width: 480, minHeight: 56, display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
           <Link href="/" style={{ display: "inline-flex", alignItems: "center" }}>
-            <div
-              style={{
-                width: 91.9,
-                height: 64,
-                maskImage: `url('${NAV_LOGO_MASK}')`,
-                maskSize: "86.07px 64px",
-                maskPosition: "3.187px 0px",
-                maskRepeat: "no-repeat",
-                WebkitMaskImage: `url('${NAV_LOGO_MASK}')`,
-                WebkitMaskSize: "86.07px 64px",
-                WebkitMaskPosition: "3.187px 0px",
-                WebkitMaskRepeat: "no-repeat",
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={NAV_LOGO_IMG}
-                alt="Pixtron"
-                style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }}
-              />
-            </div>
+            <Image
+              src="/logo.png"
+              alt="Pixtron"
+              width={86}
+              height={64}
+              priority
+              style={{ width: "auto", height: 52 }}
+            />
           </Link>
         </div>
 
         {/* Nav links */}
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <div style={{ display: "flex", gap: 24, alignItems: "center", fontSize: 18, fontWeight: 400 }}>
-            {(["About", "Restaurants", "Signature Series", "Custom Series"] as const).map((label) => (
-              <Link key={label} href="#" className="nav-link">{label}</Link>
+            {([
+              { label: "About", href: "/about" },
+              { label: "Restaurants", href: "/restaurants" },
+              { label: "Signature Series", href: "/signature-series" },
+              { label: "Custom Series", href: "/custom-series" },
+            ] as const).map(({ label, href }) => (
+              <Link key={label} href={href} className="nav-link">{label}</Link>
             ))}
           </div>
         </div>
 
         {/* CTA */}
-        <div style={{ width: 480, minHeight: 56, display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
           <Link
             href="/contact"
             className="btn-outline"
@@ -163,7 +154,7 @@ function Hero() {
             marginBottom: 48,
           }}
         >
-          Advertising that people{" "}
+          Branding that people{" "}
           <span style={{ color: "#0f9d58" }}>touch, see and smell</span>
         </h1>
 
@@ -172,15 +163,15 @@ function Hero() {
           className="intro-reveal-up"
           style={{ display: "inline-flex", gap: 24, alignItems: "center", marginBottom: 48 }}
         >
-          {/* Advertise With Pixtron — filled black */}
-          <Link href="/contact?type=advertiser" className="btn-primary" style={{ flexShrink: 0 }}>
-            <span>Advertise With Pixtron</span>
+          {/* Get Signature Series — filled black */}
+          <Link href="/signature-series" className="btn-primary" style={{ width: 256, flexShrink: 0 }}>
+            <span>Get Signature Series</span>
             <ArrowIcon src={ARROW_WHITE} />
           </Link>
 
-          {/* For Restaurants — outlined */}
-          <Link href="/contact?type=restaurant" className="btn-outline" style={{ flexShrink: 0, justifyContent: "center", width: 256 }}>
-            <span>For Restaurants</span>
+          {/* Get Custom Series — outlined */}
+          <Link href="/custom-series" className="btn-outline" style={{ width: 256, flexShrink: 0 }}>
+            <span>Get Custom Series</span>
             <ArrowIcon src={ARROW_DARK} />
           </Link>
         </div>
@@ -566,6 +557,33 @@ function ComparisonSection() {
         </div>{/* end right column */}
 
       </div>{/* end data grid */}
+
+      {/* CTA */}
+      <div style={{ position: "relative", zIndex: 2, display: "flex", justifyContent: "center" }}>
+        <Link
+          href="/custom-series"
+          style={{
+            width: 256,
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            boxSizing: "border-box",
+            padding: "16px 20px 16px 22px",
+            borderRadius: 6,
+            background: "#fff",
+            border: "2px solid rgba(255,255,255,0.5)",
+            color: "#000",
+            textDecoration: "none",
+            fontSize: 18,
+            fontWeight: 600,
+            lineHeight: "30px",
+            whiteSpace: "nowrap",
+          }}
+        >
+          <span>Get Custom Series</span>
+          <ArrowIcon src={ARROW_DARK} />
+        </Link>
+      </div>
     </section>
   );
 }
@@ -890,10 +908,6 @@ export default function HomePage() {
           <WherePixtronWorksScroll />
         </div>
         <MobileWherePixtronWorksSection />
-        <div className="desktop-industries">
-          <IndustriesScroll />
-        </div>
-        <MobileIndustriesSection />
         <div className="desktop-comparison">
           <ComparisonSection />
         </div>

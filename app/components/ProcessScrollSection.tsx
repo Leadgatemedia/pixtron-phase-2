@@ -172,8 +172,8 @@ export default function ProcessScrollSection({
                     label="HOSPITALITY PARTNERS"
                     heading={"Upgrade your guest experience\nat zero cost"}
                     steps={hospitality}
-                    btnLabel="For Restaurants"
-                    btnStyle="outline"
+                    btnLabel="Get Signature Series"
+                    btnStyle="primary"
                     arrowDark={arrowDark}
                     arrowWhite={arrowWhite}
                     progress={progress}
@@ -184,8 +184,8 @@ export default function ProcessScrollSection({
                     label="ADVERTISERS"
                     heading={"Put your brand directly into\ncustomer's hands"}
                     steps={advertisers}
-                    btnLabel="Advertise With Pixtron"
-                    btnStyle="primary"
+                    btnLabel="Get Custom Series"
+                    btnStyle="outline"
                     arrowDark={arrowDark}
                     arrowWhite={arrowWhite}
                     progress={progress}

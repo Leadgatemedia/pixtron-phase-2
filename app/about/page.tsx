@@ -99,32 +99,14 @@ function SiteNavbar() {
             <Link href="/about" className="nav-link">
               About
             </Link>
-            <div
-              className="nav-product"
-              style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}
-            >
-              <Link href="#" className="nav-link">
-                Product
-              </Link>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path
-                  className="nav-chevron"
-                  d="M4 6l4 4 4-4"
-                  stroke="#000"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <Link href="#" className="nav-link">
-              Advertisers
-            </Link>
-            <Link href="#" className="nav-link">
-              Industries
-            </Link>
-            <Link href="#" className="nav-link">
+            <Link href="/restaurants" className="nav-link">
               Restaurants
+            </Link>
+            <Link href="/signature-series" className="nav-link">
+              Signature Series
+            </Link>
+            <Link href="/custom-series" className="nav-link">
+              Custom Series
             </Link>
           </div>
         </div>
@@ -214,15 +196,21 @@ export default function AboutPage() {
                   margin: 0,
                 }}
               >
-                We&apos;re changing how
+                We&apos;re redefining how
                 <br />
-                <span style={{ color: "#0f9d58" }}>brands are experienced</span>
+                <span style={{ color: "#0f9d58" }}>experiences are delivered</span>
               </h1>
 
-              <Link href="/contact?type=advertiser" className="btn-primary">
-                <span>Advertise With Pixtron</span>
-                <ArrowIcon src={ARROW_WHITE} />
-              </Link>
+              <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+                <Link href="/signature-series" className="btn-primary" style={{ width: 282, flexShrink: 0 }}>
+                  <span>View Signature Series</span>
+                  <ArrowIcon src={ARROW_WHITE} />
+                </Link>
+                <Link href="/custom-series" className="btn-outline" style={{ width: 282, flexShrink: 0 }}>
+                  <span>View Custom Series</span>
+                  <ArrowIcon src={ARROW_DARK} />
+                </Link>
+              </div>
 
               <p
                 style={{
@@ -236,8 +224,7 @@ export default function AboutPage() {
                   margin: 0,
                 }}
               >
-                At Pixtron, we believe the best advertising doesn&apos;t disrupt life, It
-                enhances it. We turn everyday dining moments into premium brand connections.
+                Pixtron transforms everyday dining moments into premium, memorable experiences through thoughtfully designed sensory products and real-world brand touchpoints.
               </p>
             </div>
 
@@ -294,7 +281,7 @@ export default function AboutPage() {
                 style={{
                   width: "100%",
                   borderLeft: "2px solid #0f9d58",
-                  background: "#fff",
+                  background: "linear-gradient(90deg, rgba(15,157,88,0.02) 0%, rgba(15,157,88,0) 100%)",
                   borderRadius: "0 0 0 12px",
                   padding: "40px 30px",
                 }}
@@ -303,8 +290,10 @@ export default function AboutPage() {
                   className="gradient-heading"
                   style={{ fontSize: 40, fontWeight: 700, lineHeight: 1.2, width: 898 }}
                 >
-                  It started with a simple observation: screens are crowded, attention is
-                  scarce, and people are tired of being interrupted.
+                  <em style={{ fontWeight: 300, fontStyle: "italic" }}>It started with a simple observation: </em>
+                  <span style={{ fontWeight: 400 }}>In a world filled with digital noise, we </span>
+                  <strong style={{ fontWeight: 700 }}>noticed something important</strong>
+                  <span style={{ fontWeight: 400 }}>, people are no longer paying attention to traditional advertising, and everyday experiences are often overlooked.</span>
                 </div>
               </div>
 
@@ -313,7 +302,7 @@ export default function AboutPage() {
                 style={{
                   width: 967,
                   borderLeft: "2px solid #0f9d58",
-                  background: "#fff",
+                  background: "linear-gradient(90deg, rgba(15,157,88,0.02) 0%, rgba(15,157,88,0) 100%)",
                   borderRadius: "0 0 0 12px",
                   padding: "40px 30px",
                 }}
@@ -328,9 +317,7 @@ export default function AboutPage() {
                     margin: 0,
                   }}
                 >
-                  We realized the most valuable real estate isn&apos;t digital, it&apos;s
-                  physical. It&apos;s the moment someone sits down for a meal, unwinds, and
-                  engages with the physical world in front of them.
+                  The most valuable moment isn&apos;t on a screen. It&apos;s when someone sits down, relaxes, and engages with the physical world around them.
                 </p>
               </div>
 
@@ -339,7 +326,7 @@ export default function AboutPage() {
                 style={{
                   width: 851,
                   borderLeft: "2px solid #0f9d58",
-                  background: "#fff",
+                  background: "linear-gradient(90deg, rgba(15,157,88,0.02) 0%, rgba(15,157,88,0) 100%)",
                   borderRadius: "0 0 0 12px",
                   padding: "40px 30px",
                 }}
@@ -354,9 +341,7 @@ export default function AboutPage() {
                     margin: 0,
                   }}
                 >
-                  By transforming an essential hospitality item into a beautifully designed
-                  medium, we created a way for brands to offer genuine utility while
-                  capturing undivided attention.
+                  We saw an opportunity to elevate that moment. By transforming a simple hospitality item into a premium experience, Pixtron brings together product design and real-world interaction in a way that feels natural, useful, and memorable.
                 </p>
               </div>
             </div>
@@ -384,7 +369,7 @@ export default function AboutPage() {
               className="gradient-heading"
               style={{ fontSize: 80, fontWeight: 700, lineHeight: 1.2 }}
             >
-              Advertising shouldn&apos;t interrupt
+              Experiences shouldn&apos;t interrupt
             </div>
             <div
               style={{
@@ -396,7 +381,7 @@ export default function AboutPage() {
                 color: "#0f9d58",
               }}
             >
-              It should belong
+              They should belong
             </div>
           </div>
         </section>
@@ -446,9 +431,9 @@ export default function AboutPage() {
                 className="gradient-heading"
                 style={{ fontSize: 60, fontWeight: 300, lineHeight: 1.3, width: 1014 }}
               >
-                To bridge the physical and digital divide by turning{" "}
-                <span style={{ fontWeight: 700 }}>high dwell environments</span>{" "}
-                into measurable, impactful media spaces.
+                To elevate everyday environments by combining thoughtful product design with real world interaction,{" "}
+                <span style={{ fontWeight: 700 }}>creating experiences that feel</span>{" "}
+                natural, useful, and memorable.
               </div>
             </div>
 
@@ -490,9 +475,9 @@ export default function AboutPage() {
                   textAlign: "right",
                 }}
               >
-                A world where brands add value to everyday moments, and{" "}
-                <span style={{ fontWeight: 700 }}>every table becomes an opportunity</span>{" "}
-                for meaningful connection.
+                A world where every small detail{" "}
+                <span style={{ fontWeight: 700 }}>enhances the overall experience</span>
+                , and every interaction, no matter how simple, contributes to something meaningful.
               </div>
             </div>
           </div>
@@ -543,16 +528,22 @@ export default function AboutPage() {
               }}
             >
               <p style={{ color: "#fff", fontSize: 66.292, fontWeight: 700, lineHeight: "82.864px", margin: 0 }}>
-                The future of advertising is
+                The future of experience is
               </p>
               <p style={{ color: "#fff", fontSize: 66.292, fontWeight: 200, fontStyle: "italic", lineHeight: "82.864px", margin: 0 }}>
-                something you can touch.
+                something you can feel.
               </p>
             </div>
-            <Link href="/contact?type=advertiser" className="btn-outline" style={{ background: "#fff" }}>
-              <span>Advertise With Pixtron</span>
-              <ArrowIcon src={ARROW_DARK} />
-            </Link>
+            <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+              <Link href="/signature-series" style={{ display: "flex", alignItems: "center", gap: 24, width: 259, padding: "16px 20px", borderRadius: 6, border: "2px solid rgba(255,255,255,0.5)", background: "#fff", color: "#000", textDecoration: "none", boxSizing: "border-box", fontSize: 18, fontWeight: 600, lineHeight: "30px", flexShrink: 0, whiteSpace: "nowrap" }}>
+                <span>Get Signature Series</span>
+                <ArrowIcon src={ARROW_DARK} />
+              </Link>
+              <Link href="/custom-series" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, width: 259, padding: "16px 20px", borderRadius: 6, border: "2px solid rgba(255,255,255,0.5)", background: "rgba(255,255,255,0.1)", color: "#fff", textDecoration: "none", boxSizing: "border-box", fontSize: 18, fontWeight: 600, lineHeight: "30px", flexShrink: 0, whiteSpace: "nowrap" }}>
+                <span>Get Custom Series</span>
+                <ArrowIcon src={ARROW_WHITE} />
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -585,34 +576,25 @@ export default function AboutPage() {
                   textAlign: "center",
                   color: "#000",
                   margin: 0,
-                  width: "100%",
+                  width: "100vw",
+                  marginInline: "calc((100% - 100vw) / 2)",
                 }}
               >
-                We&apos;re changing how
+                We&apos;re redefining how
                 <br />
-                <span style={{ color: "#0f9d58" }}>brands are experienced</span>
+                <span style={{ color: "#0f9d58", whiteSpace: "nowrap" }}>experiences are delivered</span>
               </h1>
 
-              <Link
-                href="/contact?type=advertiser"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 12,
-                  background: "#000",
-                  color: "#fff",
-                  border: "2px solid rgba(0,0,0,0.5)",
-                  borderRadius: 6,
-                  padding: "16px 20px 16px 22px",
-                  textDecoration: "none",
-                  boxSizing: "border-box",
-                  width: "100%",
-                }}
-              >
-                <span style={{ fontSize: 18, fontWeight: 600, lineHeight: "30px" }}>Advertise With Pixtron</span>
-                <ArrowIcon src={ARROW_WHITE} />
-              </Link>
+              <div style={{ display: "flex", flexDirection: "column", gap: 16, width: "100%" }}>
+                <Link href="/signature-series" className="btn-primary" style={{ width: "100%" }}>
+                  <span>View Signature Series</span>
+                  <ArrowIcon src={ARROW_WHITE} />
+                </Link>
+                <Link href="/custom-series" className="btn-outline" style={{ width: "100%" }}>
+                  <span>View Custom Series</span>
+                  <ArrowIcon src={ARROW_DARK} />
+                </Link>
+              </div>
 
               <p
                 style={{
@@ -625,8 +607,7 @@ export default function AboutPage() {
                   width: "100%",
                 }}
               >
-                At Pixtron, we believe the best advertising doesn&apos;t disrupt life, It
-                enhances it. We turn everyday dining moments into premium brand connections.
+                Pixtron transforms everyday dining moments into premium, memorable experiences through thoughtfully designed sensory products and real-world brand touchpoints.
               </p>
             </div>
 
@@ -679,14 +660,16 @@ export default function AboutPage() {
               >
                 <div
                   className="gradient-heading"
-                  style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.5 }}
+                  style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.2 }}
                 >
-                  It started with a simple observation: screens are crowded, attention is
-                  scarce, and people are tired of being interrupted.
+                  <em style={{ fontWeight: 300, fontStyle: "italic" }}>It started with a simple observation: </em>
+                  <span style={{ fontWeight: 400 }}>In a world filled with digital noise, we </span>
+                  <strong style={{ fontWeight: 700 }}>noticed something important</strong>
+                  <span style={{ fontWeight: 400 }}>, people are no longer paying attention to traditional advertising, and everyday experiences are often overlooked.</span>
                 </div>
               </div>
 
-              {/* Card 2 — 24px indent */}
+              {/* Card 2 — 40px indent */}
               <div style={{ paddingLeft: 40 }}>
                 <div
                   style={{
@@ -696,15 +679,13 @@ export default function AboutPage() {
                     padding: "32px 16px 32px 24px",
                   }}
                 >
-                  <p style={{ fontSize: 18, fontWeight: 500, lineHeight: 1.5, color: "rgba(0,0,0,0.8)", margin: 0 }}>
-                    We realized the most valuable real estate isn&apos;t digital, it&apos;s
-                    physical. It&apos;s the moment someone sits down for a meal, unwinds, and
-                    engages with the physical world in front of them.
+                  <p style={{ fontSize: 18, fontWeight: 500, lineHeight: 1.4, color: "rgba(0,0,0,0.8)", margin: 0 }}>
+                    The most valuable moment isn&apos;t on a screen. It&apos;s when someone sits down, relaxes, and engages with the physical world around them.
                   </p>
                 </div>
               </div>
 
-              {/* Card 3 — 48px indent */}
+              {/* Card 3 — 80px indent */}
               <div style={{ paddingLeft: 80 }}>
                 <div
                   style={{
@@ -714,10 +695,8 @@ export default function AboutPage() {
                     padding: "32px 16px 32px 24px",
                   }}
                 >
-                  <p style={{ fontSize: 18, fontWeight: 500, lineHeight: 1.5, color: "rgba(0,0,0,0.8)", margin: 0 }}>
-                    By transforming an essential hospitality item into a beautifully designed
-                    medium, we created a way for brands to offer genuine utility while
-                    capturing undivided attention.
+                  <p style={{ fontSize: 18, fontWeight: 500, lineHeight: 1.4, color: "rgba(0,0,0,0.8)", margin: 0 }}>
+                    We saw an opportunity to elevate that moment. By transforming a simple hospitality item into a premium experience, Pixtron brings together product design and real-world interaction in a way that feels natural, useful, and memorable.
                   </p>
                 </div>
               </div>
@@ -739,7 +718,7 @@ export default function AboutPage() {
             }}
           >
             <div className="gradient-heading" style={{ fontSize: 30, fontWeight: 700, lineHeight: 1.2, width: "100%" }}>
-              Advertising shouldn&apos;t interrupt
+              Experiences shouldn&apos;t interrupt
             </div>
             <div
               style={{
@@ -751,7 +730,7 @@ export default function AboutPage() {
                 width: "100%",
               }}
             >
-              It should belong
+              They should belong
             </div>
           </section>
 
@@ -789,9 +768,9 @@ export default function AboutPage() {
                   width: "100%",
                 }}
               >
-                To bridge the physical and digital divide by turning{" "}
-                <span style={{ fontWeight: 700 }}>high dwell environments</span>{" "}
-                into measurable, impactful media spaces.
+                To elevate everyday environments by combining thoughtful product design with real world interaction,{" "}
+                <span style={{ fontWeight: 700 }}>creating experiences that feel</span>{" "}
+                natural, useful, and memorable.
               </div>
             </div>
 
@@ -816,9 +795,9 @@ export default function AboutPage() {
                   width: "100%",
                 }}
               >
-                A world where brands add value to everyday moments, and{" "}
-                <span style={{ fontWeight: 700 }}>every table becomes an opportunity</span>{" "}
-                for meaningful connection.
+                A world where every small detail{" "}
+                <span style={{ fontWeight: 700 }}>enhances the overall experience</span>
+                , and every interaction, no matter how simple, contributes to something meaningful.
               </div>
             </div>
             </div>
@@ -1010,30 +989,60 @@ export default function AboutPage() {
                   margin: 0,
                 }}
               >
-                The future of advertising is{" "}
-                <span style={{ fontWeight: 200, fontStyle: "italic" }}>something you can touch.</span>
+                The future of experience is{" "}
+                <span style={{ fontWeight: 200, fontStyle: "italic" }}>something you can feel.</span>
               </p>
 
-              <Link
-                href="/contact?type=advertiser"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 12,
-                  background: "#fff",
-                  color: "#000",
-                  border: "2px solid rgba(255,255,255,0.5)",
-                  borderRadius: 6,
-                  padding: "16px 20px 16px 22px",
-                  textDecoration: "none",
-                  width: "100%",
-                  boxSizing: "border-box",
-                }}
-              >
-                <span style={{ fontSize: 18, fontWeight: 600, lineHeight: "30px" }}>Advertise With Pixtron</span>
-                <ArrowIcon src={ARROW_DARK} />
-              </Link>
+              <div style={{ display: "flex", flexDirection: "column", gap: 16, width: "100%" }}>
+                <Link
+                  href="/signature-series"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 12,
+                    background: "#fff",
+                    color: "#000",
+                    border: "2px solid rgba(255,255,255,0.5)",
+                    borderRadius: 6,
+                    padding: "16px 20px",
+                    textDecoration: "none",
+                    width: "100%",
+                    boxSizing: "border-box",
+                    fontSize: 18,
+                    fontWeight: 600,
+                    lineHeight: "30px",
+                  }}
+                >
+                  <span>Get Signature Series</span>
+                  <ArrowIcon src={ARROW_DARK} />
+                </Link>
+                <Link
+                  href="/custom-series"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 12,
+                    background: "rgba(255,255,255,0.1)",
+                    backdropFilter: "blur(27px)",
+                    WebkitBackdropFilter: "blur(27px)",
+                    color: "#fff",
+                    border: "2px solid rgba(255,255,255,0.5)",
+                    borderRadius: 6,
+                    padding: "16px 20px",
+                    textDecoration: "none",
+                    width: "100%",
+                    boxSizing: "border-box",
+                    fontSize: 18,
+                    fontWeight: 600,
+                    lineHeight: "30px",
+                  }}
+                >
+                  <span>Get Custom Series</span>
+                  <ArrowIcon src={ARROW_WHITE} />
+                </Link>
+              </div>
               </div>
             </div>
           </section>

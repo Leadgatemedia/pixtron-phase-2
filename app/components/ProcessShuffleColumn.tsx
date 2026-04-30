@@ -283,7 +283,7 @@ export default function ProcessShuffleColumn({
         ? "0 0 0 auto"
         : "0 auto";
   const contentWidth = { width: maxCardWidth, maxWidth: "100%", margin: stackMargin };
-  const ctaHref = btnLabel === "For Restaurants" ? "/contact?type=restaurant" : "/contact?type=advertiser";
+  const ctaHref = btnLabel === "Get Signature Series" ? "/signature-series" : "/custom-series";
 
   return (
     <div ref={rootRef} style={{ flex: 1 }}>
