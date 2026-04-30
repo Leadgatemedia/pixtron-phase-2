@@ -1,6 +1,6 @@
 .pageRoot {
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: clip;
   background: #ffffff;
   color: #000000;
 }
@@ -302,6 +302,8 @@
 
 .restaurantFeatureBlock {
   width: 100%;
+  max-width: 1362px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 586px minmax(0, 696px);
   gap: 80px;
@@ -784,6 +786,78 @@
   box-sizing: border-box;
 }
 
+.signatureDesktopHero {
+  display: block;
+  margin-top: -84px;
+}
+
+.signatureAnimatedHero {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #e8f5e9 0%, #ffffff 100%);
+}
+
+.signatureAnimatedContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 172px;
+}
+
+.signatureAnimatedContent h1 {
+  max-width: 898px;
+  margin: 0 0 48px;
+  color: #000000;
+  text-align: center;
+  font-size: 60px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.signatureAnimatedContent h1 span {
+  color: #0f9d58;
+}
+
+.signatureAnimatedButton {
+  display: inline-flex;
+  margin-bottom: 48px;
+}
+
+.signatureAnimatedContent p {
+  max-width: 898px;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.8);
+  text-align: center;
+  font-size: 22px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.signatureAnimatedWatermark {
+  position: absolute;
+  top: 86vh;
+  left: 50%;
+  width: max-content;
+  transform: translateX(-50%);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.signatureAnimatedWatermark div {
+  display: block;
+  width: max-content;
+  margin: 0 auto;
+  color: rgba(0, 0, 0, 0.12);
+  font-size: min(11.11vh, 100px);
+  line-height: 11.31vh;
+  font-weight: 500;
+}
+
 .signatureHeroTop {
   width: 898px;
   max-width: calc(100% - 32px);
@@ -835,21 +909,18 @@
 
 .sachetRail {
   position: absolute;
-  top: 16px;
-  right: 32px;
-  width: 760px;
+  top: 19px;
+  left: 1234px;
+  width: 1484px;
   height: 320px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px 20px;
 }
 
 .sachetRail img {
   width: 100%;
-  height: 153px;
+  height: 100%;
   object-fit: cover;
   object-position: center;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  display: block;
 }
 
 .sachetStage::after {
@@ -925,6 +996,13 @@
   align-items: center;
   width: 100%;
   box-sizing: border-box;
+}
+
+.dualRows {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
 }
 
 .dualRow:first-of-type {
@@ -1056,12 +1134,16 @@
 }
 
 .productRows {
+  width: 100%;
+  max-width: 1362px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 104px;
 }
 
 .productRow {
+  width: 100%;
   display: grid;
   grid-template-columns: 696px minmax(0, 586px);
   gap: 80px;
@@ -1072,22 +1154,32 @@
   grid-template-columns: 586px 696px;
 }
 
-.productRowReversed .productImagePlaceholder {
+.productRowReversed .productImage {
   order: 2;
 }
 
-.productImagePlaceholder {
+.productImage {
+  position: relative;
   width: 696px;
   height: 666px;
   border-radius: 12px;
-  background-color: #f8f8f8;
-  background-image:
-    linear-gradient(45deg, #eeeeee 25%, transparent 25%),
-    linear-gradient(-45deg, #eeeeee 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #eeeeee 75%),
-    linear-gradient(-45deg, transparent 75%, #eeeeee 75%);
-  background-size: 48px 48px;
-  background-position: 0 0, 0 24px, 24px -24px, -24px 0;
+  overflow: hidden;
+  background: #f8f8f8;
+}
+
+.productImage img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.productImageLavender img {
+  top: -39%;
+  height: 156.76%;
+  object-fit: fill;
 }
 
 .productCopy {
@@ -1131,13 +1223,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.settingSection::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.18);
 }
 
 .settingSection > div {
@@ -1483,6 +1568,10 @@
     padding-top: 56px;
   }
 
+  .signatureDesktopHero {
+    display: none;
+  }
+
   .signatureHeroTop {
     width: calc(100% - 32px);
     gap: 40px;
@@ -1509,14 +1598,13 @@
 
   .sachetRail {
     top: 15px;
-    right: -740px;
-    width: 960px;
-    height: 210px;
-    grid-template-columns: repeat(4, 1fr);
+    left: 359px;
+    width: 958.8px;
+    height: 206.75px;
   }
 
   .sachetRail img {
-    height: 96px;
+    height: 100%;
   }
 
   .customHero {
@@ -1532,13 +1620,13 @@
     max-width: none;
     margin: 0 auto;
     padding: 56px 16px;
-    gap: 32px;
+    gap: 56px;
     transform: none;
   }
 
   .customHeroIntro {
     gap: 24px;
-    margin-bottom: 24px;
+    margin-bottom: 0;
   }
 
   .customHeroIntro h1 {
@@ -1547,7 +1635,14 @@
 
   .customHeroIntro p {
     margin-top: 0;
-    font-size: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .dualRows {
+    gap: 16px;
   }
 
   .dualRow,
@@ -1559,10 +1654,15 @@
     padding-right: 0;
   }
 
+  .dualRow:first-of-type {
+    padding-right: 0;
+  }
+
   .dualRow:first-of-type .dualCopy,
   .dualCopy {
     text-align: left;
     flex: 0 1 auto;
+    gap: 24px;
     width: 100%;
   }
 
@@ -1579,6 +1679,7 @@
 
   .dualRowBack .dualCopy {
     order: 2;
+    text-align: right;
   }
 
   .dualCopy span {
@@ -1632,19 +1733,19 @@
     gap: 40px;
   }
 
-  .productRowReversed .productImagePlaceholder {
+  .productRowReversed .productImage {
     order: 0;
   }
 
-  .productImagePlaceholder {
+  .productImage {
     width: 100%;
     height: auto;
     aspect-ratio: 361 / 345;
-    background-size: 32px 32px;
-    background-position: 0 0, 0 16px, 16px -16px, -16px 0;
   }
 
   .productCopy {
+    align-items: center;
+    text-align: center;
     width: 100%;
   }
 

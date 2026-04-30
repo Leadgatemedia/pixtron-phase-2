@@ -130,9 +130,9 @@ function buildLayout(activeIndex: number): CardLayout[] {
         shadowSpreadAlpha: 0.06,
         // Past cards stay behind the active card so the new front card does not get clipped mid-shuffle.
         zIndex: 16 - distance,
-        valueColor: "rgba(0,0,0,0.6)",
-        labelColor: "rgba(0,0,0,0.4)",
-        descColor: "rgba(0,0,0,0.6)",
+        valueColor: "rgba(0,0,0,0.1)",
+        labelColor: "rgba(0,0,0,0.1)",
+        descColor: "rgba(0,0,0,0.1)",
       };
     }
 
@@ -145,9 +145,9 @@ function buildLayout(activeIndex: number): CardLayout[] {
       shadowAlpha: distance >= 3 ? 0 : 0.25,
       shadowSpreadAlpha: distance >= 3 ? 0 : 0.05,
       zIndex: 12 - distance,
-      valueColor: "rgba(0,0,0,0.6)",
-      labelColor: "rgba(0,0,0,0.4)",
-      descColor: "rgba(0,0,0,0.6)",
+      valueColor: "rgba(0,0,0,0.1)",
+      labelColor: "rgba(0,0,0,0.1)",
+      descColor: "rgba(0,0,0,0.1)",
     };
   });
 }
@@ -341,7 +341,7 @@ export default function RealImpactScroll() {
                       fontWeight: 500,
                       lineHeight: 1,
                       letterSpacing: "-0.04em",
-                      color: index === 0 ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.6)",
+                      color: index === 0 ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)",
                     }}
                   >
                     {stat.value}
@@ -355,7 +355,7 @@ export default function RealImpactScroll() {
                       fontSize: 14,
                       fontWeight: 400,
                       lineHeight: "20px",
-                      color: index === 0 ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.4)",
+                      color: index === 0 ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.1)",
                     }}
                   >
                     {stat.label}
@@ -372,7 +372,7 @@ export default function RealImpactScroll() {
                     fontWeight: 400,
                     lineHeight: "34px",
                     textAlign: "right",
-                    color: index === 0 ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.6)",
+                    color: index === 0 ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)",
                   }}
                 >
                   {stat.description}

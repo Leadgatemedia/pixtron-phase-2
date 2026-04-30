@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-const SACHETS = [
+const DEFAULT_SACHETS = [
   "/sachets/sachet-1.png",
   "/sachets/sachet-2.png",
   "/sachets/sachet-4.png",
@@ -13,10 +13,32 @@ const SACHETS = [
   "/sachets/sachet-5.png",
 ];
 
-const STRIP_W = 1328.575;
 const SACHET_W = 295.366;
 const SPACING = 188.66;
 const SACHET_EDGE_PEEK = 48;
+const STRIP_CROP_W = 98.751;
+const STRIP_SOURCE_W = 1855;
+const STRIP_SOURCE_H = 400;
+
+type MobileHeroButton = {
+  label: string;
+  href: string;
+  variant?: "primary" | "outline";
+};
+
+type MobileHomeHeroProps = {
+  sachets?: string[];
+  stripImage?: string;
+  stripWidth?: number;
+  finalAlign?: "edge" | "center";
+  headlineBefore?: string;
+  headlineHighlight?: string;
+  body?: string;
+  primaryButton?: MobileHeroButton;
+  secondaryButton?: MobileHeroButton | null;
+  paddingTop?: number;
+  useIntroReveal?: boolean;
+};
 
 function ArrowIcon({ color }: { color: "white" | "dark" }) {
   const file = color === "white" ? "/arrow-white.png" : "/arrow-black.png";
@@ -32,10 +54,24 @@ function ease(t: number) {
   return t * t * (3 - 2 * t);
 }
 
-export default function MobileHomeHero() {
+export default function MobileHomeHero({
+  sachets = DEFAULT_SACHETS,
+  stripImage,
+  stripWidth,
+  finalAlign = "edge",
+  headlineBefore = "Branding that people",
+  headlineHighlight = "touch, see and smell",
+  body = "Pixtron places your brand in the hands of customers through custom wet wipe sachets at restaurants, hotels, and events.",
+  primaryButton = { label: "Get Signature Series", href: "/signature-series", variant: "primary" },
+  secondaryButton = { label: "Get Custom Series", href: "/custom-series", variant: "outline" },
+  paddingTop = 152,
+  useIntroReveal = true,
+}: MobileHomeHeroProps) {
   const [progress, setProgress] = useState(0);
   const [viewportW, setViewportW] = useState(393);
   const dragRef = useRef({ active: false, startX: 0, startProgress: 0 });
+  const stripW = stripImage ? (stripWidth ?? 1122) : SACHET_W + (sachets.length - 1) * SPACING - STRIP_CROP_W;
+  const stripH = stripImage ? (stripW * STRIP_SOURCE_H) / STRIP_SOURCE_W : 242.148;
 
   useEffect(() => {
     const updateViewport = () => {
@@ -49,7 +85,7 @@ export default function MobileHomeHero() {
 
   const dragDistance = Math.max(1, viewportW * 1.35);
   const stripStartX = viewportW - SACHET_EDGE_PEEK;
-  const stripEndX = -Math.max(0, STRIP_W - viewportW + SACHET_EDGE_PEEK);
+  const stripEndX = finalAlign === "center" ? (viewportW - stripW) / 2 : -Math.max(0, stripW - viewportW + SACHET_EDGE_PEEK);
   const stripX = stripStartX + (stripEndX - stripStartX) * ease(progress);
 
   const alignProgress = clamp(progress / 0.45);
@@ -92,7 +128,7 @@ export default function MobileHomeHero() {
       style={{
         display: "none",
         background: "linear-gradient(180deg, #e8f5e9 0%, #ffffff 100%)",
-        padding: "152px 16px 56px",
+        padding: `${paddingTop}px 16px 56px`,
         overflow: "hidden",
       }}
     >
@@ -109,7 +145,7 @@ export default function MobileHomeHero() {
       >
         <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 40 }}>
           <h1
-            data-mobile-hero-headline=""
+            data-mobile-hero-headline={useIntroReveal ? "" : undefined}
             style={{
               margin: 0,
               width: "100%",
@@ -120,14 +156,14 @@ export default function MobileHomeHero() {
               textAlign: "center",
             }}
           >
-            Branding that people{" "}
-            <span style={{ color: "#0f9d58" }}>touch, see and smell</span>
+            {headlineBefore}{" "}
+            <span style={{ color: "#0f9d58" }}>{headlineHighlight}</span>
           </h1>
 
           <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 16 }}>
             <Link
-              href="/signature-series"
-              className="btn-primary"
+              href={primaryButton.href}
+              className={primaryButton.variant === "outline" ? "btn-outline" : "btn-primary"}
               style={{
                 width: "100%",
                 minHeight: 58,
@@ -139,27 +175,29 @@ export default function MobileHomeHero() {
                 lineHeight: "30px",
               }}
             >
-              <span>Get Signature Series</span>
-              <ArrowIcon color="white" />
+              <span>{primaryButton.label}</span>
+              <ArrowIcon color={primaryButton.variant === "outline" ? "dark" : "white"} />
             </Link>
 
-            <Link
-              href="/custom-series"
-              className="btn-outline"
-              style={{
-                width: "100%",
-                minHeight: 58,
-                boxSizing: "border-box",
-                justifyContent: "space-between",
-                padding: "16px 20px 16px 22px",
-                borderRadius: 6,
-                fontSize: 18,
-                lineHeight: "30px",
-              }}
-            >
-              <span>Get Custom Series</span>
-              <ArrowIcon color="dark" />
-            </Link>
+            {secondaryButton ? (
+              <Link
+                href={secondaryButton.href}
+                className={secondaryButton.variant === "primary" ? "btn-primary" : "btn-outline"}
+                style={{
+                  width: "100%",
+                  minHeight: 58,
+                  boxSizing: "border-box",
+                  justifyContent: "space-between",
+                  padding: "16px 20px 16px 22px",
+                  borderRadius: 6,
+                  fontSize: 18,
+                  lineHeight: "30px",
+                }}
+              >
+                <span>{secondaryButton.label}</span>
+                <ArrowIcon color={secondaryButton.variant === "primary" ? "white" : "dark"} />
+              </Link>
+            ) : null}
           </div>
 
           <p
@@ -173,8 +211,7 @@ export default function MobileHomeHero() {
               textAlign: "center",
             }}
           >
-            Pixtron places your brand in the hands of customers through custom wet
-            wipe sachets at restaurants, hotels, and events.
+            {body}
           </p>
         </div>
 
@@ -220,42 +257,62 @@ export default function MobileHomeHero() {
             ))}
           </div>
 
-          {[15, 116.37].map((top, rowIndex) => (
+          {(stripImage ? [15] : [15, 116.37]).map((top, rowIndex) => (
             <div
               key={top}
               style={{
                 position: "absolute",
                 top,
                 left: 0,
-                width: STRIP_W,
-                height: rowIndex === 0 ? 106.708 : 105.375,
-                overflow: "hidden",
+                width: stripW,
+                height: stripImage ? stripH : rowIndex === 0 ? 106.708 : 105.375,
+                overflow: stripImage ? "visible" : "hidden",
                 contain: "layout paint",
                 transform: `translateX(${stripX}px)`,
                 willChange: "transform",
                 zIndex: 2,
               }}
             >
-              {SACHETS.map((src, index) => (
+              {stripImage ? (
                 <div
-                  key={`${src}-${rowIndex}`}
                   style={{
                     position: "absolute",
-                    left: -49.97 + index * SPACING,
-                    top: rowIndex === 0 ? -14.67 : -121.38,
-                    width: SACHET_W,
-                    height: 242.148,
+                    left: 0,
+                    top: 0,
+                    width: stripW,
+                    height: stripH,
                   }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={src}
+                    src={stripImage}
                     alt=""
                     draggable={false}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                    style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
                   />
                 </div>
-              ))}
+              ) : (
+                sachets.map((src, index) => (
+                  <div
+                    key={`${src}-${rowIndex}`}
+                    style={{
+                      position: "absolute",
+                      left: -49.97 + index * SPACING,
+                      top: rowIndex === 0 ? -14.67 : -121.38,
+                      width: SACHET_W,
+                      height: 242.148,
+                    }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={src}
+                      alt=""
+                      draggable={false}
+                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                    />
+                  </div>
+                ))
+              )}
             </div>
           ))}
 

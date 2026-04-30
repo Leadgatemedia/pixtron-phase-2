@@ -11,27 +11,31 @@ export default function SmoothScroll() {
       smoothWheel: true,
     });
 
-    // Pause during intro, resume when intro finishes
+    // Only pause while the homepage intro is actively running. Non-home pages do
+    // not add intro-done, so treating its absence as a lock can freeze scrolling.
     const html = document.documentElement;
-    if (!html.classList.contains("intro-done")) {
-      lenis.stop();
-      const observer = new MutationObserver(() => {
-        if (html.classList.contains("intro-done")) {
-          lenis.start();
-          observer.disconnect();
-        }
-      });
-      observer.observe(html, { attributes: true, attributeFilter: ["class"] });
-    }
+    const syncIntroState = () => {
+      if (html.classList.contains("intro-running")) {
+        lenis.stop();
+      } else {
+        lenis.start();
+      }
+    };
 
+    syncIntroState();
+    const observer = new MutationObserver(syncIntroState);
+    observer.observe(html, { attributes: true, attributeFilter: ["class"] });
+
+    let rafId = 0;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
 
-    const rafId = requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(rafId);
       lenis.destroy();
     };
