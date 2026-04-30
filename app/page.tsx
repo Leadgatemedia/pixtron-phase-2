@@ -41,6 +41,11 @@ function ArrowIcon({ src }: { src: string }) {
 }
 
 // ─── NAVBAR ──────────────────────────────────────────────────────────────────
+// Navbar logo + arrow assets (from Figma node 7102:107891)
+const NAV_LOGO_MASK = "https://www.figma.com/api/mcp/asset/d15125d9-8287-40ee-a5bc-1cf8fb64c799";
+const NAV_LOGO_IMG  = "https://www.figma.com/api/mcp/asset/6e0dc938-89d2-48b7-8b9e-6dc6a3bf1312";
+const NAV_ARROW     = "https://www.figma.com/api/mcp/asset/5322ed99-2a8c-452f-8c53-28967405df87";
+
 function Navbar() {
   return (
     <nav
@@ -52,11 +57,11 @@ function Navbar() {
         width: "100%",
         height: 88,
         background: "rgba(255,255,255,0.8)",
-        borderBottom: "1px solid rgba(0,0,0,0.05)",
-        backdropFilter: "blur(24px)",
-        WebkitBackdropFilter: "blur(24px)",
+        borderBottom: "1px solid rgba(0,0,0,0.06)",
+        backdropFilter: "blur(35px)",
+        WebkitBackdropFilter: "blur(35px)",
         boxSizing: "border-box",
-        padding: "16px 39px",
+        padding: "10px 39px",
       }}
     >
       <div
@@ -66,78 +71,67 @@ function Navbar() {
           margin: "0 auto",
           minHeight: 56,
           display: "grid",
-          gridTemplateColumns: "480px 1fr 480px",
+          gridTemplateColumns: "169px 1fr 169px",
           alignItems: "center",
           columnGap: 16,
         }}
       >
-        <div
-          style={{
-            width: 480,
-            minHeight: 56,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Link
-            href="/"
-            style={{
-              width: "100%",
-              minHeight: 56,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <Image
-              src="/logo.png"
-              alt="Pixtron"
-              width={82}
-              height={82}
-              priority
-              style={{ width: "auto", height: 52 }}
-            />
+        {/* Logo */}
+        <div style={{ width: 169, display: "flex", alignItems: "center" }}>
+          <Link href="/" style={{ display: "inline-flex", alignItems: "center" }}>
+            {/* CSS-mask logo from Figma */}
+            <div
+              style={{
+                position: "relative",
+                width: 91.9,
+                height: 73.816,
+                marginLeft: -3.19,
+                marginTop: -4.97,
+              }}
+            >
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  maskImage: `url('${NAV_LOGO_MASK}')`,
+                  maskSize: "86.07px 64px",
+                  maskPosition: "3.187px 4.974px",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskImage: `url('${NAV_LOGO_MASK}')`,
+                  WebkitMaskSize: "86.07px 64px",
+                  WebkitMaskPosition: "3.187px 4.974px",
+                  WebkitMaskRepeat: "no-repeat",
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={NAV_LOGO_IMG}
+                  alt="Pixtron"
+                  style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              </div>
+            </div>
           </Link>
         </div>
 
+        {/* Nav links */}
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-            <Link href="/about" className="nav-link">About</Link>
-
-            <div className="nav-product" style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}>
-              <Link href="#" className="nav-link">Product</Link>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path className="nav-chevron" d="M4 6l4 4 4-4" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-
-            <Link href="#" className="nav-link">Advertisers</Link>
-            <Link href="#" className="nav-link">Industries</Link>
-            <Link href="#" className="nav-link">Restaurants</Link>
+          <div style={{ display: "flex", gap: 24, alignItems: "center", fontSize: 18, fontWeight: 400 }}>
+            {(["About", "Restaurants", "Signature Series", "Custom Series"] as const).map((label) => (
+              <Link key={label} href="#" className="nav-link">{label}</Link>
+            ))}
           </div>
         </div>
 
-        <div
-          style={{
-            width: 480,
-            minHeight: 56,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
-          }}
-        >
+        {/* CTA */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
           <Link
             href="/contact"
             className="btn-outline"
-            style={{
-              minHeight: 56,
-              padding: "0 20px 0 22px",
-              justifyContent: "center",
-            }}
+            style={{ padding: "16px 20px 16px 22px", justifyContent: "center" }}
           >
             <span>Contact Us</span>
-            <ArrowIcon src={ARROW_CONTACT} />
+            <ArrowIcon src={NAV_ARROW} />
           </Link>
         </div>
       </div>
