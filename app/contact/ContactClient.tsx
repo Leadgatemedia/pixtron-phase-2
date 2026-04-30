@@ -192,8 +192,9 @@ function SelectionView({
   const cardNormal: React.CSSProperties = {
     ...cardBase,
     width: isMobile ? undefined : 318,
-    flex: isMobile ? 1 : undefined,
-    padding: isMobile ? "16px 16px 20px" : "30px 28px",
+    flex: isMobile ? "1 1 0" : undefined,
+    minWidth: isMobile ? 0 : undefined,
+    padding: isMobile ? "14px 12px 18px" : "30px 28px",
     border: isMobile ? "2px solid rgba(0,0,0,0.02)" : "1px solid rgba(0,0,0,0.06)",
     boxShadow: "0px 4px 6px -1px rgba(0,0,0,0.1), 0px 2px 4px -1px rgba(0,0,0,0.06)",
   };
@@ -201,14 +202,15 @@ function SelectionView({
   const cardActive: React.CSSProperties = {
     ...cardBase,
     width: isMobile ? undefined : 318,
-    flex: isMobile ? 1 : undefined,
-    padding: isMobile ? "16px 16px 20px" : "30px 28px",
+    flex: isMobile ? "1 1 0" : undefined,
+    minWidth: isMobile ? 0 : undefined,
+    padding: isMobile ? "14px 12px 18px" : "30px 28px",
     border: isMobile ? "2px solid rgba(0,0,0,0.02)" : "2px solid #0f9d58",
     boxShadow: "0px 25px 50px -12px rgba(0,0,0,0.25)",
   };
 
-  const iconSize = 32;
-  const iconBoxSize = 54;
+  const iconSize = isMobile ? 28 : 32;
+  const iconBoxSize = isMobile ? 46 : 54;
   const restaurantActive = selected === "restaurant" || hovered === "restaurant";
   const advertiserActive = selected === "advertiser" || hovered === "advertiser";
   const mobileSelectorWidth = "100%";
@@ -221,6 +223,7 @@ function SelectionView({
         paddingInline: isMobile ? 16 : 39,
         background: isMobile ? "#f5f5f5" : "#fff",
         minHeight: "100vh",
+        overflowX: "clip",
       }}
     >
       <div
@@ -309,8 +312,9 @@ function SelectionView({
             style={{
               display: "flex",
               flexDirection: "row",
-              gap: isMobile ? 16 : 30,
+              gap: isMobile ? 12 : 30,
               width: "100%",
+              minWidth: 0,
             }}
           >
             {/* Restaurant card */}
@@ -351,7 +355,7 @@ function SelectionView({
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? 0 : 20, width: "100%" }}>
-                <p style={{ fontSize: isMobile ? 18 : 20, fontWeight: isMobile ? 600 : 700, lineHeight: 1.5, color: "#000", margin: 0, whiteSpace: isMobile ? "nowrap" : undefined }}>
+                <p style={{ fontSize: isMobile ? 15 : 20, fontWeight: isMobile ? 600 : 700, lineHeight: 1.5, color: "#000", margin: 0, whiteSpace: isMobile ? "nowrap" : undefined }}>
                   Signature Series
                 </p>
                 <p style={{ display: isMobile ? "none" : undefined, fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: "#000", margin: 0, maxWidth: 262 }}>
@@ -411,8 +415,8 @@ function SelectionView({
                   height={iconSize}
                   style={{
                     display: "block",
-                    width: 32,
-                    height: 32,
+                    width: iconSize,
+                    height: iconSize,
                     filter: advertiserActive && !isMobile ? "brightness(0) invert(1)" : "none",
                     transition: "filter 0.2s ease",
                   }}
@@ -420,7 +424,7 @@ function SelectionView({
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? 0 : 20, width: "100%" }}>
-                <p style={{ fontSize: isMobile ? 18 : 20, fontWeight: isMobile ? 600 : 700, lineHeight: 1.5, color: "#000", margin: 0, whiteSpace: isMobile ? "nowrap" : undefined }}>
+                <p style={{ fontSize: isMobile ? 15 : 20, fontWeight: isMobile ? 600 : 700, lineHeight: 1.5, color: "#000", margin: 0, whiteSpace: isMobile ? "nowrap" : undefined }}>
                   Custom Series
                 </p>
                 <p style={{ display: isMobile ? "none" : undefined, fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: "#000", margin: 0, maxWidth: 262 }}>
@@ -1196,7 +1200,7 @@ export default function ContactClient({ initialStep = "select" }: { initialStep?
   return (
     <>
       {isMobile ? <MobileHeader /> : <SiteNavbar isMobile={isMobile} />}
-      <main style={{ background: isMobile ? "#f5f5f5" : "#fff" }}>
+      <main style={{ background: isMobile ? "#f5f5f5" : "#fff", overflowX: "clip" }}>
         {step === "select" && <SelectionView onSelect={handleSelect} isMobile={isMobile} />}
         {step === "restaurant" && <RestaurantForm onBack={handleBack} isMobile={isMobile} />}
         {step === "advertiser" && <AdvertiserForm onBack={handleBack} isMobile={isMobile} />}
