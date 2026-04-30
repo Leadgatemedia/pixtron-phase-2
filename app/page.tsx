@@ -71,45 +71,34 @@ function Navbar() {
           margin: "0 auto",
           minHeight: 56,
           display: "grid",
-          gridTemplateColumns: "169px 1fr 169px",
+          gridTemplateColumns: "480px 1fr 480px",
           alignItems: "center",
           columnGap: 16,
         }}
       >
         {/* Logo */}
-        <div style={{ width: 169, display: "flex", alignItems: "center" }}>
+        <div style={{ width: 480, minHeight: 56, display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
           <Link href="/" style={{ display: "inline-flex", alignItems: "center" }}>
-            {/* CSS-mask logo from Figma */}
             <div
               style={{
-                position: "relative",
                 width: 91.9,
-                height: 73.816,
-                marginLeft: -3.19,
-                marginTop: -4.97,
+                height: 64,
+                maskImage: `url('${NAV_LOGO_MASK}')`,
+                maskSize: "86.07px 64px",
+                maskPosition: "3.187px 0px",
+                maskRepeat: "no-repeat",
+                WebkitMaskImage: `url('${NAV_LOGO_MASK}')`,
+                WebkitMaskSize: "86.07px 64px",
+                WebkitMaskPosition: "3.187px 0px",
+                WebkitMaskRepeat: "no-repeat",
               }}
             >
-              <div
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  maskImage: `url('${NAV_LOGO_MASK}')`,
-                  maskSize: "86.07px 64px",
-                  maskPosition: "3.187px 4.974px",
-                  maskRepeat: "no-repeat",
-                  WebkitMaskImage: `url('${NAV_LOGO_MASK}')`,
-                  WebkitMaskSize: "86.07px 64px",
-                  WebkitMaskPosition: "3.187px 4.974px",
-                  WebkitMaskRepeat: "no-repeat",
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={NAV_LOGO_IMG}
-                  alt="Pixtron"
-                  style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }}
-                />
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={NAV_LOGO_IMG}
+                alt="Pixtron"
+                style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }}
+              />
             </div>
           </Link>
         </div>
@@ -124,11 +113,11 @@ function Navbar() {
         </div>
 
         {/* CTA */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+        <div style={{ width: 480, minHeight: 56, display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
           <Link
             href="/contact"
             className="btn-outline"
-            style={{ padding: "16px 20px 16px 22px", justifyContent: "center" }}
+            style={{ minHeight: 56, padding: "0 20px 0 22px", justifyContent: "center" }}
           >
             <span>Contact Us</span>
             <ArrowIcon src={NAV_ARROW} />
