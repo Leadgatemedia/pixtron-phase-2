@@ -156,19 +156,25 @@
 
 .statCard {
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 72px;
+  display: grid;
+  grid-template-rows: 166px 1px 54px;
+  align-content: center;
+  row-gap: 24px;
   padding: 0 24px;
   border-right: 1px solid #e0dfdf;
+}
+
+.statCard > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .statCard:last-child {
   border-right: 0;
 }
 
-.statCard span {
+.statCount {
   display: block;
   margin-bottom: 32px;
   color: #0f9d58;
@@ -187,12 +193,17 @@
 
 .statCard p {
   margin: 0;
-  padding-top: 24px;
-  border-top: 1px solid #0f9d58;
   color: rgba(0, 0, 0, 0.8);
   font-size: 18px;
   line-height: 1.5;
   font-weight: 500;
+}
+
+.statDivider {
+  display: block;
+  width: min(100%, 548px);
+  height: 1px;
+  background: #0f9d58;
 }
 
 .valueSection {
@@ -270,7 +281,8 @@
   border-radius: 999px;
 }
 
-.valueIcon svg {
+.valueIcon img {
+  display: block;
   width: 24px;
   height: 24px;
 }
@@ -409,14 +421,11 @@
   line-height: 24px;
 }
 
-.checkItemTitle span {
+.checkItemTitle img {
   width: 24px;
   height: 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #0f9d58;
-  font-weight: 800;
+  display: block;
+  flex: 0 0 auto;
 }
 
 .checklistItems p {

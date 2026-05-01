@@ -34,7 +34,6 @@ type CardLayout = {
 
 const FULL_BLEED_WIDTH = "100vw";
 const DIVIDER = "1px dashed rgba(0,0,0,0.2)";
-const FIGMA_SECTION_GAP = 75;
 
 const MOBILE_NAV_HEIGHT = 96;
 const PINNED_SCROLL_DISTANCE = 180;
@@ -303,7 +302,7 @@ function MobilePinnedProcessBlock({ column }: { column: ProcessColumn }) {
         width: FULL_BLEED_WIDTH,
         marginLeft: "calc(50% - 50vw)",
         marginRight: "calc(50% - 50vw)",
-        marginBottom: `${FIGMA_SECTION_GAP - PINNED_SCROLL_DISTANCE}px`,
+        marginBottom: "24px",
         background: "#fff",
         borderTop: DIVIDER,
       }}
@@ -457,6 +456,7 @@ export default function MobileProcessSection() {
         background: "#fff",
         boxSizing: "border-box",
         width: "100%",
+        isolation: "isolate",
       }}
     >
       <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 56 }}>

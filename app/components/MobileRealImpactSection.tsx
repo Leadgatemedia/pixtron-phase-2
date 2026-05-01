@@ -9,6 +9,9 @@ type CardLayout = {
   opacity: number;
   zIndex: number;
   shadow: boolean;
+  valueColor: string;
+  labelColor: string;
+  descColor: string;
 };
 
 const STATS = [
@@ -77,15 +80,26 @@ function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
 
+function mixColor(from: string, to: string, t: number) {
+  const parse = (v: string) => v.match(/[\d.]+/g)?.map(Number) ?? [0, 0, 0, 1];
+  const a = parse(from);
+  const b = parse(to);
+  return `rgba(${Math.round(lerp(a[0], b[0], t))},${Math.round(lerp(a[1], b[1], t))},${Math.round(lerp(a[2], b[2], t))},${lerp(a[3] ?? 1, b[3] ?? 1, t).toFixed(3)})`;
+}
+
 function buildLayout(activeIndex: number): CardLayout[] {
   return STATS.map((_, index) => {
     const depth = (index - activeIndex + STATS.length) % STATS.length;
+    const isActive = depth === 0;
     return {
       insetX: CARD_INSET[depth],
       y: CARD_Y[depth],
       opacity: CARD_OPACITY[depth],
       zIndex: 20 - depth,
       shadow: depth < 3,
+      valueColor: isActive ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)",
+      labelColor: isActive ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.1)",
+      descColor: isActive ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)",
     };
   });
 }
@@ -115,6 +129,9 @@ function resolvePhase(progress: number) {
 export default function MobileRealImpactSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>(Array(STATS.length).fill(null));
+  const valueRefs = useRef<(HTMLParagraphElement | null)[]>(Array(STATS.length).fill(null));
+  const labelRefs = useRef<(HTMLParagraphElement | null)[]>(Array(STATS.length).fill(null));
+  const descRefs = useRef<(HTMLParagraphElement | null)[]>(Array(STATS.length).fill(null));
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -135,6 +152,10 @@ export default function MobileRealImpactSection() {
         card.style.opacity = String(opacity);
         card.style.zIndex = String(zIndex);
         card.style.boxShadow = shadow ? "0px 34px 30px -30px rgba(0,0,0,0.25)" : "none";
+
+        if (valueRefs.current[index]) valueRefs.current[index]!.style.color = mixColor(from[index].valueColor, to[index].valueColor, t);
+        if (labelRefs.current[index]) labelRefs.current[index]!.style.color = mixColor(from[index].labelColor, to[index].labelColor, t);
+        if (descRefs.current[index]) descRefs.current[index]!.style.color = mixColor(from[index].descColor, to[index].descColor, t);
       });
     };
 
@@ -229,14 +250,23 @@ export default function MobileRealImpactSection() {
             }}
           >
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16, width: "100%", whiteSpace: "nowrap" }}>
-              <p style={{ margin: 0, fontSize: 30, fontWeight: 600, lineHeight: 1.4, color: "#000" }}>
+              <p
+                ref={(el) => { valueRefs.current[index] = el; }}
+                style={{ margin: 0, fontSize: 30, fontWeight: 600, lineHeight: 1.4, color: index === 0 ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)" }}
+              >
                 {stat.value}
               </p>
-              <p style={{ margin: 0, fontSize: 16, fontWeight: 500, lineHeight: 1.4, color: "rgba(0,0,0,0.6)" }}>
+              <p
+                ref={(el) => { labelRefs.current[index] = el; }}
+                style={{ margin: 0, fontSize: 16, fontWeight: 500, lineHeight: 1.4, color: index === 0 ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.1)" }}
+              >
                 {stat.label}
               </p>
             </div>
-            <p style={{ margin: 0, width: "100%", fontSize: 18, fontWeight: 400, lineHeight: 1.3, color: "#000", textAlign: "right" }}>
+            <p
+              ref={(el) => { descRefs.current[index] = el; }}
+              style={{ margin: 0, width: "100%", fontSize: 18, fontWeight: 400, lineHeight: 1.3, color: index === 0 ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)", textAlign: "right" }}
+            >
               {stat.description}
             </p>
           </div>

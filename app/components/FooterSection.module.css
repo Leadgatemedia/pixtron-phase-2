@@ -87,7 +87,7 @@
 
 .desktopFooterTop {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1.35fr 1fr 1fr 1fr;
   width: 100%;
   min-height: 400px;
 }
@@ -188,8 +188,7 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+  justify-content: center;
   border-top: 1px solid rgba(0,0,0,0.1);
 }
 
@@ -199,6 +198,11 @@
   line-height: 1;
   font-weight: 500;
   color: rgba(0, 0, 0, 0.5);
+}
+
+.desktopFooterCopyright {
+  width: 100%;
+  text-align: center;
 }
 
 .desktopFooterPolicies,
@@ -421,7 +425,7 @@
 
 @media (max-width: 1200px) {
   .desktopFooterTop {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1.35fr 1fr 1fr 1fr;
   }
 
   .desktopFooterWordmark {

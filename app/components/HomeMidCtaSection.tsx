@@ -175,14 +175,14 @@ function MobileMidCta() {
         background: "#fff",
         boxSizing: "border-box",
         width: "100%",
+        position: "relative",
+        zIndex: 10,
       }}
     >
       <div
         style={{
           position: "relative",
-          width: "min(361px, calc(100vw / 0.8 - 32px))",
-          maxWidth: "100%",
-          minHeight: 620,
+          width: "min(361px, 100%)",
           margin: "0 auto",
           borderRadius: 12,
           overflow: "hidden",
@@ -192,13 +192,10 @@ function MobileMidCta() {
 
         <div
           style={{
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
+            position: "relative",
+            zIndex: 1,
             width: "100%",
-            maxWidth: 361,
-            padding: "0 16px",
+            padding: "56px 16px",
             boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
