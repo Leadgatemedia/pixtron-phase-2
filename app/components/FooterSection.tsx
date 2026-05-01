@@ -29,6 +29,11 @@ const companyLinks = [
   { label: "Blogs", href: "#", soon: true },
 ];
 
+const legalLinks = [
+  { label: "Privacy Policy", href: "#" },
+  { label: "Terms & Conditions", href: "#" },
+];
+
 function SoonBadge() {
   return (
     <span className={styles.soonBadge}>
@@ -298,18 +303,23 @@ function DesktopFooterLayout() {
             </div>
           </div>
         </div>
+
+        <div className={styles.desktopFooterCol}>
+          <div className={styles.footerListBlock}>
+            <div className={styles.footerSectionLabel}>Legal</div>
+            <div className={styles.footerLinkList}>
+              {legalLinks.map((link) => (
+                <Link key={link.label} href={link.href} className={styles.footerTextLink}>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className={styles.desktopFooterBottom}>
         <div className={styles.desktopFooterCopyright}>© 2026 Pixtron, All Rights Reserved</div>
-        <div className={styles.desktopFooterPolicies}>
-          <Link href="#" className={styles.footerPolicyLink}>
-            Privacy Policy
-          </Link>
-          <Link href="#" className={styles.footerPolicyLink}>
-            Terms &amp; Conditions
-          </Link>
-        </div>
       </div>
 
     </section>

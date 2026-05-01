@@ -429,11 +429,17 @@ export default function AboutPage() {
               </div>
               <div
                 className="gradient-heading"
-                style={{ fontSize: 60, fontWeight: 300, lineHeight: 1.3, width: 1014 }}
+                style={{ fontSize: 54, fontWeight: 300, lineHeight: 1.3, width: 1034 }}
               >
-                To elevate everyday environments by combining thoughtful product design with real world interaction,{" "}
-                <span style={{ fontWeight: 700 }}>creating experiences that feel</span>{" "}
-                natural, useful, and memorable.
+                To elevate everyday environments by
+                <br />
+                combining thoughtful product design
+                <br />
+                with real world interaction, <span style={{ fontWeight: 700 }}>creating</span>
+                <br />
+                <span style={{ fontWeight: 700 }}>experiences that feel</span> natural, useful,
+                <br />
+                and memorable.
               </div>
             </div>
 
@@ -468,16 +474,22 @@ export default function AboutPage() {
               <div
                 className="gradient-heading"
                 style={{
-                  fontSize: 60,
+                  fontSize: 54,
                   fontWeight: 300,
                   lineHeight: 1.3,
-                  width: 1014,
+                  width: 1034,
                   textAlign: "right",
                 }}
               >
-                A world where every small detail{" "}
-                <span style={{ fontWeight: 700 }}>enhances the overall experience</span>
-                , and every interaction, no matter how simple, contributes to something meaningful.
+                A world where every small detail
+                <br />
+                <span style={{ fontWeight: 700 }}>enhances the overall experience</span>,
+                <br />
+                and every interaction, no matter how
+                <br />
+                simple, contributes to something
+                <br />
+                meaningful.
               </div>
             </div>
           </div>

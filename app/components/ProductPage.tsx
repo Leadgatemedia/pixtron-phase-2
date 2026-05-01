@@ -8,6 +8,7 @@ import HomeMidCtaSection from "./HomeMidCtaSection";
 import MobileHeader from "./MobileHeader";
 import JourneyScrollSection from "./JourneyScrollSection";
 import MobileHomeHero from "./MobileHomeHero";
+import MobileRealImpactSection from "./MobileRealImpactSection";
 import RealImpactScroll from "./RealImpactScroll";
 import styles from "./ProductPage.module.css";
 
@@ -635,9 +636,10 @@ function StatsSection({ stats }: { stats: RestaurantPageConfig["stats"] }) {
       {stats.map((item) => (
         <article key={item.count} className={styles.statCard}>
           <div>
-            <span>{item.count}</span>
+            <span className={styles.statCount}>{item.count}</span>
             <h2>{item.title}</h2>
           </div>
+          <span className={styles.statDivider} aria-hidden />
           <p>{item.body}</p>
         </article>
       ))}
@@ -646,26 +648,16 @@ function StatsSection({ stats }: { stats: RestaurantPageConfig["stats"] }) {
 }
 
 function ValueIcon({ icon }: { icon: ValueRow["icon"] }) {
-  const paths: Record<ValueRow["icon"], React.ReactNode> = {
-    sparkle: (
-      <>
-        <path d="M12 3L13.9 9.1L20 11L13.9 12.9L12 19L10.1 12.9L4 11L10.1 9.1L12 3Z" />
-        <path d="M19 4V8" />
-        <path d="M17 6H21" />
-      </>
-    ),
-    shield: <path d="M12 3L19 6V11.5C19 15.9 16.1 19.6 12 21C7.9 19.6 5 15.9 5 11.5V6L12 3Z" />,
-    leaf: <path d="M20 4C12.5 4.5 6.5 8.2 5 16.5C10.2 17.3 16.8 14.6 20 4Z" />,
-    flame: <path d="M12 21C8.6 21 6 18.6 6 15.3C6 12.8 7.3 10.8 9.2 8.8C10.6 7.3 11.4 5.6 11.2 3C15.1 5.2 18 9.4 18 14.8C18 18.4 15.4 21 12 21Z" />,
+  const sources: Record<ValueRow["icon"], string> = {
+    sparkle: "/icons/value-premium-experience.svg",
+    shield: "/icons/value-thoughtful-design.svg",
+    leaf: "/icons/value-seamless-integration.svg",
+    flame: "/icons/value-consistent-quality.svg",
   };
 
   return (
     <span className={styles.valueIcon} aria-hidden>
-      <svg viewBox="0 0 24 24" fill="none">
-        <g stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          {paths[icon]}
-        </g>
-      </svg>
+      <img src={sources[icon]} alt="" />
     </span>
   );
 }
@@ -706,7 +698,7 @@ function ChecklistVisual() {
           {items.map(([title, body]) => (
             <div key={title}>
               <div className={styles.checkItemTitle}>
-                <span aria-hidden>✓</span>
+                <img src="/icons/check-circle-unread.svg" alt="" aria-hidden />
                 <strong>{title}</strong>
               </div>
               <p>{body}</p>
@@ -786,36 +778,6 @@ function ImpactSection({ impact }: { impact: ImpactStack }) {
         ))}
       </div>
       <ProductButton button={impact.button} width={259} />
-    </section>
-  );
-}
-
-function Timeline({ timeline }: { timeline: TimelineSection }) {
-  return (
-    <section className={styles.timelineSection}>
-      <div className={styles.sectionIntro}>
-        <h2>{timeline.title}</h2>
-        {timeline.body ? <p>{timeline.body}</p> : null}
-      </div>
-      <div
-        className={styles.timeline}
-        style={
-          {
-            "--steps": timeline.steps.length,
-            "--progress-height": `${timeline.progressHeight}px`,
-          } as React.CSSProperties
-        }
-      >
-        <div className={styles.timelineTrack} aria-hidden />
-        {timeline.steps.map((item, index) => (
-          <article key={item.step} className={styles.timelineStep} style={{ "--step-index": index } as React.CSSProperties}>
-            <strong>{item.step}</strong>
-            <h3>{item.title}</h3>
-            <p>{item.body}</p>
-          </article>
-        ))}
-      </div>
-      {timeline.button ? <ProductButton button={timeline.button} width={259} /> : null}
     </section>
   );
 }
@@ -989,8 +951,16 @@ function RestaurantsPage({ config }: { config: RestaurantPageConfig }) {
       <StatsSection stats={config.stats} />
       <ValueSection heading={config.premium.heading} rows={config.premium.rows} />
       <RestaurantFeatureSections blocks={config.featureBlocks} />
-      <RealImpactScroll />
-      <Timeline timeline={config.timeline} />
+      <div className="desktop-real-impact">
+        <RealImpactScroll />
+      </div>
+      <MobileRealImpactSection />
+      <JourneyScrollSection
+        title={config.timeline.title}
+        body={config.timeline.body}
+        steps={config.timeline.steps}
+        button={config.timeline.button}
+      />
       <FaqSection faqs={config.faqs} />
     </PageShell>
   );
