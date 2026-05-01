@@ -151,6 +151,23 @@
   width: fit-content;
 }
 
+.soonBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 24px;
+  border-radius: 24px;
+  background: rgba(15,157,88,0.2);
+  color: #0f9d58;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  margin-left: 8px;
+  vertical-align: middle;
+  flex: 0 0 auto;
+}
+
 .footerLinkList {
   display: flex;
   flex-direction: column;
@@ -278,6 +295,19 @@
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  text-align: center;
+}
+
+.mobileFooterLogo {
+  width: auto;
+  height: 68px;
+}
+
+.mobileFooterContactInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
 .mobileFooterBody {
@@ -336,11 +366,23 @@
 }
 
 .mobileFooterTextLink {
-  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  font-size: 16px;
   line-height: 24px;
   font-weight: 500;
   color: #000000;
   text-decoration: none;
+  white-space: nowrap;
+}
+
+.mobileFooterTextLink .soonBadge {
+  width: 38px;
+  height: 20px;
+  font-size: 11px;
+  margin-left: 5px;
 }
 
 .mobileFooterBottom {

@@ -33,6 +33,7 @@
   .mobile-how-it-works { display: flex !important; }
   .desktop-real-impact { display: none !important; }
   .mobile-real-impact { display: flex !important; }
+  .mobile-real-impact .mobile-real-impact-cta { margin-top: 28px; }
   .desktop-where-pixtron { display: none !important; }
   .mobile-where-pixtron { display: flex !important; }
   .desktop-industries { display: none !important; }
@@ -138,13 +139,15 @@ body {
     zoom: 1 !important;
     width: 100%;
     min-width: 0;
-    overflow-x: hidden;
+    /* clip instead of hidden: prevents horizontal overflow without creating a
+       scroll container, which would break position:sticky on child elements */
+    overflow-x: clip;
   }
 
   body {
     width: 100%;
     min-width: 0;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 }
 

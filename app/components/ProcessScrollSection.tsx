@@ -30,6 +30,7 @@ export default function ProcessScrollSection({
   const outerRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const border = "1px dashed rgba(0,0,0,0.2)";
 
   useEffect(() => {
@@ -73,6 +74,13 @@ export default function ProcessScrollSection({
     };
   }, []);
 
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 767);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   return (
     <div ref={outerRef} style={{ position: "relative", background: "#fff" }}>
       <div
@@ -93,8 +101,8 @@ export default function ProcessScrollSection({
         >
           <div
             style={{
-              minHeight: 270,
-              padding: "40px 39px",
+              minHeight: isMobile ? 140 : 270,
+              padding: isMobile ? "24px 20px" : "40px 39px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -143,29 +151,32 @@ export default function ProcessScrollSection({
                   zIndex: 1,
                 }}
               />
-              <div
-                aria-hidden="true"
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  bottom: 0,
-                  left: "50%",
-                  width: 1,
-                  transform: "translateX(-0.5px)",
-                  borderLeft: border,
-                  pointerEvents: "none",
-                  zIndex: 1,
-                }}
-              />
+              {!isMobile && (
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    bottom: 0,
+                    left: "50%",
+                    width: 1,
+                    transform: "translateX(-0.5px)",
+                    borderLeft: border,
+                    pointerEvents: "none",
+                    zIndex: 1,
+                  }}
+                />
+              )}
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
+                  gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
                 }}
               >
                 <div
                   style={{
-                    padding: "64px 0",
+                    padding: isMobile ? "24px 20px" : "64px 0",
+                    borderBottom: isMobile ? border : undefined,
                   }}
                 >
                   <ProcessShuffleColumn
@@ -179,7 +190,7 @@ export default function ProcessScrollSection({
                     progress={progress}
                   />
                 </div>
-                <div style={{ padding: "64px 0" }}>
+                <div style={{ padding: isMobile ? "24px 20px" : "64px 0" }}>
                   <ProcessShuffleColumn
                     label="ADVERTISERS"
                     heading={"Put your brand directly into\ncustomer's hands"}

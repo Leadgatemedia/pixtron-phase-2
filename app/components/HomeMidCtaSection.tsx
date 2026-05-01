@@ -171,7 +171,7 @@ function MobileMidCta() {
     <section
       className="mobile-mid-cta"
       style={{
-        padding: "0 16px 24px",
+        padding: "24px 16px 24px",
         background: "#fff",
         boxSizing: "border-box",
         width: "100%",
@@ -182,7 +182,7 @@ function MobileMidCta() {
           position: "relative",
           width: "min(361px, calc(100vw / 0.8 - 32px))",
           maxWidth: "100%",
-          height: 600,
+          minHeight: 620,
           margin: "0 auto",
           borderRadius: 12,
           overflow: "hidden",
