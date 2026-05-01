@@ -245,7 +245,7 @@ export default function MobileRealImpactSection() {
 
       <Link
         href="/signature-series"
-        className="btn-primary"
+        className="btn-primary mobile-real-impact-cta"
         style={{
           width: "100%",
           maxWidth: 361,

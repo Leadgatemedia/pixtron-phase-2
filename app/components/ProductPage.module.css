@@ -767,6 +767,22 @@
   font-weight: 600;
 }
 
+.faqItem summary span:last-child {
+  width: 16px;
+  text-align: center;
+  font-size: 0;
+  line-height: 1;
+}
+
+.faqItem summary span:last-child::after {
+  content: "+";
+  font-size: 16px;
+}
+
+.faqItem[open] summary span:last-child::after {
+  content: "-";
+}
+
 .faqItem p {
   margin: 0;
   padding: 0 24px;
@@ -1511,7 +1527,7 @@
 
   .timelineTrack::before {
     width: 3px;
-    height: 183px;
+    height: var(--progress-height);
   }
 
   .timelineStep,

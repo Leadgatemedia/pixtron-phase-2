@@ -189,8 +189,15 @@ export default function RealImpactScroll() {
 
     const setHeight = () => {
       const vh = window.innerHeight;
-      const stickyH = vh / ZOOM;
-      outer.style.height = `${stickyH + stickyH * 1.9}px`;
+      const mobile = window.innerWidth <= 767;
+      const actualZoom = mobile ? 1 : ZOOM;
+      const stickyH = vh / actualZoom;
+      // On mobile zoom=1 so sticky must be 100vh not 125vh — override JSX default
+      if (mobile) sticky.style.height = `${stickyH}px`;
+      // Mobile gets more scroll budget so each of the 4 transitions gets
+      // ~280px of thumb travel (satisfying weight before the section unlocks).
+      const scrollMultiplier = mobile ? 2.8 : 1.9;
+      outer.style.height = `${stickyH + stickyH * scrollMultiplier}px`;
     };
 
     const applyLayouts = (from: CardLayout[], to: CardLayout[], t: number) => {
@@ -239,8 +246,11 @@ export default function RealImpactScroll() {
       const scrolled = -rect.top;
       const maxScroll = Math.max(1, outer.offsetHeight - stickyH);
       const raw = Math.max(0, Math.min(1, scrolled / maxScroll));
-      const animationStart = 0.06;
-      const animationEnd = 0.38;
+      // On mobile the lock period matches the viewport, so spread animation
+      // across almost the full period so each card flip gets deliberate scroll travel.
+      const mobile = window.innerWidth <= 767;
+      const animationStart = mobile ? 0.03 : 0.06;
+      const animationEnd = mobile ? 0.92 : 0.38;
       const shifted = Math.max(0, raw - animationStart);
       const normalized = shifted / Math.max(0.0001, animationEnd - animationStart);
       const animatedProgress = Math.max(0, Math.min(1, normalized));
@@ -318,6 +328,7 @@ export default function RealImpactScroll() {
                 padding: "22px 28px 18px",
                 transformOrigin: "center center",
                 transform: `translateY(${index * FUTURE_OFFSET}px)`,
+                zIndex: index === 0 ? 20 : 12 - index,
                 willChange: "transform, background, box-shadow",
                 boxShadow: index < 3 ? "0px 34px 30px -30px rgba(0,0,0,0.25)" : "none",
               }}
@@ -382,7 +393,7 @@ export default function RealImpactScroll() {
           ))}
         </div>
 
-        <div style={{ marginTop: 22, position: "relative", zIndex: 10, background: "#fff", paddingTop: 0 }}>
+        <div style={{ marginTop: 40, position: "relative", zIndex: 10, background: "#fff", paddingTop: 0 }}>
           <Link href="/signature-series" className="btn-primary">
             <span>Get Signature Series</span>
             <ArrowIcon />

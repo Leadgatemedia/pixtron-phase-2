@@ -120,7 +120,7 @@ export default function MobileWherePixtronWorksSection() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                gap: 20,
+                gap: 4,
                 width: "100%",
                 height: 184,
                 padding: "28px 24px 24px",

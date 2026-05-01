@@ -6,7 +6,9 @@ import FooterSection from "./FooterSection";
 import HeroScrollSection from "./HeroScrollSection";
 import HomeMidCtaSection from "./HomeMidCtaSection";
 import MobileHeader from "./MobileHeader";
+import JourneyScrollSection from "./JourneyScrollSection";
 import MobileHomeHero from "./MobileHomeHero";
+import RealImpactScroll from "./RealImpactScroll";
 import styles from "./ProductPage.module.css";
 
 type HighlightHeading = {
@@ -330,13 +332,41 @@ export const RESTAURANTS_PAGE: RestaurantPageConfig = {
       answer:
         "Signature Series is a collection of ready-to-use premium wet wipe sachets with clean, modern designs. They are designed to enhance guest experience without requiring any custom branding.",
     },
-    { question: "Do I need to customize anything?" },
-    { question: "How does this fit into my service?" },
-    { question: "How often do you deliver?" },
-    { question: "Is this suitable for all types of restaurants?" },
-    { question: "What makes these wipes different from regular ones?" },
-    { question: "Can I upgrade to custom branding later?" },
-    { question: "How do I get started?" },
+    {
+      question: "Do I need to customize anything?",
+      answer:
+        "No. Signature Series comes with pre-designed sachets, so you can start using them immediately without any setup or design work.",
+    },
+    {
+      question: "How does this fit into my service?",
+      answer:
+        "It integrates seamlessly. Your staff simply places the sachets during service - no additional training or workflow changes required.",
+    },
+    {
+      question: "How often do you deliver?",
+      answer:
+        "We provide consistent and reliable supply based on your usage needs, ensuring you never run out during service.",
+    },
+    {
+      question: "Is this suitable for all types of restaurants?",
+      answer:
+        "Yes. Signature Series is designed to complement a wide range of dining environments, from casual cafes to premium hospitality spaces.",
+    },
+    {
+      question: "What makes these wipes different from regular ones?",
+      answer:
+        "Pixtron wipes are designed with a premium, cloth-like feel and refined presentation, offering a noticeably better experience than standard wipes.",
+    },
+    {
+      question: "Can I upgrade to custom branding later?",
+      answer:
+        "Yes. If you decide to create your own branded sachets, you can upgrade to our Custom Series at any time.",
+    },
+    {
+      question: "How do I get started?",
+      answer:
+        "Simply choose your preferred Signature Series option and place your order. Our team will handle the rest.",
+    },
   ],
 };
 
@@ -796,7 +826,7 @@ function FaqSection({ faqs }: { faqs: FaqItem[] }) {
       <h2>FAQs</h2>
       <div className={styles.faqList}>
         {faqs.map((faq, index) => (
-          <details key={faq.question} className={styles.faqItem} open={index === 0}>
+          <details key={faq.question} className={styles.faqItem}>
             <summary>
               <span>{faq.question}</span>
               <span aria-hidden>{index === 0 ? "−" : "+"}</span>
@@ -959,7 +989,7 @@ function RestaurantsPage({ config }: { config: RestaurantPageConfig }) {
       <StatsSection stats={config.stats} />
       <ValueSection heading={config.premium.heading} rows={config.premium.rows} />
       <RestaurantFeatureSections blocks={config.featureBlocks} />
-      <ImpactSection impact={config.impact} />
+      <RealImpactScroll />
       <Timeline timeline={config.timeline} />
       <FaqSection faqs={config.faqs} />
     </PageShell>
@@ -972,7 +1002,12 @@ function SeriesPage({ config }: { config: SeriesPageConfig }) {
       {config.hero.type === "sachets" ? <SignatureHero hero={config.hero} /> : <CustomHero hero={config.hero} />}
       <ProductShowcaseSection showcase={config.products} />
       <ValueSection heading={config.values.heading} rows={config.values.rows} />
-      <Timeline timeline={config.timeline} />
+      <JourneyScrollSection
+        title={config.timeline.title}
+        body={config.timeline.body}
+        steps={config.timeline.steps}
+        button={config.timeline.button}
+      />
       {config.setting ? <SettingSectionView section={config.setting} /> : null}
       {config.remembered ? <RememberedSectionView section={config.remembered} /> : null}
     </PageShell>

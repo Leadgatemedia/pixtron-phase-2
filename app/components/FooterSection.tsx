@@ -31,22 +31,7 @@ const companyLinks = [
 
 function SoonBadge() {
   return (
-    <span style={{
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      width: 56,
-      height: 24,
-      borderRadius: 24,
-      background: "rgba(15,157,88,0.2)",
-      color: "#0f9d58",
-      fontSize: 13,
-      fontWeight: 500,
-      lineHeight: 1,
-      marginLeft: 8,
-      verticalAlign: "middle",
-      flexShrink: 0,
-    }}>
+    <span className={styles.soonBadge}>
       Soon
     </span>
   );
@@ -336,8 +321,8 @@ function MobileFooterLayout() {
     <section className={styles.mobileFooterShell}>
       <div className={styles.mobileFooterTop}>
         <div className={styles.mobileFooterBrandArea}>
-          <Image src="/logo.png" alt="Pixtron" width={86} height={64} style={{ width: "auto", height: 52 }} />
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <Image src="/logo.png" alt="Pixtron" width={111} height={83} className={styles.mobileFooterLogo} />
+          <div className={styles.mobileFooterContactInfo}>
             <a href="mailto:info@pixtron.net" className={styles.footerBigLink}>
               info@pixtron.net
             </a>

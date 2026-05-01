@@ -570,14 +570,14 @@ export default function AboutPage() {
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 32, width: "100%", maxWidth: MOBILE_CONTENT_MAX, margin: "0 auto" }}>
               <h1
                 style={{
-                  fontSize: 30,
+                  fontSize: "clamp(19px, 6.8vw, 28px)",
                   fontWeight: 700,
                   lineHeight: 1.2,
                   textAlign: "center",
                   color: "#000",
                   margin: 0,
-                  width: "100vw",
-                  marginInline: "calc((100% - 100vw) / 2)",
+                  width: "100%",
+                  maxWidth: "100%",
                 }}
               >
                 We&apos;re redefining how
