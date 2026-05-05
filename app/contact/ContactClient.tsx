@@ -43,7 +43,7 @@ function ArrowIcon({ color = "dark" }: { color?: "white" | "dark" }) {
   );
 }
 
-function SiteNavbar({ isMobile }: { isMobile: boolean }) {
+function SiteNavbar() {
   return (
     <nav
       style={{
@@ -51,94 +51,66 @@ function SiteNavbar({ isMobile }: { isMobile: boolean }) {
         top: 0,
         zIndex: 50,
         width: "100%",
-        height: isMobile ? 96 : 88,
+        height: 88,
         background: "rgba(255,255,255,0.8)",
-        borderBottom: isMobile ? undefined : "1px solid rgba(0,0,0,0.05)",
-        backdropFilter: isMobile ? "blur(35px)" : "blur(24px)",
-        WebkitBackdropFilter: isMobile ? "blur(35px)" : "blur(24px)",
+        borderBottom: "1px solid rgba(0,0,0,0.06)",
+        backdropFilter: "blur(35px)",
+        WebkitBackdropFilter: "blur(35px)",
         boxSizing: "border-box",
-        padding: isMobile ? "16px" : "16px 39px",
+        padding: "0 39px",
       }}
     >
       <div
         style={{
           width: "100%",
-          maxWidth: isMobile ? "100%" : 1820,
+          maxWidth: 1820,
           margin: "0 auto",
-          minHeight: isMobile ? 64 : 56,
-          display: isMobile ? "flex" : "grid",
-          gridTemplateColumns: isMobile ? undefined : "480px 1fr 480px",
+          height: "100%",
+          display: "grid",
+          gridTemplateColumns: "480px 1fr 480px",
           alignItems: "center",
-          justifyContent: isMobile ? "space-between" : undefined,
           columnGap: 16,
         }}
       >
-        <Link
-          href="/"
+        <div style={{ width: 480, display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center" }}>
+            <Image
+              src="/logo.png"
+              alt="Pixtron"
+              width={82}
+              height={82}
+              priority
+              style={{ width: "auto", height: 52 }}
+            />
+          </Link>
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+            <Link href="/about" className="nav-link">About</Link>
+            <Link href="/restaurants" className="nav-link">Restaurants</Link>
+            <Link href="/signature-series" className="nav-link">Signature Series</Link>
+            <Link href="/custom-series" className="nav-link">Custom Series</Link>
+          </div>
+        </div>
+
+        <div
           style={{
-            minHeight: isMobile ? 64 : 56,
+            width: 480,
             display: "flex",
             alignItems: "center",
-            justifyContent: "flex-start",
+            justifyContent: "flex-end",
           }}
         >
-          <Image
-            src="/logo.png"
-            alt="Pixtron"
-            width={isMobile ? 138 : 82}
-            height={isMobile ? 64 : 82}
-            priority
-            style={{ width: isMobile ? 86 : "auto", height: isMobile ? 64 : 52 }}
-          />
-        </Link>
-
-        {!isMobile && (
-          <>
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-                <Link href="/about" className="nav-link">About</Link>
-                <div
-                  className="nav-product"
-                  style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}
-                >
-                  <Link href="#" className="nav-link">Product</Link>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                    <path
-                      className="nav-chevron"
-                      d="M4 6l4 4 4-4"
-                      stroke="#000"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-                <Link href="#" className="nav-link">Advertisers</Link>
-                <Link href="#" className="nav-link">Industries</Link>
-                <Link href="/restaurants" className="nav-link">Restaurants</Link>
-              </div>
-            </div>
-
-            <div
-              style={{
-                width: 480,
-                minHeight: 56,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-              }}
-            >
-              <Link
-                href="/contact"
-                className="btn-outline"
-                style={{ minHeight: 56, padding: "0 20px 0 22px", justifyContent: "center" }}
-              >
-                <span>Contact Us</span>
-                <ArrowIcon color="dark" />
-              </Link>
-            </div>
-          </>
-        )}
+          <Link
+            href="/contact"
+            className="btn-outline"
+            style={{ minHeight: 56, padding: "0 20px 0 22px", justifyContent: "center" }}
+          >
+            <span>Contact Us</span>
+            <ArrowIcon color="dark" />
+          </Link>
+        </div>
       </div>
     </nav>
   );
@@ -1199,7 +1171,7 @@ export default function ContactClient({ initialStep = "select" }: { initialStep?
 
   return (
     <>
-      {isMobile ? <MobileHeader /> : <SiteNavbar isMobile={isMobile} />}
+      {isMobile ? <MobileHeader /> : <SiteNavbar />}
       <main style={{ background: isMobile ? "#f5f5f5" : "#fff", overflowX: "clip" }}>
         {step === "select" && <SelectionView onSelect={handleSelect} isMobile={isMobile} />}
         {step === "restaurant" && <RestaurantForm onBack={handleBack} isMobile={isMobile} />}

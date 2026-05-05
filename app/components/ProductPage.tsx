@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
+import BottomBlurController from "./BottomBlurController";
 import FooterSection from "./FooterSection";
 import HeroScrollSection from "./HeroScrollSection";
 import HomeMidCtaSection from "./HomeMidCtaSection";
@@ -540,7 +541,13 @@ function SiteHeader({ activeHref }: { activeHref: string }) {
   return (
     <>
       <div className={styles.desktopHeaderWrap}>
-        <nav className={styles.desktopHeader}>
+        <nav
+          className={styles.desktopHeader}
+          style={{
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+          }}
+        >
           <div className={styles.desktopHeaderInner}>
             <Link href="/" className={styles.logoLink} aria-label="Pixtron home">
               <Image
@@ -603,12 +610,15 @@ function HighlightHeadingView({
 
 function PageShell({ config, children }: { config: ProductPageConfig; children: React.ReactNode }) {
   return (
-    <div className={styles.pageRoot}>
+    <>
       <SiteHeader activeHref={config.activeHref} />
-      <main className={styles.mainContent}>{children}</main>
-      <HomeMidCtaSection />
-      <FooterSection />
-    </div>
+      {config.kind === "custom" ? <BottomBlurController hiddenUntilY={80} /> : null}
+      <div className={styles.pageRoot}>
+        <main className={styles.mainContent}>{children}</main>
+        <HomeMidCtaSection />
+        <FooterSection />
+      </div>
+    </>
   );
 }
 

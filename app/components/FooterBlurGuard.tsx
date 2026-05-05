@@ -29,6 +29,7 @@ export default function FooterBlurGuard({
         if (entry.isIntersecting) {
           setOverlayState(true);
         } else {
+          body.dataset.footerBlurDisabled = "false";
           blurEl.style.opacity = "";
           blurEl.style.visibility = "";
           blurEl.style.backdropFilter = "";

@@ -53,6 +53,203 @@
   .mobile-mid-cta { display: block !important; }
 }
 
+.mobile-process-stacking-section {
+  --process-card-height: 188px;
+  --process-card-top-offset: 46px;
+  --process-card-gap: 4px;
+}
+
+.mobile-process-card-stack {
+  width: 100%;
+  max-width: 361px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(var(--process-card-count), var(--process-card-height));
+  gap: var(--process-card-gap);
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0 0 72px;
+}
+
+.mobile-process-stack-card {
+  position: sticky;
+  top: var(--process-card-sticky-top);
+  padding-top: calc(var(--process-card-index) * var(--process-card-top-offset));
+}
+
+.mobile-process-stack-card-content {
+  min-height: var(--process-card-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border: 1px solid #e0dfdf;
+  border-radius: 6px;
+  background: #f0f0f0;
+  box-shadow: 0 34px 30px -30px rgba(0,0,0,0.25);
+  box-sizing: border-box;
+  padding: 22px 20px;
+  transform-origin: 50% 0%;
+  will-change: transform;
+}
+
+.mobile-process-stack-card-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.mobile-process-stack-card-title,
+.mobile-process-stack-card-step,
+.mobile-process-stack-card-description {
+  margin: 0;
+}
+
+.mobile-process-stack-card-title {
+  color: #000000;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.mobile-process-stack-card-step {
+  flex: 0 0 auto;
+  color: #0f9d58;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.mobile-process-stack-card-description {
+  margin-top: 30px;
+  color: rgba(0,0,0,0.8);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+@supports (animation-timeline: view()) {
+  @keyframes mobileProcessCardScale {
+    to {
+      transform: scale(var(--process-card-target-scale));
+    }
+  }
+
+  .mobile-process-card-stack {
+    view-timeline-name: --mobile-process-cards-scroll;
+    view-timeline-inset: 20%;
+  }
+
+  .mobile-process-stack-card-content {
+    animation: mobileProcessCardScale linear forwards;
+    animation-timeline: --mobile-process-cards-scroll;
+    animation-range:
+      exit-crossing var(--process-card-start-range)
+      exit-crossing var(--process-card-end-range);
+  }
+}
+
+.mobile-real-impact {
+  --real-impact-card-height: 236px;
+  --real-impact-card-top-offset: 46px;
+  --real-impact-card-gap: 4px;
+}
+
+.mobile-real-impact-card-stack {
+  width: 100%;
+  max-width: 361px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(var(--real-impact-card-count), var(--real-impact-card-height));
+  gap: var(--real-impact-card-gap);
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0 0 120px;
+  isolation: isolate;
+}
+
+.mobile-real-impact-stack-card {
+  position: sticky;
+  top: var(--real-impact-card-sticky-top);
+  padding-top: calc(var(--real-impact-card-index) * var(--real-impact-card-top-offset));
+}
+
+.mobile-real-impact-stack-card-content {
+  min-height: var(--real-impact-card-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 40px;
+  border: 1px solid #e0dfdf;
+  border-radius: 6px;
+  background: #f0f0f0;
+  box-shadow: 0 34px 30px -30px rgba(0,0,0,0.25);
+  box-sizing: border-box;
+  padding: 24px;
+  transform-origin: 50% 0%;
+  will-change: transform;
+}
+
+.mobile-real-impact-stack-card-heading {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  white-space: nowrap;
+}
+
+.mobile-real-impact-stack-card-value,
+.mobile-real-impact-stack-card-label,
+.mobile-real-impact-stack-card-description {
+  margin: 0;
+}
+
+.mobile-real-impact-stack-card-value {
+  color: #000000;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.mobile-real-impact-stack-card-label {
+  color: rgba(0,0,0,0.5);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.mobile-real-impact-stack-card-description {
+  width: 100%;
+  color: #000000;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.3;
+  text-align: right;
+}
+
+@supports (animation-timeline: view()) {
+  @keyframes mobileRealImpactCardScale {
+    to {
+      transform: scale(var(--real-impact-card-target-scale));
+    }
+  }
+
+  .mobile-real-impact-card-stack {
+    view-timeline-name: --mobile-real-impact-cards-scroll;
+    view-timeline-inset: 20%;
+  }
+
+  .mobile-real-impact-stack-card-content {
+    animation: mobileRealImpactCardScale linear forwards;
+    animation-timeline: --mobile-real-impact-cards-scroll;
+    animation-range:
+      exit-crossing var(--real-impact-card-start-range)
+      exit-crossing var(--real-impact-card-end-range);
+  }
+}
+
 /* While intro hasn't finished: keep elements hidden + out of flow */
 /* :not(.intro-done) = zero timing gap, stops applying the same frame          */
 /* intro-done is added. visibility:hidden suppresses backdrop-filter too.      */

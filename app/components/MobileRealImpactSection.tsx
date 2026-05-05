@@ -1,18 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
-
-type CardLayout = {
-  insetX: number;
-  y: number;
-  opacity: number;
-  zIndex: number;
-  shadow: boolean;
-  valueColor: string;
-  labelColor: string;
-  descColor: string;
-};
 
 const STATS = [
   {
@@ -60,140 +48,22 @@ const STATS = [
   },
 ];
 
-const TRANSITION_WEIGHTS = [5, 5, 4, 4];
-const TOTAL_WEIGHT = TRANSITION_WEIGHTS.reduce((sum, value) => sum + value, 0);
-const CARD_Y = [0, 81, 162, 243];
-const CARD_INSET = [0, 16, 32, 48];
-const CARD_OPACITY = [1, 0.9, 0.8, 0.7];
+const MOBILE_NAV_HEIGHT = 96;
 
 function ArrowIcon() {
   // eslint-disable-next-line @next/next/no-img-element
   return <img src="/arrow-white.png" width={24} height={24} alt="" style={{ display: "block" }} />;
 }
 
-function ease(t: number) {
-  const clamped = Math.max(0, Math.min(1, t));
-  return clamped * clamped * (3 - 2 * clamped);
-}
-
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * t;
-}
-
-function mixColor(from: string, to: string, t: number) {
-  const parse = (v: string) => v.match(/[\d.]+/g)?.map(Number) ?? [0, 0, 0, 1];
-  const a = parse(from);
-  const b = parse(to);
-  return `rgba(${Math.round(lerp(a[0], b[0], t))},${Math.round(lerp(a[1], b[1], t))},${Math.round(lerp(a[2], b[2], t))},${lerp(a[3] ?? 1, b[3] ?? 1, t).toFixed(3)})`;
-}
-
-function buildLayout(activeIndex: number): CardLayout[] {
-  return STATS.map((_, index) => {
-    const depth = (index - activeIndex + STATS.length) % STATS.length;
-    const isActive = depth === 0;
-    return {
-      insetX: CARD_INSET[depth],
-      y: CARD_Y[depth],
-      opacity: CARD_OPACITY[depth],
-      zIndex: 20 - depth,
-      shadow: depth < 3,
-      valueColor: isActive ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)",
-      labelColor: isActive ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.1)",
-      descColor: isActive ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)",
-    };
-  });
-}
-
-function resolvePhase(progress: number) {
-  const cuts = [
-    TRANSITION_WEIGHTS[0] / TOTAL_WEIGHT,
-    (TRANSITION_WEIGHTS[0] + TRANSITION_WEIGHTS[1]) / TOTAL_WEIGHT,
-    (TRANSITION_WEIGHTS[0] + TRANSITION_WEIGHTS[1] + TRANSITION_WEIGHTS[2]) / TOTAL_WEIGHT,
-  ];
-
-  if (progress < cuts[0]) {
-    return { from: 0, to: 1, t: ease(progress / cuts[0]) };
-  }
-
-  if (progress < cuts[1]) {
-    return { from: 1, to: 2, t: ease((progress - cuts[0]) / (cuts[1] - cuts[0])) };
-  }
-
-  if (progress < cuts[2]) {
-    return { from: 2, to: 3, t: ease((progress - cuts[1]) / (cuts[2] - cuts[1])) };
-  }
-
-  return { from: 3, to: 3, t: 1 };
-}
-
 export default function MobileRealImpactSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>(Array(STATS.length).fill(null));
-  const valueRefs = useRef<(HTMLParagraphElement | null)[]>(Array(STATS.length).fill(null));
-  const labelRefs = useRef<(HTMLParagraphElement | null)[]>(Array(STATS.length).fill(null));
-  const descRefs = useRef<(HTMLParagraphElement | null)[]>(Array(STATS.length).fill(null));
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const applyLayouts = (from: CardLayout[], to: CardLayout[], t: number) => {
-      cardRefs.current.forEach((card, index) => {
-        if (!card) return;
-        const insetX = lerp(from[index].insetX, to[index].insetX, t);
-        const y = lerp(from[index].y, to[index].y, t);
-        const opacity = lerp(from[index].opacity, to[index].opacity, t);
-        const shadow = from[index].shadow || to[index].shadow;
-        const zIndex = Math.round(lerp(from[index].zIndex, to[index].zIndex, t));
-
-        card.style.left = `${insetX}px`;
-        card.style.right = `${insetX}px`;
-        card.style.transform = `translateY(${y}px)`;
-        card.style.opacity = String(opacity);
-        card.style.zIndex = String(zIndex);
-        card.style.boxShadow = shadow ? "0px 34px 30px -30px rgba(0,0,0,0.25)" : "none";
-
-        if (valueRefs.current[index]) valueRefs.current[index]!.style.color = mixColor(from[index].valueColor, to[index].valueColor, t);
-        if (labelRefs.current[index]) labelRefs.current[index]!.style.color = mixColor(from[index].labelColor, to[index].labelColor, t);
-        if (descRefs.current[index]) descRefs.current[index]!.style.color = mixColor(from[index].descColor, to[index].descColor, t);
-      });
-    };
-
-    const update = () => {
-      const rect = section.getBoundingClientRect();
-      const triggerLine = window.innerHeight * 0.62;
-      const raw = Math.max(0, Math.min(1, (triggerLine - rect.top) / Math.max(1, rect.height * 0.72)));
-      const phase = resolvePhase(raw);
-      applyLayouts(buildLayout(phase.from), buildLayout(phase.to), phase.t);
-    };
-
-    let rafId = 0;
-    let scheduled = false;
-    const scheduleUpdate = () => {
-      if (scheduled) return;
-      scheduled = true;
-      rafId = window.requestAnimationFrame(() => {
-        scheduled = false;
-        update();
-      });
-    };
-
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate);
-    scheduleUpdate();
-
-    return () => {
-      window.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("resize", scheduleUpdate);
-      window.cancelAnimationFrame(rafId);
-    };
-  }, []);
+  const cardCount = STATS.length;
 
   return (
     <section
-      ref={sectionRef}
       className="mobile-real-impact"
       style={{
+        "--real-impact-card-count": cardCount,
+        "--real-impact-card-sticky-top": `${MOBILE_NAV_HEIGHT}px`,
         display: "none",
         flexDirection: "column",
         alignItems: "center",
@@ -201,7 +71,7 @@ export default function MobileRealImpactSection() {
         padding: "56px 16px",
         background: "#fff",
         boxSizing: "border-box",
-      }}
+      } as React.CSSProperties}
     >
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24, width: "100%", textAlign: "center" }}>
         <h2 className="gradient-heading" style={{ margin: 0, width: "100%", fontSize: 30, fontWeight: 700, lineHeight: 1.2 }}>
@@ -212,66 +82,36 @@ export default function MobileRealImpactSection() {
         </p>
       </div>
 
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          maxWidth: 361,
-          height: 458,
-          flexShrink: 0,
-          isolation: "isolate",
-        }}
-      >
+      <ul className="mobile-real-impact-card-stack">
         {STATS.map((stat, index) => (
-          <div
+          <li
             key={stat.label}
-            ref={(el) => {
-              cardRefs.current[index] = el;
-            }}
+            className="mobile-real-impact-stack-card"
             style={{
-              position: "absolute",
-              left: CARD_INSET[index],
-              right: CARD_INSET[index],
-              top: 0,
-              transform: `translateY(${CARD_Y[index]}px)`,
-              zIndex: 20 - index,
-              opacity: CARD_OPACITY[index],
-              background: "#f0f0f0",
-              border: "1px solid #e0dfdf",
-              borderRadius: 6,
-              padding: 24,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              gap: 40,
-              boxSizing: "border-box",
-              boxShadow: index < 3 ? "0px 34px 30px -30px rgba(0,0,0,0.25)" : "none",
-              willChange: "transform, left, right, opacity",
-            }}
+              "--real-impact-card-index": index + 1,
+              "--real-impact-card-index0": index,
+              "--real-impact-card-start-range": `${(index / cardCount) * 80}%`,
+              "--real-impact-card-end-range": `${((index + 1) / cardCount) * 100}%`,
+              "--real-impact-card-target-scale": 1.1 - 0.1 * (cardCount - index),
+              zIndex: index + 1,
+            } as React.CSSProperties}
           >
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16, width: "100%", whiteSpace: "nowrap" }}>
-              <p
-                ref={(el) => { valueRefs.current[index] = el; }}
-                style={{ margin: 0, fontSize: 30, fontWeight: 600, lineHeight: 1.4, color: index === 0 ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)" }}
-              >
-                {stat.value}
+            <article className="mobile-real-impact-stack-card-content">
+              <div className="mobile-real-impact-stack-card-heading">
+                <p className="mobile-real-impact-stack-card-value">
+                  {stat.value}
+                </p>
+                <p className="mobile-real-impact-stack-card-label">
+                  {stat.label}
+                </p>
+              </div>
+              <p className="mobile-real-impact-stack-card-description">
+                {stat.description}
               </p>
-              <p
-                ref={(el) => { labelRefs.current[index] = el; }}
-                style={{ margin: 0, fontSize: 16, fontWeight: 500, lineHeight: 1.4, color: index === 0 ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.1)" }}
-              >
-                {stat.label}
-              </p>
-            </div>
-            <p
-              ref={(el) => { descRefs.current[index] = el; }}
-              style={{ margin: 0, width: "100%", fontSize: 18, fontWeight: 400, lineHeight: 1.3, color: index === 0 ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.1)", textAlign: "right" }}
-            >
-              {stat.description}
-            </p>
-          </div>
+            </article>
+          </li>
         ))}
-      </div>
+      </ul>
 
       <Link
         href="/signature-series"

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
 
 type ProcessStep = {
   step: string;
@@ -19,38 +18,10 @@ type ProcessColumn = {
   ctaVariant: "primary" | "outline";
 };
 
-type CardLayout = {
-  y: number;
-  insetX: number;
-  opacity: number;
-  zIndex: number;
-  shadow: boolean;
-  titleColor: string;
-  stepColor: string;
-  descOpacity: number;
-  descMaxHeight: number;
-  descMarginTop: number;
-};
-
 const FULL_BLEED_WIDTH = "100vw";
 const DIVIDER = "1px dashed rgba(0,0,0,0.2)";
 
 const MOBILE_NAV_HEIGHT = 96;
-const PINNED_SCROLL_DISTANCE = 180;
-const CARD_INSET = [0, 16, 32, 48];
-const CARD_OPACITY = [1, 0.9, 0.8, 0.7];
-const ACTIVE_CARD_HEIGHT = 184;
-const COLLAPSED_CARD_HEIGHT = 82;
-const CARD_PEEK = 40;
-const STACK_Y = [
-  0,
-  ACTIVE_CARD_HEIGHT - CARD_PEEK,
-  ACTIVE_CARD_HEIGHT - CARD_PEEK + COLLAPSED_CARD_HEIGHT - CARD_PEEK,
-  ACTIVE_CARD_HEIGHT - CARD_PEEK + (COLLAPSED_CARD_HEIGHT - CARD_PEEK) * 2,
-];
-const STACK_HEIGHT = STACK_Y[3] + COLLAPSED_CARD_HEIGHT;
-const TRANSITION_WEIGHTS = [5, 5, 4, 4];
-const TOTAL_WEIGHT = TRANSITION_WEIGHTS.reduce((sum, value) => sum + value, 0);
 
 const PROCESS_COLUMNS: ProcessColumn[] = [
   {
@@ -129,189 +100,26 @@ function ArrowIcon({ color }: { color: "white" | "dark" }) {
   return <img src={file} width={24} height={24} alt="" style={{ display: "block" }} />;
 }
 
-function ease(t: number) {
-  const clamped = Math.max(0, Math.min(1, t));
-  return clamped * clamped * (3 - 2 * clamped);
-}
-
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * t;
-}
-
-function mixColor(from: string, to: string, t: number) {
-  const parse = (value: string) => value.match(/\d+(\.\d+)?/g)?.map(Number) ?? [0, 0, 0, 1];
-  const a = parse(from);
-  const b = parse(to);
-  const alphaA = a[3] ?? 1;
-  const alphaB = b[3] ?? 1;
-
-  return `rgba(${Math.round(lerp(a[0], b[0], t))}, ${Math.round(lerp(a[1], b[1], t))}, ${Math.round(lerp(a[2], b[2], t))}, ${lerp(alphaA, alphaB, t).toFixed(3)})`;
-}
-
-function resolvePhase(progress: number, cardCount: number) {
-  const cuts = [
-    TRANSITION_WEIGHTS[0] / TOTAL_WEIGHT,
-    (TRANSITION_WEIGHTS[0] + TRANSITION_WEIGHTS[1]) / TOTAL_WEIGHT,
-    (TRANSITION_WEIGHTS[0] + TRANSITION_WEIGHTS[1] + TRANSITION_WEIGHTS[2]) / TOTAL_WEIGHT,
-  ];
-
-  if (progress < cuts[0]) {
-    return { from: 0, to: 1, t: ease(progress / cuts[0]) };
-  }
-
-  if (progress < cuts[1]) {
-    return { from: 1, to: 2, t: ease((progress - cuts[0]) / (cuts[1] - cuts[0])) };
-  }
-
-  if (progress < cuts[2]) {
-    return { from: 2, to: 3, t: ease((progress - cuts[1]) / (cuts[2] - cuts[1])) };
-  }
-
-  const lastIndex = Math.max(0, cardCount - 1);
-  return { from: lastIndex, to: lastIndex, t: 1 };
-}
-
-function buildLayout(activeIndex: number, cardCount: number): CardLayout[] {
-  return Array.from({ length: cardCount }, (_, index) => {
-    const depth = (index - activeIndex + cardCount) % cardCount;
-    const clampedDepth = Math.min(depth, CARD_INSET.length - 1);
-    return {
-      y: STACK_Y[clampedDepth],
-      insetX: CARD_INSET[clampedDepth],
-      opacity: CARD_OPACITY[clampedDepth],
-      zIndex: 20 - clampedDepth,
-      shadow: clampedDepth < 3,
-      titleColor:
-        clampedDepth === 0 ? "rgba(0,0,0,1)" :
-        clampedDepth === 1 ? "rgba(0,0,0,0.72)" :
-        clampedDepth === 2 ? "rgba(0,0,0,0.56)" :
-        "rgba(0,0,0,0.4)",
-      stepColor:
-        clampedDepth === 0 ? "rgba(15,157,88,1)" :
-        clampedDepth === 1 ? "rgba(15,157,88,0.9)" :
-        clampedDepth === 2 ? "rgba(15,157,88,0.74)" :
-        "rgba(15,157,88,0.56)",
-      descOpacity: clampedDepth === 0 ? 1 : 0,
-      descMaxHeight: clampedDepth === 0 ? 160 : 0,
-      descMarginTop: clampedDepth === 0 ? 32 : 0,
-    };
-  });
-}
-
 function MobilePinnedProcessBlock({ column }: { column: ProcessColumn }) {
-  const outerRef = useRef<HTMLDivElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>(Array(column.steps.length).fill(null));
-  const titleRefs = useRef<(HTMLParagraphElement | null)[]>(Array(column.steps.length).fill(null));
-  const stepRefs = useRef<(HTMLParagraphElement | null)[]>(Array(column.steps.length).fill(null));
-  const descWrapRefs = useRef<(HTMLDivElement | null)[]>(Array(column.steps.length).fill(null));
-  const descRefs = useRef<(HTMLParagraphElement | null)[]>(Array(column.steps.length).fill(null));
-
-  useEffect(() => {
-    const outer = outerRef.current;
-    const sticky = stickyRef.current;
-    if (!outer || !sticky) return;
-
-    const setHeight = () => {
-      sticky.style.height = "auto";
-      outer.style.height = `${sticky.offsetHeight + PINNED_SCROLL_DISTANCE}px`;
-    };
-
-    const applyLayouts = (from: CardLayout[], to: CardLayout[], t: number) => {
-      cardRefs.current.forEach((card, index) => {
-        if (!card) return;
-
-        const currentInsetX = lerp(from[index].insetX, to[index].insetX, t);
-        const currentY = lerp(from[index].y, to[index].y, t);
-        const currentOpacity = lerp(from[index].opacity, to[index].opacity, t);
-        const currentZ = Math.round(lerp(from[index].zIndex, to[index].zIndex, t));
-        const shadow = from[index].shadow || to[index].shadow;
-
-        card.style.left = `${currentInsetX}px`;
-        card.style.right = `${currentInsetX}px`;
-        card.style.transform = `translateY(${currentY}px)`;
-        card.style.opacity = String(currentOpacity);
-        card.style.zIndex = String(currentZ);
-        card.style.boxShadow = shadow ? "0px 34px 30px -30px rgba(0,0,0,0.25)" : "none";
-
-        const titleRef = titleRefs.current[index];
-        if (titleRef) {
-          titleRef.style.color = mixColor(from[index].titleColor, to[index].titleColor, t);
-        }
-
-        const stepRef = stepRefs.current[index];
-        if (stepRef) {
-          stepRef.style.color = mixColor(from[index].stepColor, to[index].stepColor, t);
-        }
-
-        const descWrapRef = descWrapRefs.current[index];
-        if (descWrapRef) {
-          descWrapRef.style.maxHeight = `${lerp(from[index].descMaxHeight, to[index].descMaxHeight, t)}px`;
-          descWrapRef.style.marginTop = `${lerp(from[index].descMarginTop, to[index].descMarginTop, t)}px`;
-        }
-
-        const descRef = descRefs.current[index];
-        if (descRef) {
-          descRef.style.opacity = `${lerp(from[index].descOpacity, to[index].descOpacity, t)}`;
-        }
-      });
-    };
-
-    const update = () => {
-      const rect = outer.getBoundingClientRect();
-      const raw = Math.max(0, Math.min(1, (MOBILE_NAV_HEIGHT - rect.top) / PINNED_SCROLL_DISTANCE));
-      const phase = resolvePhase(raw, column.steps.length);
-      applyLayouts(buildLayout(phase.from, column.steps.length), buildLayout(phase.to, column.steps.length), phase.t);
-    };
-
-    setHeight();
-    const ro = new ResizeObserver(() => {
-      setHeight();
-      update();
-    });
-    ro.observe(sticky);
-
-    let rafId = 0;
-    let scheduled = false;
-    const scheduleUpdate = () => {
-      if (scheduled) return;
-      scheduled = true;
-      rafId = window.requestAnimationFrame(() => {
-        scheduled = false;
-        update();
-      });
-    };
-
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate);
-    scheduleUpdate();
-
-    return () => {
-      window.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("resize", scheduleUpdate);
-      window.cancelAnimationFrame(rafId);
-      ro.disconnect();
-    };
-  }, [column]);
+  const cardCount = column.steps.length;
 
   return (
     <section
-      ref={outerRef}
+      className="mobile-process-stacking-section"
       style={{
-        position: "relative",
+        "--process-card-count": cardCount,
+        "--process-card-sticky-top": `${MOBILE_NAV_HEIGHT}px`,
         width: FULL_BLEED_WIDTH,
         marginLeft: "calc(50% - 50vw)",
         marginRight: "calc(50% - 50vw)",
         marginBottom: "24px",
         background: "#fff",
         borderTop: DIVIDER,
-      }}
+      } as React.CSSProperties}
     >
       <div
-        ref={stickyRef}
+        className="mobile-process-stacking-inner"
         style={{
-          position: "sticky",
-          top: MOBILE_NAV_HEIGHT,
           width: "100%",
           background: "#fff",
           display: "flex",
@@ -320,7 +128,6 @@ function MobilePinnedProcessBlock({ column }: { column: ProcessColumn }) {
           gap: 40,
           padding: "56px 20px 40px",
           boxSizing: "border-box",
-          overflow: "hidden",
           zIndex: 1,
           WebkitTextSizeAdjust: "100%",
           textSizeAdjust: "100%",
@@ -334,91 +141,37 @@ function MobilePinnedProcessBlock({ column }: { column: ProcessColumn }) {
           </div>
         </div>
 
-        <div style={{ position: "relative", width: "100%", maxWidth: 361, height: STACK_HEIGHT, flexShrink: 0 }}>
+        <ul className="mobile-process-card-stack">
           {column.steps.map((step, index) => (
-            <div
+            <li
               key={step.step}
-              ref={(el) => {
-                cardRefs.current[index] = el;
-              }}
+              className="mobile-process-stack-card"
               style={{
-                position: "absolute",
-                top: 0,
-                left: CARD_INSET[index],
-                right: CARD_INSET[index],
-                transform: `translateY(${STACK_Y[index]}px)`,
-                opacity: CARD_OPACITY[index],
-                zIndex: 20 - index,
-                background: "#f0f0f0",
-                border: "1px solid #e0dfdf",
-                borderRadius: 6,
-                padding: index === 0 ? "24px" : "24px 20px",
-                boxSizing: "border-box",
-                boxShadow: index < 3 ? "0px 34px 30px -30px rgba(0,0,0,0.25)" : "none",
-                willChange: "transform, left, right, opacity",
-              }}
+                "--process-card-index": index + 1,
+                "--process-card-index0": index,
+                "--process-card-start-range": `${(index / cardCount) * 80}%`,
+                "--process-card-end-range": `${((index + 1) / cardCount) * 100}%`,
+                "--process-card-target-scale": 1.1 - 0.1 * (cardCount - index),
+                zIndex: index + 1,
+              } as React.CSSProperties}
             >
-              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16 }}>
-                <p
-                  ref={(el) => {
-                    titleRefs.current[index] = el;
-                  }}
-                  style={{
-                    margin: 0,
-                    fontSize: 18,
-                    fontWeight: 600,
-                    lineHeight: 1.4,
-                    color: index === 0 ? "#000" : index === 1 ? "rgba(0,0,0,0.72)" : index === 2 ? "rgba(0,0,0,0.56)" : "rgba(0,0,0,0.4)",
-                  }}
-                >
-                  {step.title}
-                </p>
-                <p
-                  ref={(el) => {
-                    stepRefs.current[index] = el;
-                  }}
-                  style={{
-                    margin: 0,
-                    fontSize: 24,
-                    fontWeight: 700,
-                    lineHeight: 1.4,
-                    color: index === 0 ? "#0f9d58" : index === 1 ? "rgba(15,157,88,0.9)" : index === 2 ? "rgba(15,157,88,0.74)" : "rgba(15,157,88,0.56)",
-                    flexShrink: 0,
-                  }}
-                >
-                  {step.step}
-                </p>
-              </div>
+              <article className="mobile-process-stack-card-content">
+                <div className="mobile-process-stack-card-title-row">
+                  <p className="mobile-process-stack-card-title">
+                    {step.title}
+                  </p>
+                  <p className="mobile-process-stack-card-step">
+                    {step.step}
+                  </p>
+                </div>
 
-              <div
-                ref={(el) => {
-                  descWrapRefs.current[index] = el;
-                }}
-                style={{
-                  maxHeight: index === 0 ? 160 : 0,
-                  marginTop: index === 0 ? 32 : 0,
-                  overflow: "hidden",
-                }}
-              >
-                <p
-                  ref={(el) => {
-                    descRefs.current[index] = el;
-                  }}
-                  style={{
-                    margin: 0,
-                    fontSize: 18,
-                    fontWeight: 400,
-                    lineHeight: 1.45,
-                    color: "rgba(0,0,0,0.8)",
-                    opacity: index === 0 ? 1 : 0,
-                  }}
-                >
+                <p className="mobile-process-stack-card-description">
                   {step.description}
                 </p>
-              </div>
-            </div>
+              </article>
+            </li>
           ))}
-        </div>
+        </ul>
 
         <Link
           href={column.ctaHref}

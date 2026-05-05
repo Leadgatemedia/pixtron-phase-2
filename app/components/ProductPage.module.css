@@ -777,7 +777,12 @@
 }
 
 .faqItem summary span:last-child {
-  width: 16px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   text-align: center;
   font-size: 0;
   line-height: 1;
@@ -785,7 +790,9 @@
 
 .faqItem summary span:last-child::after {
   content: "+";
-  font-size: 16px;
+  font-size: 28px;
+  font-weight: 300;
+  color: #272727;
 }
 
 .faqItem[open] summary span:last-child::after {
