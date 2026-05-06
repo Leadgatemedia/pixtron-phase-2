@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 const STATS = [
   {
     value: "100%",
@@ -48,6 +50,11 @@ const STATS = [
 
 const MOBILE_NAV_HEIGHT = 96;
 
+function ArrowIcon() {
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src="/arrow-white.png" width={24} height={24} alt="" style={{ display: "block" }} />;
+}
+
 export default function MobileRealImpactSection() {
   const cardCount = STATS.length;
 
@@ -84,6 +91,8 @@ export default function MobileRealImpactSection() {
           gap: "var(--real-impact-card-gap)",
           gridTemplateRows:
             "repeat(var(--real-impact-card-count), minmax(var(--real-impact-card-height), auto))",
+          marginBottom: 0,
+          paddingBottom: 20,
         }}
       >
         {STATS.map((stat, index) => (
@@ -124,6 +133,21 @@ export default function MobileRealImpactSection() {
           </li>
         ))}
       </ul>
+
+      <Link
+        href="/signature-series"
+        className="btn-primary mobile-real-impact-cta"
+        style={{
+          width: "100%",
+          maxWidth: 361,
+          boxSizing: "border-box",
+          justifyContent: "space-between",
+          marginTop: 0,
+        }}
+      >
+        <span>Get Signature Series</span>
+        <ArrowIcon />
+      </Link>
     </section>
   );
 }
