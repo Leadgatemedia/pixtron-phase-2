@@ -33,6 +33,7 @@ type RestaurantPageConfig = {
     titleHighlight: string;
     body: string;
     image: string;
+    mobileImage?: string;
     button: ButtonConfig;
   };
   stats: Array<{
@@ -217,6 +218,7 @@ export const RESTAURANTS_PAGE: RestaurantPageConfig = {
     titleHighlight: "Dining Experience",
     body: "Elevate guest satisfaction with premium wet wipe sachets designed to enhance every dining moment with a refined, consistent experience.",
     image: `${PRODUCT_PAGE_ASSETS}/restaurant-hero.jpg`,
+    mobileImage: `${PRODUCT_PAGE_ASSETS}/restaurant-hero-mobile.png`,
     button: { label: "Get Signature Series", href: "/signature-series", variant: "primary" },
   },
   stats: [
@@ -324,7 +326,7 @@ export const RESTAURANTS_PAGE: RestaurantPageConfig = {
       {
         step: "03",
         title: "Serve with Ease",
-        body: "Your staff simply places the sachets during service - no extra training, no workflow changes.",
+        body: "Your staff simply places the sachets during service, no extra training, no workflow changes.",
       },
     ],
   },
@@ -637,7 +639,10 @@ function RestaurantHero({ config }: { config: RestaurantPageConfig["hero"] }) {
         <ProductButton button={config.button} width={260} />
       </div>
       <div className={styles.restaurantHeroImage}>
-        <img src={config.image} alt="A guest opening a Pixtron wipe sachet at a restaurant table" />
+        <picture>
+          {config.mobileImage ? <source media="(max-width: 767px)" srcSet={config.mobileImage} /> : null}
+          <img src={config.image} alt="A guest opening a Pixtron wipe sachet at a restaurant table" />
+        </picture>
       </div>
     </section>
   );
@@ -970,6 +975,7 @@ function RestaurantsPage({ config }: { config: RestaurantPageConfig }) {
       <MobileRealImpactSection />
       <JourneyScrollSection
         title={config.timeline.title}
+        mobileTitle="How Pixtron Works"
         body={config.timeline.body}
         steps={config.timeline.steps}
         button={config.timeline.button}
@@ -987,6 +993,7 @@ function SeriesPage({ config }: { config: SeriesPageConfig }) {
       <ValueSection heading={config.values.heading} rows={config.values.rows} />
       <JourneyScrollSection
         title={config.timeline.title}
+        mobileTitle="How Pixtron Works"
         body={config.timeline.body}
         steps={config.timeline.steps}
         button={config.timeline.button}

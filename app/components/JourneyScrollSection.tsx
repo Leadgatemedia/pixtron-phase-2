@@ -9,23 +9,17 @@ type ButtonConfig = { label: string; href: string; variant?: "primary" | "outlin
 
 type Props = {
   title: string;
+  mobileTitle?: string;
   body?: string;
   steps: JourneyStep[];
   button?: ButtonConfig;
 };
 
-// Heights from ProductPage.module.css grid layout
-const STEP_H_DESKTOP = 382;
-const STEP_H_MOBILE = 216;
-const TRACK_TAIL_DESKTOP = 160;
-const TRACK_TAIL_MOBILE = 64;
-const MOBILE_BREAKPOINT = 767;
-
 function ease(t: number) {
   return t * t * (3 - 2 * t);
 }
 
-export default function JourneyScrollSection({ title, body, steps, button }: Props) {
+export default function JourneyScrollSection({ title, mobileTitle, body, steps, button }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const strongRefs = useRef<(HTMLElement | null)[]>([]);
@@ -38,9 +32,7 @@ export default function JourneyScrollSection({ title, body, steps, button }: Pro
     const update = () => {
       const rect = section.getBoundingClientRect();
       const vh = window.innerHeight;
-      const mobile = window.innerWidth <= MOBILE_BREAKPOINT;
-      const stepH = mobile ? STEP_H_MOBILE : STEP_H_DESKTOP;
-      const totalTrack = steps.length * stepH - (mobile ? TRACK_TAIL_MOBILE : TRACK_TAIL_DESKTOP);
+      const totalTrack = Math.max(1, timeline.clientHeight);
 
       // 0 when section top enters viewport bottom, 1 when section bottom exits viewport top
       const totalTravel = rect.height + vh;
@@ -57,7 +49,8 @@ export default function JourneyScrollSection({ title, body, steps, button }: Pro
 
       strongRefs.current.forEach((el, i) => {
         if (!el) return;
-        el.style.color = progressHeight >= i * stepH ? "#0f9d58" : "rgba(0,0,0,0.3)";
+        const stepTop = el.closest("article")?.offsetTop ?? (i / Math.max(1, steps.length - 1)) * totalTrack;
+        el.style.color = progressHeight >= stepTop ? "#0f9d58" : "rgba(0,0,0,0.3)";
       });
     };
 
@@ -76,8 +69,17 @@ export default function JourneyScrollSection({ title, body, steps, button }: Pro
   return (
     <section ref={sectionRef} className={styles.timelineSection}>
       <div className={styles.sectionIntro}>
-        <h2>{title}</h2>
-        {body ? <p>{body}</p> : null}
+        <h2>
+          {mobileTitle ? (
+            <>
+              <span className={styles.desktopTimelineTitle}>{title}</span>
+              <span className={styles.mobileTimelineTitle}>{mobileTitle}</span>
+            </>
+          ) : (
+            title
+          )}
+        </h2>
+        {body ? <p className={styles.timelineIntroBody}>{body}</p> : null}
       </div>
 
       <div
@@ -107,7 +109,7 @@ export default function JourneyScrollSection({ title, body, steps, button }: Pro
       {button && (
         <Link
           href={button.href}
-          className={`${variant === "primary" ? "btn-primary" : "btn-outline"} ${styles.pageButton}`}
+          className={`${variant === "primary" ? "btn-primary" : "btn-outline"} ${styles.pageButton} ${styles.timelineButton}`}
           style={{ width: 259 }}
         >
           <span>{button.label}</span>
