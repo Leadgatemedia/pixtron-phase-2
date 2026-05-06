@@ -553,11 +553,12 @@ function TextareaField({
 function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: boolean }) {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [feedbackMessage, setFeedbackMessage] = useState("");
+  const isSubmittingRef = useRef(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (submitState === "sending") {
+    if (submitState === "sending" || isSubmittingRef.current) {
       return;
     }
 
@@ -575,18 +576,19 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
       return;
     }
 
+    isSubmittingRef.current = true;
     setSubmitState("sending");
     setFeedbackMessage("");
 
     try {
       await sendContactInquiry({
         variant: {
-          slug: "restaurants",
-          badgeLabel: "Restaurant",
-          inquiryLabel: "Restaurant Inquiry",
-          titleText: "Tell us about your restaurant",
+          slug: "signature",
+          badgeLabel: "Signature Series",
+          inquiryLabel: "Signature Series Inquiry",
+          titleText: "Signature Series contact form",
           businessFieldLabel: "Restaurant Name",
-          clientIntro: "your restaurant and guest experience goals",
+          clientIntro: "Signature Series wet wipe sachets for your restaurant",
         },
         name,
         email,
@@ -598,7 +600,7 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
       form.reset();
       setSubmitState("success");
       setFeedbackMessage(
-        "Thanks. Your restaurant inquiry has been sent. We'll be in touch soon. If you don't receive the confirmation in your inbox, feel free to check your spam folder.",
+        "Thanks. Your Signature Series inquiry has been sent. We'll be in touch soon. If you don't receive the confirmation in your inbox, feel free to check your spam folder.",
       );
     } catch (error) {
       console.error("EmailJS contact submission failed", error);
@@ -608,6 +610,8 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
           ? error.message
           : "We couldn't send your message right now. Please try again.",
       );
+    } finally {
+      isSubmittingRef.current = false;
     }
   };
 
@@ -849,11 +853,12 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
 function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: boolean }) {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [feedbackMessage, setFeedbackMessage] = useState("");
+  const isSubmittingRef = useRef(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (submitState === "sending") {
+    if (submitState === "sending" || isSubmittingRef.current) {
       return;
     }
 
@@ -871,18 +876,19 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
       return;
     }
 
+    isSubmittingRef.current = true;
     setSubmitState("sending");
     setFeedbackMessage("");
 
     try {
       await sendContactInquiry({
         variant: {
-          slug: "advertiser-brand",
-          badgeLabel: "Advertiser / Brand",
-          inquiryLabel: "Advertiser / Brand Inquiry",
-          titleText: "Tell us about your brand",
-          businessFieldLabel: "Restaurant Name",
-          clientIntro: "your brand, campaign goals, and advertising objectives",
+          slug: "custom",
+          badgeLabel: "Custom Series",
+          inquiryLabel: "Custom Series Inquiry",
+          titleText: "Custom Series contact form",
+          businessFieldLabel: "Business / Brand Name",
+          clientIntro: "a Custom Series branded sachet campaign",
         },
         name,
         email,
@@ -894,7 +900,7 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
       form.reset();
       setSubmitState("success");
       setFeedbackMessage(
-        "Thanks. Your advertiser inquiry has been sent. We'll be in touch soon. If you don't receive the confirmation in your inbox, feel free to check your spam folder.",
+        "Thanks. Your Custom Series inquiry has been sent. We'll be in touch soon. If you don't receive the confirmation in your inbox, feel free to check your spam folder.",
       );
     } catch (error) {
       console.error("EmailJS contact submission failed", error);
@@ -904,6 +910,8 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
           ? error.message
           : "We couldn't send your message right now. Please try again.",
       );
+    } finally {
+      isSubmittingRef.current = false;
     }
   };
 
@@ -996,7 +1004,7 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
             textAlign: isMobile ? "center" : "left",
           }}
         >
-          {isMobile ? "Tell us about your restaurant" : "Tell us about your brand"}
+          Tell us about your brand
         </h2>
 
         {/* Form */}
@@ -1041,9 +1049,9 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
             <InputField
               id="advertiser-business"
               name="business"
-              label="Restaurant Name"
+              label="Business / Brand Name"
               required
-              placeholder="Your restaurant name"
+              placeholder="Your business or brand name"
               isMobile={isMobile}
             />
             <TextareaField

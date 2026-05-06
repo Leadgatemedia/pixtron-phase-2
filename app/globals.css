@@ -56,7 +56,7 @@
 .mobile-process-stacking-section {
   --process-card-height: 188px;
   --process-card-top-offset: 46px;
-  --process-card-gap: 4px;
+  --process-card-gap: 16px;
 }
 
 .mobile-process-card-stack {
@@ -64,7 +64,10 @@
   max-width: 361px;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(var(--process-card-count), var(--process-card-height));
+  grid-template-rows: repeat(
+    var(--process-card-count),
+    minmax(var(--process-card-height), auto)
+  );
   gap: var(--process-card-gap);
   list-style: none;
   margin: 0 0 8px;
@@ -73,8 +76,10 @@
 
 .mobile-process-stack-card {
   position: sticky;
-  top: var(--process-card-sticky-top);
-  padding-top: calc(var(--process-card-index) * var(--process-card-top-offset));
+  top: calc(
+    var(--process-card-sticky-top) +
+    (var(--process-card-index0) * var(--process-card-top-offset))
+  );
 }
 
 .mobile-process-stack-card-content {
@@ -121,7 +126,7 @@
 }
 
 .mobile-process-stack-card-description {
-  margin-top: 30px;
+  margin-top: 22px;
   color: rgba(0,0,0,0.8);
   font-size: 18px;
   font-weight: 400;
@@ -152,7 +157,7 @@
 .mobile-real-impact {
   --real-impact-card-height: 236px;
   --real-impact-card-top-offset: 46px;
-  --real-impact-card-gap: 4px;
+  --real-impact-card-gap: 16px;
 }
 
 .mobile-real-impact-card-stack {
@@ -160,7 +165,10 @@
   max-width: 361px;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(var(--real-impact-card-count), var(--real-impact-card-height));
+  grid-template-rows: repeat(
+    var(--real-impact-card-count),
+    minmax(var(--real-impact-card-height), auto)
+  );
   gap: var(--real-impact-card-gap);
   list-style: none;
   margin: 0 0 8px;
@@ -170,8 +178,10 @@
 
 .mobile-real-impact-stack-card {
   position: sticky;
-  top: var(--real-impact-card-sticky-top);
-  padding-top: calc(var(--real-impact-card-index) * var(--real-impact-card-top-offset));
+  top: calc(
+    var(--real-impact-card-sticky-top) +
+    (var(--real-impact-card-index0) * var(--real-impact-card-top-offset))
+  );
 }
 
 .mobile-real-impact-stack-card-content {
@@ -180,7 +190,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 40px;
+  gap: 32px;
   border: 1px solid #e0dfdf;
   border-radius: 6px;
   background: #f0f0f0;
