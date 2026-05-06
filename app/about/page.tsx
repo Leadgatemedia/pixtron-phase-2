@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -33,6 +34,45 @@ function ArrowIcon({ src }: { src: string }) {
       className="btn-arrow-img"
       style={{ display: "block", transition: "filter 0.35s ease" }}
     />
+  );
+}
+
+function DesktopSectionEyebrow({ children }: { children: string }) {
+  const lineStyle: CSSProperties = {
+    width: 59,
+    height: 1,
+    background: "#0f9d58",
+    display: "block",
+    flexShrink: 0,
+  };
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 16,
+      }}
+    >
+      <span aria-hidden="true" style={lineStyle} />
+      <p
+        style={{
+          color: "#0f9d58",
+          fontSize: 20,
+          fontWeight: 600,
+          lineHeight: "28px",
+          letterSpacing: "0.5px",
+          textTransform: "uppercase",
+          whiteSpace: "nowrap",
+          margin: 0,
+        }}
+      >
+        {children}
+      </p>
+      <span aria-hidden="true" style={lineStyle} />
+    </div>
   );
 }
 
@@ -410,25 +450,7 @@ export default function AboutPage() {
                 alignItems: "flex-start",
               }}
             >
-              <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-                <svg width="59" height="16" viewBox="0 0 59 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", flexShrink: 0 }}>
-                  <path d="M59 6.5C59 6.83333 59 7.16667 59 7.5C58.0167 7.49167 57.0333 7.48333 56.05 7.475C38.35 7.325 20.65 7.175 2.95 7.025C1.96667 7.01667 0.98333 7.00833 0 7C0.98333 6.99167 1.96667 6.98333 2.95 6.975C20.65 6.825 38.35 6.675 56.05 6.525C57.0333 6.51667 58.0167 6.50833 59 6.5Z" fill="#0F9D58"/>
-                </svg>
-                <p
-                  style={{
-                    color: "#0f9d58",
-                    fontSize: 20,
-                    fontWeight: 600,
-                    lineHeight: "28px",
-                    letterSpacing: "0.5px",
-                    textTransform: "uppercase",
-                    whiteSpace: "nowrap",
-                    margin: 0,
-                  }}
-                >
-                  The Mission
-                </p>
-              </div>
+              <DesktopSectionEyebrow>The Mission</DesktopSectionEyebrow>
               <div
                 className="gradient-heading"
                 style={{ fontSize: 54, fontWeight: 300, lineHeight: 1.3, width: 1034 }}
@@ -454,25 +476,7 @@ export default function AboutPage() {
                 alignItems: "flex-end",
               }}
             >
-              <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-                <p
-                  style={{
-                    color: "#0f9d58",
-                    fontSize: 20,
-                    fontWeight: 600,
-                    lineHeight: "28px",
-                    letterSpacing: "0.5px",
-                    textTransform: "uppercase",
-                    whiteSpace: "nowrap",
-                    margin: 0,
-                  }}
-                >
-                  The Vision
-                </p>
-                <svg width="59" height="16" viewBox="0 0 59 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", flexShrink: 0, transform: "scaleX(-1)" }}>
-                  <path d="M59 6.5C59 6.83333 59 7.16667 59 7.5C58.0167 7.49167 57.0333 7.48333 56.05 7.475C38.35 7.325 20.65 7.175 2.95 7.025C1.96667 7.01667 0.98333 7.00833 0 7C0.98333 6.99167 1.96667 6.98333 2.95 6.975C20.65 6.825 38.35 6.675 56.05 6.525C57.0333 6.51667 58.0167 6.50833 59 6.5Z" fill="#0F9D58"/>
-                </svg>
-              </div>
+              <DesktopSectionEyebrow>The Vision</DesktopSectionEyebrow>
               <div
                 className="gradient-heading"
                 style={{
