@@ -134,6 +134,12 @@
   overflow: hidden;
 }
 
+.restaurantHeroImage picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .restaurantHeroImage img {
   display: block;
   width: 100%;
@@ -562,6 +568,14 @@
   font-size: 22px;
   line-height: 1.4;
   font-weight: 500;
+}
+
+.mobileTimelineTitle {
+  display: none;
+}
+
+.timelineButton {
+  display: inline-flex;
 }
 
 .impactStack {
@@ -1334,33 +1348,47 @@
   }
 
   .restaurantHero {
+    height: 816px;
     min-height: 816px;
     display: flex;
     flex-direction: column;
-    padding: 0 16px;
+    justify-content: space-between;
+    padding: 0 16px 16px;
   }
 
   .restaurantHeroCopy {
-    min-height: 360px;
-    justify-content: flex-start;
-    padding-top: 56px;
+    min-height: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 56px 0 16px;
     gap: 32px;
+    text-align: center;
   }
 
   .restaurantHeroCopy h1 {
-    font-size: 48px;
-    letter-spacing: -1px;
+    width: 100%;
+    font-size: 30px;
+    line-height: 1.2;
+    letter-spacing: 0;
   }
 
   .restaurantHeroCopy p {
+    width: 100%;
     margin: 0 0 16px;
-    font-size: 22px;
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: center;
   }
 
   .restaurantHeroImage {
+    flex: 1 1 auto;
     width: 100%;
-    min-height: 456px;
-    border-radius: 0;
+    min-height: 0;
+    border-radius: 6px;
+  }
+
+  .restaurantHeroImage img {
+    border-radius: 6px;
   }
 
   .statsSection {
@@ -1369,15 +1397,25 @@
     flex-direction: column;
     gap: 0;
     padding: 56px 16px;
-    border-top: 0;
+    border-top: 1px solid #e0dfdf;
+    border-bottom: 1px solid #e0dfdf;
   }
 
   .statCard {
-    gap: 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
     padding: 0 0 56px;
     margin-bottom: 56px;
     border-right: 0;
     border-bottom: 1px solid #e0dfdf;
+    text-align: center;
+  }
+
+  .statCard > div {
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 48px;
   }
 
   .statCard:last-child {
@@ -1386,16 +1424,28 @@
     border-bottom: 0;
   }
 
-  .statCard span {
-    margin-bottom: 24px;
+  .statCount {
+    margin-bottom: 0;
     font-size: 40px;
-    line-height: 48px;
+    line-height: 96px;
     letter-spacing: -2px;
+  }
+
+  .statDivider {
+    width: 100%;
+    max-width: 100%;
   }
 
   .statCard h2 {
     font-size: 30px;
-    line-height: 36px;
+    line-height: 32px;
+  }
+
+  .statCard p {
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: 500;
   }
 
   .valueTitleBand {
@@ -1531,44 +1581,76 @@
     align-items: stretch;
   }
 
+  .timelineSection .sectionIntro {
+    text-align: center;
+  }
+
+  .timelineSection .sectionIntro h2 {
+    font-size: 30px;
+    line-height: 1.2;
+  }
+
+  .desktopTimelineTitle,
+  .timelineIntroBody,
+  .timelineButton {
+    display: none;
+  }
+
+  .mobileTimelineTitle {
+    display: inline;
+  }
+
   .timeline {
     width: 100%;
-    height: calc(var(--steps) * 216px - 64px);
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    padding-left: 19px;
+    box-sizing: border-box;
   }
 
   .timelineTrack {
-    left: 3px;
+    left: 0;
     width: 3px;
+    background: #e7f5ee;
+    border-radius: 100px;
   }
 
   .timelineTrack::before {
     width: 3px;
     height: var(--progress-height);
+    border-radius: 100px;
   }
 
   .timelineStep,
   .timelineStep:nth-of-type(odd),
   .timelineStep:nth-of-type(even) {
-    left: 19px;
-    width: calc(100% - 19px);
-    top: calc(var(--step-index) * 216px);
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
     text-align: left;
     align-items: flex-start;
     gap: 24px;
   }
 
   .timelineStep strong {
-    font-size: 40px;
-    line-height: 48px;
+    font-size: 30px;
+    line-height: 36px;
   }
 
   .timelineStep h3 {
-    font-size: 22px;
-    line-height: 28px;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
   }
 
   .timelineStep p {
     font-size: 18px;
+    line-height: 26px;
+    font-weight: 400;
   }
 
   .faqSection {
@@ -1577,7 +1659,7 @@
 
   .faqSection h2 {
     width: 100%;
-    text-align: left;
+    text-align: center;
     font-size: 50px;
   }
 
