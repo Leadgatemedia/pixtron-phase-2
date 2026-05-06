@@ -613,6 +613,9 @@ function PageShell({ config, children }: { config: ProductPageConfig; children: 
     <>
       <SiteHeader activeHref={config.activeHref} />
       {config.kind === "custom" ? <BottomBlurController hiddenUntilY={80} /> : null}
+      {config.kind === "restaurant" ? (
+        <BottomBlurController hiddenUntilY={-1} desktopOnly />
+      ) : null}
       <div className={styles.pageRoot}>
         <main className={styles.mainContent}>{children}</main>
         <HomeMidCtaSection />

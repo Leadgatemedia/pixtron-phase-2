@@ -5,11 +5,13 @@ import { useEffect } from "react";
 type BottomBlurControllerProps = {
   hiddenUntilY?: number;
   blurPx?: number;
+  desktopOnly?: boolean;
 };
 
 export default function BottomBlurController({
   hiddenUntilY = 0,
   blurPx = 12,
+  desktopOnly = false,
 }: BottomBlurControllerProps) {
   useEffect(() => {
     const blurEl = document.getElementById("bottom-blur-el") as HTMLElement | null;
@@ -21,7 +23,9 @@ export default function BottomBlurController({
     const applyBlurState = () => {
       scheduled = false;
       const footerBlurDisabled = document.body.dataset.footerBlurDisabled === "true";
-      const shouldHideBlur = window.scrollY <= hiddenUntilY || footerBlurDisabled;
+      const belowDesktop = desktopOnly && window.innerWidth < 768;
+      const shouldHideBlur =
+        belowDesktop || window.scrollY <= hiddenUntilY || footerBlurDisabled;
       const opacity = shouldHideBlur ? "0" : "1";
       const visibility = shouldHideBlur ? "hidden" : "visible";
       const blurValue = shouldHideBlur ? "blur(0px)" : `blur(${blurPx}px)`;
@@ -58,7 +62,7 @@ export default function BottomBlurController({
       blurEl.style.backdropFilter = "blur(0px)";
       blurEl.style.setProperty("-webkit-backdrop-filter", "blur(0px)");
     };
-  }, [blurPx, hiddenUntilY]);
+  }, [blurPx, desktopOnly, hiddenUntilY]);
 
   return null;
 }

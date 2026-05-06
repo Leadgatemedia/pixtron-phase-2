@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import BottomBlurController from "../components/BottomBlurController";
 import FooterSection from "../components/FooterSection";
 import CoreValuesSection from "../components/CoreValuesSection";
 import MobileCoreValuesSection from "../components/MobileCoreValuesSection";
@@ -141,6 +142,7 @@ function SiteNavbar() {
 export default function AboutPage() {
   return (
     <>
+      <BottomBlurController hiddenUntilY={-1} desktopOnly />
       {/* Desktop navbar */}
       <div className="about-desktop-only">
         <SiteNavbar />
