@@ -92,9 +92,10 @@ export default function MobileHomeHero({
   const exitProgress = clamp((progress - 0.38) / 0.62);
   const watermarkX = -viewportW * 0.74 * ease(exitProgress);
   const watermarkOpacity = Math.max(0, 1 - (alignProgress * 0.2 + exitProgress * 0.85));
-  const widestWord = "REMEMBERED".length * 27;
+  const watermarkLetterWidth = Math.min(27, viewportW * 0.064);
+  const widestWord = "REMEMBERED".length * watermarkLetterWidth;
   const wordOffsets = ["SEEN", "TOUCHED", "REMEMBERED"].map((word) => {
-    const wordWidth = word.length * 27;
+    const wordWidth = word.length * watermarkLetterWidth;
     return -((widestWord - wordWidth) / 2) * ease(alignProgress);
   });
 
@@ -237,11 +238,12 @@ export default function MobileHomeHero({
           <div
             style={{
               position: "absolute",
-              left: "50%",
+              left: 0,
               top: "50%",
-              transform: `translate(calc(-50% + ${watermarkX}px), -50%)`,
+              width: "100vw",
+              transform: `translate(${watermarkX}px, -50%)`,
               color: "rgba(0,0,0,0.06)",
-              fontSize: 50,
+              fontSize: "clamp(42px, 12vw, 50px)",
               fontWeight: 500,
               lineHeight: 1.2,
               textAlign: "center",
