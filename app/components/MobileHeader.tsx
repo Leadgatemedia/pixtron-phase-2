@@ -173,7 +173,7 @@ export default function MobileHeader() {
             transition: "opacity 320ms cubic-bezier(0.22, 1, 0.36, 1), transform 360ms cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
-        <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           {NAV_ITEMS.map((item, index) =>
             item.available ? (
               <Link
@@ -186,9 +186,9 @@ export default function MobileHeader() {
                   justifyContent: "space-between",
                   color: "#000",
                   textDecoration: "none",
-                  fontSize: 24,
+                  fontSize: 18,
                   fontWeight: 500,
-                  lineHeight: "32px",
+                  lineHeight: "26px",
                   opacity: isOpen ? 1 : 0,
                   transform: isOpen ? "translateY(0px)" : "translateY(-12px)",
                   transition: itemTransition,
@@ -211,9 +211,9 @@ export default function MobileHeader() {
                   alignItems: "center",
                   justifyContent: "space-between",
                   color: "#000",
-                  fontSize: 24,
+                  fontSize: 18,
                   fontWeight: 500,
-                  lineHeight: "32px",
+                  lineHeight: "26px",
                   opacity: isOpen ? 1 : 0,
                   transform: isOpen ? "translateY(0px)" : "translateY(-12px)",
                   transition: itemTransition,
@@ -235,7 +235,7 @@ export default function MobileHeader() {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: 32,
+            gap: 24,
             alignItems: "center",
             justifyContent: "center",
             opacity: isOpen ? 1 : 0,
@@ -270,9 +270,9 @@ export default function MobileHeader() {
             <img src="/arrow-black.png" width={24} height={24} alt="" style={{ display: "block" }} />
           </Link>
 
-          {/* Links + copyright — no dividers, gap: 40px total */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 40, width: "100%" }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+          {/* Links + copyright — no dividers, gap: 32px total */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 32, width: "100%" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               <Link
                 href="#"
                 onClick={(e) => e.preventDefault()}

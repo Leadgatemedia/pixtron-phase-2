@@ -20,14 +20,14 @@ const VALUES = [
   },
 ];
 
-const FIGMA_SECTION_HEIGHT = 620;
+const FIGMA_SECTION_HEIGHT = 703;
 const ANIMATION_SCROLL_DISTANCE = 190;
 const MOBILE_NAV_HEIGHT = 96;
 const ANIMATION_START_LINE = 360;
-const TRACK_TOP = 124;
-const TRACK_HEIGHT = 360;
-const ICON_TOP = [100, 280, 460];
-const CONTENT_TOP = [116, 296, 476];
+const TRACK_TOP = 137;
+const TRACK_HEIGHT = 396;
+const ICON_TOP = [120, 315, 510];
+const CONTENT_TOP = [136, 330, 526];
 
 // Match desktop CoreValuesSection timing; only the fill axis changes on mobile.
 const STEP_IN = [0.05, 0.32, 0.59];
@@ -171,7 +171,7 @@ export default function MobileCoreValuesSection() {
             style={{
               position: "absolute",
               left: 16,
-              top: 41.43,
+              top: 48,
               width: "calc(100% - 32px)",
               fontSize: 30,
               fontWeight: 700,

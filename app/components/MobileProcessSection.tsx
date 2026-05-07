@@ -100,7 +100,7 @@ function ArrowIcon({ color }: { color: "white" | "dark" }) {
   return <img src={file} width={24} height={24} alt="" style={{ display: "block" }} />;
 }
 
-function MobilePinnedProcessBlock({ column }: { column: ProcessColumn }) {
+function MobilePinnedProcessBlock({ column, marginTopOffset = 0 }: { column: ProcessColumn; marginTopOffset?: number }) {
   const cardCount = column.steps.length;
 
   return (
@@ -113,6 +113,7 @@ function MobilePinnedProcessBlock({ column }: { column: ProcessColumn }) {
         marginLeft: "calc(50% - 50vw)",
         marginRight: "calc(50% - 50vw)",
         marginBottom: "24px",
+        marginTop: marginTopOffset,
         background: "#fff",
         borderTop: DIVIDER,
       } as React.CSSProperties}
@@ -186,6 +187,7 @@ function MobilePinnedProcessBlock({ column }: { column: ProcessColumn }) {
             borderRadius: 6,
             fontSize: 18,
             lineHeight: "30px",
+            marginTop: -68,
           }}
         >
           <span>{column.ctaLabel}</span>
@@ -233,7 +235,7 @@ export default function MobileProcessSection() {
       </div>
 
       <MobilePinnedProcessBlock column={PROCESS_COLUMNS[0]} />
-      <MobilePinnedProcessBlock column={PROCESS_COLUMNS[1]} />
+      <MobilePinnedProcessBlock column={PROCESS_COLUMNS[1]} marginTopOffset={-50} />
     </section>
   );
 }

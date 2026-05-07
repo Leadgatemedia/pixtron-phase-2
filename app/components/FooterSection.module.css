@@ -395,18 +395,25 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 24px;
+  border-top: 1px solid rgba(0,0,0,0.1);
 }
 
 .mobileFooterPolicies {
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: nowrap;
   gap: 16px;
 }
 
+.mobileFooterPolicies .footerPolicyLink {
+  text-decoration: none;
+}
+
 .mobileFooterCopyright {
-  text-align: center;
+  text-align: left;
 }
 
 .mobileFooterWordmark {
