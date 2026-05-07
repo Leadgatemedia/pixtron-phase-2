@@ -614,7 +614,7 @@ function PageShell({ config, children }: { config: ProductPageConfig; children: 
   return (
     <>
       <SiteHeader activeHref={config.activeHref} />
-      {config.kind === "custom" ? <BottomBlurController hiddenUntilY={80} /> : null}
+      {config.kind === "custom" ? <BottomBlurController hiddenUntilY={80} desktopOnly /> : null}
       {config.kind === "restaurant" ? (
         <BottomBlurController hiddenUntilY={-1} desktopOnly />
       ) : null}
