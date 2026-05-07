@@ -1150,8 +1150,9 @@
 
 .eyebrowLine span {
   width: 59px;
-  height: 1px;
-  background: #0f9d58;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .eyebrowLine p {
@@ -1850,13 +1851,25 @@
 
   .signatureProductShowcase .eyebrowLine span,
   .customProductShowcase .eyebrowLine span {
-    flex: 1 1 0;
+    flex: 0 0 auto;
     min-width: 0;
-    width: auto;
+    width: 42px;
   }
 
   .eyebrowLine span {
     width: 42px;
+    height: 14px;
+    background: none;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .eyebrowLine span svg {
+    display: block;
+    width: 42px;
+    height: 14px;
+    flex-shrink: 0;
   }
 
   .eyebrowLine p {
