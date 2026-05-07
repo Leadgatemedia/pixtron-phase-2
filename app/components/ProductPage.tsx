@@ -902,9 +902,13 @@ function CustomHero({ hero }: { hero: Extract<SeriesPageConfig["hero"], { type: 
   );
 }
 
-function ProductShowcaseSection({ showcase }: { showcase: ProductShowcase }) {
+function ProductShowcaseSection({ showcase, variant }: { showcase: ProductShowcase; variant?: "signature" | "custom" }) {
   return (
-    <section className={styles.productShowcase}>
+    <section
+      className={`${styles.productShowcase} ${variant === "signature" ? styles.signatureProductShowcase : ""} ${
+        variant === "custom" ? styles.customProductShowcase : ""
+      }`}
+    >
       <div className={styles.showcaseTop}>
         <div className={styles.eyebrowLine}>
           <span />
@@ -989,7 +993,7 @@ function SeriesPage({ config }: { config: SeriesPageConfig }) {
   return (
     <PageShell config={config}>
       {config.hero.type === "sachets" ? <SignatureHero hero={config.hero} /> : <CustomHero hero={config.hero} />}
-      <ProductShowcaseSection showcase={config.products} />
+      <ProductShowcaseSection showcase={config.products} variant={config.kind} />
       <ValueSection heading={config.values.heading} rows={config.values.rows} />
       <JourneyScrollSection
         title={config.timeline.title}
