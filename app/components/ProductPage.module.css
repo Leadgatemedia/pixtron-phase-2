@@ -1846,14 +1846,17 @@
   .signatureProductShowcase .eyebrowLine,
   .customProductShowcase .eyebrowLine {
     width: 100%;
-    gap: 16px;
+    display: grid;
+    grid-template-columns: minmax(24px, 1fr) auto minmax(24px, 1fr);
+    gap: 12px;
+    justify-content: center;
   }
 
   .signatureProductShowcase .eyebrowLine span,
   .customProductShowcase .eyebrowLine span {
-    flex: 0 0 auto;
+    justify-self: stretch;
     min-width: 0;
-    width: 42px;
+    width: 100%;
   }
 
   .eyebrowLine span {
@@ -1878,8 +1881,9 @@
 
   .signatureProductShowcase .eyebrowLine p,
   .customProductShowcase .eyebrowLine p {
-    flex: 0 0 auto;
-    font-size: 18px;
+    justify-self: center;
+    min-width: 0;
+    font-size: clamp(14px, 4vw, 18px);
     line-height: 28px;
     letter-spacing: 0.5px;
     white-space: nowrap;
