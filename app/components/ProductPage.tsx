@@ -911,9 +911,17 @@ function ProductShowcaseSection({ showcase, variant }: { showcase: ProductShowca
     >
       <div className={styles.showcaseTop}>
         <div className={styles.eyebrowLine}>
-          <span />
+          <span aria-hidden>
+            <svg width="59" height="16" viewBox="0 0 59 16" fill="none" aria-hidden>
+              <path d="M59 6.5C59 6.83333 59 7.16667 59 7.5C58.0167 7.49167 57.0333 7.48333 56.05 7.475C38.35 7.325 20.65 7.175 2.95 7.025C1.96667 7.01667 0.98333 7.00833 0 7C0.98333 6.99167 1.96667 6.98333 2.95 6.975C20.65 6.825 38.35 6.675 56.05 6.525C57.0333 6.51667 58.0167 6.50833 59 6.5Z" fill="#0F9D58" />
+            </svg>
+          </span>
           <p>{showcase.eyebrow}</p>
-          <span />
+          <span aria-hidden style={{ transform: "scaleX(-1)" }}>
+            <svg width="59" height="16" viewBox="0 0 59 16" fill="none" aria-hidden>
+              <path d="M59 6.5C59 6.83333 59 7.16667 59 7.5C58.0167 7.49167 57.0333 7.48333 56.05 7.475C38.35 7.325 20.65 7.175 2.95 7.025C1.96667 7.01667 0.98333 7.00833 0 7C0.98333 6.99167 1.96667 6.98333 2.95 6.975C20.65 6.825 38.35 6.675 56.05 6.525C57.0333 6.51667 58.0167 6.50833 59 6.5Z" fill="#0F9D58" />
+            </svg>
+          </span>
         </div>
         <h2>{showcase.title}</h2>
       </div>
