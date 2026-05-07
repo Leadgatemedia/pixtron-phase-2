@@ -853,7 +853,7 @@ function SignatureHero({ hero }: { hero: Extract<SeriesPageConfig["hero"], { typ
       <MobileHomeHero
         stripImage={hero.sachetStrip}
         stripWidth={940}
-        finalAlign="center"
+        finalAlign="edge"
         headlineBefore={hero.title.before}
         headlineHighlight={hero.title.highlight}
         body={hero.body}
