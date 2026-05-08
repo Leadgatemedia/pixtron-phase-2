@@ -16,9 +16,9 @@ const NAVBAR_HEIGHT = 88;
 const CTA_DROP = 200;
 
 const venues = [
-  { image: "/restaurant_clean.png", title: "Restaurants", subtitle: "Enhance dining with premium wipes",  startY: 0   },
-  { image: "/cafe_clean.png",       title: "Cafe's",       subtitle: "High-traffic lifestyle touchpoints", startY: 100 },
-  { image: "/hotel_clean.png",      title: "Hotels",       subtitle: "Premium hospitality amenities",      startY: 200 },
+  { image: "/restaurant_v2.png", title: "Restaurants", subtitle: "Enhance dining with premium wipes",  startY: 0   },
+  { image: "/cafe_v2.png",       title: "Cafe's",       subtitle: "High-traffic lifestyle touchpoints", startY: 100 },
+  { image: "/hotel_v2.png",      title: "Hotels",       subtitle: "Premium hospitality amenities",      startY: 200 },
 ];
 
 const BANDS = [

@@ -37,14 +37,14 @@ const STEPS = [
   },
 ];
 
-// p at which each step icon fills + content appears
-const STEP_IN  = [0.05, 0.28, 0.51, 0.74];
-// p at which the bar starts travelling toward the NEXT icon (hold before this)
-const STEP_OUT = [0.14, 0.37, 0.60, 0.83];
-// fraction along the bar track where each icon sits
-const BAR_POS  = [0, 1 / 3, 2 / 3, 1];
-const CONTENT_FADE = 0.03; // text starts fading in at icon activation and finishes quickly
-const STEP_SETTLE = 0.02; // brief hold after reveal before the bar travels onward
+// p at which icon i fills green + content starts fading in
+const STEP_IN  = [0.04, 0.30, 0.54, 0.78];
+// p at which bar starts travelling toward the NEXT icon
+const STEP_OUT = [0.16, 0.42, 0.66, 0.88];
+// Computed dynamically in update() to match actual flexbox icon positions
+const CONTENT_FADE = 0.04;
+// Bar parks just before the icon this many p-units before the icon fills
+const PRE_PAUSE = 0.04;
 
 const ZOOM = 0.8; // must match html zoom in layout.tsx
 
@@ -53,6 +53,7 @@ export default function HowItWorksScroll() {
   const stickyRef       = useRef<HTMLDivElement>(null);
   const timelineRef     = useRef<HTMLDivElement>(null);
   const barFillRef      = useRef<HTMLDivElement>(null);
+  const greyTrackRef    = useRef<HTMLDivElement>(null);
   const iconRefs    = useRef<(HTMLDivElement   | null)[]>(Array(4).fill(null));
   const iconImgRefs = useRef<(HTMLImageElement | null)[]>(Array(4).fill(null));
   const contentRefs = useRef<(HTMLDivElement   | null)[]>(Array(4).fill(null));
@@ -84,35 +85,79 @@ export default function HowItWorksScroll() {
       const p = Math.max(0, Math.min(1, scrolled / maxScroll));
 
       // ── Progress bar fill ──────────────────────────────────────────
+      // barFrac(i) = exact fraction of bar track to reach icon i's centre.
+      // Computed from actual timeline width so it never overshoots the icon.
+      // Sequence per step i > 0:
+      //   bar travels → parks at left-edge of icon (PRE_PAUSE) →
+      //   icon fills → bar sits at icon centre → content fades/holds →
+      //   bar travels to next icon.
       if (barFillRef.current) {
+        const timelineW = Math.max(1, timelineRef.current?.clientWidth ?? 1092);
+        // CSS width:X% on an absolute child is relative to the CONTAINER width
+        // (timelineW), not the track width. barFrac returns CSS-% fractions so
+        // that bar right-edge = left(48px) + fill*timelineW lands exactly on the
+        // icon centre — no overshoot.
+        const iconFrac = 24 / timelineW; // icon radius as CSS-% of container
+
+        // Icon i centre px = 24 + i*(timelineW-48)/3 (flexbox space-between)
+        // Bar width to reach it = centre - 48  →  fraction = (centre-48)/timelineW
+        const barFrac = (i: number): number => {
+          if (i === 0) return 0;
+          if (i === 3) return (timelineW - 96) / timelineW; // honours maxWidth constraint
+          const centre = 24 + i * (timelineW - 48) / 3;
+          return Math.max(0, (centre - 48) / timelineW);
+        };
+
         let fill = 0;
-        const timelineWidth = timelineRef.current?.clientWidth ?? 1092;
-        const trackWidth = Math.max(1, timelineWidth - 96);
-        const iconRadiusFraction = 24 / trackWidth;
 
-        if (p >= STEP_IN[0]) {
-          if (p >= STEP_IN[3]) {
-            fill = 1;
-          } else {
-            for (let i = 0; i < 3; i++) {
-              if (p < STEP_IN[i + 1]) {
-                const travelStart = Math.max(STEP_OUT[i], STEP_IN[i] + CONTENT_FADE + STEP_SETTLE);
-                const nextStop = Math.max(BAR_POS[i], BAR_POS[i + 1] - iconRadiusFraction);
+        if (p >= STEP_IN[3]) {
+          fill = barFrac(3); // = 1
+        } else {
+          for (let i = 0; i < 4; i++) {
+            const arrive = i === 0 ? STEP_IN[0] : STEP_IN[i] - PRE_PAUSE;
 
-                if (p < travelStart) {
-                  // hold: bar stays at current icon
-                  fill = BAR_POS[i];
-                } else {
-                  // travel: bar moves toward the next icon, but stops just before it
-                  const dur = Math.max(0.0001, STEP_IN[i + 1] - travelStart);
-                  fill = BAR_POS[i] + (nextStop - BAR_POS[i]) * ease((p - travelStart) / dur);
-                }
-                break;
-              }
+            if (p < arrive) {
+              fill = i === 0 ? 0 : barFrac(i) - iconFrac;
+              break;
             }
+            if (p < STEP_IN[i]) {
+              // PRE_PAUSE: bar parked at icon i left-edge, icon not yet active
+              fill = i === 0 ? 0 : barFrac(i) - iconFrac;
+              break;
+            }
+            if (i === 3 || p < STEP_OUT[i]) {
+              // Icon i active; bar exactly at icon centre (icon circle covers any overshoot)
+              fill = barFrac(i);
+              break;
+            }
+            // Travelling from icon i toward left-edge of icon i+1
+            const nextArrive = STEP_IN[i + 1] - PRE_PAUSE;
+            if (p < nextArrive) {
+              const nextStop = barFrac(i + 1) - iconFrac;
+              const dur = Math.max(0.0001, nextArrive - STEP_OUT[i]);
+              fill = barFrac(i) + (nextStop - barFrac(i)) * ease((p - STEP_OUT[i]) / dur);
+              break;
+            }
+            // p >= nextArrive → inside next step's PRE_PAUSE, continue loop
           }
         }
+
         barFillRef.current.style.width = `${fill * 100}%`;
+
+        // Grey track: only extend as far as the current bar's DESTINATION icon.
+        // While bar is parked at an icon: grey = same as green → no grey beyond icon.
+        // While bar is travelling toward icon i+1: grey = barFrac(i+1) → shows
+        // the upcoming segment so the bar appears to fill it in.
+        if (greyTrackRef.current) {
+          let greyFill = fill; // default: match green exactly (no visible grey ahead)
+          for (let i = 0; i < 3; i++) {
+            if (p >= STEP_OUT[i] && p < STEP_IN[i + 1] - PRE_PAUSE) {
+              greyFill = barFrac(i + 1); // reveal only the next segment
+              break;
+            }
+          }
+          greyTrackRef.current.style.width = `${greyFill * 100}%`;
+        }
       }
 
       // ── Per-step updates ───────────────────────────────────────────
@@ -204,13 +249,15 @@ export default function HowItWorksScroll() {
             height:    48,
           }}
         >
-          {/* Grey track */}
+          {/* Grey track — driven by JS so it only shows up to the next icon */}
           <div
+            ref={greyTrackRef}
             style={{
               position:    "absolute",
               top:         "50%",
               left:        48,
-              right:       48,
+              width:       "0%",
+              maxWidth:    "calc(100% - 96px)",
               height:      3,
               background:  "#e7f5ee",
               borderRadius: 2,
