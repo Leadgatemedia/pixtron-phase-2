@@ -77,10 +77,10 @@ function SiteNavbar() {
             <Image
               src="/logo.png"
               alt="Pixtron"
-              width={82}
-              height={82}
+              width={86}
+              height={64}
               priority
-              style={{ width: "auto", height: 52 }}
+              style={{ width: "auto", height: 64 }}
             />
           </Link>
         </div>

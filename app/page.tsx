@@ -14,7 +14,6 @@ import MobileHomeHero from "./components/MobileHomeHero";
 import MobileHowItWorksSection from "./components/MobileHowItWorksSection";
 import MobileRealImpactSection from "./components/MobileRealImpactSection";
 import MobileWherePixtronWorksSection from "./components/MobileWherePixtronWorksSection";
-import MobileComparisonSection from "./components/MobileComparisonSection";
 import MobileProcessSection from "./components/MobileProcessSection";
 import HomeMidCtaSection from "./components/HomeMidCtaSection";
 
@@ -84,7 +83,7 @@ function Navbar() {
               width={86}
               height={64}
               priority
-              style={{ width: "auto", height: 52 }}
+              style={{ width: "auto", height: 64 }}
             />
           </Link>
         </div>
@@ -908,10 +907,6 @@ export default function HomePage() {
           <WherePixtronWorksScroll />
         </div>
         <MobileWherePixtronWorksSection />
-        <div className="desktop-comparison">
-          <ComparisonSection />
-        </div>
-        <MobileComparisonSection />
         <div className="desktop-process">
           <TheProcess />
         </div>
