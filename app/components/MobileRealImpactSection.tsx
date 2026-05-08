@@ -6,6 +6,11 @@ const STATS = [
   {
     value: "100%",
     label: "Ready to Serve",
+    desktopDescription: (
+      <>
+        No setup, No preparation <strong>simply place &amp; serve</strong>
+      </>
+    ),
     description: (
       <>
         No setup, No preparation
@@ -17,6 +22,11 @@ const STATS = [
   {
     value: "0",
     label: "Extra Staff Effort",
+    desktopDescription: (
+      <>
+        <strong>Fits seamlessly</strong> into your existing service flow
+      </>
+    ),
     description: (
       <>
         <strong>Fits seamlessly</strong>
@@ -28,6 +38,11 @@ const STATS = [
   {
     value: "Consistent",
     label: "Every Time",
+    desktopDescription: (
+      <>
+        <strong>Uniform quality and experience</strong> for every guest
+      </>
+    ),
     description: (
       <>
         <strong>Uniform quality and experience </strong>
@@ -38,6 +53,11 @@ const STATS = [
   {
     value: "Premium",
     label: "by Design",
+    desktopDescription: (
+      <>
+        Crafted to match modern <strong>hospitality standards</strong>
+      </>
+    ),
     description: (
       <>
         Crafted to match modern
@@ -50,37 +70,55 @@ const STATS = [
 
 const MOBILE_NAV_HEIGHT = 96;
 
+type MobileRealImpactSectionProps = {
+  desktopMode?: boolean;
+};
+
 function ArrowIcon() {
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src="/arrow-white.png" width={24} height={24} alt="" style={{ display: "block" }} />;
+  return <img src="/arrow-white.webp" width={24} height={24} alt="" style={{ display: "block" }} />;
 }
 
-export default function MobileRealImpactSection() {
+export default function MobileRealImpactSection({ desktopMode = false }: MobileRealImpactSectionProps) {
   const cardCount = STATS.length;
 
   return (
     <section
-      className="mobile-real-impact"
+      className={desktopMode ? "mobile-real-impact mobile-real-impact-desktop-fit" : "mobile-real-impact"}
       style={{
         "--real-impact-card-count": cardCount,
-        "--real-impact-card-sticky-top": `${MOBILE_NAV_HEIGHT}px`,
-        "--real-impact-card-height": "188px",
-        "--real-impact-card-top-offset": "46px",
+        "--real-impact-card-sticky-top": desktopMode ? "300px" : `${MOBILE_NAV_HEIGHT}px`,
+        "--real-impact-card-height": desktopMode ? "164px" : "188px",
+        "--real-impact-card-top-offset": desktopMode ? "42px" : "46px",
         "--real-impact-card-gap": "16px",
-        display: "none",
+        display: desktopMode ? "flex" : "none",
         flexDirection: "column",
         alignItems: "center",
-        gap: 28,
-        padding: "48px 16px",
+        gap: desktopMode ? 36 : 28,
+        padding: desktopMode ? "0 39px 112px" : "48px 16px",
         background: "#fff",
         boxSizing: "border-box",
       } as React.CSSProperties}
     >
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24, width: "100%", textAlign: "center" }}>
-        <h2 className="gradient-heading" style={{ margin: 0, width: "100%", fontSize: 30, fontWeight: 700, lineHeight: 1.2 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: desktopMode ? "center" : undefined,
+          gap: desktopMode ? 16 : 24,
+          width: "100%",
+          maxWidth: desktopMode ? 898 : undefined,
+          minHeight: desktopMode ? 210 : undefined,
+          padding: desktopMode ? "42px 39px 46px" : undefined,
+          boxSizing: "border-box",
+          textAlign: "center",
+        }}
+      >
+        <h2 className="gradient-heading" style={{ margin: 0, width: "100%", fontSize: desktopMode ? 60 : 30, fontWeight: 700, lineHeight: 1.2 }}>
           Real Impact, Real Results
         </h2>
-        <p style={{ margin: 0, width: "100%", fontSize: 18, fontWeight: 500, lineHeight: 1.5, color: "rgba(0,0,0,0.8)" }}>
+        <p style={{ margin: 0, width: "100%", fontSize: desktopMode ? 22 : 18, fontWeight: 500, lineHeight: desktopMode ? 1.4 : 1.5, color: desktopMode ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.8)" }}>
           Premium details that elevate guest satisfaction and dining perception
         </p>
       </div>
@@ -92,7 +130,8 @@ export default function MobileRealImpactSection() {
           gridTemplateRows:
             "repeat(var(--real-impact-card-count), minmax(var(--real-impact-card-height), auto))",
           marginBottom: 0,
-          paddingBottom: 20,
+          paddingBottom: desktopMode ? 56 : 20,
+          maxWidth: desktopMode ? 1120 : undefined,
         }}
       >
         {STATS.map((stat, index) => (
@@ -113,9 +152,9 @@ export default function MobileRealImpactSection() {
             <article
               className="mobile-real-impact-stack-card-content"
               style={{
-                gap: 24,
+                gap: desktopMode ? 32 : 24,
                 minHeight: "var(--real-impact-card-height)",
-                padding: "22px 20px",
+                padding: desktopMode ? "28px 32px" : "22px 20px",
               }}
             >
               <div className="mobile-real-impact-stack-card-heading">
@@ -127,7 +166,7 @@ export default function MobileRealImpactSection() {
                 </p>
               </div>
               <p className="mobile-real-impact-stack-card-description">
-                {stat.description}
+                {desktopMode ? stat.desktopDescription : stat.description}
               </p>
             </article>
           </li>
@@ -142,7 +181,7 @@ export default function MobileRealImpactSection() {
           maxWidth: 361,
           boxSizing: "border-box",
           justifyContent: "space-between",
-          marginTop: 0,
+          marginTop: desktopMode ? -44 : 0,
         }}
       >
         <span>Get Signature Series</span>

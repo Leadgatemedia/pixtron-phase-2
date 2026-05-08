@@ -4,22 +4,22 @@ const VENUES = [
   {
     title: "Restaurants",
     subtitle: "Enhance dining with premium wipes",
-    image: "/venues/restaurant-figma.png",
+    image: "/venues/restaurant-figma.webp",
   },
   {
     title: "Cafe's",
     subtitle: "High-traffic lifestyle touchpoints",
-    image: "/venues/cafe-figma.png",
+    image: "/venues/cafe-figma.webp",
   },
   {
     title: "Hotels",
     subtitle: "Premium hospitality amenities",
-    image: "/venues/hotels-figma.png",
+    image: "/venues/hotels-figma.webp",
   },
 ];
 
 function ArrowIcon({ color = "white" }: { color?: "white" | "dark" }) {
-  const file = color === "dark" ? "/arrow-black.png" : "/arrow-white.png";
+  const file = color === "dark" ? "/arrow-black.webp" : "/arrow-white.webp";
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={file} width={24} height={24} alt="" style={{ display: "block" }} />;
 }
@@ -104,6 +104,8 @@ export default function MobileWherePixtronWorksSection() {
             <img
               src={venue.image}
               alt={venue.title}
+              loading="lazy"
+              decoding="async"
               style={{
                 position: "absolute",
                 inset: 0,

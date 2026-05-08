@@ -242,6 +242,8 @@ export default function MobileHowItWorksSection() {
                   }}
                   src={index === 0 ? step.iconActive : step.iconInactive}
                   alt=""
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
                   style={{ width: 24, height: 24, display: "block" }}
                 />
               </div>

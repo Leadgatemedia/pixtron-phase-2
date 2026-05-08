@@ -15,7 +15,7 @@ const chartBars = [
 
 function ArrowIcon() {
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src="/arrow-black.png" width={24} height={24} alt="" style={{ display: "block" }} />;
+  return <img src="/arrow-black.webp" width={24} height={24} alt="" style={{ display: "block" }} />;
 }
 
 function GlassCard({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {

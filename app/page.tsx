@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { createPageMetadata } from "@/lib/seo";
+// Above-fold: loaded eagerly
 import HeroIntro from "./components/HeroIntro";
 import HeroScrollSection from "./components/HeroScrollSection";
-import HowItWorksScroll from "./components/HowItWorksScroll";
-import RealImpactScroll from "./components/RealImpactScroll";
-import WherePixtronWorksScroll from "./components/WherePixtronWorksScroll";
-import FooterSection from "./components/FooterSection";
-import ProcessScrollSection from "./components/ProcessScrollSection";
 import MobileHeader from "./components/MobileHeader";
 import MobileHomeHero from "./components/MobileHomeHero";
-import MobileHowItWorksSection from "./components/MobileHowItWorksSection";
-import MobileRealImpactSection from "./components/MobileRealImpactSection";
-import MobileWherePixtronWorksSection from "./components/MobileWherePixtronWorksSection";
-import MobileProcessSection from "./components/MobileProcessSection";
-import HomeMidCtaSection from "./components/HomeMidCtaSection";
+// Below-fold: code-split so the initial bundle stays small
+const HowItWorksScroll           = dynamic(() => import("./components/HowItWorksScroll"));
+const WherePixtronWorksScroll     = dynamic(() => import("./components/WherePixtronWorksScroll"));
+const MobileHowItWorksSection     = dynamic(() => import("./components/MobileHowItWorksSection"));
+const MobileRealImpactSection     = dynamic(() => import("./components/MobileRealImpactSection"));
+const MobileWherePixtronWorksSection = dynamic(() => import("./components/MobileWherePixtronWorksSection"));
+const MobileProcessSection        = dynamic(() => import("./components/MobileProcessSection"));
+const HomeMidCtaSection           = dynamic(() => import("./components/HomeMidCtaSection"));
+const FooterSection               = dynamic(() => import("./components/FooterSection"));
 
 export const metadata: Metadata = createPageMetadata({
   title: "Branding That People Touch, See and Smell",
@@ -32,16 +33,12 @@ const ARROW_DARK    = "dark";
 const ARROW_CONTACT = "dark";
 
 function ArrowIcon({ src }: { src: string }) {
-  const file = src === "white" ? "/arrow-white.png" : "/arrow-black.png";
+  const file = src === "white" ? "/arrow-white.webp" : "/arrow-black.webp";
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={file} width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block", transition: "filter 0.35s ease" }} />;
 }
 
 // ─── NAVBAR ──────────────────────────────────────────────────────────────────
-// Navbar logo + arrow assets (from Figma node 7102:107891)
-const NAV_LOGO_MASK = "https://www.figma.com/api/mcp/asset/d15125d9-8287-40ee-a5bc-1cf8fb64c799";
-const NAV_LOGO_IMG  = "https://www.figma.com/api/mcp/asset/6e0dc938-89d2-48b7-8b9e-6dc6a3bf1312";
-const NAV_ARROW     = "https://www.figma.com/api/mcp/asset/5322ed99-2a8c-452f-8c53-28967405df87";
 
 function Navbar() {
   return (
@@ -78,7 +75,7 @@ function Navbar() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
           <Link href="/" style={{ display: "inline-flex", alignItems: "center" }}>
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="Pixtron"
               width={86}
               height={64}
@@ -110,7 +107,7 @@ function Navbar() {
             style={{ minHeight: 56, padding: "0 20px 0 22px", justifyContent: "center" }}
           >
             <span>Contact Us</span>
-            <ArrowIcon src={NAV_ARROW} />
+            <ArrowIcon src={ARROW_CONTACT} />
           </Link>
         </div>
       </div>
@@ -231,79 +228,6 @@ function Hero() {
 
 
 // ─── COMPARISON SECTION ───────────────────────────────────────────────────────
-function TheProcess() {
-  const hospitality = [
-    {
-      step: "01",
-      title: "Fill the Form",
-      description:
-        "Fill out our quick form and tell us about your restaurant, location, and table setup.",
-      width: 526,
-    },
-    {
-      step: "02",
-      title: "Share Your Details",
-      description:
-        "Tell us your table count, location, and wipe preferences so we can set everything up perfectly.",
-      width: 473,
-    },
-    {
-      step: "03",
-      title: "Sit Back, We Deliver",
-      description:
-        "Pixtron delivers high-quality branded wet wipes directly to your restaurant on a regular schedule.",
-      width: 426,
-    },
-    {
-      step: "04",
-      title: "Delight Every Guest",
-      description:
-        "Your customers enjoy a clean, premium dining experience that elevates your restaurant's overall impression.",
-      width: 383,
-    },
-  ];
-
-  const advertisers = [
-    {
-      step: "01",
-      title: "Fill the Form",
-      description:
-        "Fill out our quick form, share your brand goals, and tell us which audience you want to reach.",
-      width: 526,
-    },
-    {
-      step: "02",
-      title: "Design Your Ad",
-      description:
-        "Work with our team to craft a bold, eye-catching ad placed directly on the wipe.",
-      width: 473,
-    },
-    {
-      step: "03",
-      title: "We Handle Everything",
-      description:
-        "We print, package, and distribute your ads to every partnered restaurant on your list.",
-      width: 426,
-    },
-    {
-      step: "04",
-      title: "Go Live & Get Seen",
-      description:
-        "Your brand lands in diners' hands at the table — personal, tactile, and impossible to ignore.",
-      width: 383,
-    },
-  ];
-
-  return (
-    <ProcessScrollSection
-      hospitality={hospitality}
-      advertisers={advertisers}
-      arrowDark={ARROW_DARK}
-      arrowWhite={ARROW_WHITE}
-    />
-  );
-}
-
 // ─── FOOTER ──────────────────────────────────────────────────────────────────
 function Footer() {
   const socialPlatforms = [
@@ -543,7 +467,7 @@ export default function HomePage() {
         </div>
         <MobileHowItWorksSection />
         <div className="desktop-real-impact">
-          <RealImpactScroll />
+          <MobileRealImpactSection desktopMode />
         </div>
         <MobileRealImpactSection />
         <div className="desktop-real-impact desktop-where-pixtron">
@@ -551,7 +475,7 @@ export default function HomePage() {
         </div>
         <MobileWherePixtronWorksSection />
         <div className="desktop-process">
-          <TheProcess />
+          <MobileProcessSection desktopMode />
         </div>
         <MobileProcessSection />
         <HomeMidCtaSection />

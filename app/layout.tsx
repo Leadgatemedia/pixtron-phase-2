@@ -8,6 +8,8 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -35,7 +37,7 @@ export const metadata: Metadata = {
       "Pixtron connects brands with restaurant and hospitality audiences through sensory media advertising that people can touch, see, and remember.",
     images: [
       {
-        url: "/logo.png",
+        url: "/logo.webp",
         width: 82,
         height: 82,
         alt: "Pixtron logo",
@@ -50,13 +52,16 @@ export const metadata: Metadata = {
       "Pixtron connects brands with restaurant and hospitality audiences through sensory media advertising that people can touch, see, and remember.",
     images: [
       {
-        url: "/logo.png",
+        url: "/logo.webp",
         alt: "Pixtron logo",
       },
     ],
   },
   icons: {
-    icon: "/favicon.png",
+    icon: [
+      { url: "/favicon.webp", type: "image/webp" },
+      { url: "/favicon.png",  type: "image/png"  },
+    ],
   },
 };
 

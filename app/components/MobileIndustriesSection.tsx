@@ -20,7 +20,7 @@ const INDUSTRIES = [
 
 function ArrowIcon({ variant = "white" }: { variant?: "white" | "black" }) {
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src={variant === "white" ? "/arrow-white.png" : "/arrow-black.png"} width={24} height={24} alt="" style={{ display: "block" }} />;
+  return <img src={variant === "white" ? "/arrow-white.webp" : "/arrow-black.webp"} width={24} height={24} alt="" style={{ display: "block" }} />;
 }
 
 function OpenIcon() {

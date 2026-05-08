@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 
-import BottomBlurController from "../components/BottomBlurController";
-import FooterSection from "../components/FooterSection";
-import CoreValuesSection from "../components/CoreValuesSection";
-import MobileCoreValuesSection from "../components/MobileCoreValuesSection";
+// Above-fold
 import MobileHeader from "../components/MobileHeader";
 import { createPageMetadata } from "@/lib/seo";
+// Below-fold — code-split
+import BottomBlurController from "../components/BottomBlurController";
+const FooterSection          = dynamic(() => import("../components/FooterSection"));
+const CoreValuesSection      = dynamic(() => import("../components/CoreValuesSection"));
+const MobileCoreValuesSection = dynamic(() => import("../components/MobileCoreValuesSection"));
 
 export const metadata: Metadata = createPageMetadata({
   title: "About Pixtron | Sensory Media Advertising",
@@ -23,7 +26,7 @@ const ARROW_CONTACT = "dark";
 const MOBILE_CONTENT_MAX = 361;
 
 function ArrowIcon({ src }: { src: string }) {
-  const file = src === "white" ? "/arrow-white.png" : "/arrow-black.png";
+  const file = src === "white" ? "/arrow-white.webp" : "/arrow-black.webp";
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -125,7 +128,7 @@ function SiteNavbar() {
             }}
           >
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="Pixtron"
               width={86}
               height={64}
@@ -272,7 +275,7 @@ export default function AboutPage() {
 
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/about/hero-image.png"
+              src="/about/hero-image.webp"
               alt="Pixtron advertising inside restaurants"
               style={{ width: 897, maxWidth: "100%", height: "auto", display: "block" }}
             />
@@ -631,7 +634,7 @@ export default function AboutPage() {
 
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/about/hero-image.png"
+              src="/about/hero-image.webp"
               alt="Pixtron advertising inside restaurants"
               style={{ width: "100%", maxWidth: MOBILE_CONTENT_MAX, height: "auto", display: "block", margin: "0 auto" }}
             />

@@ -84,7 +84,7 @@ export default function MobileHeader() {
         }}
       >
         <Link href="/" style={{ display: "flex", alignItems: "center", minHeight: 64 }}>
-          <Image src="/logo.png" alt="Pixtron" width={138} height={64} priority style={{ width: 86, height: 64 }} />
+          <Image src="/logo.webp" alt="Pixtron" width={138} height={64} priority style={{ width: 86, height: 64 }} />
         </Link>
 
         <button
@@ -267,7 +267,7 @@ export default function MobileHeader() {
           >
             <span>Contact Us</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/arrow-black.png" width={24} height={24} alt="" style={{ display: "block" }} />
+            <img src="/arrow-black.webp" width={24} height={24} alt="" style={{ display: "block" }} />
           </Link>
 
           {/* Links + copyright — no dividers, gap: 32px total */}

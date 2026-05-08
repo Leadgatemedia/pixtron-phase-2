@@ -115,7 +115,7 @@ export default function JourneyScrollSection({ title, mobileTitle, body, steps, 
           <span>{button.label}</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={variant === "primary" ? "/arrow-white.png" : "/arrow-black.png"}
+            src={variant === "primary" ? "/arrow-white.webp" : "/arrow-black.webp"}
             width={24}
             height={24}
             alt=""

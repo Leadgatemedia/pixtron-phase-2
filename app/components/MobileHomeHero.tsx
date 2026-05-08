@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const DEFAULT_SACHETS = [
-  "/sachets/sachet-1.png",
-  "/sachets/sachet-2.png",
-  "/sachets/sachet-4.png",
-  "/sachets/sachet-hotel.png",
-  "/sachets/sachet-3.png",
-  "/sachets/sachet-7.png",
-  "/sachets/sachet-5.png",
+  "/sachets/sachet-1.webp",
+  "/sachets/sachet-2.webp",
+  "/sachets/sachet-4.webp",
+  "/sachets/sachet-hotel.webp",
+  "/sachets/sachet-3.webp",
+  "/sachets/sachet-7.webp",
+  "/sachets/sachet-5.webp",
 ];
 
 const SACHET_W = 295.366;
@@ -41,7 +41,7 @@ type MobileHomeHeroProps = {
 };
 
 function ArrowIcon({ color }: { color: "white" | "dark" }) {
-  const file = color === "white" ? "/arrow-white.png" : "/arrow-black.png";
+  const file = color === "white" ? "/arrow-white.webp" : "/arrow-black.webp";
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={file} width={24} height={24} alt="" style={{ display: "block" }} />;
 }
@@ -290,6 +290,8 @@ export default function MobileHomeHero({
                     src={stripImage}
                     alt=""
                     draggable={false}
+                    loading="lazy"
+                    decoding="async"
                     style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
                   />
                 </div>
@@ -310,6 +312,8 @@ export default function MobileHomeHero({
                       src={src}
                       alt=""
                       draggable={false}
+                      loading="lazy"
+                      decoding="async"
                       style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                     />
                   </div>

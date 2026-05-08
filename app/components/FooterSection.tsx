@@ -45,21 +45,21 @@ function SoonBadge() {
 function InstagramDefaultIcon() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img alt="" src="/icons/social-instagram.svg" width={40} height={40} style={{ display: "block", flexShrink: 0 }} />
+    <img alt="" loading="lazy" decoding="async" src="/icons/social-instagram.svg" width={40} height={40} style={{ display: "block", flexShrink: 0 }} />
   );
 }
 
 function FacebookDefaultIcon() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img alt="" src="/icons/social-facebook.svg" width={33} height={33} style={{ display: "block", flexShrink: 0 }} />
+    <img alt="" loading="lazy" decoding="async" src="/icons/social-facebook.svg" width={33} height={33} style={{ display: "block", flexShrink: 0 }} />
   );
 }
 
 function TikTokDefaultIcon() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img alt="" src="/icons/social-tiktok.svg" width={23} height={30} style={{ display: "block", flexShrink: 0 }} />
+    <img alt="" loading="lazy" decoding="async" src="/icons/social-tiktok.svg" width={23} height={30} style={{ display: "block", flexShrink: 0 }} />
   );
 }
 
@@ -118,7 +118,7 @@ function InstagramHoverIcon() {
       />
       <div style={{ ...abs, top: "20.24%", right: "20.24%", bottom: "20.24%", left: "20.24%" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt="" src="/icons/social-instagram-hover-white.svg" style={absFill} />
+        <img alt="" loading="lazy" decoding="async" src="/icons/social-instagram-hover-white.svg" style={absFill} />
       </div>
     </div>
   );
@@ -129,7 +129,7 @@ function FacebookHoverIcon() {
     <div style={{ position: "relative", flexShrink: 0, width: 40, height: 40 }}>
       <div style={{ ...abs, top: "8.33%", right: "8.33%", bottom: "8.64%", left: "8.33%" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt="" src="/icons/social-facebook-hover-colored.svg" style={absFill} />
+        <img alt="" loading="lazy" decoding="async" src="/icons/social-facebook-hover-colored.svg" style={absFill} />
       </div>
     </div>
   );
@@ -140,15 +140,15 @@ function TikTokHoverIcon() {
     <div style={{ position: "relative", flexShrink: 0, width: 40, height: 40 }}>
       <div style={{ ...abs, top: "11.66%", right: "13.1%", bottom: "8.54%", left: "24.53%" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt="" src="/icons/social-tiktok-hover-r.svg" style={absFill} />
+        <img alt="" loading="lazy" decoding="async" src="/icons/social-tiktok-hover-r.svg" style={absFill} />
       </div>
       <div style={{ ...abs, top: "11.66%", right: "17.1%", bottom: "11.87%", left: "17.33%" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt="" src="/icons/social-tiktok-hover-b.svg" style={absFill} />
+        <img alt="" loading="lazy" decoding="async" src="/icons/social-tiktok-hover-b.svg" style={absFill} />
       </div>
       <div style={{ ...abs, top: "8.33%", right: "17.1%", bottom: "16.14%", left: "13.34%" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt="" src="/icons/social-tiktok-hover-c.svg" style={absFill} />
+        <img alt="" loading="lazy" decoding="async" src="/icons/social-tiktok-hover-c.svg" style={absFill} />
       </div>
     </div>
   );
@@ -159,7 +159,7 @@ function YoutubeHoverIcon() {
     <div style={{ position: "relative", flexShrink: 0, width: 40, height: 40 }}>
       <div style={{ ...abs, top: "20.71%", right: "8.34%", bottom: "20.94%", left: "8.34%" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt="" src="/icons/social-youtube-hover-colored.svg" style={absFill} />
+        <img alt="" loading="lazy" decoding="async" src="/icons/social-youtube-hover-colored.svg" style={absFill} />
       </div>
     </div>
   );
@@ -263,7 +263,7 @@ function DesktopFooterLayout() {
       <div className={styles.desktopFooterTop}>
         <div className={styles.desktopFooterCol}>
           <div className={styles.desktopBrandBlock}>
-            <Image src="/logo.png" alt="Pixtron" width={86} height={64} style={{ width: "auto", height: 52 }} />
+            <Image src="/logo.webp" alt="Pixtron" width={86} height={64} style={{ width: "auto", height: 52 }} />
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <a href="mailto:info@pixtron.net" className={styles.footerBigLink}>
                 info@pixtron.net
@@ -331,7 +331,7 @@ function MobileFooterLayout() {
     <section className={styles.mobileFooterShell}>
       <div className={styles.mobileFooterTop}>
         <div className={styles.mobileFooterBrandArea}>
-          <Image src="/logo.png" alt="Pixtron" width={111} height={83} className={styles.mobileFooterLogo} />
+          <Image src="/logo.webp" alt="Pixtron" width={111} height={83} className={styles.mobileFooterLogo} />
           <div className={styles.mobileFooterContactInfo}>
             <a href="mailto:info@pixtron.net" className={styles.footerBigLink}>
               info@pixtron.net

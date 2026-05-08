@@ -23,6 +23,10 @@ const DIVIDER = "1px dashed rgba(0,0,0,0.2)";
 
 const MOBILE_NAV_HEIGHT = 96;
 
+type MobileProcessSectionProps = {
+  desktopMode?: boolean;
+};
+
 const PROCESS_COLUMNS: ProcessColumn[] = [
   {
     label: "HOSPITALITY PARTNERS",
@@ -95,39 +99,50 @@ const PROCESS_COLUMNS: ProcessColumn[] = [
 ];
 
 function ArrowIcon({ color }: { color: "white" | "dark" }) {
-  const file = color === "white" ? "/arrow-white.png" : "/arrow-black.png";
+  const file = color === "white" ? "/arrow-white.webp" : "/arrow-black.webp";
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={file} width={24} height={24} alt="" style={{ display: "block" }} />;
 }
 
-function MobilePinnedProcessBlock({ column, marginTopOffset = 0 }: { column: ProcessColumn; marginTopOffset?: number }) {
+function MobilePinnedProcessBlock({
+  column,
+  marginTopOffset = 0,
+  desktopMode = false,
+}: {
+  column: ProcessColumn;
+  marginTopOffset?: number;
+  desktopMode?: boolean;
+}) {
   const cardCount = column.steps.length;
 
   return (
     <section
-      className="mobile-process-stacking-section"
+      className={desktopMode ? "mobile-process-stacking-section mobile-process-stacking-section-desktop" : "mobile-process-stacking-section"}
       style={{
         "--process-card-count": cardCount,
-        "--process-card-sticky-top": `${MOBILE_NAV_HEIGHT}px`,
-        width: FULL_BLEED_WIDTH,
-        marginLeft: "calc(50% - 50vw)",
-        marginRight: "calc(50% - 50vw)",
-        marginBottom: "24px",
+        "--process-card-sticky-top": desktopMode ? "314px" : `${MOBILE_NAV_HEIGHT}px`,
+        "--process-card-height": desktopMode ? "236px" : undefined,
+        width: desktopMode ? "100%" : FULL_BLEED_WIDTH,
+        marginLeft: desktopMode ? 0 : "calc(50% - 50vw)",
+        marginRight: desktopMode ? 0 : "calc(50% - 50vw)",
+        marginBottom: desktopMode ? 0 : "24px",
         marginTop: marginTopOffset,
         background: "#fff",
-        borderTop: DIVIDER,
+        borderTop: desktopMode ? "none" : DIVIDER,
+        minWidth: 0,
       } as React.CSSProperties}
     >
       <div
         className="mobile-process-stacking-inner"
         style={{
           width: "100%",
+          height: desktopMode ? "100%" : undefined,
           background: "#fff",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 28,
-          padding: "48px 20px 36px",
+          gap: desktopMode ? 30 : 28,
+          padding: desktopMode ? "46px 36px 56px" : "48px 20px 36px",
           boxSizing: "border-box",
           zIndex: 1,
           WebkitTextSizeAdjust: "100%",
@@ -179,7 +194,7 @@ function MobilePinnedProcessBlock({ column, marginTopOffset = 0 }: { column: Pro
           className={column.ctaVariant === "primary" ? "btn-primary" : "btn-outline"}
           style={{
             width: "100%",
-            maxWidth: 361,
+            maxWidth: desktopMode ? 500 : 361,
             minHeight: 64,
             boxSizing: "border-box",
             justifyContent: "space-between",
@@ -187,7 +202,7 @@ function MobilePinnedProcessBlock({ column, marginTopOffset = 0 }: { column: Pro
             borderRadius: 6,
             fontSize: 18,
             lineHeight: "30px",
-            marginTop: -68,
+            marginTop: desktopMode ? 16 : -68,
           }}
         >
           <span>{column.ctaLabel}</span>
@@ -198,44 +213,77 @@ function MobilePinnedProcessBlock({ column, marginTopOffset = 0 }: { column: Pro
   );
 }
 
-export default function MobileProcessSection() {
+export default function MobileProcessSection({ desktopMode = false }: MobileProcessSectionProps) {
   return (
     <section
-      className="mobile-process"
+      className={desktopMode ? "mobile-process mobile-process-desktop-fit" : "mobile-process"}
       style={{
-        display: "none",
+        display: desktopMode ? "flex" : "none",
         flexDirection: "column",
         alignItems: "center",
-        gap: 75,
-        padding: "0 16px 32px",
+        gap: desktopMode ? 0 : 75,
+        padding: desktopMode ? "0" : "0 16px 32px",
         background: "#fff",
         boxSizing: "border-box",
         width: "100%",
         isolation: "isolate",
       }}
     >
-      <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 56 }}>
+      <div
+        className={desktopMode ? "desktop-pinned-section-heading" : undefined}
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: desktopMode ? 0 : 56,
+          borderTop: desktopMode ? DIVIDER : undefined,
+          borderBottom: desktopMode ? DIVIDER : undefined,
+        }}
+      >
         <div
           style={{
             width: FULL_BLEED_WIDTH,
             marginLeft: "calc(50% - 50vw)",
             marginRight: "calc(50% - 50vw)",
             borderTop: DIVIDER,
+            display: desktopMode ? "none" : "block",
           }}
         />
 
-        <div style={{ width: "100%", maxWidth: 361, display: "flex", flexDirection: "column", alignItems: "center", gap: 24, textAlign: "center" }}>
-          <h2 className="gradient-heading" style={{ margin: 0, width: "100%", fontSize: 30, fontWeight: 700, lineHeight: 1.2 }}>
+        <div
+          style={{
+            width: "100%",
+            maxWidth: desktopMode ? 898 : 361,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: desktopMode ? 16 : 24,
+            padding: desktopMode ? 0 : 0,
+            boxSizing: "border-box",
+            textAlign: "center",
+          }}
+        >
+          <h2 className="gradient-heading" style={{ margin: 0, width: "100%", fontSize: desktopMode ? 60 : 30, fontWeight: 700, lineHeight: 1.2 }}>
             The Process
           </h2>
-          <p style={{ margin: 0, width: "100%", fontSize: 18, fontWeight: 500, lineHeight: 1.5, color: "rgba(0,0,0,0.8)" }}>
+          <p style={{ margin: 0, width: "100%", fontSize: desktopMode ? 22 : 18, fontWeight: 500, lineHeight: desktopMode ? 1.4 : 1.5, color: desktopMode ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.8)" }}>
             Simple steps to get started, whether you&apos;re a venue or an advertiser
           </p>
         </div>
       </div>
 
-      <MobilePinnedProcessBlock column={PROCESS_COLUMNS[0]} />
-      <MobilePinnedProcessBlock column={PROCESS_COLUMNS[1]} marginTopOffset={-50} />
+      {desktopMode ? (
+        <div className="mobile-process-desktop-columns">
+          <MobilePinnedProcessBlock column={PROCESS_COLUMNS[0]} desktopMode />
+          <MobilePinnedProcessBlock column={PROCESS_COLUMNS[1]} desktopMode />
+        </div>
+      ) : (
+        <>
+          <MobilePinnedProcessBlock column={PROCESS_COLUMNS[0]} />
+          <MobilePinnedProcessBlock column={PROCESS_COLUMNS[1]} marginTopOffset={-50} />
+        </>
+      )}
     </section>
   );
 }

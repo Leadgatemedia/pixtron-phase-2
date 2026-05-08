@@ -311,6 +311,8 @@ export default function HowItWorksScroll() {
                   ref={(el) => { iconImgRefs.current[i] = el; }}
                   src={step.iconInactive}
                   alt={step.title}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
                   style={{ width: 24, height: 24 }}
                 />
               </div>

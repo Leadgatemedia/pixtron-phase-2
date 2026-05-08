@@ -4,13 +4,13 @@ import { useEffect, useRef } from "react";
 
 // Sachet images in left-to-right visual order.
 const DEFAULT_SACHETS = [
-  "/sachets/sachet-1.png",
-  "/sachets/sachet-2.png",
-  "/sachets/sachet-4.png",
-  "/sachets/sachet-hotel.png",
-  "/sachets/sachet-3.png",
-  "/sachets/sachet-7.png",
-  "/sachets/sachet-5.png",
+  "/sachets/sachet-1.webp",
+  "/sachets/sachet-2.webp",
+  "/sachets/sachet-4.webp",
+  "/sachets/sachet-hotel.webp",
+  "/sachets/sachet-3.webp",
+  "/sachets/sachet-7.webp",
+  "/sachets/sachet-5.webp",
 ];
 
 const SACHET_W = 461;
