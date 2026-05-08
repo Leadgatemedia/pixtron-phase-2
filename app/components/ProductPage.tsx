@@ -515,7 +515,7 @@ export const CUSTOM_SERIES_PAGE: SeriesPageConfig = {
 function ArrowIcon({ white = false }: { white?: boolean }) {
   return (
     <img
-      src={white ? "/arrow-white.png" : "/arrow-black.png"}
+      src={white ? "/arrow-white.webp" : "/arrow-black.webp"}
       width={24}
       height={24}
       alt=""
@@ -553,7 +553,7 @@ function SiteHeader({ activeHref }: { activeHref: string }) {
           <div className={styles.desktopHeaderInner}>
             <Link href="/" className={styles.logoLink} aria-label="Pixtron home">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Pixtron"
                 width={86}
                 height={64}

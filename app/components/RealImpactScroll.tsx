@@ -5,6 +5,7 @@ import Link from "next/link";
 
 type CardLayout = {
   y: number;
+  scale: number;
   widthPct: number;
   cardBg: string;
   shadowAlpha: number;
@@ -77,9 +78,13 @@ const TOTAL_WEIGHT = TRANSITION_WEIGHTS.reduce((sum, value) => sum + value, 0);
 const PREVIOUS_OFFSET = 60;
 const FUTURE_OFFSET = 65;
 
+type RealImpactScrollProps = {
+  desktopMotion?: "default" | "mobile-stack";
+};
+
 function ArrowIcon() {
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src="/arrow-white.png" width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block", transition: "filter 0.35s ease" }} />;
+  return <img src="/arrow-white.webp" width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block", transition: "filter 0.35s ease" }} />;
 }
 
 function ease(t: number) {
@@ -100,7 +105,7 @@ function mixColor(from: string, to: string, t: number) {
   return `rgba(${Math.round(lerp(a[0], b[0], t))}, ${Math.round(lerp(a[1], b[1], t))}, ${Math.round(lerp(a[2], b[2], t))}, ${lerp(alphaA, alphaB, t).toFixed(3)})`;
 }
 
-function buildLayout(activeIndex: number): CardLayout[] {
+function buildLayout(activeIndex: number, mobileStackScale = false): CardLayout[] {
   // Shift entire group down by activeIndex * PREVIOUS_OFFSET so the topmost
   // visible card is always anchored at y=0 (top:10 in container) — no drift.
   const groupOffset = activeIndex * PREVIOUS_OFFSET;
@@ -108,6 +113,7 @@ function buildLayout(activeIndex: number): CardLayout[] {
     if (index === activeIndex) {
       return {
         y: groupOffset,
+        scale: 1,
         widthPct: 100,
         cardBg: "rgba(233,233,233,1)",
         shadowAlpha: 0.25,
@@ -124,6 +130,7 @@ function buildLayout(activeIndex: number): CardLayout[] {
       const clamp = Math.min(distance, PAST_WIDTH_PCT.length - 1);
       return {
         y: groupOffset - distance * PREVIOUS_OFFSET,
+        scale: mobileStackScale ? Math.max(0.72, 1 - distance * 0.1) : 1,
         widthPct: PAST_WIDTH_PCT[clamp],
         cardBg: "rgba(233,233,233,1)",
         shadowAlpha: 0.18,
@@ -140,6 +147,7 @@ function buildLayout(activeIndex: number): CardLayout[] {
     const clamp = Math.min(distance, FUTURE_WIDTH_PCT.length - 1);
     return {
       y: groupOffset + distance * FUTURE_OFFSET,
+      scale: 1,
       widthPct: FUTURE_WIDTH_PCT[clamp],
       cardBg: FUTURE_CARD_BG[clamp],
       shadowAlpha: distance >= 3 ? 0 : 0.25,
@@ -174,7 +182,7 @@ function resolvePhase(progress: number) {
   return { from: 3, to: 3, t: 1 };
 }
 
-export default function RealImpactScroll() {
+export default function RealImpactScroll({ desktopMotion = "default" }: RealImpactScrollProps) {
   const outerRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>(Array(CARD_COUNT).fill(null));
@@ -190,13 +198,14 @@ export default function RealImpactScroll() {
     const setHeight = () => {
       const vh = window.innerHeight;
       const mobile = window.innerWidth <= 767;
+      const enhancedDesktopMotion = !mobile && desktopMotion === "mobile-stack";
       const actualZoom = mobile ? 1 : ZOOM;
       const stickyH = vh / actualZoom;
       // On mobile zoom=1 so sticky must be 100vh not 125vh — override JSX default
       if (mobile) sticky.style.height = `${stickyH}px`;
       // Mobile gets more scroll budget so each of the 4 transitions gets
       // ~280px of thumb travel (satisfying weight before the section unlocks).
-      const scrollMultiplier = mobile ? 2.8 : 1.9;
+      const scrollMultiplier = mobile ? 2.8 : enhancedDesktopMotion ? 2.45 : 1.9;
       outer.style.height = `${stickyH + stickyH * scrollMultiplier}px`;
     };
 
@@ -205,8 +214,10 @@ export default function RealImpactScroll() {
         if (!card) return;
 
         const widthPct = lerp(from[index].widthPct, to[index].widthPct, t);
+        const scale = lerp(from[index].scale, to[index].scale, t);
         const current: CardLayout = {
           y: lerp(from[index].y, to[index].y, t),
+          scale,
           widthPct,
           cardBg: mixColor(from[index].cardBg, to[index].cardBg, t),
           shadowAlpha: lerp(from[index].shadowAlpha, to[index].shadowAlpha, t),
@@ -221,7 +232,7 @@ export default function RealImpactScroll() {
         card.style.width = `${current.widthPct}%`;
         card.style.left = `${leftPct}%`;
         card.style.background = current.cardBg;
-        card.style.transform = `translateY(${current.y}px)`;
+        card.style.transform = `translateY(${current.y}px) scale(${current.scale.toFixed(3)})`;
         card.style.opacity = "1";
         card.style.zIndex = String(current.zIndex);
         card.style.boxShadow = `0px 10px 22px -14px rgba(0, 0, 0, ${current.shadowAlpha.toFixed(3)}), 0px 0px 44px rgba(0, 0, 0, ${current.shadowSpreadAlpha.toFixed(3)})`;
@@ -249,14 +260,15 @@ export default function RealImpactScroll() {
       // On mobile the lock period matches the viewport, so spread animation
       // across almost the full period so each card flip gets deliberate scroll travel.
       const mobile = window.innerWidth <= 767;
+      const enhancedDesktopMotion = !mobile && desktopMotion === "mobile-stack";
       const animationStart = mobile ? 0.03 : 0.06;
-      const animationEnd = mobile ? 0.92 : 0.38;
+      const animationEnd = mobile ? 0.92 : enhancedDesktopMotion ? 0.78 : 0.38;
       const shifted = Math.max(0, raw - animationStart);
       const normalized = shifted / Math.max(0.0001, animationEnd - animationStart);
       const animatedProgress = Math.max(0, Math.min(1, normalized));
       const phase = resolvePhase(animatedProgress);
-      const fromLayout = buildLayout(phase.from);
-      const toLayout = buildLayout(phase.to);
+      const fromLayout = buildLayout(phase.from, enhancedDesktopMotion);
+      const toLayout = buildLayout(phase.to, enhancedDesktopMotion);
 
       applyLayouts(fromLayout, toLayout, phase.t);
     };
@@ -272,7 +284,7 @@ export default function RealImpactScroll() {
       window.removeEventListener("scroll", update);
       ro.disconnect();
     };
-  }, []);
+  }, [desktopMotion]);
 
   return (
     <div ref={outerRef} style={{ position: "relative" }}>
@@ -326,7 +338,7 @@ export default function RealImpactScroll() {
                 borderRadius: 6,
                 overflow: "hidden",
                 padding: "22px 28px 18px",
-                transformOrigin: "center center",
+                transformOrigin: desktopMotion === "mobile-stack" ? "50% 0%" : "center center",
                 transform: `translateY(${index * FUTURE_OFFSET}px)`,
                 zIndex: index === 0 ? 20 : 12 - index,
                 willChange: "transform, background, box-shadow",

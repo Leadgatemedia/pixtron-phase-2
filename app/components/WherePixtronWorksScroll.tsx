@@ -4,21 +4,23 @@ import { useRef, useEffect } from "react";
 import Link from "next/link";
 
 function ArrowIcon({ color = "white" }: { color?: "white" | "dark" }) {
-  const file = color === "dark" ? "/arrow-black.png" : "/arrow-white.png";
+  const file = color === "dark" ? "/arrow-black.webp" : "/arrow-white.webp";
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={file} width={24} height={24} alt="" style={{ display: "block" }} />;
 }
 
-const CARD_H   = 668;
-const CARD_W   = 421;
+const CARD_H   = 374;
+const CARD_W   = 434;
 const CARD_GAP = 30;
 const NAVBAR_HEIGHT = 88;
+const PINNED_TITLE_HEIGHT = 210;
 const CTA_DROP = 200;
+const CARD_TOP_INSET = 28;
 
 const venues = [
-  { image: "/restaurant_clean.png", title: "Restaurants", subtitle: "Enhance dining with premium wipes",  startY: 0   },
-  { image: "/cafe_clean.png",       title: "Cafe's",       subtitle: "High-traffic lifestyle touchpoints", startY: 100 },
-  { image: "/hotel_clean.png",      title: "Hotels",       subtitle: "Premium hospitality amenities",      startY: 200 },
+  { image: "/restaurant_v2.webp", title: "Restaurants", subtitle: "Enhance dining with premium wipes",  startY: 0   },
+  { image: "/cafe_v2.webp",       title: "Cafe's",       subtitle: "High-traffic lifestyle touchpoints", startY: 100 },
+  { image: "/hotel_v2.webp",      title: "Hotels",       subtitle: "Premium hospitality amenities",      startY: 200 },
 ];
 
 const BANDS = [
@@ -48,13 +50,14 @@ export default function WherePixtronWorksScroll() {
     const setDimensions = () => {
       const cssZoom = parseFloat(document.documentElement.style.zoom) || 1;
       const viewportH = window.innerHeight / cssZoom;
-      const stickyH = Math.max(0, viewportH - NAVBAR_HEIGHT);
+      const stickyTop = NAVBAR_HEIGHT + PINNED_TITLE_HEIGHT;
+      const stickyH = Math.max(0, viewportH - stickyTop);
       sticky.style.height = `${stickyH}px`;
-      outer.style.height  = `${stickyH * 2.6 + NAVBAR_HEIGHT}px`;
+      outer.style.height  = `${stickyH * 2.6 + stickyTop}px`;
 
-      const contentH = content.offsetHeight;
+      const contentH = content.offsetHeight + CARD_TOP_INSET;
       const scale    = contentH > 0 ? Math.min(1, (stickyH - 16) / contentH) : 1;
-      // Anchor from top so card1 top is flush with the sticky top when progress=0
+      // Keep breathing room so the sticky clip never slices the card tops.
       content.style.transform = `translateX(-50%) scale(${scale})`;
     };
 
@@ -84,7 +87,9 @@ export default function WherePixtronWorksScroll() {
         card3Ref.current.style.top = `${venues[2].startY * (1 - easeInOut(t))}px`;
       }
 
-      const ctaProgress = Math.max(0, Math.min(1, progress / BANDS[1].to));
+      const ctaStart = BANDS[1].to;
+      const ctaEnd   = Math.min(1.0, ctaStart + 0.25);
+      const ctaProgress = Math.max(0, Math.min(1, (progress - ctaStart) / (ctaEnd - ctaStart)));
       cta.style.transform = `translateY(${CTA_DROP * (1 - easeInOut(ctaProgress))}px)`;
     };
 
@@ -100,8 +105,8 @@ export default function WherePixtronWorksScroll() {
 
   return (
     <div style={{ background: "#fff" }}>
-      {/* Heading scrolls normally — exits viewport before cards start sticking */}
-      <div style={{ background: "#fff", textAlign: "center", padding: "104px 39px 48px", display: "flex", flexDirection: "column", gap: 32 }}>
+      {/* Keep the heading pinned while the venue cards animate below it. */}
+      <div className="desktop-pinned-section-heading" style={{ background: "#fff", textAlign: "center", display: "flex", flexDirection: "column", gap: 32 }}>
         <h2 className="section-heading gradient-heading">Where Pixtron Works Best</h2>
         <p className="section-subtitle">
           From upscale restaurants to casual cafes, Pixtron fits seamlessly into any dining environment
@@ -112,14 +117,14 @@ export default function WherePixtronWorksScroll() {
       {/* Sticky panel — clips stagger overflow at viewport edges */}
       <div
         ref={stickyRef}
-        style={{ position: "sticky", top: NAVBAR_HEIGHT, background: "#fff", overflow: "hidden", minHeight: `calc(100vh - ${NAVBAR_HEIGHT}px)` }}
+        style={{ position: "sticky", top: NAVBAR_HEIGHT + PINNED_TITLE_HEIGHT, background: "#fff", overflow: "hidden", minHeight: `calc(100vh - ${NAVBAR_HEIGHT + PINNED_TITLE_HEIGHT}px)` }}
       >
         {/* Content — anchored to top so card1 aligns with viewport top on first pin */}
         <div
           ref={contentRef}
           style={{
             position:        "absolute",
-            top:             0,
+            top:             CARD_TOP_INSET,
             left:            "50%",
             transform:       "translateX(-50%)",
             transformOrigin: "top center",
@@ -188,7 +193,9 @@ function CardEl({ venue }: { venue: typeof venues[number] }) {
       <img
         src={venue.image}
         alt={venue.title}
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+        loading="lazy"
+        decoding="async"
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
       />
       {/* Figma: gradient h-274, p-32, gap-20, dark-to-transparent top-down */}
       <div

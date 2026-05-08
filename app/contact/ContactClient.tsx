@@ -29,7 +29,7 @@ function getFormFieldValue(formData: FormData, name: string) {
 }
 
 function ArrowIcon({ color = "dark" }: { color?: "white" | "dark" }) {
-  const file = color === "white" ? "/arrow-white.png" : "/arrow-black.png";
+  const file = color === "white" ? "/arrow-white.webp" : "/arrow-black.webp";
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -75,7 +75,7 @@ function SiteNavbar() {
         <div style={{ width: 480, display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
           <Link href="/" style={{ display: "flex", alignItems: "center" }}>
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="Pixtron"
               width={86}
               height={64}

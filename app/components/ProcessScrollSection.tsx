@@ -40,7 +40,8 @@ export default function ProcessScrollSection({
 
     const setHeight = () => {
       const stickyHeight = sticky.offsetHeight;
-      outer.style.height = `${stickyHeight + window.innerHeight * 1.35}px`;
+      const desktop = window.innerWidth > 1024;
+      outer.style.height = `${stickyHeight + window.innerHeight * (desktop ? 1.9 : 1.35)}px`;
     };
 
     const update = () => {
@@ -49,8 +50,9 @@ export default function ProcessScrollSection({
       const maxScroll = Math.max(1, outer.offsetHeight - stickyHeight);
       const scrolled = -rect.top;
       const raw = Math.max(0, Math.min(1, scrolled / maxScroll));
-      const animationStart = 0.14;
-      const animationEnd = 0.92;
+      const desktop = window.innerWidth > 1024;
+      const animationStart = desktop ? 0.08 : 0.14;
+      const animationEnd = desktop ? 0.96 : 0.92;
       const shifted = Math.max(0, raw - animationStart);
       const normalized = shifted / Math.max(0.0001, animationEnd - animationStart);
       setProgress(Math.max(0, Math.min(1, ease(normalized))));
@@ -188,6 +190,7 @@ export default function ProcessScrollSection({
                     arrowDark={arrowDark}
                     arrowWhite={arrowWhite}
                     progress={progress}
+                    mobileStackMotion={!isMobile}
                   />
                 </div>
                 <div style={{ padding: isMobile ? "24px 20px" : "64px 0" }}>
@@ -200,6 +203,7 @@ export default function ProcessScrollSection({
                     arrowDark={arrowDark}
                     arrowWhite={arrowWhite}
                     progress={progress}
+                    mobileStackMotion={!isMobile}
                   />
                 </div>
               </div>

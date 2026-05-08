@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from "react";
 
-const SACHET_IMAGE = "/sachets/sachets-hero-new.png";
+const SACHET_IMAGE = "/sachets/sachets-hero-new.webp";
 // Natural dimensions of the Figma composite image
 const IMG_W = 2073;
 const IMG_H = 322;
@@ -76,6 +76,8 @@ export default function SachetCarousel() {
             ref={imgRef}
             src={SACHET_IMAGE}
             alt="Pixtron sachet collection"
+            loading="lazy"
+            decoding="async"
             style={{
               height:      IMG_H,
               width:       IMG_W,

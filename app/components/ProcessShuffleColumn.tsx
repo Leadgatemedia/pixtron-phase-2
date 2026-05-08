@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 
 type ProcessStep = {
@@ -20,10 +20,12 @@ type ProcessShuffleColumnProps = {
   arrowWhite: string;
   progress?: number;
   stackAlign?: "center" | "left" | "right";
+  mobileStackMotion?: boolean;
 };
 
 type CardLayout = {
   y: number;
+  scale: number;
   widthPct: number;
   paddingY: number;
   minHeight: number;
@@ -102,7 +104,7 @@ function mixColor(from: string, to: string, t: number) {
 }
 
 function ArrowIcon({ src }: { src: string }) {
-  const file = src.includes("white") ? "/arrow-white.png" : "/arrow-black.png";
+  const file = src.includes("white") ? "/arrow-white.webp" : "/arrow-black.webp";
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={file} width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block", transition: "filter 0.35s ease" }} />;
 }
@@ -117,6 +119,7 @@ export default function ProcessShuffleColumn({
   arrowWhite,
   progress,
   stackAlign = "center",
+  mobileStackMotion = false,
 }: ProcessShuffleColumnProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>(Array(steps.length).fill(null));
@@ -125,13 +128,14 @@ export default function ProcessShuffleColumn({
   const descRefs = useRef<(HTMLParagraphElement | null)[]>(Array(steps.length).fill(null));
   const maxCardWidth = steps[0]?.width ?? 526;
 
-  const buildLayout = (activeIndex: number): CardLayout[] => {
+  const buildLayout = useCallback((activeIndex: number): CardLayout[] => {
     const groupOffset = activeIndex * PREVIOUS_OFFSET;
 
     return steps.map((_, index) => {
       if (index === activeIndex) {
         return {
           y: groupOffset,
+          scale: 1,
           widthPct: 100,
           paddingY: 32,
           minHeight: 156,
@@ -153,6 +157,7 @@ export default function ProcessShuffleColumn({
         const clampIndex = Math.min(distance, PAST_WIDTH_PCT.length - 1);
         return {
           y: groupOffset - distance * PREVIOUS_OFFSET,
+          scale: mobileStackMotion ? Math.max(0.72, 1 - distance * 0.1) : 1,
           widthPct: PAST_WIDTH_PCT[clampIndex],
           paddingY: 18,
           minHeight: 100,
@@ -173,6 +178,7 @@ export default function ProcessShuffleColumn({
       const clampIndex = Math.min(distance, FUTURE_CARD_BG.length - 1);
       return {
         y: groupOffset + FUTURE_STACK_Y[Math.min(distance, FUTURE_STACK_Y.length - 1)],
+        scale: 1,
         widthPct: FUTURE_WIDTH_PCT[Math.min(clampIndex, FUTURE_WIDTH_PCT.length - 1)],
         paddingY: 18,
         minHeight: 100,
@@ -188,13 +194,14 @@ export default function ProcessShuffleColumn({
         zIndex: 12 - distance,
       };
     });
-  };
+  }, [mobileStackMotion, steps]);
 
-  const applyLayouts = (from: CardLayout[], to: CardLayout[], t: number) => {
+  const applyLayouts = useCallback((from: CardLayout[], to: CardLayout[], t: number) => {
     cardRefs.current.forEach((card, index) => {
       if (!card) return;
 
       const currentY = lerp(from[index].y, to[index].y, t);
+      const currentScale = lerp(from[index].scale, to[index].scale, t);
       const currentWidthPct = lerp(from[index].widthPct, to[index].widthPct, t);
       const currentPaddingY = lerp(from[index].paddingY, to[index].paddingY, t);
       const currentMinHeight = lerp(from[index].minHeight, to[index].minHeight, t);
@@ -206,7 +213,7 @@ export default function ProcessShuffleColumn({
       const currentZ = Math.round(lerp(from[index].zIndex, to[index].zIndex, t));
       const leftPct = (100 - currentWidthPct) / 2;
 
-      card.style.transform = `translateY(${currentY}px)`;
+      card.style.transform = `translateY(${currentY}px) scale(${currentScale.toFixed(3)})`;
       card.style.width = `${currentWidthPct}%`;
       card.style.left = `${leftPct}%`;
       card.style.padding = `${currentPaddingY}px 24px`;
@@ -233,14 +240,14 @@ export default function ProcessShuffleColumn({
         descRef.style.opacity = `${currentDescOpacity}`;
       }
     });
-  };
+  }, []);
 
-  const applyProgress = (animatedProgress: number) => {
+  const applyProgress = useCallback((animatedProgress: number) => {
     const phase = resolvePhase(animatedProgress, steps.length);
     const fromLayout = buildLayout(phase.from);
     const toLayout = buildLayout(phase.to);
     applyLayouts(fromLayout, toLayout, phase.t);
-  };
+  }, [applyLayouts, buildLayout, steps.length]);
 
   useEffect(() => {
     if (typeof progress === "number") return;
@@ -269,12 +276,12 @@ export default function ProcessShuffleColumn({
     return () => {
       window.removeEventListener("scroll", update);
     };
-  }, [progress, steps]);
+  }, [applyProgress, progress]);
 
   useEffect(() => {
     if (typeof progress !== "number") return;
     applyProgress(Math.max(0, Math.min(1, progress)));
-  }, [progress, steps]);
+  }, [applyProgress, progress]);
 
   const stackMargin =
     stackAlign === "left"
@@ -339,6 +346,7 @@ export default function ProcessShuffleColumn({
               top: 0,
               left: `${(100 - FUTURE_WIDTH_PCT[Math.min(index, FUTURE_WIDTH_PCT.length - 1)]) / 2}%`,
               transform: `translateY(${FUTURE_STACK_Y[Math.min(index, FUTURE_STACK_Y.length - 1)]}px)`,
+              transformOrigin: mobileStackMotion ? "50% 0%" : "center center",
               willChange: "transform, background, box-shadow",
               boxShadow: index < 3 ? "0px 10px 22px -14px rgba(0,0,0,0.25), 0px 0px 36px rgba(0,0,0,0.05)" : "none",
             }}

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 function ArrowIcon({ color }: { color: "white" | "dark" }) {
-  const file = color === "white" ? "/arrow-white.png" : "/arrow-black.png";
+  const file = color === "white" ? "/arrow-white.webp" : "/arrow-black.webp";
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={file} width={24} height={24} alt="" style={{ display: "block" }} />;
 }
@@ -57,7 +57,7 @@ function DesktopMidCta() {
     <section
       className="desktop-mid-cta"
       style={{
-        padding: "56px 39px 56px",
+        padding: "40px 39px 56px",
         background: "#fff",
         boxSizing: "border-box",
       }}
@@ -66,8 +66,10 @@ function DesktopMidCta() {
         style={{
           position: "relative",
           width: "100%",
-          maxWidth: 1362,
-          height: 656,
+          maxWidth: "none",
+          aspectRatio: "1362 / 656",
+          minHeight: 460,
+          maxHeight: 656,
           margin: "0 auto",
           borderRadius: 12,
           overflow: "hidden",
@@ -81,7 +83,7 @@ function DesktopMidCta() {
             left: "50%",
             top: "50%",
             transform: "translate(-50%, -50%)",
-            width: 898,
+            width: "min(898px, calc(100% - 64px))",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -91,7 +93,7 @@ function DesktopMidCta() {
           }}
         >
           <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 48 }}>
-            <div style={{ width: "100%", fontSize: 60, fontWeight: 700, lineHeight: "72px", whiteSpace: "nowrap" }}>
+            <div style={{ width: "100%", fontSize: "clamp(42px, 3.2vw, 60px)", fontWeight: 700, lineHeight: 1.2, whiteSpace: "nowrap" }}>
               <span style={{ color: "#fff" }}>Elevate Every Guest Experience.<br /></span>
               <span style={{ background: "linear-gradient(90deg, #0D846E 0%, #40FB56 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Bring Premium to Every Table.</span>
             </div>

@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { createPageMetadata } from "@/lib/seo";
+// Above-fold: loaded eagerly
 import HeroIntro from "./components/HeroIntro";
 import HeroScrollSection from "./components/HeroScrollSection";
-import HowItWorksScroll from "./components/HowItWorksScroll";
-import RealImpactScroll from "./components/RealImpactScroll";
-import WherePixtronWorksScroll from "./components/WherePixtronWorksScroll";
-import FooterSection from "./components/FooterSection";
-import ProcessScrollSection from "./components/ProcessScrollSection";
 import MobileHeader from "./components/MobileHeader";
 import MobileHomeHero from "./components/MobileHomeHero";
-import MobileHowItWorksSection from "./components/MobileHowItWorksSection";
-import MobileRealImpactSection from "./components/MobileRealImpactSection";
-import MobileWherePixtronWorksSection from "./components/MobileWherePixtronWorksSection";
-import MobileProcessSection from "./components/MobileProcessSection";
-import HomeMidCtaSection from "./components/HomeMidCtaSection";
+// Below-fold: code-split so the initial bundle stays small
+const HowItWorksScroll           = dynamic(() => import("./components/HowItWorksScroll"));
+const WherePixtronWorksScroll     = dynamic(() => import("./components/WherePixtronWorksScroll"));
+const MobileHowItWorksSection     = dynamic(() => import("./components/MobileHowItWorksSection"));
+const MobileRealImpactSection     = dynamic(() => import("./components/MobileRealImpactSection"));
+const MobileWherePixtronWorksSection = dynamic(() => import("./components/MobileWherePixtronWorksSection"));
+const MobileProcessSection        = dynamic(() => import("./components/MobileProcessSection"));
+const HomeMidCtaSection           = dynamic(() => import("./components/HomeMidCtaSection"));
+const FooterSection               = dynamic(() => import("./components/FooterSection"));
 
 export const metadata: Metadata = createPageMetadata({
   title: "Branding That People Touch, See and Smell",
@@ -32,16 +33,12 @@ const ARROW_DARK    = "dark";
 const ARROW_CONTACT = "dark";
 
 function ArrowIcon({ src }: { src: string }) {
-  const file = src === "white" ? "/arrow-white.png" : "/arrow-black.png";
+  const file = src === "white" ? "/arrow-white.webp" : "/arrow-black.webp";
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={file} width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block", transition: "filter 0.35s ease" }} />;
 }
 
 // ─── NAVBAR ──────────────────────────────────────────────────────────────────
-// Navbar logo + arrow assets (from Figma node 7102:107891)
-const NAV_LOGO_MASK = "https://www.figma.com/api/mcp/asset/d15125d9-8287-40ee-a5bc-1cf8fb64c799";
-const NAV_LOGO_IMG  = "https://www.figma.com/api/mcp/asset/6e0dc938-89d2-48b7-8b9e-6dc6a3bf1312";
-const NAV_ARROW     = "https://www.figma.com/api/mcp/asset/5322ed99-2a8c-452f-8c53-28967405df87";
 
 function Navbar() {
   return (
@@ -78,7 +75,7 @@ function Navbar() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
           <Link href="/" style={{ display: "inline-flex", alignItems: "center" }}>
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="Pixtron"
               width={86}
               height={64}
@@ -110,7 +107,7 @@ function Navbar() {
             style={{ minHeight: 56, padding: "0 20px 0 22px", justifyContent: "center" }}
           >
             <span>Contact Us</span>
-            <ArrowIcon src={NAV_ARROW} />
+            <ArrowIcon src={ARROW_CONTACT} />
           </Link>
         </div>
       </div>
@@ -231,436 +228,6 @@ function Hero() {
 
 
 // ─── COMPARISON SECTION ───────────────────────────────────────────────────────
-function ComparisonSection() {
-  const glass: React.CSSProperties = {
-    backdropFilter: "blur(50px)",
-    WebkitBackdropFilter: "blur(50px)",
-    background: "rgba(255,255,255,0.05)",
-    border: "1px solid rgba(255,255,255,0.1)",
-    borderRadius: 12,
-    boxSizing: "border-box",
-  };
-
-  const yLabels = [
-    { label: "0",  top: 246 },
-    { label: "10", top: 186 },
-    { label: "20", top: 126 },
-    { label: "30", top: 66  },
-    { label: "40", top: 6   },
-  ];
-
-  // Grid line Y positions: 2.15%, 23.66%, 44.8%, 67.03%, 88.53% of 279px chart height
-  const gridLines = [6, 66, 125, 187, 247];
-
-  // All bars are #0F9D58: small ones at 50% opacity, Pixtron at full — no border-radius (plain rects)
-  const bars = [
-    { left: 32,  top: 238, width: 137, height: 9,   color: "rgba(15,157,88,0.5)" },
-    { left: 179, top: 234, width: 137, height: 13,  color: "rgba(15,157,88,0.5)" },
-    { left: 326, top: 196, width: 137, height: 51,  color: "rgba(15,157,88,0.5)" },
-    { left: 473, top: 32,  width: 137, height: 215, color: "#0f9d58"              },
-  ];
-
-  const barValueLabels = [
-    { value: "1.7s", left: 115,   top: 221.5, align: "right"  as const },
-    { value: "2.5s", left: 265,   top: 217.5, align: "right"  as const },
-    { value: "7.0s", left: 410,   top: 221.5, align: "right"  as const },
-    { value: "35s",  left: 541.5, top: 139.5, align: "center" as const },
-  ];
-
-  const xLabels = [
-    { label: "Digital Banner",  cx: 101   },
-    { label: "Social Ad",       cx: 247.5 },
-    { label: "Video Pre-roll",  cx: 394.5 },
-    { label: "Pixtron Sachet",  cx: 541.5 },
-  ];
-
-  const progressBars = [
-    { label: "Pixtron (Physical + Digital)", value: "$0.45",  rightPct: 70 },
-    { label: "Social Media Ads (Avg)",        value: "$1.20",  rightPct: 30 },
-    { label: "Search Ads (Avg)",              value: "$2.50+", rightPct: 5  },
-  ];
-
-  return (
-    <section
-      style={{
-        position: "relative",
-        borderTop: "112px solid #fff",
-        padding: "128px 39px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 72,
-        overflow: "hidden",
-        background: "#080808",
-      }}
-    >
-      {/* Background texture */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/comparison-bg.jpg"
-        alt=""
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* ── Title & subtitle ── */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 32,
-          alignItems: "center",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
-        <h2
-          style={{
-            fontSize: 50,
-            fontWeight: 700,
-            lineHeight: 1.2,
-            color: "#fff",
-            margin: 0,
-            whiteSpace: "nowrap",
-          }}
-        >
-          Pixtron vs. Digital Advertising
-        </h2>
-        <p
-          style={{
-            fontSize: 22,
-            fontWeight: 500,
-            lineHeight: 1.4,
-            color: "#fff",
-            textAlign: "center",
-            margin: 0,
-          }}
-        >
-          Why this marketing is better for real estate?
-        </p>
-      </div>
-
-      {/* ── Data grid — two-column flex so heights stretch to match ── */}
-      <div style={{ width: 1362, display: "flex", gap: 17, zIndex: 1, position: "relative", flexShrink: 0, alignItems: "stretch" }}>
-
-        {/* LEFT: Engagement Duration bar chart */}
-        <div
-          style={{
-            ...glass,
-            width: 666,
-            flexShrink: 0,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "24px 24px 32px",
-          }}
-        >
-          {/* Card heading */}
-          <div style={{ display: "flex", gap: 8, alignItems: "center", alignSelf: "flex-start" }}>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", paddingTop: 3.5, paddingBottom: 4.5, flexShrink: 0 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/comparison/chart-icon.svg" alt="" width={20} height={20} style={{ display: "block", width: 20, height: 20 }} />
-            </div>
-            <span style={{ fontSize: 20, fontWeight: 600, color: "#fff", lineHeight: "28px", whiteSpace: "nowrap" }}>
-              Engagement Duration
-            </span>
-          </div>
-
-          {/* Chart canvas */}
-          <div style={{ width: 610, height: 279, position: "relative", flexShrink: 0 }}>
-            {/* Y-axis labels */}
-            {yLabels.map(({ label, top }) => (
-              <div
-                key={label}
-                style={{
-                  position: "absolute",
-                  left: 21,
-                  top,
-                  transform: "translate(-100%, -50%)",
-                  fontSize: 16,
-                  fontWeight: 500,
-                  color: "rgba(255,255,255,0.5)",
-                  whiteSpace: "nowrap",
-                  lineHeight: "normal",
-                  textAlign: "right",
-                }}
-              >
-                {label}
-              </div>
-            ))}
-
-            {/* Horizontal grid lines */}
-            {gridLines.map((y) => (
-              <div
-                key={y}
-                style={{
-                  position: "absolute",
-                  top: y,
-                  left: 32,
-                  right: 0,
-                  height: 1,
-                  background: "rgba(255,255,255,0.1)",
-                }}
-              />
-            ))}
-
-            {/* Bars */}
-            {bars.map((bar, i) => (
-              <div
-                key={i}
-                style={{
-                  position: "absolute",
-                  left: bar.left,
-                  top: bar.top,
-                  width: bar.width,
-                  height: bar.height,
-                  background: bar.color,
-                }}
-              />
-            ))}
-
-            {/* Bar value labels */}
-            {barValueLabels.map(({ value, left, top, align }) => (
-              <div
-                key={value}
-                style={{
-                  position: "absolute",
-                  left,
-                  top,
-                  transform: align === "center" ? "translate(-50%, -50%)" : "translate(-100%, -50%)",
-                  fontSize: 18,
-                  fontWeight: 500,
-                  color: "#fff",
-                  whiteSpace: "nowrap",
-                  lineHeight: "normal",
-                  textAlign: align,
-                }}
-              >
-                {value}
-              </div>
-            ))}
-
-            {/* X-axis category labels */}
-            {xLabels.map(({ label, cx }) => (
-              <div
-                key={label}
-                style={{
-                  position: "absolute",
-                  left: cx,
-                  top: 273,
-                  transform: "translate(-50%, -50%)",
-                  fontSize: 16,
-                  fontWeight: 500,
-                  color: "rgba(255,255,255,0.5)",
-                  whiteSpace: "nowrap",
-                  lineHeight: "normal",
-                  textAlign: "center",
-                }}
-              >
-                {label}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* RIGHT column — flex column: [Scan Rate + Recall Rate] then [Cost] */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 17 }}>
-
-          {/* Top row: Scan Rate + Recall Rate — equal width, same height */}
-          <div style={{ display: "flex", gap: 17 }}>
-
-            {/* Scan Rate */}
-            <div style={{ ...glass, flex: 1, padding: 25, display: "flex", flexDirection: "column", gap: 20, justifyContent: "center" }}>
-              <div style={{ fontSize: 20, fontWeight: 600, color: "#fff", lineHeight: "28px", whiteSpace: "nowrap" }}>Scan Rate</div>
-              <div style={{ width: "100%" }}>
-                <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flexShrink: 0 }}>
-                    <span style={{ fontSize: 48, fontWeight: 700, color: "#fff", lineHeight: "48px", whiteSpace: "nowrap" }}>12%</span>
-                  </div>
-                  <div style={{ display: "flex", gap: 8, alignItems: "center", flexShrink: 0 }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/comparison/arrow-up.svg" alt="" width={10.504} height={12.249} style={{ display: "block", width: 10.504, height: 12.249, flexShrink: 0 }} />
-                    <span style={{ fontSize: 18, fontWeight: 400, color: "#0f9d58", lineHeight: "20px", whiteSpace: "nowrap" }}>vs 0.1% CTR</span>
-                  </div>
-                </div>
-              </div>
-              <div style={{ fontSize: 16, fontWeight: 400, color: "rgba(255,255,255,0.5)", lineHeight: "16px", whiteSpace: "nowrap" }}>
-                Compared to digital display ads
-              </div>
-            </div>
-
-            {/* Recall Rate */}
-            <div style={{ ...glass, flex: 1, padding: 25, display: "flex", flexDirection: "column", gap: 20, justifyContent: "center" }}>
-              <div style={{ fontSize: 20, fontWeight: 600, color: "#fff", lineHeight: "28px", whiteSpace: "nowrap" }}>Recall Rate</div>
-              <div style={{ fontSize: 48, fontWeight: 700, color: "#fff", lineHeight: "48px", whiteSpace: "nowrap" }}>78%</div>
-              <div style={{ fontSize: 16, fontWeight: 400, color: "rgba(255,255,255,0.5)", lineHeight: "16px", whiteSpace: "nowrap" }}>
-                Brand recall after 24 hours
-              </div>
-            </div>
-
-          </div>
-
-          {/* Cost Per Meaningful Interaction — fills remaining height */}
-          <div
-            style={{
-              ...glass,
-              flex: 1,
-              padding: 25,
-              display: "flex",
-              flexDirection: "column",
-              gap: 24,
-            }}
-          >
-          <div style={{ fontSize: 20, fontWeight: 600, color: "#fff", lineHeight: "28px", whiteSpace: "nowrap" }}>
-            Cost Per Meaningful Interaction
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 16, width: "100%" }}>
-            {progressBars.map(({ label, value, rightPct }) => (
-              <div key={label} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-                  <span style={{ fontSize: 14, fontWeight: 400, color: "#fff", lineHeight: "20px" }}>{label}</span>
-                  <span style={{ fontSize: 14, fontWeight: 600, color: "#fff", lineHeight: "20px" }}>{value}</span>
-                </div>
-                <div
-                  style={{
-                    height: 8,
-                    background: "rgba(255,255,255,0.1)",
-                    borderRadius: 9999,
-                    width: "100%",
-                    position: "relative",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      height: 8,
-                      left: 0,
-                      right: `${rightPct}%`,
-                      background: "#0f9d58",
-                      borderRadius: 9999,
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>{/* end Cost card */}
-
-        </div>{/* end right column */}
-
-      </div>{/* end data grid */}
-
-      {/* CTA */}
-      <div style={{ position: "relative", zIndex: 2, display: "flex", justifyContent: "center" }}>
-        <Link
-          href="/custom-series"
-          style={{
-            width: 256,
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            boxSizing: "border-box",
-            padding: "16px 20px 16px 22px",
-            borderRadius: 6,
-            background: "#fff",
-            border: "2px solid rgba(255,255,255,0.5)",
-            color: "#000",
-            textDecoration: "none",
-            fontSize: 18,
-            fontWeight: 600,
-            lineHeight: "30px",
-            whiteSpace: "nowrap",
-          }}
-        >
-          <span>Get Custom Series</span>
-          <ArrowIcon src={ARROW_DARK} />
-        </Link>
-      </div>
-    </section>
-  );
-}
-
-// ─── THE PROCESS ─────────────────────────────────────────────────────────────
-function TheProcess() {
-  const hospitality = [
-    {
-      step: "01",
-      title: "Fill the Form",
-      description:
-        "Fill out our quick form and tell us about your restaurant, location, and table setup.",
-      width: 526,
-    },
-    {
-      step: "02",
-      title: "Share Your Details",
-      description:
-        "Tell us your table count, location, and wipe preferences so we can set everything up perfectly.",
-      width: 473,
-    },
-    {
-      step: "03",
-      title: "Sit Back, We Deliver",
-      description:
-        "Pixtron delivers high-quality branded wet wipes directly to your restaurant on a regular schedule.",
-      width: 426,
-    },
-    {
-      step: "04",
-      title: "Delight Every Guest",
-      description:
-        "Your customers enjoy a clean, premium dining experience that elevates your restaurant's overall impression.",
-      width: 383,
-    },
-  ];
-
-  const advertisers = [
-    {
-      step: "01",
-      title: "Fill the Form",
-      description:
-        "Fill out our quick form, share your brand goals, and tell us which audience you want to reach.",
-      width: 526,
-    },
-    {
-      step: "02",
-      title: "Design Your Ad",
-      description:
-        "Work with our team to craft a bold, eye-catching ad placed directly on the wipe.",
-      width: 473,
-    },
-    {
-      step: "03",
-      title: "We Handle Everything",
-      description:
-        "We print, package, and distribute your ads to every partnered restaurant on your list.",
-      width: 426,
-    },
-    {
-      step: "04",
-      title: "Go Live & Get Seen",
-      description:
-        "Your brand lands in diners' hands at the table — personal, tactile, and impossible to ignore.",
-      width: 383,
-    },
-  ];
-
-  return (
-    <ProcessScrollSection
-      hospitality={hospitality}
-      advertisers={advertisers}
-      arrowDark={ARROW_DARK}
-      arrowWhite={ARROW_WHITE}
-    />
-  );
-}
-
 // ─── FOOTER ──────────────────────────────────────────────────────────────────
 function Footer() {
   const socialPlatforms = [
@@ -900,7 +467,7 @@ export default function HomePage() {
         </div>
         <MobileHowItWorksSection />
         <div className="desktop-real-impact">
-          <RealImpactScroll />
+          <MobileRealImpactSection desktopMode />
         </div>
         <MobileRealImpactSection />
         <div className="desktop-real-impact desktop-where-pixtron">
@@ -908,7 +475,7 @@ export default function HomePage() {
         </div>
         <MobileWherePixtronWorksSection />
         <div className="desktop-process">
-          <TheProcess />
+          <MobileProcessSection desktopMode />
         </div>
         <MobileProcessSection />
         <HomeMidCtaSection />
