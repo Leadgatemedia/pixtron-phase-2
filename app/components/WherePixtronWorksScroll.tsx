@@ -9,13 +9,19 @@ function ArrowIcon({ color = "white" }: { color?: "white" | "dark" }) {
   return <img src={file} width={24} height={24} alt="" style={{ display: "block" }} />;
 }
 
-const CARD_H   = 400;
+const MIN_CARD_H = 400;
+const MAX_CARD_H = 720;
 const CARD_W   = 434;
 const CARD_GAP = 30;
 const NAVBAR_HEIGHT = 88;
-const PINNED_TITLE_HEIGHT = 210;
-const CTA_DROP = 200;
+const PINNED_TITLE_HEIGHT = 172;
 const CARD_TOP_INSET = 28;
+const CTA_HEIGHT = 56;
+const CONTENT_BOTTOM_ROOM = 36;
+const MIN_CARD_CTA_GAP = 40;
+const MAX_CARD_CTA_GAP = 112;
+const MIN_CTA_DROP = 200;
+const MAX_CTA_DROP = 460;
 
 const venues = [
   { image: "/restaurant_v2.webp", title: "Restaurants", subtitle: "Enhance dining with premium wipes",  startY: 0   },
@@ -27,6 +33,19 @@ const BANDS = [
   { from: 0.00, to: 0.16 },
   { from: 0.16, to: 0.32 },
 ];
+
+function clamp(value: number, min: number, max: number) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function getResponsiveVenueMetrics(stickyH: number) {
+  const usableH = Math.max(0, stickyH - CARD_TOP_INSET - CTA_HEIGHT - CONTENT_BOTTOM_ROOM);
+  const cardH = Math.round(clamp(usableH * 0.82, MIN_CARD_H, MAX_CARD_H));
+  const ctaGap = Math.round(clamp(usableH * 0.13, MIN_CARD_CTA_GAP, MAX_CARD_CTA_GAP));
+  const ctaDrop = Math.round(clamp(cardH * 0.72, MIN_CTA_DROP, MAX_CTA_DROP));
+
+  return { cardH, ctaGap, ctaDrop };
+}
 
 function easeInOut(t: number) {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
@@ -52,6 +71,10 @@ export default function WherePixtronWorksScroll() {
       const viewportH = window.innerHeight / cssZoom;
       const stickyTop = NAVBAR_HEIGHT + PINNED_TITLE_HEIGHT;
       const stickyH = Math.max(0, viewportH - stickyTop);
+      const { cardH, ctaGap, ctaDrop } = getResponsiveVenueMetrics(stickyH);
+      content.style.setProperty("--venue-card-height", `${cardH}px`);
+      content.style.setProperty("--venue-card-cta-gap", `${ctaGap}px`);
+      content.style.setProperty("--venue-cta-drop", `${ctaDrop}px`);
       sticky.style.height = `${stickyH}px`;
       outer.style.height  = `${stickyH * 2.6 + stickyTop}px`;
 
@@ -90,7 +113,8 @@ export default function WherePixtronWorksScroll() {
       const ctaStart = BANDS[1].from;
       const ctaEnd   = BANDS[1].to;
       const ctaProgress = Math.max(0, Math.min(1, (progress - ctaStart) / (ctaEnd - ctaStart)));
-      cta.style.transform = `translateY(${CTA_DROP * (1 - easeInOut(ctaProgress))}px)`;
+      const ctaDrop = parseFloat(content.style.getPropertyValue("--venue-cta-drop")) || MIN_CTA_DROP;
+      cta.style.transform = `translateY(${ctaDrop * (1 - easeInOut(ctaProgress))}px)`;
     };
 
     window.addEventListener("scroll", update, { passive: true });
@@ -102,11 +126,25 @@ export default function WherePixtronWorksScroll() {
   }, []);
 
   const totalW = CARD_W * 3 + CARD_GAP * 2;
+  const cardHeight = "var(--venue-card-height, 400px)";
+  const cardCtaGap = "var(--venue-card-cta-gap, 40px)";
+  const ctaDrop = "var(--venue-cta-drop, 200px)";
 
   return (
     <div style={{ background: "#fff" }}>
       {/* Keep the heading pinned while the venue cards animate below it. */}
-      <div className="desktop-pinned-section-heading" style={{ background: "#fff", textAlign: "center", display: "flex", flexDirection: "column", gap: 32 }}>
+      <div
+        className="desktop-pinned-section-heading"
+        style={{
+          background: "#fff",
+          textAlign: "center",
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+          minHeight: PINNED_TITLE_HEIGHT,
+          padding: "24px 39px 30px",
+        }}
+      >
         <h2 className="section-heading gradient-heading">Where Pixtron Works Best</h2>
         <p className="section-subtitle">
           From upscale restaurants to casual cafes, Pixtron fits seamlessly into any dining environment
@@ -131,7 +169,7 @@ export default function WherePixtronWorksScroll() {
             display:         "flex",
             flexDirection:   "column",
             alignItems:      "center",
-            gap:             40,
+            gap:             cardCtaGap,
           }}
         >
           {/* Cards — absolutely positioned within a fixed-size relative container.
@@ -141,28 +179,28 @@ export default function WherePixtronWorksScroll() {
             style={{
               position:   "relative",
               width:      totalW,
-              height:     CARD_H,
+              height:     cardHeight,
               flexShrink: 0,
             }}
           >
             {/* Card 1 — always at top=0 */}
-            <div style={{ position: "absolute", left: 0, top: 0, width: CARD_W, height: CARD_H }}>
+            <div style={{ position: "absolute", left: 0, top: 0, width: CARD_W, height: cardHeight }}>
               <CardEl venue={venues[0]} />
             </div>
 
             {/* Card 2 — starts at top=100, rises to 0 */}
-            <div ref={card2Ref} style={{ position: "absolute", left: CARD_W + CARD_GAP, top: venues[1].startY, width: CARD_W, height: CARD_H }}>
+            <div ref={card2Ref} style={{ position: "absolute", left: CARD_W + CARD_GAP, top: venues[1].startY, width: CARD_W, height: cardHeight }}>
               <CardEl venue={venues[1]} />
             </div>
 
             {/* Card 3 — starts at top=200, rises to 0 */}
-            <div ref={card3Ref} style={{ position: "absolute", left: (CARD_W + CARD_GAP) * 2, top: venues[2].startY, width: CARD_W, height: CARD_H }}>
+            <div ref={card3Ref} style={{ position: "absolute", left: (CARD_W + CARD_GAP) * 2, top: venues[2].startY, width: CARD_W, height: cardHeight }}>
               <CardEl venue={venues[2]} />
             </div>
           </div>
 
           {/* CTA — above any card overflow via z-index */}
-          <div ref={ctaRef} style={{ position: "relative", zIndex: 2, transform: `translateY(${CTA_DROP}px)`, display: "flex", gap: 24, alignItems: "center" }}>
+          <div ref={ctaRef} style={{ position: "relative", zIndex: 2, transform: `translateY(${ctaDrop})`, display: "flex", gap: 24, alignItems: "center" }}>
             <Link href="/signature-series" className="btn-primary" style={{ width: 256, flexShrink: 0 }}>
               <span>Get Signature Series</span>
               <ArrowIcon color="white" />
