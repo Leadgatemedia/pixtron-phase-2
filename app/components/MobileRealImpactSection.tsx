@@ -154,7 +154,6 @@ export default function MobileRealImpactSection({ desktopMode = false }: MobileR
               className="mobile-real-impact-stack-card-content"
               style={{
                 gap: desktopMode ? 32 : 24,
-                minHeight: "var(--real-impact-card-height)",
                 padding: desktopMode ? "28px 32px" : "22px 20px",
               }}
             >

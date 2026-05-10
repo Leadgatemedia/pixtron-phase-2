@@ -430,6 +430,9 @@
 }
 
 .mobile-real-impact-desktop-fit .mobile-real-impact-stack-card-content {
+  width: 100%;
+  height: var(--real-impact-card-height);
+  min-height: var(--real-impact-card-height);
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -438,7 +441,8 @@
 
 .mobile-real-impact-desktop-fit .mobile-real-impact-stack-card {
   justify-self: center;
-  width: 100%;
+  width: 100% !important;
+  max-width: none;
 }
 
 .mobile-real-impact-desktop-fit .mobile-real-impact-stack-card-heading {
