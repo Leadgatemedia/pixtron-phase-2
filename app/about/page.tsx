@@ -40,7 +40,7 @@ function ArrowIcon({ src }: { src: string }) {
   );
 }
 
-function DesktopSectionEyebrow({ children }: { children: string }) {
+function DesktopSectionEyebrow({ children, align = "left" }: { children: string; align?: "left" | "right" }) {
   const lineStyle: CSSProperties = {
     width: 59,
     height: 1,
@@ -52,14 +52,14 @@ function DesktopSectionEyebrow({ children }: { children: string }) {
   return (
     <div
       style={{
-        width: "100%",
+        width: 1034,
         display: "flex",
-        justifyContent: "center",
+        justifyContent: align === "right" ? "flex-end" : "flex-start",
         alignItems: "center",
         gap: 16,
       }}
     >
-      <span aria-hidden="true" style={lineStyle} />
+      {align === "left" ? <span aria-hidden="true" style={lineStyle} /> : null}
       <p
         style={{
           color: "#0f9d58",
@@ -74,7 +74,7 @@ function DesktopSectionEyebrow({ children }: { children: string }) {
       >
         {children}
       </p>
-      <span aria-hidden="true" style={lineStyle} />
+      {align === "right" ? <span aria-hidden="true" style={lineStyle} /> : null}
     </div>
   );
 }
@@ -82,6 +82,7 @@ function DesktopSectionEyebrow({ children }: { children: string }) {
 function SiteNavbar() {
   return (
     <nav
+      className="desktop-scroll-header"
       style={{
         position: "fixed",
         top: 0,
@@ -418,7 +419,7 @@ export default function AboutPage() {
             </div>
             <div
               style={{
-                marginTop: 40,
+                marginTop: 0,
                 fontSize: 80,
                 fontWeight: 600,
                 fontStyle: "italic",
@@ -453,7 +454,7 @@ export default function AboutPage() {
                 alignItems: "flex-start",
               }}
             >
-              <DesktopSectionEyebrow>The Mission</DesktopSectionEyebrow>
+              <DesktopSectionEyebrow align="left">The Mission</DesktopSectionEyebrow>
               <div
                 className="gradient-heading"
                 style={{ fontSize: 54, fontWeight: 300, lineHeight: 1.3, width: 1034 }}
@@ -479,7 +480,7 @@ export default function AboutPage() {
                 alignItems: "flex-end",
               }}
             >
-              <DesktopSectionEyebrow>The Vision</DesktopSectionEyebrow>
+              <DesktopSectionEyebrow align="right">The Vision</DesktopSectionEyebrow>
               <div
                 className="gradient-heading"
                 style={{
@@ -556,11 +557,11 @@ export default function AboutPage() {
               </p>
             </div>
             <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-              <Link href="/signature-series" style={{ display: "flex", alignItems: "center", gap: 24, width: 259, padding: "16px 20px", borderRadius: 6, border: "2px solid rgba(255,255,255,0.5)", background: "#fff", color: "#000", textDecoration: "none", boxSizing: "border-box", fontSize: 18, fontWeight: 600, lineHeight: "30px", flexShrink: 0, whiteSpace: "nowrap" }}>
+              <Link href="/signature-series" className="btn-primary btn-hover-white" style={{ justifyContent: "space-between", width: 259, border: "2px solid rgba(255,255,255,0.5)", background: "#fff", color: "#000", boxSizing: "border-box", flexShrink: 0 }}>
                 <span>Get Signature Series</span>
                 <ArrowIcon src={ARROW_DARK} />
               </Link>
-              <Link href="/custom-series" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, width: 259, padding: "16px 20px", borderRadius: 6, border: "2px solid rgba(255,255,255,0.5)", background: "rgba(255,255,255,0.1)", color: "#fff", textDecoration: "none", boxSizing: "border-box", fontSize: 18, fontWeight: 600, lineHeight: "30px", flexShrink: 0, whiteSpace: "nowrap" }}>
+              <Link href="/custom-series" className="btn-outline" style={{ justifyContent: "space-between", width: 259, border: "2px solid rgba(255,255,255,0.5)", background: "rgba(255,255,255,0.1)", color: "#fff", boxSizing: "border-box", flexShrink: 0 }}>
                 <span>Get Custom Series</span>
                 <ArrowIcon src={ARROW_WHITE} />
               </Link>
@@ -1017,22 +1018,14 @@ export default function AboutPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 16, width: "100%" }}>
                 <Link
                   href="/signature-series"
+                  className="btn-primary btn-hover-white"
                   style={{
-                    display: "flex",
-                    alignItems: "center",
                     justifyContent: "space-between",
-                    gap: 12,
                     background: "#fff",
                     color: "#000",
                     border: "2px solid rgba(255,255,255,0.5)",
-                    borderRadius: 6,
-                    padding: "16px 20px",
-                    textDecoration: "none",
                     width: "100%",
                     boxSizing: "border-box",
-                    fontSize: 18,
-                    fontWeight: 600,
-                    lineHeight: "30px",
                   }}
                 >
                   <span>Get Signature Series</span>
@@ -1040,24 +1033,16 @@ export default function AboutPage() {
                 </Link>
                 <Link
                   href="/custom-series"
+                  className="btn-outline"
                   style={{
-                    display: "flex",
-                    alignItems: "center",
                     justifyContent: "space-between",
-                    gap: 12,
                     background: "rgba(255,255,255,0.1)",
                     backdropFilter: "blur(27px)",
                     WebkitBackdropFilter: "blur(27px)",
                     color: "#fff",
                     border: "2px solid rgba(255,255,255,0.5)",
-                    borderRadius: 6,
-                    padding: "16px 20px",
-                    textDecoration: "none",
                     width: "100%",
                     boxSizing: "border-box",
-                    fontSize: 18,
-                    fontWeight: 600,
-                    lineHeight: "30px",
                   }}
                 >
                   <span>Get Custom Series</span>

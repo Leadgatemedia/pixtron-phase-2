@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
+import HeaderScrollState from "./components/HeaderScrollState";
 import { SITE_ORIGIN } from "@/lib/seo";
 
 const inter = Inter({
@@ -74,6 +75,7 @@ export default function RootLayout({
     <html lang="en" className={inter.variable} style={{ zoom: 0.8 }}>
       <body>
         <SmoothScroll />
+        <HeaderScrollState />
         {children}
         {/* Fixed bottom blur overlay matches the viewport edge effect without affecting layout. */}
         <div

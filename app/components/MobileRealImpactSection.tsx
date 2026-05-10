@@ -90,44 +90,44 @@ function ArrowIcon() {
 export default function MobileRealImpactSection({ desktopMode = false }: MobileRealImpactSectionProps) {
   const cardCount = STATS.length;
 
+  if (desktopMode) {
+    return null;
+  }
+
   return (
     <section
-      className={desktopMode ? "mobile-real-impact mobile-real-impact-desktop-fit" : "mobile-real-impact"}
+      className="mobile-real-impact"
       style={{
         "--real-impact-card-count": cardCount,
-        "--real-impact-card-sticky-top": desktopMode ? "314px" : `${MOBILE_NAV_HEIGHT}px`,
-        "--real-impact-card-height": desktopMode ? "164px" : "188px",
-        "--real-impact-card-top-offset": desktopMode ? "42px" : "46px",
+        "--real-impact-card-sticky-top": `${MOBILE_NAV_HEIGHT}px`,
+        "--real-impact-card-height": "188px",
+        "--real-impact-card-top-offset": "46px",
         "--real-impact-card-gap": "16px",
-        display: desktopMode ? "flex" : "none",
+        display: "none",
         flexDirection: "column",
         alignItems: "center",
-        gap: desktopMode ? 0 : 28,
-        padding: desktopMode ? "0 39px 112px" : "48px 16px",
+        gap: 28,
+        padding: "48px 16px",
         background: "#fff",
         boxSizing: "border-box",
       } as React.CSSProperties}
     >
       <div
-        className={desktopMode ? "desktop-pinned-section-heading real-impact-desktop-heading" : undefined}
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: desktopMode ? "center" : undefined,
-          gap: desktopMode ? 16 : 24,
+          gap: 24,
           width: "100%",
           maxWidth: undefined,
-          minHeight: desktopMode ? undefined : undefined,
-          padding: desktopMode ? undefined : undefined,
           boxSizing: "border-box",
           textAlign: "center",
         }}
       >
-        <h2 className="gradient-heading" style={{ margin: 0, width: "100%", fontSize: desktopMode ? 60 : 30, fontWeight: 700, lineHeight: 1.2 }}>
+        <h2 className="gradient-heading" style={{ margin: 0, width: "100%", fontSize: 30, fontWeight: 700, lineHeight: 1.2 }}>
           Real Impact, Real Results
         </h2>
-        <p style={{ margin: 0, width: "100%", fontSize: desktopMode ? 22 : 18, fontWeight: 500, lineHeight: desktopMode ? 1.4 : 1.5, color: desktopMode ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.8)" }}>
+        <p style={{ margin: 0, width: "100%", fontSize: 18, fontWeight: 500, lineHeight: 1.5, color: "rgba(0,0,0,0.8)" }}>
           Premium details that elevate guest satisfaction and dining perception
         </p>
       </div>
@@ -139,8 +139,7 @@ export default function MobileRealImpactSection({ desktopMode = false }: MobileR
           gridTemplateRows:
             "repeat(var(--real-impact-card-count), minmax(var(--real-impact-card-height), auto))",
           marginBottom: 0,
-          paddingBottom: desktopMode ? 56 : 20,
-          maxWidth: desktopMode ? 1120 : undefined,
+          paddingBottom: 20,
         }}
       >
         {STATS.map((stat, index) => (
@@ -161,8 +160,8 @@ export default function MobileRealImpactSection({ desktopMode = false }: MobileR
             <article
               className="mobile-real-impact-stack-card-content"
               style={{
-                gap: desktopMode ? 32 : 24,
-                padding: desktopMode ? "28px 32px" : "22px 20px",
+                gap: 24,
+                padding: "22px 20px",
               }}
             >
               <div className="mobile-real-impact-stack-card-heading">
@@ -174,7 +173,7 @@ export default function MobileRealImpactSection({ desktopMode = false }: MobileR
                 </p>
               </div>
               <p className="mobile-real-impact-stack-card-description">
-                {desktopMode ? stat.desktopDescription : stat.description}
+                {stat.description}
               </p>
             </article>
           </li>
@@ -189,7 +188,7 @@ export default function MobileRealImpactSection({ desktopMode = false }: MobileR
           maxWidth: 361,
           boxSizing: "border-box",
           justifyContent: "space-between",
-          marginTop: desktopMode ? 16 : 0,
+          marginTop: 0,
         }}
       >
         <span>Get Signature Series</span>

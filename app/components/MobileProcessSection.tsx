@@ -115,6 +115,8 @@ function MobilePinnedProcessBlock({
   desktopMode?: boolean;
 }) {
   const cardCount = column.steps.length;
+  const scaleStep = desktopMode ? 0.13 : 0.1;
+  const desktopTargetScales = [0.61, 0.74, 0.48, 1];
 
   return (
     <section
@@ -168,7 +170,9 @@ function MobilePinnedProcessBlock({
                 "--process-card-index0": index,
                 "--process-card-start-range": `${(index / cardCount) * 80}%`,
                 "--process-card-end-range": `${((index + 1) / cardCount) * 100}%`,
-                "--process-card-target-scale": 1.1 - 0.1 * (cardCount - index),
+                "--process-card-target-scale": desktopMode
+                  ? desktopTargetScales[index] ?? 1
+                  : 1 - scaleStep * (cardCount - index - 1),
                 zIndex: index + 1,
               } as React.CSSProperties}
             >

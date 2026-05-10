@@ -6,7 +6,7 @@ import Link from "next/link";
 function ArrowIcon({ color }: { color: "white" | "dark" }) {
   const file = color === "white" ? "/arrow-white.webp" : "/arrow-black.webp";
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src={file} width={24} height={24} alt="" style={{ display: "block" }} />;
+  return <img src={file} width={24} height={24} alt="" className="btn-arrow-img" style={{ display: "block", transition: "filter 0.35s ease" }} />;
 }
 
 function GlowBackground() {
@@ -116,22 +116,14 @@ function DesktopMidCta() {
           <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
             <Link
               href="/signature-series"
+              className="btn-primary btn-hover-white"
               style={{
                 width: 256,
-                display: "inline-flex",
-                alignItems: "center",
                 justifyContent: "space-between",
                 boxSizing: "border-box",
-                padding: "16px 20px 16px 22px",
-                borderRadius: 6,
                 background: "#fff",
                 border: "2px solid rgba(255,255,255,0.5)",
                 color: "#000",
-                textDecoration: "none",
-                fontSize: 18,
-                fontWeight: 600,
-                lineHeight: "30px",
-                whiteSpace: "nowrap",
               }}
             >
               <span>Get Signature Series</span>
@@ -140,22 +132,14 @@ function DesktopMidCta() {
 
             <Link
               href="/custom-series"
+              className="btn-outline"
               style={{
                 width: 256,
-                display: "inline-flex",
-                alignItems: "center",
                 justifyContent: "space-between",
                 boxSizing: "border-box",
-                padding: "16px 20px 16px 22px",
-                borderRadius: 6,
                 background: "rgba(255,255,255,0.1)",
                 border: "2px solid rgba(255,255,255,0.5)",
                 color: "#fff",
-                textDecoration: "none",
-                fontSize: 18,
-                fontWeight: 600,
-                lineHeight: "30px",
-                whiteSpace: "nowrap",
               }}
             >
               <span>Get Custom Series</span>
@@ -233,21 +217,14 @@ function MobileMidCta() {
           <div style={{ width: "100%", maxWidth: 329, display: "flex", flexDirection: "column", gap: 24 }}>
             <Link
               href="/signature-series"
+              className="btn-primary btn-hover-white"
               style={{
                 width: "100%",
-                display: "inline-flex",
-                alignItems: "center",
                 justifyContent: "space-between",
                 boxSizing: "border-box",
-                padding: "16px 20px 16px 22px",
-                borderRadius: 6,
                 background: "#fff",
                 border: "2px solid rgba(255,255,255,0.5)",
                 color: "#000",
-                textDecoration: "none",
-                fontSize: 18,
-                fontWeight: 600,
-                lineHeight: "30px",
               }}
             >
               <span>Get Signature Series</span>
@@ -256,21 +233,14 @@ function MobileMidCta() {
 
             <Link
               href="/custom-series"
+              className="btn-outline"
               style={{
                 width: "100%",
-                display: "inline-flex",
-                alignItems: "center",
                 justifyContent: "space-between",
                 boxSizing: "border-box",
-                padding: "16px 20px 16px 22px",
-                borderRadius: 6,
                 background: "rgba(255,255,255,0.1)",
                 border: "2px solid rgba(255,255,255,0.5)",
                 color: "#fff",
-                textDecoration: "none",
-                fontSize: 18,
-                fontWeight: 600,
-                lineHeight: "30px",
               }}
             >
               <span>Get Custom Series</span>
