@@ -156,6 +156,54 @@
   line-height: 1.42;
 }
 
+.mobile-process-large-desktop-stage .desktop-pinned-section-heading {
+  min-height: 236px;
+  padding-block: 48px 52px;
+}
+
+.mobile-process-large-desktop-stage .desktop-pinned-section-heading h2 {
+  font-size: 66px !important;
+}
+
+.mobile-process-large-desktop-stage .desktop-pinned-section-heading p {
+  font-size: 24px !important;
+}
+
+.mobile-process-large-desktop-stage .mobile-process-desktop-columns {
+  max-width: min(1362px, calc(100vw - 180px));
+}
+
+.mobile-process-large-desktop-stage .mobile-process-stacking-section {
+  --process-card-height: 270px;
+  --process-card-top-offset: 54px;
+}
+
+.mobile-process-large-desktop-stage .mobile-process-stacking-section-desktop .mobile-process-stacking-inner {
+  gap: 36px;
+  padding: 54px 44px 68px;
+}
+
+.mobile-process-large-desktop-stage .mobile-process-stacking-section-desktop .mobile-process-card-stack {
+  max-width: 560px;
+}
+
+.mobile-process-large-desktop-stage .mobile-process-stacking-section-desktop .mobile-process-stack-card-content {
+  padding: 32px 34px;
+}
+
+.mobile-process-large-desktop-stage .mobile-process-stacking-section-desktop .mobile-process-stack-card-title {
+  font-size: 24px;
+}
+
+.mobile-process-large-desktop-stage .mobile-process-stacking-section-desktop .mobile-process-stack-card-step {
+  font-size: 38px;
+}
+
+.mobile-process-large-desktop-stage .mobile-process-stacking-section-desktop .mobile-process-stack-card-description {
+  margin-top: 32px;
+  font-size: 22px;
+}
+
 .mobile-process-card-stack {
   width: 100%;
   max-width: 361px;

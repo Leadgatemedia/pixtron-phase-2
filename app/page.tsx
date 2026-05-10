@@ -196,7 +196,7 @@ function Hero() {
         className="hero-watermark"
         style={{
           position: "absolute",
-          top: "86vh",      // clear breathing room below hero text content
+          top: "min(86vh, 743px)",      // clear breathing room below hero text content
           left: "50%",
           transform: "translateX(calc(-50% + var(--watermark-scroll-x, 0px)))",
           width: "max-content",
@@ -214,7 +214,7 @@ function Hero() {
               margin:     "0 auto",
               fontSize:   "min(11.11vh, 100px)",
               fontWeight: 500,
-              lineHeight: "11.31vh",
+              lineHeight: "min(11.31vh, 98px)",
               color:      "rgba(0,0,0,0.12)",
             }}
           >
@@ -458,7 +458,7 @@ export default function HomePage() {
       <main>
         <MobileHomeHero />
         <div className="desktop-home-hero">
-          <HeroScrollSection>
+          <HeroScrollSection stageWidth={1920} stageHeight={864}>
             <Hero />
           </HeroScrollSection>
         </div>
