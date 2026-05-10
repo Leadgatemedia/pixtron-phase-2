@@ -426,7 +426,7 @@
 .mobile-real-impact-desktop-fit .mobile-real-impact-card-stack {
   max-width: min(1120px, 100%);
   padding-bottom: 152px;
-  padding-top: 46px;
+  padding-top: 0;
 }
 
 .mobile-real-impact-desktop-fit .mobile-real-impact-stack-card-content {
@@ -450,18 +450,18 @@
 }
 
 .mobile-real-impact-desktop-fit .mobile-real-impact-stack-card-value {
-  font-size: 38px;
+  font-size: 56px;
   line-height: 1.25;
 }
 
 .mobile-real-impact-desktop-fit .mobile-real-impact-stack-card-label {
-  font-size: 17px;
+  font-size: 24px;
 }
 
 .mobile-real-impact-desktop-fit .mobile-real-impact-stack-card-description {
   width: auto;
   white-space: nowrap;
-  font-size: 22px;
+  font-size: 34px;
   line-height: 1.35;
 }
 
