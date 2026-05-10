@@ -46,6 +46,7 @@ function ArrowIcon({ color = "dark" }: { color?: "white" | "dark" }) {
 function SiteNavbar() {
   return (
     <nav
+      className="desktop-scroll-header"
       style={{
         position: "fixed",
         top: 0,
@@ -190,7 +191,7 @@ function SelectionView({
   return (
     <section
       style={{
-        paddingTop: 64 + 88,
+        paddingTop: isMobile ? 64 + 88 : 64,
         paddingBottom: isMobile ? 48 : 144,
         paddingInline: isMobile ? 16 : 39,
         background: isMobile ? "#f5f5f5" : "#fff",
@@ -618,7 +619,7 @@ function RestaurantForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
   return (
     <section
       style={{
-        paddingTop: (isMobile ? 24 : 48) + (isMobile ? 96 : 88),
+        paddingTop: isMobile ? 24 + 96 : 48,
         paddingBottom: isMobile ? 48 : 144,
         paddingInline: isMobile ? 16 : 387,
         background: isMobile ? "#f5f5f5" : "#fff",
@@ -918,7 +919,7 @@ function AdvertiserForm({ onBack, isMobile }: { onBack: () => void; isMobile: bo
   return (
     <section
       style={{
-        paddingTop: (isMobile ? 24 : 48) + (isMobile ? 96 : 88),
+        paddingTop: isMobile ? 24 + 96 : 48,
         paddingBottom: isMobile ? 48 : 144,
         paddingInline: isMobile ? 16 : 387,
         background: isMobile ? "#f5f5f5" : "#fff",

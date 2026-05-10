@@ -22,6 +22,27 @@
 .desktop-mid-cta { display: block; }
 .mobile-mid-cta { display: none; }
 
+@media (min-width: 768px) {
+  .desktop-scroll-header {
+    background: transparent !important;
+    border-bottom-color: transparent !important;
+    backdrop-filter: blur(0px) !important;
+    -webkit-backdrop-filter: blur(0px) !important;
+    transition:
+      background-color 0.28s ease,
+      border-color 0.28s ease,
+      backdrop-filter 0.28s ease,
+      -webkit-backdrop-filter 0.28s ease;
+  }
+
+  html.desktop-header-scrolled .desktop-scroll-header {
+    background: rgba(255,255,255,0.8) !important;
+    border-bottom-color: rgba(0,0,0,0.06) !important;
+    backdrop-filter: blur(35px) !important;
+    -webkit-backdrop-filter: blur(35px) !important;
+  }
+}
+
 .desktop-pinned-section-heading {
   position: sticky;
   top: 88px;
@@ -128,10 +149,6 @@
 .mobile-process-stacking-section-desktop .mobile-process-stack-card {
   justify-self: center;
   width: 100%;
-}
-
-.mobile-process-stacking-section-desktop .mobile-process-stack-card:nth-child(3) {
-  width: 94%;
 }
 
 .mobile-process-stacking-section-desktop .mobile-process-stack-card-content {
@@ -663,12 +680,12 @@ body {
 
 /* btn-primary: border turns green, text stays white */
 .btn-primary:hover {
-  border-color: #0f9d58;
+  border-color: #0f9d58 !important;
 }
 
 /* btn-outline: border turns green, text turns white */
 .btn-outline:hover {
-  border-color: #0f9d58;
+  border-color: #0f9d58 !important;
   color: #fff;
 }
 
@@ -677,6 +694,14 @@ body {
 .btn-outline:hover svg line     { stroke: #fff; }
 .btn-outline:hover svg polyline { stroke: #fff; }
 .btn-outline:hover .btn-arrow-img { filter: brightness(0) invert(1); }
+
+.btn-hover-white:hover {
+  color: #fff !important;
+}
+
+.btn-hover-white:hover .btn-arrow-img {
+  filter: brightness(0) invert(1);
+}
 
 /* Press — snaps down instantly, springs back with overshoot on release */
 .btn-primary,

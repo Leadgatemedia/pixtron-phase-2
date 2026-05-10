@@ -53,7 +53,6 @@ const FUTURE_STACK_Y = [
   ACTIVE_H - 40 + INACTIVE_H - 40, // 176 - 40px peek from card 1
   ACTIVE_H - 40 + (INACTIVE_H - 40) * 2, // 236 - 40px peek from card 2
 ];
-const FUTURE_WIDTH_PCT = [100, 86, 74, 64];
 const PAST_WIDTH_PCT = [100, 86, 74, 64];
 const FUTURE_CARD_BG = [
   "rgba(233,233,233,1)",
@@ -179,11 +178,11 @@ export default function ProcessShuffleColumn({
       return {
         y: groupOffset + FUTURE_STACK_Y[Math.min(distance, FUTURE_STACK_Y.length - 1)],
         scale: 1,
-        widthPct: FUTURE_WIDTH_PCT[Math.min(clampIndex, FUTURE_WIDTH_PCT.length - 1)],
-        paddingY: 18,
-        minHeight: 100,
-        titleSize: 19,
-        stepSize: 50,
+        widthPct: 100,
+        paddingY: 32,
+        minHeight: 156,
+        titleSize: 24,
+        stepSize: 60,
         descOpacity: 0,
         cardBg: FUTURE_CARD_BG[clampIndex],
         shadowAlpha: distance >= 3 ? 0 : 0.16,
@@ -339,12 +338,12 @@ export default function ProcessShuffleColumn({
               border: "1px solid #e0dfdf",
               borderRadius: 6,
               overflow: "hidden",
-              width: `${FUTURE_WIDTH_PCT[Math.min(index, FUTURE_WIDTH_PCT.length - 1)]}%`,
-              minHeight: index === 0 ? 156 : 100,
-              padding: index === 0 ? "32px 24px" : "18px 24px",
+              width: "100%",
+              minHeight: 156,
+              padding: "32px 24px",
               position: "absolute",
               top: 0,
-              left: `${(100 - FUTURE_WIDTH_PCT[Math.min(index, FUTURE_WIDTH_PCT.length - 1)]) / 2}%`,
+              left: 0,
               transform: `translateY(${FUTURE_STACK_Y[Math.min(index, FUTURE_STACK_Y.length - 1)]}px)`,
               transformOrigin: mobileStackMotion ? "50% 0%" : "center center",
               willChange: "transform, background, box-shadow",
@@ -365,7 +364,7 @@ export default function ProcessShuffleColumn({
                     titleRefs.current[index] = el;
                   }}
                   style={{
-                    fontSize: index === 0 ? 24 : 19,
+                    fontSize: 24,
                     fontWeight: 500,
                     color: index === 0 ? "#000" : index === 1 ? "rgba(0,0,0,0.46)" : index === 2 ? "rgba(0,0,0,0.34)" : "rgba(0,0,0,0.24)",
                     lineHeight: 1.3,
@@ -398,7 +397,7 @@ export default function ProcessShuffleColumn({
                   stepRefs.current[index] = el;
                 }}
                 style={{
-                  fontSize: index === 0 ? 60 : 50,
+                  fontSize: 60,
                   fontWeight: 700,
                   color: index === 0 ? "#0f9d58" : index === 1 ? "rgba(0,0,0,0.14)" : index === 2 ? "rgba(0,0,0,0.1)" : "rgba(0,0,0,0.08)",
                   lineHeight: 1,

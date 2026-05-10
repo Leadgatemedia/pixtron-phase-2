@@ -144,20 +144,6 @@ export default function HowItWorksScroll() {
 
         barFillRef.current.style.width = `${fill * 100}%`;
 
-        // Grey track: only extend as far as the current bar's DESTINATION icon.
-        // While bar is parked at an icon: grey = same as green → no grey beyond icon.
-        // While bar is travelling toward icon i+1: grey = barFrac(i+1) → shows
-        // the upcoming segment so the bar appears to fill it in.
-        if (greyTrackRef.current) {
-          let greyFill = fill; // default: match green exactly (no visible grey ahead)
-          for (let i = 0; i < 3; i++) {
-            if (p >= STEP_OUT[i] && p < STEP_IN[i + 1] - PRE_PAUSE) {
-              greyFill = barFrac(i + 1); // reveal only the next segment
-              break;
-            }
-          }
-          greyTrackRef.current.style.width = `${greyFill * 100}%`;
-        }
       }
 
       // ── Per-step updates ───────────────────────────────────────────
@@ -249,17 +235,16 @@ export default function HowItWorksScroll() {
             height:    48,
           }}
         >
-          {/* Grey track — driven by JS so it only shows up to the next icon */}
+          {/* Low-opacity track stays visible behind the animated green fill */}
           <div
             ref={greyTrackRef}
             style={{
               position:    "absolute",
               top:         "50%",
               left:        48,
-              width:       "0%",
-              maxWidth:    "calc(100% - 96px)",
+              width:       "calc(100% - 96px)",
               height:      3,
-              background:  "#e7f5ee",
+              background:  "rgba(15, 157, 88, 0.12)",
               borderRadius: 2,
               transform:   "translateY(-50%)",
             }}

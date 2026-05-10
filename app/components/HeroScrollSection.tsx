@@ -18,11 +18,11 @@ const SPACING = 295;
 
 // Each sachet is rendered as two cropped strips so the row can live inside
 // the hero while still matching the Figma composition.
-const STRIP1_TOP = "82.89vh";
+const STRIP1_TOP = "78.89vh";
 const STRIP1_H = "21vh";
 const STRIP1_CROP = "0px";
 
-const STRIP2_TOP = "103.89vh";
+const STRIP2_TOP = "99.89vh";
 const STRIP2_H = "21vh";
 const STRIP2_CROP = "-21vh";
 
@@ -287,9 +287,9 @@ export default function HeroScrollSection({
   const capNegativeVh = (value: string, ratio: number) =>
     stageHeight ? `max(${value}, -${stageHeight * ratio}px)` : value;
 
-  const strip1Top = capVh(STRIP1_TOP, 0.8289);
+  const strip1Top = capVh(STRIP1_TOP, 0.7889);
   const strip1Height = capVh(STRIP1_H, 0.21);
-  const strip2Top = capVh(STRIP2_TOP, 1.0389);
+  const strip2Top = capVh(STRIP2_TOP, 0.9989);
   const strip2Height = capVh(STRIP2_H, 0.21);
   const strip2Crop = capNegativeVh(STRIP2_CROP, 0.21);
   const sachetHeight = capVh(SACHET_H, 0.42);

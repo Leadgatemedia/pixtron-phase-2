@@ -67,7 +67,7 @@ export default function JourneyScrollSection({ title, mobileTitle, body, steps, 
   const variant = button?.variant ?? "outline";
 
   return (
-    <section ref={sectionRef} className={styles.timelineSection}>
+    <section ref={sectionRef} className={styles.timelineSection} data-scroll-assist-section>
       <div className={styles.sectionIntro}>
         <h2>
           {mobileTitle ? (

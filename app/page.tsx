@@ -12,6 +12,7 @@ import MobileHomeHero from "./components/MobileHomeHero";
 const HowItWorksScroll           = dynamic(() => import("./components/HowItWorksScroll"));
 const WherePixtronWorksScroll     = dynamic(() => import("./components/WherePixtronWorksScroll"));
 const MobileHowItWorksSection     = dynamic(() => import("./components/MobileHowItWorksSection"));
+const RealImpactScroll            = dynamic(() => import("./components/RealImpactScroll"));
 const MobileRealImpactSection     = dynamic(() => import("./components/MobileRealImpactSection"));
 const MobileWherePixtronWorksSection = dynamic(() => import("./components/MobileWherePixtronWorksSection"));
 const MobileProcessSection        = dynamic(() => import("./components/MobileProcessSection"));
@@ -43,7 +44,7 @@ function ArrowIcon({ src }: { src: string }) {
 function Navbar() {
   return (
     <nav
-      className="intro-reveal-nav"
+      className="intro-reveal-nav desktop-scroll-header"
       style={{
         position: "fixed",
         top: 0,
@@ -132,7 +133,7 @@ function Hero() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: 172, // 172px from frame top (navbar is fixed, not in flow)
+          paddingTop: 140, // navbar is fixed, not in flow
           position: "relative",
           zIndex: 1,
         }}
@@ -196,7 +197,7 @@ function Hero() {
         className="hero-watermark"
         style={{
           position: "absolute",
-          top: "min(86vh, 743px)",      // clear breathing room below hero text content
+          top: "min(82vh, 708px)",      // clear breathing room below hero text content
           left: "50%",
           transform: "translateX(calc(-50% + var(--watermark-scroll-x, 0px)))",
           width: "max-content",
@@ -457,30 +458,34 @@ export default function HomePage() {
       </div>
       <main>
         <MobileHomeHero />
-        <div className="desktop-home-hero">
+        <div className="desktop-home-hero" data-scroll-assist-section>
           <HeroScrollSection stageWidth={1920} stageHeight={864}>
             <Hero />
           </HeroScrollSection>
         </div>
-        <div className="desktop-how-it-works">
+        <div className="desktop-how-it-works" data-scroll-assist-section>
           <HowItWorksScroll />
         </div>
         <MobileHowItWorksSection />
-        <div className="desktop-real-impact">
-          <MobileRealImpactSection desktopMode />
+        <div className="desktop-real-impact" data-scroll-assist-section>
+          <RealImpactScroll />
         </div>
         <MobileRealImpactSection />
-        <div className="desktop-real-impact desktop-where-pixtron">
+        <div className="desktop-real-impact desktop-where-pixtron" data-scroll-assist-section>
           <WherePixtronWorksScroll />
         </div>
         <MobileWherePixtronWorksSection />
-        <div className="desktop-process">
+        <div className="desktop-process" data-scroll-assist-section>
           <MobileProcessSection desktopMode />
         </div>
         <MobileProcessSection />
-        <HomeMidCtaSection />
+        <div data-scroll-assist-section>
+          <HomeMidCtaSection />
+        </div>
       </main>
-      <FooterSection />
+      <div data-scroll-assist-section>
+        <FooterSection />
+      </div>
     </>
   );
 }

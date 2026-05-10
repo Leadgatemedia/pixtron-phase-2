@@ -6,7 +6,7 @@
 }
 
 .mainContent {
-  padding-top: 84px;
+  padding-top: 0;
 }
 
 .desktopHeaderWrap {
@@ -85,7 +85,7 @@
 .restaurantHero {
   min-height: 816px;
   display: grid;
-  grid-template-columns: 666px 619px;
+  grid-template-columns: 666px clamp(619px, 48vw, 920px);
   justify-content: space-between;
   align-items: stretch;
   padding-left: 39px;
@@ -145,7 +145,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: 76% center;
 }
 
 .statsSection {
@@ -834,7 +834,6 @@
 
 .signatureDesktopHero {
   display: block;
-  margin-top: -84px;
 }
 
 .signatureAnimatedHero {
@@ -1390,6 +1389,7 @@
 
   .restaurantHeroImage img {
     border-radius: 6px;
+    object-position: center;
   }
 
   .statsSection {

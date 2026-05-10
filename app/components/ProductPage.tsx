@@ -544,7 +544,7 @@ function SiteHeader({ activeHref }: { activeHref: string }) {
     <>
       <div className={styles.desktopHeaderWrap}>
         <nav
-          className={styles.desktopHeader}
+          className={`${styles.desktopHeader} desktop-scroll-header`}
           style={{
             backdropFilter: "blur(24px)",
             WebkitBackdropFilter: "blur(24px)",
@@ -620,8 +620,12 @@ function PageShell({ config, children }: { config: ProductPageConfig; children: 
       ) : null}
       <div className={styles.pageRoot}>
         <main className={styles.mainContent}>{children}</main>
-        <HomeMidCtaSection />
-        <FooterSection />
+        <div data-scroll-assist-section>
+          <HomeMidCtaSection />
+        </div>
+        <div data-scroll-assist-section>
+          <FooterSection />
+        </div>
       </div>
     </>
   );
@@ -629,7 +633,7 @@ function PageShell({ config, children }: { config: ProductPageConfig; children: 
 
 function RestaurantHero({ config }: { config: RestaurantPageConfig["hero"] }) {
   return (
-    <section className={styles.restaurantHero}>
+    <section className={styles.restaurantHero} data-scroll-assist-section>
       <div className={styles.restaurantHeroCopy}>
         <h1>
           <span>{config.titleBefore}</span>
@@ -650,7 +654,7 @@ function RestaurantHero({ config }: { config: RestaurantPageConfig["hero"] }) {
 
 function StatsSection({ stats }: { stats: RestaurantPageConfig["stats"] }) {
   return (
-    <section className={styles.statsSection}>
+    <section className={styles.statsSection} data-scroll-assist-section>
       {stats.map((item) => (
         <article key={item.count} className={styles.statCard}>
           <div>
@@ -682,7 +686,7 @@ function ValueIcon({ icon }: { icon: ValueRow["icon"] }) {
 
 function ValueSection({ heading, rows }: { heading: HighlightHeading; rows: ValueRow[] }) {
   return (
-    <section className={styles.valueSection}>
+    <section className={styles.valueSection} data-scroll-assist-section>
       <div className={styles.valueTitleBand}>
         <HighlightHeadingView heading={heading} />
       </div>
@@ -761,7 +765,7 @@ function ChartVisual() {
 
 function RestaurantFeatureSections({ blocks }: { blocks: RestaurantFeatureBlock[] }) {
   return (
-    <section className={styles.restaurantFeatureSection}>
+    <section className={styles.restaurantFeatureSection} data-scroll-assist-section>
       {blocks.map((block, index) => (
         <article key={block.eyebrow} className={`${styles.restaurantFeatureBlock} ${index % 2 === 1 ? styles.reversedFeatureBlock : ""}`}>
           <div className={styles.featureCopy}>
@@ -802,7 +806,7 @@ function ImpactSection({ impact }: { impact: ImpactStack }) {
 
 function FaqSection({ faqs }: { faqs: FaqItem[] }) {
   return (
-    <section className={styles.faqSection}>
+    <section className={styles.faqSection} data-scroll-assist-section>
       <h2>FAQs</h2>
       <div className={styles.faqList}>
         {faqs.map((faq, index) => (
@@ -822,7 +826,7 @@ function FaqSection({ faqs }: { faqs: FaqItem[] }) {
 function SignatureHero({ hero }: { hero: Extract<SeriesPageConfig["hero"], { type: "sachets" }> }) {
   return (
     <>
-      <div className={styles.signatureDesktopHero}>
+      <div className={styles.signatureDesktopHero} data-scroll-assist-section>
         <HeroScrollSection
           stripImage={hero.sachetStrip}
           stripWidth={1550}
@@ -868,7 +872,7 @@ function SignatureHero({ hero }: { hero: Extract<SeriesPageConfig["hero"], { typ
 
 function CustomHero({ hero }: { hero: Extract<SeriesPageConfig["hero"], { type: "dual" }> }) {
   return (
-    <section className={styles.customHero}>
+    <section className={styles.customHero} data-scroll-assist-section>
       <div className={styles.customGlow} aria-hidden />
       <div className={styles.customHeroInner}>
         <div className={styles.customHeroIntro}>
@@ -905,6 +909,7 @@ function CustomHero({ hero }: { hero: Extract<SeriesPageConfig["hero"], { type: 
 function ProductShowcaseSection({ showcase, variant }: { showcase: ProductShowcase; variant?: "signature" | "custom" }) {
   return (
     <section
+      data-scroll-assist-section
       className={`${styles.productShowcase} ${variant === "signature" ? styles.signatureProductShowcase : ""} ${
         variant === "custom" ? styles.customProductShowcase : ""
       }`}
@@ -948,7 +953,7 @@ function ProductShowcaseSection({ showcase, variant }: { showcase: ProductShowca
 
 function SettingSectionView({ section }: { section: SettingSection }) {
   return (
-    <section className={styles.settingSection}>
+    <section className={styles.settingSection} data-scroll-assist-section>
       <img src={section.image} alt="Premium restaurant interior setting" />
       <div>
         <HighlightHeadingView heading={section.title} className={styles.settingHeading} />
@@ -960,7 +965,7 @@ function SettingSectionView({ section }: { section: SettingSection }) {
 
 function RememberedSectionView({ section }: { section: RememberedSection }) {
   return (
-    <section className={styles.rememberedSection}>
+    <section className={styles.rememberedSection} data-scroll-assist-section>
       <HighlightHeadingView heading={section.heading} />
       <div className={styles.rememberedGrid}>
         {section.items.map((item) => (
@@ -981,7 +986,7 @@ function RestaurantsPage({ config }: { config: RestaurantPageConfig }) {
       <StatsSection stats={config.stats} />
       <ValueSection heading={config.premium.heading} rows={config.premium.rows} />
       <RestaurantFeatureSections blocks={config.featureBlocks} />
-      <div className="desktop-real-impact">
+      <div className="desktop-real-impact" data-scroll-assist-section>
         <RealImpactScroll />
       </div>
       <MobileRealImpactSection />

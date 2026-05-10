@@ -9,7 +9,7 @@ function ArrowIcon({ color = "white" }: { color?: "white" | "dark" }) {
   return <img src={file} width={24} height={24} alt="" style={{ display: "block" }} />;
 }
 
-const CARD_H   = 374;
+const CARD_H   = 400;
 const CARD_W   = 434;
 const CARD_GAP = 30;
 const NAVBAR_HEIGHT = 88;
@@ -87,8 +87,8 @@ export default function WherePixtronWorksScroll() {
         card3Ref.current.style.top = `${venues[2].startY * (1 - easeInOut(t))}px`;
       }
 
-      const ctaStart = BANDS[1].to;
-      const ctaEnd   = Math.min(1.0, ctaStart + 0.25);
+      const ctaStart = BANDS[1].from;
+      const ctaEnd   = BANDS[1].to;
       const ctaProgress = Math.max(0, Math.min(1, (progress - ctaStart) / (ctaEnd - ctaStart)));
       cta.style.transform = `translateY(${CTA_DROP * (1 - easeInOut(ctaProgress))}px)`;
     };
