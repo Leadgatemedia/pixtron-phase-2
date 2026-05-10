@@ -419,9 +419,14 @@
   width: 100%;
 }
 
+.mobile-real-impact-desktop-fit .real-impact-desktop-heading {
+  background: #fff;
+}
+
 .mobile-real-impact-desktop-fit .mobile-real-impact-card-stack {
   max-width: min(1120px, 100%);
   padding-bottom: 152px;
+  padding-top: 46px;
 }
 
 .mobile-real-impact-desktop-fit .mobile-real-impact-stack-card-content {
@@ -434,10 +439,6 @@
 .mobile-real-impact-desktop-fit .mobile-real-impact-stack-card {
   justify-self: center;
   width: 100%;
-}
-
-.mobile-real-impact-desktop-fit .mobile-real-impact-stack-card:nth-child(3) {
-  width: 94%;
 }
 
 .mobile-real-impact-desktop-fit .mobile-real-impact-stack-card-heading {

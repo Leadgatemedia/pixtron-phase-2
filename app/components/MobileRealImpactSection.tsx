@@ -87,20 +87,21 @@ export default function MobileRealImpactSection({ desktopMode = false }: MobileR
       className={desktopMode ? "mobile-real-impact mobile-real-impact-desktop-fit" : "mobile-real-impact"}
       style={{
         "--real-impact-card-count": cardCount,
-        "--real-impact-card-sticky-top": desktopMode ? "300px" : `${MOBILE_NAV_HEIGHT}px`,
+        "--real-impact-card-sticky-top": desktopMode ? "314px" : `${MOBILE_NAV_HEIGHT}px`,
         "--real-impact-card-height": desktopMode ? "164px" : "188px",
         "--real-impact-card-top-offset": desktopMode ? "42px" : "46px",
         "--real-impact-card-gap": "16px",
         display: desktopMode ? "flex" : "none",
         flexDirection: "column",
         alignItems: "center",
-        gap: desktopMode ? 36 : 28,
+        gap: desktopMode ? 0 : 28,
         padding: desktopMode ? "0 39px 112px" : "48px 16px",
         background: "#fff",
         boxSizing: "border-box",
       } as React.CSSProperties}
     >
       <div
+        className={desktopMode ? "desktop-pinned-section-heading real-impact-desktop-heading" : undefined}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -108,9 +109,9 @@ export default function MobileRealImpactSection({ desktopMode = false }: MobileR
           justifyContent: desktopMode ? "center" : undefined,
           gap: desktopMode ? 16 : 24,
           width: "100%",
-          maxWidth: desktopMode ? 898 : undefined,
-          minHeight: desktopMode ? 210 : undefined,
-          padding: desktopMode ? "42px 39px 46px" : undefined,
+          maxWidth: undefined,
+          minHeight: desktopMode ? undefined : undefined,
+          padding: desktopMode ? undefined : undefined,
           boxSizing: "border-box",
           textAlign: "center",
         }}
@@ -143,7 +144,7 @@ export default function MobileRealImpactSection({ desktopMode = false }: MobileR
               "--real-impact-card-index0": index,
               "--real-impact-card-start-range": `${(index / cardCount) * 80}%`,
               "--real-impact-card-end-range": `${((index + 1) / cardCount) * 100}%`,
-              "--real-impact-card-target-scale": 1.1 - 0.1 * (cardCount - index),
+              "--real-impact-card-target-scale": desktopMode ? 1 : 1.1 - 0.1 * (cardCount - index),
               top: `calc(var(--real-impact-card-sticky-top) + (${index} * var(--real-impact-card-top-offset)))`,
               paddingTop: 0,
               zIndex: index + 1,
