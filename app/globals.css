@@ -406,7 +406,7 @@
     view-timeline-inset: 20%;
   }
 
-  .mobile-real-impact-stack-card-content {
+  .mobile-real-impact:not(.mobile-real-impact-desktop-fit) .mobile-real-impact-stack-card-content {
     animation: mobileRealImpactCardScale linear forwards;
     animation-timeline: --mobile-real-impact-cards-scroll;
     animation-range:
@@ -437,6 +437,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 28px 32px;
+  animation: none;
+  transform: scale(var(--real-impact-card-target-scale));
 }
 
 .mobile-real-impact-desktop-fit .mobile-real-impact-stack-card {
