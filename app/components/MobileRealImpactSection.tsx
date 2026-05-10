@@ -144,7 +144,7 @@ export default function MobileRealImpactSection({ desktopMode = false }: MobileR
               "--real-impact-card-index0": index,
               "--real-impact-card-start-range": `${(index / cardCount) * 80}%`,
               "--real-impact-card-end-range": `${((index + 1) / cardCount) * 100}%`,
-              "--real-impact-card-target-scale": desktopMode ? 1 : 1.1 - 0.1 * (cardCount - index),
+              "--real-impact-card-target-scale": 1.1 - 0.1 * (cardCount - index),
               top: `calc(var(--real-impact-card-sticky-top) + (${index} * var(--real-impact-card-top-offset)))`,
               paddingTop: 0,
               zIndex: index + 1,
@@ -181,7 +181,7 @@ export default function MobileRealImpactSection({ desktopMode = false }: MobileR
           maxWidth: 361,
           boxSizing: "border-box",
           justifyContent: "space-between",
-          marginTop: desktopMode ? -44 : 0,
+          marginTop: desktopMode ? 16 : 0,
         }}
       >
         <span>Get Signature Series</span>
