@@ -95,6 +95,14 @@
   width: 100%;
 }
 
+.mobile-process-intro-heading {
+  min-height: 210px;
+  padding: 42px 39px 46px;
+  box-sizing: border-box;
+  justify-content: center;
+  background: #fff;
+}
+
 .mobile-process-desktop-columns {
   width: 100%;
   max-width: min(1220px, calc(100vw - 160px));
@@ -133,6 +141,7 @@
 }
 
 .mobile-process-stacking-section-desktop {
+  --process-desktop-card-sticky-top: clamp(244px, 28vh, 286px);
   height: 100%;
 }
 
@@ -140,10 +149,20 @@
   height: 100%;
 }
 
+.mobile-process-stacking-section-desktop .mobile-process-column-heading {
+  position: sticky;
+  top: 88px;
+  z-index: 7;
+  background: #fff;
+  will-change: transform, opacity;
+}
+
 .mobile-process-stacking-section-desktop .mobile-process-card-stack {
   max-width: 500px;
   margin-bottom: 0;
   padding-bottom: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .mobile-process-stacking-section-desktop .mobile-process-stack-card {
@@ -173,16 +192,19 @@
   line-height: 1.42;
 }
 
-.mobile-process-large-desktop-stage .desktop-pinned-section-heading {
+.mobile-process-large-desktop-stage .desktop-pinned-section-heading,
+.mobile-process-large-desktop-stage .mobile-process-intro-heading {
   min-height: 236px;
   padding-block: 48px 52px;
 }
 
-.mobile-process-large-desktop-stage .desktop-pinned-section-heading h2 {
+.mobile-process-large-desktop-stage .desktop-pinned-section-heading h2,
+.mobile-process-large-desktop-stage .mobile-process-intro-heading h2 {
   font-size: 66px !important;
 }
 
-.mobile-process-large-desktop-stage .desktop-pinned-section-heading p {
+.mobile-process-large-desktop-stage .desktop-pinned-section-heading p,
+.mobile-process-large-desktop-stage .mobile-process-intro-heading p {
   font-size: 24px !important;
 }
 
@@ -193,11 +215,12 @@
 .mobile-process-large-desktop-stage .mobile-process-stacking-section {
   --process-card-height: 270px;
   --process-card-top-offset: 54px;
+  --process-desktop-card-sticky-top: clamp(260px, 27vh, 308px);
 }
 
 .mobile-process-large-desktop-stage .mobile-process-stacking-section-desktop .mobile-process-stacking-inner {
-  gap: 36px;
-  padding: 54px 44px 68px;
+  gap: clamp(22px, 2.8vh, 36px);
+  padding: clamp(28px, 4.5vh, 54px) 44px 68px;
 }
 
 .mobile-process-large-desktop-stage .mobile-process-stacking-section-desktop .mobile-process-card-stack {
@@ -296,10 +319,30 @@
 }
 
 @supports (animation-timeline: view()) {
+  @keyframes mobileProcessHeadingRelease {
+    to {
+      opacity: 0;
+      transform: translateY(-150px);
+    }
+  }
+
   @keyframes mobileProcessCardScale {
     to {
       transform: scale(var(--process-card-target-scale));
     }
+  }
+
+  .mobile-process-stacking-section-desktop {
+    view-timeline-name: --mobile-process-column-scroll;
+    view-timeline-inset: 0% 18%;
+  }
+
+  .mobile-process-stacking-section-desktop .mobile-process-column-heading {
+    animation: mobileProcessHeadingRelease linear forwards;
+    animation-timeline: --mobile-process-column-scroll;
+    animation-range:
+      exit-crossing 42%
+      exit-crossing 58%;
   }
 
   .mobile-process-card-stack {

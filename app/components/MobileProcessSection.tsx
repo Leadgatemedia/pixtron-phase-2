@@ -123,7 +123,7 @@ function MobilePinnedProcessBlock({
       className={desktopMode ? "mobile-process-stacking-section mobile-process-stacking-section-desktop" : "mobile-process-stacking-section"}
       style={{
         "--process-card-count": cardCount,
-        "--process-card-sticky-top": desktopMode ? "314px" : `${MOBILE_NAV_HEIGHT}px`,
+        "--process-card-sticky-top": desktopMode ? "var(--process-desktop-card-sticky-top)" : `${MOBILE_NAV_HEIGHT}px`,
         "--process-card-height": desktopMode ? "236px" : undefined,
         width: desktopMode ? "100%" : FULL_BLEED_WIDTH,
         marginLeft: desktopMode ? 0 : "calc(50% - 50vw)",
@@ -144,15 +144,18 @@ function MobilePinnedProcessBlock({
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: desktopMode ? 30 : 28,
-          padding: desktopMode ? "46px 36px 56px" : "48px 20px 36px",
+          gap: desktopMode ? "clamp(18px, 2.2vh, 30px)" : 28,
+          padding: desktopMode ? "clamp(20px, 3.2vh, 46px) 36px 56px" : "48px 20px 36px",
           boxSizing: "border-box",
           zIndex: 1,
           WebkitTextSizeAdjust: "100%",
           textSizeAdjust: "100%",
         }}
       >
-        <div style={{ width: "100%", maxWidth: 361, display: "flex", flexDirection: "column", alignItems: "center", gap: 24, textAlign: "center" }}>
+        <div
+          className={desktopMode ? "mobile-process-column-heading" : undefined}
+          style={{ width: "100%", maxWidth: 361, display: "flex", flexDirection: "column", alignItems: "center", gap: 24, textAlign: "center" }}
+        >
           <p style={{ margin: 0, fontSize: 18, fontWeight: 600, lineHeight: 1.4, color: "#0f9d58" }}>{column.label}</p>
           <div style={{ width: "100%", color: "#000", fontSize: 24, lineHeight: 1.3 }}>
             <p style={{ margin: 0, fontWeight: 400 }}>{column.headingTop}</p>
@@ -256,7 +259,7 @@ export default function MobileProcessSection({ desktopMode = false }: MobileProc
       }}
     >
       <div
-        className={desktopMode ? "desktop-pinned-section-heading" : undefined}
+        className={desktopMode ? "mobile-process-intro-heading" : undefined}
         style={{
           width: "100%",
           display: "flex",
