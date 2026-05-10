@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type ProcessStep = {
   step: string;
@@ -214,9 +215,30 @@ function MobilePinnedProcessBlock({
 }
 
 export default function MobileProcessSection({ desktopMode = false }: MobileProcessSectionProps) {
+  const [largeDesktopStage, setLargeDesktopStage] = useState(false);
+
+  useEffect(() => {
+    if (!desktopMode) return;
+
+    const updateStage = () => {
+      const dpr = window.devicePixelRatio || 1;
+      setLargeDesktopStage(
+        dpr <= 1.05 && window.innerWidth >= 1800 && window.innerHeight >= 900
+      );
+    };
+
+    updateStage();
+    window.addEventListener("resize", updateStage);
+    return () => window.removeEventListener("resize", updateStage);
+  }, [desktopMode]);
+
   return (
     <section
-      className={desktopMode ? "mobile-process mobile-process-desktop-fit" : "mobile-process"}
+      className={[
+        "mobile-process",
+        desktopMode ? "mobile-process-desktop-fit" : "",
+        largeDesktopStage ? "mobile-process-large-desktop-stage" : "",
+      ].filter(Boolean).join(" ")}
       style={{
         display: desktopMode ? "flex" : "none",
         flexDirection: "column",

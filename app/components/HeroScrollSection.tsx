@@ -48,6 +48,8 @@ type HeroScrollSectionProps = {
   finalAlign?: "edge" | "center";
   watermarkSelector?: string;
   waitForIntro?: boolean;
+  stageWidth?: number;
+  stageHeight?: number;
 };
 
 export default function HeroScrollSection({
@@ -59,6 +61,8 @@ export default function HeroScrollSection({
   finalAlign = "edge",
   watermarkSelector = ".hero-watermark",
   waitForIntro = true,
+  stageWidth,
+  stageHeight,
 }: HeroScrollSectionProps) {
   const outerRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
@@ -122,14 +126,17 @@ export default function HeroScrollSection({
 
     const getMetrics = () => {
       const cssZoom = parseFloat(document.documentElement.style.zoom) || ZOOM;
-      const vh = window.innerHeight / cssZoom;
-      const vw = window.innerWidth / cssZoom;
+      const rawVh = window.innerHeight / cssZoom;
+      const vh = stageHeight ? Math.min(rawVh, stageHeight) : rawVh;
+      const rawVw = window.innerWidth / cssZoom;
+      const vw = stageWidth ? Math.min(rawVw, stageWidth) : rawVw;
+      const stageLeft = (rawVw - vw) / 2;
       const stickyH = vh;
       const leadScroll = stickyH * 0.62;
       const holdScroll = stickyH * FINAL_HOLD_RATIO;
       const maxTx = Math.max(0, stripW - vw);
-      const txStart = vw + ENTRY_BUFFER;
-      const txEnd = finalAlign === "center" ? (vw - stripW) / 2 : -maxTx;
+      const txStart = stageLeft + vw + ENTRY_BUFFER;
+      const txEnd = stageLeft + (finalAlign === "center" ? (vw - stripW) / 2 : -maxTx);
 
       // Horizontal motion starts fully off-screen right and stops exactly when
       // the final sachet reaches its target alignment.
@@ -138,6 +145,8 @@ export default function HeroScrollSection({
 
       return {
         vw,
+        rawVw,
+        stageLeft,
         stickyH,
         leadScroll,
         holdScroll,
@@ -161,7 +170,7 @@ export default function HeroScrollSection({
     const update = () => {
       const rect = outer.getBoundingClientRect();
       const {
-        vw,
+        rawVw,
         leadScroll,
         txStart,
         txEnd,
@@ -201,7 +210,7 @@ export default function HeroScrollSection({
       if (wmReady && watermark) {
         const wmW = watermark.offsetWidth;
         const txCenter = -wmW / 2;
-        const txGone = -(vw / 2 + wmW + 60);
+        const txGone = -(rawVw / 2 + wmW + 60);
         const wordEls = Array.from(watermark.children) as HTMLElement[];
         const watermarkExitScroll = travelScroll * 0.42;
         const alignProgress = Math.max(
@@ -271,7 +280,20 @@ export default function HeroScrollSection({
       window.clearTimeout(takeoverTimer);
       watermark?.removeEventListener("animationend", takeOver);
     };
-  }, [finalAlign, stripW, watermarkSelector, waitForIntro]);
+  }, [finalAlign, stageHeight, stageWidth, stripW, watermarkSelector, waitForIntro]);
+
+  const capVh = (value: string, ratio: number) =>
+    stageHeight ? `min(${value}, ${stageHeight * ratio}px)` : value;
+  const capNegativeVh = (value: string, ratio: number) =>
+    stageHeight ? `max(${value}, -${stageHeight * ratio}px)` : value;
+
+  const strip1Top = capVh(STRIP1_TOP, 0.8289);
+  const strip1Height = capVh(STRIP1_H, 0.21);
+  const strip2Top = capVh(STRIP2_TOP, 1.0389);
+  const strip2Height = capVh(STRIP2_H, 0.21);
+  const strip2Crop = capNegativeVh(STRIP2_CROP, 0.21);
+  const sachetHeight = capVh(SACHET_H, 0.42);
+  const overlayHeight = capVh(OVERLAY_H, 0.42);
 
   const renderStrip = (cropTop: string | number = 0) => {
     if (stripImage) {
@@ -308,7 +330,7 @@ export default function HeroScrollSection({
           left: i * SPACING,
           top: cropTop,
           width: SACHET_W,
-          height: SACHET_H,
+          height: sachetHeight,
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -343,12 +365,13 @@ export default function HeroScrollSection({
           ref={strip1Ref}
           style={{
             position: "absolute",
-            top: stripImage ? (stripTop ?? STRIP1_TOP) : STRIP1_TOP,
+            top: stripImage ? (stripTop ?? strip1Top) : strip1Top,
             left: 0,
             width: stripW,
-            height: stripImage ? stripH : STRIP1_H,
+            height: stripImage ? stripH : strip1Height,
             overflow: stripImage ? "visible" : "hidden",
             willChange: "transform",
+            transformOrigin: "top left",
             zIndex: 3,
             transform: "translateX(9999px)",
           }}
@@ -360,27 +383,28 @@ export default function HeroScrollSection({
           ref={strip2Ref}
           style={{
             position: "absolute",
-            top: STRIP2_TOP,
+            top: strip2Top,
             left: 0,
             width: stripW,
-            height: STRIP2_H,
+            height: strip2Height,
             overflow: "hidden",
             willChange: "transform",
+            transformOrigin: "top left",
             zIndex: 3,
             transform: "translateX(9999px)",
             display: stripImage ? "none" : "block",
           }}
         >
-          {stripImage ? null : renderStrip(STRIP2_CROP)}
+          {stripImage ? null : renderStrip(strip2Crop)}
         </div>
 
         <div
           style={{
             position: "absolute",
-            top: stripImage ? (stripTop ?? STRIP1_TOP) : STRIP1_TOP,
+            top: stripImage ? (stripTop ?? strip1Top) : strip1Top,
             left: 0,
             right: 0,
-            height: stripImage ? stripH : OVERLAY_H,
+            height: stripImage ? stripH : overlayHeight,
             background:
               "linear-gradient(90deg, #f6fbf6 3%, transparent 18%, transparent 82%, #f6fbf6 97%)",
             zIndex: 4,
