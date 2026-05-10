@@ -8,7 +8,9 @@ const STATS = [
     label: "Ready to Serve",
     desktopDescription: (
       <>
-        No setup, No preparation <strong>simply place &amp; serve</strong>
+        No setup, No preparation
+        <br />
+        <strong>simply place &amp; serve</strong>
       </>
     ),
     description: (
@@ -24,7 +26,9 @@ const STATS = [
     label: "Extra Staff Effort",
     desktopDescription: (
       <>
-        <strong>Fits seamlessly</strong> into your existing service flow
+        <strong>Fits seamlessly</strong>
+        <br />
+        into your existing service flow
       </>
     ),
     description: (
@@ -40,7 +44,9 @@ const STATS = [
     label: "Every Time",
     desktopDescription: (
       <>
-        <strong>Uniform quality and experience</strong> for every guest
+        <strong>Uniform quality and</strong>
+        <br />
+        <strong>experience</strong> for every guest
       </>
     ),
     description: (
@@ -55,7 +61,9 @@ const STATS = [
     label: "by Design",
     desktopDescription: (
       <>
-        Crafted to match modern <strong>hospitality standards</strong>
+        Crafted to match modern
+        <br />
+        <strong>hospitality standards</strong>
       </>
     ),
     description: (
