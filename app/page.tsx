@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import Link from "next/link";
 import { createPageMetadata } from "@/lib/seo";
 // Above-fold: loaded eagerly
 import HeroIntro from "./components/HeroIntro";
 import HeroScrollSection from "./components/HeroScrollSection";
-import MobileHeader from "./components/MobileHeader";
 import MobileHomeHero from "./components/MobileHomeHero";
+import ProductPageHeader from "./components/ProductPageHeader";
 // Below-fold: code-split so the initial bundle stays small
 const HowItWorksScroll           = dynamic(() => import("./components/HowItWorksScroll"));
 const WherePixtronWorksScroll     = dynamic(() => import("./components/WherePixtronWorksScroll"));
@@ -31,7 +30,8 @@ export const metadata: Metadata = createPageMetadata({
 
 const ARROW_WHITE   = "white";
 const ARROW_DARK    = "dark";
-const ARROW_CONTACT = "dark";
+const HOME_HERO_WATERMARK_TOP = "min(89vh, 769px)";
+const HOME_HERO_SACHET_TOP = `calc(${HOME_HERO_WATERMARK_TOP} - 24px)`;
 
 function ArrowIcon({ src }: { src: string }) {
   const file = src === "white" ? "/arrow-white.webp" : "/arrow-black.webp";
@@ -41,83 +41,10 @@ function ArrowIcon({ src }: { src: string }) {
 
 // ─── NAVBAR ──────────────────────────────────────────────────────────────────
 
-function Navbar() {
-  return (
-    <nav
-      className="intro-reveal-nav desktop-scroll-header"
-      style={{
-        position: "fixed",
-        top: 0,
-        zIndex: 50,
-        width: "100%",
-        height: 88,
-        background: "rgba(255,255,255,0.8)",
-        borderBottom: "1px solid rgba(0,0,0,0.06)",
-        backdropFilter: "blur(35px)",
-        WebkitBackdropFilter: "blur(35px)",
-        boxSizing: "border-box",
-        display: "flex",
-        alignItems: "center",
-        padding: "0 39px",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: 1820,
-          margin: "0 auto",
-          display: "grid",
-          gridTemplateColumns: "480px 1fr 480px",
-          alignItems: "center",
-          columnGap: 16,
-        }}
-      >
-        {/* Logo */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
-          <Link href="/" style={{ display: "inline-flex", alignItems: "center" }}>
-            <Image
-              src="/logo.webp"
-              alt="Pixtron"
-              width={86}
-              height={64}
-              priority
-              style={{ width: "auto", height: 64 }}
-            />
-          </Link>
-        </div>
-
-        {/* Nav links */}
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div style={{ display: "flex", gap: 24, alignItems: "center", fontSize: 18, fontWeight: 400 }}>
-            {([
-              { label: "About", href: "/about" },
-              { label: "Restaurants", href: "/restaurants" },
-              { label: "Signature Series", href: "/signature-series" },
-              { label: "Custom Series", href: "/custom-series" },
-            ] as const).map(({ label, href }) => (
-              <Link key={label} href={href} className="nav-link">{label}</Link>
-            ))}
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-          <Link
-            href="/contact"
-            className="btn-outline"
-            style={{ minHeight: 56, padding: "0 20px 0 22px", justifyContent: "center" }}
-          >
-            <span>Contact Us</span>
-            <ArrowIcon src={ARROW_CONTACT} />
-          </Link>
-        </div>
-      </div>
-    </nav>
-  );
-}
-
 function Hero() {
-  const heroBandTop = "min(89vh, 769px)";
+  const heroBandTop = HOME_HERO_WATERMARK_TOP;
+  const headlineToButtonsGap = 40;
+  const buttonsToBodyGap = 42;
 
   return (
     <section
@@ -136,10 +63,12 @@ function Hero() {
           top: 88,
           left: 0,
           right: 0,
-          bottom: `calc(100% - ${heroBandTop})`,
-          display: "grid",
-          gridTemplateRows: "minmax(32px, 1fr) auto minmax(18px, 0.48fr) auto minmax(18px, 0.48fr) auto minmax(32px, 1fr)",
+          height: `calc(${heroBandTop} - 88px)`,
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
           justifyItems: "center",
           zIndex: 1,
         }}
@@ -155,7 +84,6 @@ function Hero() {
             color: "#000",
             maxWidth: 782,
             margin: 0,
-            gridRow: 2,
           }}
         >
           Branding that people{" "}
@@ -165,7 +93,12 @@ function Hero() {
         {/* Buttons */}
         <div
           className="intro-reveal-up"
-          style={{ gridRow: 4, display: "inline-flex", gap: 24, alignItems: "center" }}
+          style={{
+            marginTop: headlineToButtonsGap,
+            display: "inline-flex",
+            gap: 24,
+            alignItems: "center",
+          }}
         >
           {/* Get Signature Series — filled black */}
           <Link href="/signature-series" className="btn-primary" style={{ width: 256, flexShrink: 0 }}>
@@ -190,8 +123,7 @@ function Hero() {
             color: "rgba(0,0,0,0.8)",
             textAlign: "center",
             maxWidth: 898,
-            margin: 0,
-            gridRow: 6,
+            margin: `${buttonsToBodyGap}px 0 0`,
           }}
         >
           Pixtron places your brand in the hands of customers through custom wet
@@ -459,12 +391,7 @@ export default function HomePage() {
   return (
     <>
       <HeroIntro />
-      <div className="desktop-nav-only">
-        <Navbar />
-      </div>
-      <div className="mobile-nav-only">
-        <MobileHeader />
-      </div>
+      <ProductPageHeader />
       <main>
         <MobileHomeHero />
         <div className="desktop-home-hero" data-scroll-assist-section>
@@ -472,7 +399,7 @@ export default function HomePage() {
             stageWidth={1920}
             stageHeight={864}
             sachetScale={0.84}
-            sachetTop="calc(min(78.89vh, 681.7px) + min(6vh, 52px))"
+            sachetTop={HOME_HERO_SACHET_TOP}
           >
             <Hero />
           </HeroScrollSection>
@@ -485,11 +412,11 @@ export default function HomePage() {
           <RealImpactScroll />
         </div>
         <MobileRealImpactSection />
-        <div className="desktop-real-impact desktop-where-pixtron" data-scroll-assist-section>
+        <div className="desktop-real-impact desktop-where-pixtron" data-scroll-assist-section data-scroll-assist-skip-next="true">
           <WherePixtronWorksScroll />
         </div>
         <MobileWherePixtronWorksSection />
-        <div className="desktop-process" data-scroll-assist-section>
+        <div className="desktop-process" data-scroll-assist-section data-scroll-assist-skip-prev="true" data-scroll-assist-skip-next="true">
           <MobileProcessSection desktopMode />
         </div>
         <MobileProcessSection />

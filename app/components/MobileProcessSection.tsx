@@ -116,7 +116,7 @@ function MobilePinnedProcessBlock({
 }) {
   const cardCount = column.steps.length;
   const scaleStep = desktopMode ? 0.13 : 0.1;
-  const desktopTargetScales = [0.61, 0.74, 0.48, 1];
+  const desktopTargetScales = [0.7, 0.8, 0.9, 1];
 
   return (
     <section
@@ -202,7 +202,7 @@ function MobilePinnedProcessBlock({
           className={column.ctaVariant === "primary" ? "btn-primary" : "btn-outline"}
           style={{
             width: "100%",
-            maxWidth: desktopMode ? 500 : 361,
+            maxWidth: desktopMode ? 300 : 361,
             minHeight: 64,
             boxSizing: "border-box",
             justifyContent: "space-between",
