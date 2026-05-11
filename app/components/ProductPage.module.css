@@ -30,6 +30,25 @@
   -webkit-backdrop-filter: blur(35px);
   box-sizing: border-box;
   padding: 0 39px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.desktopHeaderDark {
+  background: transparent !important;
+  border-bottom-color: transparent !important;
+}
+
+.desktopHeaderDark :global(.nav-link) {
+  color: #ffffff !important;
+}
+
+.desktopHeaderDark :global(.nav-link:hover) {
+  color: #0f9d58 !important;
+}
+
+.contactBtnDark {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
 }
 
 .desktopHeaderInner {
@@ -83,9 +102,11 @@
 }
 
 .restaurantHero {
-  min-height: 816px;
+  min-height: max(960px, calc(100vh + 180px));
+  min-height: max(960px, calc(100dvh + 180px));
+  padding-top: 84px;
   display: grid;
-  grid-template-columns: 666px clamp(619px, 48vw, 920px);
+  grid-template-columns: minmax(520px, 666px) minmax(619px, 48vw);
   justify-content: space-between;
   align-items: stretch;
   padding-left: 39px;
@@ -99,6 +120,7 @@
   justify-content: center;
   align-items: flex-start;
   gap: 40px;
+  padding-bottom: 84px;
 }
 
 .restaurantHeroCopy h1 {
@@ -130,8 +152,10 @@
 }
 
 .restaurantHeroImage {
-  min-height: 816px;
+  height: 100%;
+  min-height: 760px;
   overflow: hidden;
+  border-radius: 40px 0 0 40px;
 }
 
 .restaurantHeroImage picture {
@@ -145,7 +169,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 76% center;
+  object-position: 68% center;
 }
 
 .statsSection {
@@ -563,7 +587,7 @@
 }
 
 .sectionIntro p {
-  margin: 32px 0 0;
+  margin: 8px 0 0;
   color: rgba(0, 0, 0, 0.5);
   font-size: 22px;
   line-height: 1.4;
@@ -977,12 +1001,13 @@
 }
 
 .customHero {
-  height: 816px;
-  min-height: 816px;
+  min-height: max(940px, 136vh);
+  min-height: max(940px, 136dvh);
   position: relative;
   overflow: hidden;
   background: #171717;
   color: #ffffff;
+  box-sizing: border-box;
 }
 
 .customGlow {
@@ -990,7 +1015,7 @@
   inset: 0;
   margin: auto;
   width: 898px;
-  height: 816px;
+  height: 100%;
   border-radius: 999px;
   background: rgba(95, 185, 68, 0.2);
   filter: blur(200px);
@@ -1008,15 +1033,15 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 64px;
-  transform: translate(-50%, -50%);
+  gap: clamp(58px, 6.8vh, 96px);
+  transform: translate(-50%, -53%);
 }
 
 .customHeroIntro {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: clamp(24px, 3.2vh, 40px);
   text-align: center;
   margin-bottom: 0;
 }
@@ -1046,7 +1071,7 @@
 .dualRows {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: clamp(24px, 3vh, 40px);
   width: 100%;
 }
 
@@ -1651,7 +1676,7 @@
 
   .timelineStep strong {
     font-size: 30px;
-    line-height: 36px;
+    line-height: 96px;
   }
 
   .timelineStep h3 {

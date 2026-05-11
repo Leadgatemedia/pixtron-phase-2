@@ -117,6 +117,8 @@ function Navbar() {
 }
 
 function Hero() {
+  const heroBandTop = "min(89vh, 769px)";
+
   return (
     <section
       style={{
@@ -130,11 +132,15 @@ function Hero() {
       {/* ── Centered content ── */}
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
+          position: "absolute",
+          top: 88,
+          left: 0,
+          right: 0,
+          bottom: `calc(100% - ${heroBandTop})`,
+          display: "grid",
+          gridTemplateRows: "minmax(32px, 1fr) auto minmax(18px, 0.48fr) auto minmax(18px, 0.48fr) auto minmax(32px, 1fr)",
           alignItems: "center",
-          paddingTop: 140, // navbar is fixed, not in flow
-          position: "relative",
+          justifyItems: "center",
           zIndex: 1,
         }}
       >
@@ -148,7 +154,8 @@ function Hero() {
             textAlign: "center",
             color: "#000",
             maxWidth: 782,
-            marginBottom: 48,
+            margin: 0,
+            gridRow: 2,
           }}
         >
           Branding that people{" "}
@@ -158,7 +165,7 @@ function Hero() {
         {/* Buttons */}
         <div
           className="intro-reveal-up"
-          style={{ display: "inline-flex", gap: 24, alignItems: "center", marginBottom: 48 }}
+          style={{ gridRow: 4, display: "inline-flex", gap: 24, alignItems: "center" }}
         >
           {/* Get Signature Series — filled black */}
           <Link href="/signature-series" className="btn-primary" style={{ width: 256, flexShrink: 0 }}>
@@ -183,6 +190,8 @@ function Hero() {
             color: "rgba(0,0,0,0.8)",
             textAlign: "center",
             maxWidth: 898,
+            margin: 0,
+            gridRow: 6,
           }}
         >
           Pixtron places your brand in the hands of customers through custom wet
@@ -197,7 +206,7 @@ function Hero() {
         className="hero-watermark"
         style={{
           position: "absolute",
-          top: "min(82vh, 708px)",      // clear breathing room below hero text content
+          top: heroBandTop,      // align with the sachet row's visual band
           left: "50%",
           transform: "translateX(calc(-50% + var(--watermark-scroll-x, 0px)))",
           width: "max-content",
@@ -459,7 +468,12 @@ export default function HomePage() {
       <main>
         <MobileHomeHero />
         <div className="desktop-home-hero" data-scroll-assist-section>
-          <HeroScrollSection stageWidth={1920} stageHeight={864}>
+          <HeroScrollSection
+            stageWidth={1920}
+            stageHeight={864}
+            sachetScale={0.84}
+            sachetTop="calc(min(78.89vh, 681.7px) + min(6vh, 52px))"
+          >
             <Hero />
           </HeroScrollSection>
         </div>

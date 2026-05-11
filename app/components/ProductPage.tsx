@@ -7,6 +7,7 @@ import FooterSection from "./FooterSection";
 import HeroScrollSection from "./HeroScrollSection";
 import HomeMidCtaSection from "./HomeMidCtaSection";
 import MobileHeader from "./MobileHeader";
+import ProductPageHeader from "./ProductPageHeader";
 import JourneyScrollSection from "./JourneyScrollSection";
 import MobileHomeHero from "./MobileHomeHero";
 import MobileRealImpactSection from "./MobileRealImpactSection";
@@ -613,7 +614,7 @@ function HighlightHeadingView({
 function PageShell({ config, children }: { config: ProductPageConfig; children: React.ReactNode }) {
   return (
     <>
-      <SiteHeader activeHref={config.activeHref} />
+      <ProductPageHeader activeHref={config.activeHref} darkHero={config.kind === "custom"} />
       {config.kind === "custom" ? <BottomBlurController hiddenUntilY={80} desktopOnly /> : null}
       {config.kind === "restaurant" ? (
         <BottomBlurController hiddenUntilY={-1} desktopOnly />
