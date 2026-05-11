@@ -45,6 +45,8 @@ type HeroScrollSectionProps = {
   stripImage?: string;
   stripWidth?: number;
   stripTop?: string;
+  sachetTop?: string;
+  sachetScale?: number;
   finalAlign?: "edge" | "center";
   watermarkSelector?: string;
   waitForIntro?: boolean;
@@ -58,6 +60,8 @@ export default function HeroScrollSection({
   stripImage,
   stripWidth,
   stripTop,
+  sachetTop,
+  sachetScale = 1,
   finalAlign = "edge",
   watermarkSelector = ".hero-watermark",
   waitForIntro = true,
@@ -68,7 +72,9 @@ export default function HeroScrollSection({
   const stickyRef = useRef<HTMLDivElement>(null);
   const strip1Ref = useRef<HTMLDivElement>(null);
   const strip2Ref = useRef<HTMLDivElement>(null);
-  const stripW = stripImage ? (stripWidth ?? 1484) : SACHET_W + (sachets.length - 1) * SPACING;
+  const scaledSachetW = SACHET_W * sachetScale;
+  const scaledSpacing = SPACING * sachetScale;
+  const stripW = stripImage ? (stripWidth ?? 1484) : scaledSachetW + (sachets.length - 1) * scaledSpacing;
   const stripH = stripImage ? (stripW * STRIP_SOURCE_H) / STRIP_SOURCE_W : 0;
 
   useEffect(() => {
@@ -284,16 +290,22 @@ export default function HeroScrollSection({
 
   const capVh = (value: string, ratio: number) =>
     stageHeight ? `min(${value}, ${stageHeight * ratio}px)` : value;
+  const capScaledVh = (value: string, ratio: number) =>
+    stageHeight
+      ? `min(calc(${value} * ${sachetScale}), ${stageHeight * ratio * sachetScale}px)`
+      : `calc(${value} * ${sachetScale})`;
   const capNegativeVh = (value: string, ratio: number) =>
-    stageHeight ? `max(${value}, -${stageHeight * ratio}px)` : value;
+    stageHeight
+      ? `max(calc(${value} * ${sachetScale}), -${stageHeight * ratio * sachetScale}px)`
+      : `calc(${value} * ${sachetScale})`;
 
-  const strip1Top = capVh(STRIP1_TOP, 0.7889);
-  const strip1Height = capVh(STRIP1_H, 0.21);
-  const strip2Top = capVh(STRIP2_TOP, 0.9989);
-  const strip2Height = capVh(STRIP2_H, 0.21);
+  const strip1Top = sachetTop ?? capVh(STRIP1_TOP, 0.7889);
+  const strip1Height = stripImage ? capVh(STRIP1_H, 0.21) : capScaledVh(STRIP1_H, 0.21);
+  const strip2Top = stripImage ? capVh(STRIP2_TOP, 0.9989) : `calc(${strip1Top} + ${strip1Height})`;
+  const strip2Height = stripImage ? capVh(STRIP2_H, 0.21) : capScaledVh(STRIP2_H, 0.21);
   const strip2Crop = capNegativeVh(STRIP2_CROP, 0.21);
-  const sachetHeight = capVh(SACHET_H, 0.42);
-  const overlayHeight = capVh(OVERLAY_H, 0.42);
+  const sachetHeight = stripImage ? capVh(SACHET_H, 0.42) : capScaledVh(SACHET_H, 0.42);
+  const overlayHeight = stripImage ? capVh(OVERLAY_H, 0.42) : capScaledVh(OVERLAY_H, 0.42);
 
   const renderStrip = (cropTop: string | number = 0) => {
     if (stripImage) {
@@ -327,9 +339,9 @@ export default function HeroScrollSection({
         key={i}
         style={{
           position: "absolute",
-          left: i * SPACING,
+          left: i * scaledSpacing,
           top: cropTop,
-          width: SACHET_W,
+          width: scaledSachetW,
           height: sachetHeight,
         }}
       >
