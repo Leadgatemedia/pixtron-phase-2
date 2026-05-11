@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 // Above-fold
-import MobileHeader from "../components/MobileHeader";
+import ProductPageHeader from "../components/ProductPageHeader";
 import { createPageMetadata } from "@/lib/seo";
 // Below-fold — code-split
 import BottomBlurController from "../components/BottomBlurController";
@@ -22,7 +22,6 @@ export const metadata: Metadata = createPageMetadata({
 
 const ARROW_WHITE = "white";
 const ARROW_DARK = "dark";
-const ARROW_CONTACT = "dark";
 const MOBILE_CONTENT_MAX = 361;
 
 function ArrowIcon({ src }: { src: string }) {
@@ -79,122 +78,11 @@ function DesktopSectionEyebrow({ children, align = "left" }: { children: string;
   );
 }
 
-function SiteNavbar() {
-  return (
-    <nav
-      className="desktop-scroll-header"
-      style={{
-        position: "fixed",
-        top: 0,
-        zIndex: 50,
-        width: "100%",
-        height: 88,
-        background: "rgba(255,255,255,0.8)",
-        borderBottom: "1px solid rgba(0,0,0,0.05)",
-        backdropFilter: "blur(24px)",
-        WebkitBackdropFilter: "blur(24px)",
-        boxSizing: "border-box",
-        padding: "16px 39px",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: 1820,
-          margin: "0 auto",
-          minHeight: 56,
-          display: "grid",
-          gridTemplateColumns: "480px 1fr 480px",
-          alignItems: "center",
-          columnGap: 16,
-        }}
-      >
-        <div
-          style={{
-            width: 480,
-            minHeight: 56,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Link
-            href="/"
-            style={{
-              width: "100%",
-              minHeight: 56,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <Image
-              src="/logo.webp"
-              alt="Pixtron"
-              width={86}
-              height={64}
-              priority
-              style={{ width: "auto", height: 64 }}
-            />
-          </Link>
-        </div>
-
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-            <Link href="/about" className="nav-link">
-              About
-            </Link>
-            <Link href="/restaurants" className="nav-link">
-              Restaurants
-            </Link>
-            <Link href="/signature-series" className="nav-link">
-              Signature Series
-            </Link>
-            <Link href="/custom-series" className="nav-link">
-              Custom Series
-            </Link>
-          </div>
-        </div>
-
-        <div
-          style={{
-            width: 480,
-            minHeight: 56,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Link
-            href="/contact"
-            className="btn-outline"
-            style={{
-              minHeight: 56,
-              padding: "0 20px 0 22px",
-              justifyContent: "center",
-            }}
-          >
-            <span>Contact Us</span>
-            <ArrowIcon src={ARROW_CONTACT} />
-          </Link>
-        </div>
-      </div>
-    </nav>
-  );
-}
-
 export default function AboutPage() {
   return (
     <>
       <BottomBlurController hiddenUntilY={-1} desktopOnly />
-      {/* Desktop navbar */}
-      <div className="about-desktop-only">
-        <SiteNavbar />
-      </div>
-      {/* Mobile navbar */}
-      <div className="about-mobile-only">
-        <MobileHeader />
-      </div>
+      <ProductPageHeader activeHref="/about" />
 
       <main>
         {/* ══════════════════════════════════════════════════════
@@ -248,11 +136,11 @@ export default function AboutPage() {
               </h1>
 
               <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-                <Link href="/signature-series" className="btn-primary" style={{ width: 282, flexShrink: 0 }}>
+                <Link href="/signature-series" className="btn-primary" style={{ width: 282, flexShrink: 0, justifyContent: "space-between", padding: "16px 20px 16px 22px" }}>
                   <span>View Signature Series</span>
                   <ArrowIcon src={ARROW_WHITE} />
                 </Link>
-                <Link href="/custom-series" className="btn-outline" style={{ width: 282, flexShrink: 0 }}>
+                <Link href="/custom-series" className="btn-outline" style={{ width: 282, flexShrink: 0, justifyContent: "space-between", padding: "16px 20px 16px 22px" }}>
                   <span>View Custom Series</span>
                   <ArrowIcon src={ARROW_DARK} />
                 </Link>

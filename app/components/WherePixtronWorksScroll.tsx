@@ -14,14 +14,20 @@ const MAX_CARD_H = 720;
 const CARD_W   = 434;
 const CARD_GAP = 30;
 const NAVBAR_HEIGHT = 88;
-const PINNED_TITLE_HEIGHT = 172;
+const PINNED_TITLE_HEIGHT = 206;
 const CARD_TOP_INSET = 28;
+const HEADING_TOP_PADDING = 58;
+const HEADING_BOTTOM_PADDING = 30;
 const CTA_HEIGHT = 56;
 const CONTENT_BOTTOM_ROOM = 36;
-const MIN_CARD_CTA_GAP = 40;
-const MAX_CARD_CTA_GAP = 112;
+const MIN_CARD_CTA_GAP = CARD_GAP;
+const MAX_CARD_CTA_GAP = CARD_GAP;
 const MIN_CTA_DROP = 200;
 const MAX_CTA_DROP = 460;
+const HEADING_RELEASE_START = 0.68;
+const HEADING_RELEASE_END = 0.78;
+const CONTENT_LIFT_START = 0.78;
+const CONTENT_LIFT_END = 0.96;
 
 const venues = [
   { image: "/restaurant_v2.webp", title: "Restaurants", subtitle: "Enhance dining with premium wipes",  startY: 0   },
@@ -30,8 +36,8 @@ const venues = [
 ];
 
 const BANDS = [
-  { from: 0.00, to: 0.16 },
-  { from: 0.16, to: 0.32 },
+  { from: 0.00, to: 0.34 },
+  { from: 0.34, to: 0.68 },
 ];
 
 function clamp(value: number, min: number, max: number) {
@@ -53,6 +59,7 @@ function easeInOut(t: number) {
 
 export default function WherePixtronWorksScroll() {
   const outerRef   = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
   const stickyRef  = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const card2Ref   = useRef<HTMLDivElement>(null);
@@ -61,10 +68,18 @@ export default function WherePixtronWorksScroll() {
 
   useEffect(() => {
     const outer   = outerRef.current;
+    const heading = headingRef.current;
     const sticky  = stickyRef.current;
     const content = contentRef.current;
     const cta     = ctaRef.current;
     if (!outer || !sticky || !content || !cta) return;
+
+    const setBottomBlurDisabled = () => {
+      const rect = outer.getBoundingClientRect();
+      const isDesktop = window.innerWidth >= 768;
+      const inSection = rect.top < window.innerHeight && rect.bottom > 0;
+      document.body.dataset.footerBlurDisabled = isDesktop && inSection ? "true" : "false";
+    };
 
     const setDimensions = () => {
       const cssZoom = parseFloat(document.documentElement.style.zoom) || 1;
@@ -76,12 +91,14 @@ export default function WherePixtronWorksScroll() {
       content.style.setProperty("--venue-card-cta-gap", `${ctaGap}px`);
       content.style.setProperty("--venue-cta-drop", `${ctaDrop}px`);
       sticky.style.height = `${stickyH}px`;
-      outer.style.height  = `${stickyH * 2.6 + stickyTop}px`;
+      sticky.style.top = `${stickyTop}px`;
+      outer.style.height  = `${stickyH * 4.4 + stickyTop}px`;
 
       const contentH = content.offsetHeight + CARD_TOP_INSET;
       const scale    = contentH > 0 ? Math.min(1, (stickyH - 16) / contentH) : 1;
       // Keep breathing room so the sticky clip never slices the card tops.
       content.style.transform = `translateX(-50%) scale(${scale})`;
+      requestAnimationFrame(update);
     };
 
     // Two rAFs: first paints, second measures correct offsetHeight
@@ -91,12 +108,34 @@ export default function WherePixtronWorksScroll() {
     const update = () => {
       const rect      = outer.getBoundingClientRect();
       const outerH    = outer.offsetHeight;
-      const stickyH   = sticky.offsetHeight;
+      const cssZoom   = parseFloat(document.documentElement.style.zoom) || 1;
+      const viewportH = window.innerHeight / cssZoom;
+      const initialStickyTop = NAVBAR_HEIGHT + PINNED_TITLE_HEIGHT;
+      const stickyH = Math.max(0, viewportH - initialStickyTop);
       const scrolled  = -rect.top;
       const maxScroll = Math.max(1, outerH - stickyH);
       const progress  = Math.max(0, Math.min(1, scrolled / maxScroll));
 
       // Card 2 — top: 100 → 0 during band 0
+      const headingReleaseProgress = Math.max(
+        0,
+        Math.min(1, (progress - HEADING_RELEASE_START) / (HEADING_RELEASE_END - HEADING_RELEASE_START))
+      );
+      const contentLiftProgress = Math.max(
+        0,
+        Math.min(1, (progress - CONTENT_LIFT_START) / (CONTENT_LIFT_END - CONTENT_LIFT_START))
+      );
+      const easedHeadingRelease = easeInOut(headingReleaseProgress);
+      const easedContentLift = easeInOut(contentLiftProgress);
+
+      if (heading) {
+        heading.style.transform = `translateY(${-PINNED_TITLE_HEIGHT * easedHeadingRelease}px)`;
+      }
+
+      const currentStickyTop = initialStickyTop - PINNED_TITLE_HEIGHT * easedContentLift;
+      sticky.style.top = `${currentStickyTop}px`;
+      sticky.style.height = `${Math.max(0, viewportH - currentStickyTop)}px`;
+
       if (card2Ref.current) {
         const { from, to } = BANDS[0];
         const t = Math.max(0, Math.min(1, (progress - from) / (to - from)));
@@ -115,13 +154,20 @@ export default function WherePixtronWorksScroll() {
       const ctaProgress = Math.max(0, Math.min(1, (progress - ctaStart) / (ctaEnd - ctaStart)));
       const ctaDrop = parseFloat(content.style.getPropertyValue("--venue-cta-drop")) || MIN_CTA_DROP;
       cta.style.transform = `translateY(${ctaDrop * (1 - easeInOut(ctaProgress))}px)`;
+      setBottomBlurDisabled();
     };
 
     window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", setBottomBlurDisabled);
     update();
     return () => {
+      document.body.dataset.footerBlurDisabled = "false";
+      if (heading) {
+        heading.style.transform = "";
+      }
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", setDimensions);
+      window.removeEventListener("resize", setBottomBlurDisabled);
     };
   }, []);
 
@@ -134,6 +180,7 @@ export default function WherePixtronWorksScroll() {
     <div style={{ background: "#fff" }}>
       {/* Keep the heading pinned while the venue cards animate below it. */}
       <div
+        ref={headingRef}
         className="desktop-pinned-section-heading"
         style={{
           background: "#fff",
@@ -142,7 +189,7 @@ export default function WherePixtronWorksScroll() {
           flexDirection: "column",
           gap: 16,
           minHeight: PINNED_TITLE_HEIGHT,
-          padding: "24px 39px 30px",
+          padding: `${HEADING_TOP_PADDING}px 39px ${HEADING_BOTTOM_PADDING}px`,
         }}
       >
         <h2 className="section-heading gradient-heading">Where Pixtron Works Best</h2>
