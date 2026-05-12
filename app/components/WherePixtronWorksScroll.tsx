@@ -232,7 +232,7 @@ export default function WherePixtronWorksScroll() {
           >
             {/* Card 1 — always at top=0 */}
             <div style={{ position: "absolute", left: 0, top: 0, width: CARD_W, height: cardHeight }}>
-              <CardEl venue={venues[0]} />
+              <CardEl venue={venues[0]} eager />
             </div>
 
             {/* Card 2 — starts at top=100, rises to 0 */}
@@ -264,7 +264,7 @@ export default function WherePixtronWorksScroll() {
   );
 }
 
-function CardEl({ venue }: { venue: typeof venues[number] }) {
+function CardEl({ venue, eager }: { venue: typeof venues[number]; eager?: boolean }) {
   return (
     <div
       style={{
@@ -278,7 +278,8 @@ function CardEl({ venue }: { venue: typeof venues[number] }) {
       <img
         src={venue.image}
         alt={venue.title}
-        loading="lazy"
+        loading={eager ? "eager" : "lazy"}
+        fetchPriority={eager ? "high" : "auto"}
         decoding="async"
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
       />

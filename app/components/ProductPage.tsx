@@ -656,7 +656,7 @@ function RestaurantHero({ config }: { config: RestaurantPageConfig["hero"] }) {
       <div className={styles.restaurantHeroImage}>
         <picture>
           {config.mobileImage ? <source media="(max-width: 767px)" srcSet={config.mobileImage} /> : null}
-          <img src={heroImage} alt="A guest opening a Pixtron wipe sachet at a restaurant table" />
+          <img src={heroImage} alt="A guest opening a Pixtron wipe sachet at a restaurant table" fetchPriority="high" />
         </picture>
       </div>
     </section>
@@ -905,12 +905,12 @@ function CustomHero({ hero }: { hero: Extract<SeriesPageConfig["hero"], { type: 
               <p>Your primary visual real estate. High resolution edge to edge printing designed to capture immediate attention the moment they sit down.</p>
             </div>
             <div className={styles.dualImageTop}>
-              <img src={hero.image} alt="Front side custom Pixtron sachet design" />
+              <img src={hero.image} alt="Front side custom Pixtron sachet design" fetchPriority="high" />
             </div>
           </div>
           <div className={`${styles.dualRow} ${styles.dualRowBack}`}>
             <div className={styles.dualImageBottom}>
-              <img src={hero.image} alt="Back side custom Pixtron sachet design" />
+              <img src={hero.image} alt="Back side custom Pixtron sachet design" fetchPriority="high" />
             </div>
             <div className={styles.dualCopy}>
               <span>The Back</span>
