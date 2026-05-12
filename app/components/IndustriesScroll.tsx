@@ -148,7 +148,7 @@ export default function IndustriesScroll() {
     if (!outer || !sticky || !heading || !cta || !grid) return;
 
     const setDimensions = () => {
-      const cssZoom = parseFloat(document.documentElement.style.zoom) || 1;
+      const cssZoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
       const stickyH = window.innerHeight / cssZoom;
       const reservedSpace = heading.offsetHeight + cta.offsetHeight + 72;
       const availableGridH = Math.max(440, stickyH - reservedSpace);

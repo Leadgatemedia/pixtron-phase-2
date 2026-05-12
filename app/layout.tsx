@@ -72,7 +72,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable} style={{ zoom: 0.8 }}>
+    <html lang="en" className={inter.variable}>
       <body>
         <SmoothScroll />
         <HeaderScrollState />
