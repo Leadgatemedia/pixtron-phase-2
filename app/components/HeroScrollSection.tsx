@@ -189,7 +189,9 @@ export default function HeroScrollSection({
       const heroProgress = Math.max(0, Math.min(1, scrolled / Math.max(1, totalScroll)));
 
       if (blurEl) {
-        const footerBlurDisabled = document.body.dataset.footerBlurDisabled === "true";
+        const footerBlurDisabled =
+          document.body.dataset.footerBlurDisabled === "true" ||
+          document.body.dataset.footerBlurGuardActive === "true";
         const inHero = heroProgress < 1;
         const shouldHideBlur = inHero || footerBlurDisabled;
         const opacity = shouldHideBlur ? "0" : "1";

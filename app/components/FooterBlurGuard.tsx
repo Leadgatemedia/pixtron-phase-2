@@ -16,7 +16,7 @@ export default function FooterBlurGuard({
     const body = document.body;
 
     const setOverlayState = (hidden: boolean) => {
-      body.dataset.footerBlurDisabled = hidden ? "true" : "false";
+      body.dataset.footerBlurGuardActive = hidden ? "true" : "false";
       blurEl.style.opacity = hidden ? "0" : "1";
       blurEl.style.visibility = hidden ? "hidden" : "visible";
       const blurValue = hidden ? "blur(0px)" : "blur(12px)";
@@ -29,7 +29,7 @@ export default function FooterBlurGuard({
         if (entry.isIntersecting) {
           setOverlayState(true);
         } else {
-          body.dataset.footerBlurDisabled = "false";
+          body.dataset.footerBlurGuardActive = "false";
           blurEl.style.opacity = "";
           blurEl.style.visibility = "";
           blurEl.style.backdropFilter = "";
@@ -37,7 +37,8 @@ export default function FooterBlurGuard({
         }
       },
       {
-        threshold: 0.01,
+        threshold: 0,
+        rootMargin: "0px 0px 300px 0px",
       }
     );
 
@@ -45,8 +46,11 @@ export default function FooterBlurGuard({
 
     return () => {
       observer.disconnect();
-      delete body.dataset.footerBlurDisabled;
-      setOverlayState(false);
+      delete body.dataset.footerBlurGuardActive;
+      blurEl.style.opacity = "0";
+      blurEl.style.visibility = "hidden";
+      blurEl.style.backdropFilter = "blur(0px)";
+      blurEl.style.setProperty("-webkit-backdrop-filter", "blur(0px)");
     };
   }, []);
 

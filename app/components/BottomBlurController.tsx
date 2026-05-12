@@ -22,7 +22,9 @@ export default function BottomBlurController({
 
     const applyBlurState = () => {
       scheduled = false;
-      const footerBlurDisabled = document.body.dataset.footerBlurDisabled === "true";
+      const footerBlurDisabled =
+        document.body.dataset.footerBlurDisabled === "true" ||
+        document.body.dataset.footerBlurGuardActive === "true";
       const belowDesktop = desktopOnly && window.innerWidth < 768;
       const shouldHideBlur =
         belowDesktop || window.scrollY <= hiddenUntilY || footerBlurDisabled;
@@ -45,7 +47,7 @@ export default function BottomBlurController({
     const observer = new MutationObserver(scheduleUpdate);
     observer.observe(document.body, {
       attributes: true,
-      attributeFilter: ["data-footer-blur-disabled"],
+      attributeFilter: ["data-footer-blur-disabled", "data-footer-blur-guard-active"],
     });
 
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
