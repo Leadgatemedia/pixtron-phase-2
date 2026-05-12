@@ -58,8 +58,14 @@ function FacebookDefaultIcon() {
 
 function LinkedInDefaultIcon() {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img alt="" loading="lazy" decoding="async" src="/icons/social-linkedin.svg" width={30} height={30} style={{ display: "block", flexShrink: 0 }} />
+    <div style={{ position: "relative", flexShrink: 0, width: 40, height: 40 }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img alt="" loading="lazy" decoding="async" src="/icons/figma-linkedin-default-base.svg" style={absFill} />
+      <div style={{ ...abs, inset: "11.46%" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img alt="" loading="lazy" decoding="async" src="/icons/figma-linkedin-default-stroke.svg" style={absFill} />
+      </div>
+    </div>
   );
 }
 
@@ -138,9 +144,11 @@ function FacebookHoverIcon() {
 function LinkedInHoverIcon() {
   return (
     <div style={{ position: "relative", flexShrink: 0, width: 40, height: 40 }}>
-      <div style={{ ...abs, top: "8.33%", right: "8.33%", bottom: "8.33%", left: "8.33%" }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img alt="" loading="lazy" decoding="async" src="/icons/figma-linkedin-keylines.svg" style={absFill} />
+      <div style={{ ...abs, inset: "10.38%" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt="" loading="lazy" decoding="async" src="/icons/social-linkedin-hover.svg" style={absFill} />
+        <img alt="" loading="lazy" decoding="async" src="/icons/figma-linkedin-hover-vector.svg" style={absFill} />
       </div>
     </div>
   );
@@ -162,11 +170,13 @@ function SocialTile({
   hoverIcon,
   label,
   href,
+  hoverShadow,
 }: {
   icon: React.ReactNode;
   hoverIcon?: React.ReactNode;
   label?: string;
   href?: string;
+  hoverShadow?: string;
 }) {
   const [hovered, setHovered] = useState(false);
   const isActive = !!hoverIcon;
@@ -183,7 +193,7 @@ function SocialTile({
     zIndex: showHover ? 2 : 1,
     gap: showHover ? 14 : 0,
     cursor: isActive ? "pointer" : "default",
-    boxShadow: showHover ? "0px 12px 34px 0px rgba(0,0,0,0.25)" : "none",
+    boxShadow: showHover ? (hoverShadow ?? "0px 12px 34px 0px rgba(0,0,0,0.25)") : "none",
     transform: showHover ? "translateY(-1px)" : "translateY(0)",
   };
 
@@ -243,7 +253,13 @@ function DesktopSocialBand() {
 
         <SocialTile icon={<InstagramDefaultIcon />} hoverIcon={<InstagramHoverIcon />} label="Instagram" href="https://www.instagram.com/pixtronwipes?igsh=MWYyNzFsbWNteGRrYQ==" />
         <SocialTile icon={<FacebookDefaultIcon />} hoverIcon={<FacebookHoverIcon />} label="Facebook" href="https://www.facebook.com/share/18dKNZyDCE/?mibextid=wwXIfr" />
-        <SocialTile icon={<LinkedInDefaultIcon />} hoverIcon={<LinkedInHoverIcon />} label="LinkedIn" href="https://www.linkedin.com/company/pixtron-llc/" />
+        <SocialTile
+          icon={<LinkedInDefaultIcon />}
+          hoverIcon={<LinkedInHoverIcon />}
+          label="Linkedin"
+          href="https://www.linkedin.com/company/pixtron-llc/"
+          hoverShadow="0px 12px 17px 0px rgba(0,0,0,0.25)"
+        />
         <SocialTile icon={<YoutubeDefaultIcon />} hoverIcon={<YoutubeHoverIcon />} label="YouTube" href="https://youtube.com/@pixtronwipes?si=HYP6XA_E5GwQO_yP" />
 
         <div className={styles.socialBlurLaneRight}>

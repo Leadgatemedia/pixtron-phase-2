@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ProcessStep = {
   step: string;
@@ -114,16 +114,61 @@ function MobilePinnedProcessBlock({
   marginTopOffset?: number;
   desktopMode?: boolean;
 }) {
+  const sectionRef = useRef<HTMLElement>(null);
   const cardCount = column.steps.length;
   const scaleStep = desktopMode ? 0.13 : 0.1;
   const desktopTargetScales = [0.7, 0.8, 0.9, 1];
 
+  useEffect(() => {
+    if (!desktopMode) return;
+
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let rafId = 0;
+    let scheduled = false;
+
+    const updateCompactProgress = () => {
+      scheduled = false;
+      const rect = section.getBoundingClientRect();
+      const releaseStart = window.innerHeight * 0.42;
+      const releaseEnd = window.innerHeight * 0.16;
+      const releaseSpan = Math.max(1, releaseStart - releaseEnd);
+      const restoreProgress = Math.max(
+        0,
+        Math.min(1, (releaseStart - rect.top) / releaseSpan)
+      );
+      section.style.setProperty(
+        "--process-card-compact-progress",
+        String(1 - restoreProgress)
+      );
+    };
+
+    const scheduleUpdate = () => {
+      if (scheduled) return;
+      scheduled = true;
+      rafId = window.requestAnimationFrame(updateCompactProgress);
+    };
+
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    updateCompactProgress();
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+    };
+  }, [desktopMode]);
+
   return (
     <section
+      ref={sectionRef}
       className={desktopMode ? "mobile-process-stacking-section mobile-process-stacking-section-desktop" : "mobile-process-stacking-section"}
       style={{
         "--process-card-count": cardCount,
         "--process-card-sticky-top": desktopMode ? "var(--process-desktop-card-sticky-top)" : `${MOBILE_NAV_HEIGHT}px`,
+        "--process-card-compact-progress": desktopMode ? 0 : undefined,
         "--process-card-height": desktopMode ? "236px" : undefined,
         width: desktopMode ? "100%" : FULL_BLEED_WIDTH,
         marginLeft: desktopMode ? 0 : "calc(50% - 50vw)",
@@ -179,20 +224,22 @@ function MobilePinnedProcessBlock({
                 zIndex: index + 1,
               } as React.CSSProperties}
             >
-              <article className="mobile-process-stack-card-content">
-                <div className="mobile-process-stack-card-title-row">
-                  <p className="mobile-process-stack-card-title">
-                    {step.title}
-                  </p>
-                  <p className="mobile-process-stack-card-step">
-                    {step.step}
-                  </p>
-                </div>
+              <div className="mobile-process-stack-card-visual">
+                <article className="mobile-process-stack-card-content">
+                  <div className="mobile-process-stack-card-title-row">
+                    <p className="mobile-process-stack-card-title">
+                      {step.title}
+                    </p>
+                    <p className="mobile-process-stack-card-step">
+                      {step.step}
+                    </p>
+                  </div>
 
-                <p className="mobile-process-stack-card-description">
-                  {step.description}
-                </p>
-              </article>
+                  <p className="mobile-process-stack-card-description">
+                    {step.description}
+                  </p>
+                </article>
+              </div>
             </li>
           ))}
         </ul>

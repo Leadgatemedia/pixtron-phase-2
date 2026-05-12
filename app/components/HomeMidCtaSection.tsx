@@ -87,12 +87,12 @@ function DesktopMidCta() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 64,
+            gap: 40,
             textAlign: "center",
             color: "#fff",
           }}
         >
-          <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 48 }}>
+          <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 28 }}>
             <div style={{ width: "100%", fontSize: "clamp(42px, 3.2vw, 60px)", fontWeight: 700, lineHeight: 1.2, whiteSpace: "nowrap" }}>
               <span style={{ color: "#fff" }}>Elevate Every Guest Experience.<br /></span>
               <span style={{ background: "linear-gradient(90deg, #0D846E 0%, #40FB56 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Bring Premium to Every Table.</span>
@@ -186,12 +186,12 @@ function MobileMidCta() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 48,
+            gap: 32,
             textAlign: "center",
             color: "#fff",
           }}
         >
-          <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
+          <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
             <div style={{ width: "100%", maxWidth: 329, fontSize: 30, fontWeight: 700, lineHeight: "36px", textAlign: "center" }}>
               <span style={{ color: "#fff" }}>Elevate Every Guest Experience. </span>
               <span style={{ background: "linear-gradient(90deg, #0D846E 0%, #40FB56 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Bring Premium to Every Table.</span>
@@ -214,7 +214,7 @@ function MobileMidCta() {
             </p>
           </div>
 
-          <div style={{ width: "100%", maxWidth: 329, display: "flex", flexDirection: "column", gap: 24 }}>
+          <div style={{ width: "100%", maxWidth: 329, display: "flex", flexDirection: "column", gap: 16 }}>
             <Link
               href="/signature-series"
               className="btn-primary btn-hover-white"
