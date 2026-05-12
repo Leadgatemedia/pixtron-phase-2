@@ -60,13 +60,11 @@
 
 .desktopHeaderInner {
   width: 100%;
-  max-width: var(--product-grid-max);
   height: 100%;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 480px 1fr 480px;
+  display: flex;
   align-items: center;
-  column-gap: 16px;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .logoLink,
