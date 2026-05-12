@@ -210,7 +210,7 @@ function MobilePinnedProcessBlock({
             borderRadius: 6,
             fontSize: 18,
             lineHeight: "30px",
-            marginTop: desktopMode ? 16 : -68,
+            marginTop: desktopMode ? 36 : -68,
           }}
         >
           <span>{column.ctaLabel}</span>
