@@ -144,7 +144,7 @@ function MobilePinnedProcessBlock({
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: desktopMode ? "clamp(18px, 2.2vh, 30px)" : 28,
+          gap: desktopMode ? "clamp(0px, 0.35vh, 6px)" : 28,
           padding: desktopMode ? "clamp(20px, 3.2vh, 46px) 36px 56px" : "48px 20px 36px",
           boxSizing: "border-box",
           zIndex: 1,
