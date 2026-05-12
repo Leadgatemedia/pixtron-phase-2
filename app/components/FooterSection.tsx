@@ -235,10 +235,22 @@ function DesktopSocialBand() {
       </div>
 
       <div className={styles.footerSocialRow}>
+        <div className={styles.socialBlurLaneLeft}>
+          {Array.from({ length: 10 }).map((_, i) => (
+            <SocialTile key={`left-${i}`} icon={<YoutubeDefaultIcon blurred />} />
+          ))}
+        </div>
+
         <SocialTile icon={<InstagramDefaultIcon />} hoverIcon={<InstagramHoverIcon />} label="Instagram" href="https://www.instagram.com/pixtronwipes?igsh=MWYyNzFsbWNteGRrYQ==" />
         <SocialTile icon={<FacebookDefaultIcon />} hoverIcon={<FacebookHoverIcon />} label="Facebook" href="https://www.facebook.com/share/18dKNZyDCE/?mibextid=wwXIfr" />
         <SocialTile icon={<LinkedInDefaultIcon />} hoverIcon={<LinkedInHoverIcon />} label="LinkedIn" href="https://www.linkedin.com/company/pixtron-llc/" />
         <SocialTile icon={<YoutubeDefaultIcon />} hoverIcon={<YoutubeHoverIcon />} label="YouTube" href="https://youtube.com/@pixtronwipes?si=HYP6XA_E5GwQO_yP" />
+
+        <div className={styles.socialBlurLaneRight}>
+          {Array.from({ length: 10 }).map((_, i) => (
+            <SocialTile key={`right-${i}`} icon={<YoutubeDefaultIcon blurred />} />
+          ))}
+        </div>
       </div>
     </div>
   );
