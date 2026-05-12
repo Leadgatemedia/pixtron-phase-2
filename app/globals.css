@@ -141,8 +141,8 @@
 }
 
 .mobile-process-stacking-section-desktop {
-  --process-desktop-card-sticky-top: clamp(244px, 28vh, 286px);
-  --process-card-stack-gap: 20px;
+  --process-desktop-card-sticky-top: clamp(196px, 22vh, 232px);
+  --process-card-stack-gap: 28px;
   height: 100%;
 }
 
@@ -179,18 +179,6 @@
   top: var(--process-card-sticky-top);
   padding-top: calc(var(--process-card-index) * var(--process-card-top-offset));
   width: 100%;
-}
-
-.mobile-process-stacking-section-desktop .mobile-process-stack-card-visual {
-  transform: translateY(
-    calc(
-      var(--process-card-index0) *
-      var(--process-card-top-offset) *
-      -1 *
-      var(--process-card-compact-progress, 0)
-    )
-  );
-  will-change: transform;
 }
 
 .mobile-process-stacking-section-desktop .mobile-process-stack-card-content {
@@ -238,8 +226,8 @@
 .mobile-process-large-desktop-stage .mobile-process-stacking-section {
   --process-card-height: 270px;
   --process-card-top-offset: 54px;
-  --process-card-stack-gap: 24px;
-  --process-desktop-card-sticky-top: clamp(260px, 27vh, 308px);
+  --process-card-stack-gap: 32px;
+  --process-desktop-card-sticky-top: clamp(214px, 22vh, 250px);
 }
 
 .mobile-process-large-desktop-stage .mobile-process-stacking-section-desktop .mobile-process-stacking-inner {

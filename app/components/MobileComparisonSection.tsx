@@ -59,7 +59,7 @@ export default function MobileComparisonSection() {
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/comparison-bg.jpg"
+        src="/comparison-bg.webp"
         alt=""
         style={{
           position: "absolute",

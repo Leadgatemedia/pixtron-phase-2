@@ -399,7 +399,7 @@ export default function AboutPage() {
         {/* ── CTA Section ── */}
         <section style={{ position: "relative", overflow: "hidden" }}>
           <Image
-            src="/about/future-touch.jpg"
+            src="/about/future-touch.webp"
             alt="Restaurant table experience"
             fill
             sizes="100vw"
@@ -870,7 +870,7 @@ export default function AboutPage() {
           <section style={{ position: "relative", overflow: "hidden" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/about/future-touch.jpg"
+              src="/about/future-touch.webp"
               alt=""
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
             />
