@@ -56,10 +56,10 @@ function FacebookDefaultIcon() {
   );
 }
 
-function TikTokDefaultIcon() {
+function LinkedInDefaultIcon() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img alt="" loading="lazy" decoding="async" src="/icons/social-tiktok.svg" width={23} height={30} style={{ display: "block", flexShrink: 0 }} />
+    <img alt="" loading="lazy" decoding="async" src="/icons/social-linkedin.svg" width={30} height={30} style={{ display: "block", flexShrink: 0 }} />
   );
 }
 
@@ -135,20 +135,12 @@ function FacebookHoverIcon() {
   );
 }
 
-function TikTokHoverIcon() {
+function LinkedInHoverIcon() {
   return (
     <div style={{ position: "relative", flexShrink: 0, width: 40, height: 40 }}>
-      <div style={{ ...abs, top: "11.66%", right: "13.1%", bottom: "8.54%", left: "24.53%" }}>
+      <div style={{ ...abs, top: "8.33%", right: "8.33%", bottom: "8.33%", left: "8.33%" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt="" loading="lazy" decoding="async" src="/icons/social-tiktok-hover-r.svg" style={absFill} />
-      </div>
-      <div style={{ ...abs, top: "11.66%", right: "17.1%", bottom: "11.87%", left: "17.33%" }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt="" loading="lazy" decoding="async" src="/icons/social-tiktok-hover-b.svg" style={absFill} />
-      </div>
-      <div style={{ ...abs, top: "8.33%", right: "17.1%", bottom: "16.14%", left: "13.34%" }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt="" loading="lazy" decoding="async" src="/icons/social-tiktok-hover-c.svg" style={absFill} />
+        <img alt="" loading="lazy" decoding="async" src="/icons/social-linkedin-hover.svg" style={absFill} />
       </div>
     </div>
   );
@@ -169,35 +161,68 @@ function SocialTile({
   icon,
   hoverIcon,
   label,
+  href,
 }: {
   icon: React.ReactNode;
   hoverIcon?: React.ReactNode;
   label?: string;
+  href?: string;
 }) {
   const [hovered, setHovered] = useState(false);
   const isActive = !!hoverIcon;
   const showHover = hovered && isActive;
+
+  const inner = (
+    <>
+      {showHover ? hoverIcon : icon}
+      {showHover && label ? <span className={styles.socialTileLabel}>{label}</span> : null}
+    </>
+  );
+
+  const tileStyle = {
+    zIndex: showHover ? 2 : 1,
+    gap: showHover ? 14 : 0,
+    cursor: isActive ? "pointer" : "default",
+    boxShadow: showHover ? "0px 12px 34px 0px rgba(0,0,0,0.25)" : "none",
+    transform: showHover ? "translateY(-1px)" : "translateY(0)",
+  };
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className={styles.socialTile}
+        style={{ ...tileStyle, textDecoration: "none" }}
+      >
+        {inner}
+      </a>
+    );
+  }
 
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className={styles.socialTile}
-      style={{
-        zIndex: showHover ? 2 : 1,
-        gap: showHover ? 14 : 0,
-        cursor: isActive ? "pointer" : "default",
-        boxShadow: showHover ? "0px 12px 34px 0px rgba(0,0,0,0.25)" : "none",
-        transform: showHover ? "translateY(-1px)" : "translateY(0)",
-      }}
+      style={tileStyle}
     >
-      {showHover ? hoverIcon : icon}
-      {showHover && label ? <span className={styles.socialTileLabel}>{label}</span> : null}
+      {inner}
     </div>
   );
 }
 
-function MobileSocialTile({ children }: { children: React.ReactNode }) {
+function MobileSocialTile({ children, href }: { children: React.ReactNode; href?: string }) {
+  if (href) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={styles.mobileSocialTile} style={{ textDecoration: "none" }}>
+        {children}
+      </a>
+    );
+  }
   return <div className={styles.mobileSocialTile}>{children}</div>;
 }
 
@@ -216,10 +241,10 @@ function DesktopSocialBand() {
           ))}
         </div>
 
-        <SocialTile icon={<InstagramDefaultIcon />} hoverIcon={<InstagramHoverIcon />} label="Instagram" />
-        <SocialTile icon={<FacebookDefaultIcon />} hoverIcon={<FacebookHoverIcon />} label="Facebook" />
-        <SocialTile icon={<TikTokDefaultIcon />} hoverIcon={<TikTokHoverIcon />} label="TikTok" />
-        <SocialTile icon={<YoutubeDefaultIcon />} hoverIcon={<YoutubeHoverIcon />} label="YouTube" />
+        <SocialTile icon={<InstagramDefaultIcon />} hoverIcon={<InstagramHoverIcon />} label="Instagram" href="https://www.instagram.com/pixtronwipes?igsh=MWYyNzFsbWNteGRrYQ==" />
+        <SocialTile icon={<FacebookDefaultIcon />} hoverIcon={<FacebookHoverIcon />} label="Facebook" href="https://www.facebook.com/share/18dKNZyDCE/?mibextid=wwXIfr" />
+        <SocialTile icon={<LinkedInDefaultIcon />} hoverIcon={<LinkedInHoverIcon />} label="LinkedIn" href="https://www.linkedin.com/company/pixtron-llc/" />
+        <SocialTile icon={<YoutubeDefaultIcon />} hoverIcon={<YoutubeHoverIcon />} label="YouTube" href="https://youtube.com/@pixtronwipes?si=HYP6XA_E5GwQO_yP" />
 
         <div className={styles.socialBlurLaneRight}>
           {Array.from({ length: 10 }).map((_, i) => (
@@ -240,16 +265,16 @@ function MobileSocialBand() {
       </div>
 
       <div className={styles.mobileSocialGrid}>
-        <MobileSocialTile>
+        <MobileSocialTile href="https://www.instagram.com/pixtronwipes?igsh=MWYyNzFsbWNteGRrYQ==">
           <InstagramDefaultIcon />
         </MobileSocialTile>
-        <MobileSocialTile>
+        <MobileSocialTile href="https://www.facebook.com/share/18dKNZyDCE/?mibextid=wwXIfr">
           <FacebookDefaultIcon />
         </MobileSocialTile>
-        <MobileSocialTile>
-          <TikTokDefaultIcon />
+        <MobileSocialTile href="https://www.linkedin.com/company/pixtron-llc/">
+          <LinkedInDefaultIcon />
         </MobileSocialTile>
-        <MobileSocialTile>
+        <MobileSocialTile href="https://youtube.com/@pixtronwipes?si=HYP6XA_E5GwQO_yP">
           <YoutubeDefaultIcon />
         </MobileSocialTile>
       </div>
