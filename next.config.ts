@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
       },
       {
         // Public images, fonts, icons
-        source: "/(.*)\\.(?:webp|png|jpg|jpeg|svg|ico|woff2|woff|ttf|otf)",
+        source: "/(.+)\\.(webp|png|jpg|jpeg|svg|ico|woff2|woff|ttf|otf)",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
         ],
