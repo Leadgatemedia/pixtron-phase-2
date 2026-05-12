@@ -88,7 +88,7 @@ export default function HeroIntro() {
       // getBoundingClientRect returns visual (zoom-adjusted) pixels,
       // but CSS transform uses CSS pixels. With zoom:0.8 on <html> they differ.
       // Dividing by zoom converts visual → CSS pixel space.
-      const zoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+      const zoom = parseFloat(document.documentElement.style.zoom) || 1;
       setMove({
         x: (hRect.left - tRect.left) / zoom,
         y: (hRect.top  - tRect.top)  / zoom,

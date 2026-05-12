@@ -82,7 +82,7 @@ export default function WherePixtronWorksScroll() {
     };
 
     const setDimensions = () => {
-      const cssZoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+      const cssZoom = parseFloat(document.documentElement.style.zoom) || 1;
       const viewportH = window.innerHeight / cssZoom;
       const stickyTop = NAVBAR_HEIGHT + PINNED_TITLE_HEIGHT;
       const stickyH = Math.max(0, viewportH - stickyTop);
@@ -108,7 +108,7 @@ export default function WherePixtronWorksScroll() {
     const update = () => {
       const rect      = outer.getBoundingClientRect();
       const outerH    = outer.offsetHeight;
-      const cssZoom   = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+      const cssZoom   = parseFloat(document.documentElement.style.zoom) || 1;
       const viewportH = window.innerHeight / cssZoom;
       const initialStickyTop = NAVBAR_HEIGHT + PINNED_TITLE_HEIGHT;
       const stickyH = Math.max(0, viewportH - initialStickyTop);

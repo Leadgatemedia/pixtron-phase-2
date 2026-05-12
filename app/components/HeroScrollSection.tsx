@@ -131,7 +131,7 @@ export default function HeroScrollSection({
     const ease = (t: number) => t * t * (3 - 2 * t);
 
     const getMetrics = () => {
-      const cssZoom = parseFloat(getComputedStyle(document.documentElement).zoom) || ZOOM;
+      const cssZoom = parseFloat(document.documentElement.style.zoom) || ZOOM;
       const rawVh = window.innerHeight / cssZoom;
       const vh = stageHeight ? Math.min(rawVh, stageHeight) : rawVh;
       const rawVw = window.innerWidth / cssZoom;
@@ -184,7 +184,7 @@ export default function HeroScrollSection({
         totalScroll,
       } = getMetrics();
 
-      const cssZoom = parseFloat(getComputedStyle(document.documentElement).zoom) || ZOOM;
+      const cssZoom = parseFloat(document.documentElement.style.zoom) || ZOOM;
       const scrolled = Math.max(0, -rect.top / cssZoom);
       const heroProgress = Math.max(0, Math.min(1, scrolled / Math.max(1, totalScroll)));
 
