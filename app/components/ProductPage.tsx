@@ -211,6 +211,9 @@ const JOURNEY_STEPS = [
 ];
 
 const PRODUCT_PAGE_ASSETS = "/product-pages";
+const SIGNATURE_HERO_WATERMARK_TOP = "min(89vh, 769px)";
+const SIGNATURE_HERO_SACHET_TOP = `calc(${SIGNATURE_HERO_WATERMARK_TOP} - 24px)`;
+
 export const RESTAURANTS_PAGE: RestaurantPageConfig = {
   kind: "restaurant",
   activeHref: "/restaurants",
@@ -633,8 +636,15 @@ function PageShell({ config, children }: { config: ProductPageConfig; children: 
 }
 
 function RestaurantHero({ config }: { config: RestaurantPageConfig["hero"] }) {
+  const heroImage = config.mobileImage ?? config.image;
+
   return (
-    <section className={styles.restaurantHero} data-scroll-assist-section>
+    <section
+      className={styles.restaurantHero}
+      data-scroll-assist-section
+      data-scroll-assist-skip-prev="true"
+      data-scroll-assist-skip-next="true"
+    >
       <div className={styles.restaurantHeroCopy}>
         <h1>
           <span>{config.titleBefore}</span>
@@ -646,7 +656,7 @@ function RestaurantHero({ config }: { config: RestaurantPageConfig["hero"] }) {
       <div className={styles.restaurantHeroImage}>
         <picture>
           {config.mobileImage ? <source media="(max-width: 767px)" srcSet={config.mobileImage} /> : null}
-          <img src={config.image} alt="A guest opening a Pixtron wipe sachet at a restaurant table" />
+          <img src={heroImage} alt="A guest opening a Pixtron wipe sachet at a restaurant table" />
         </picture>
       </div>
     </section>
@@ -655,7 +665,12 @@ function RestaurantHero({ config }: { config: RestaurantPageConfig["hero"] }) {
 
 function StatsSection({ stats }: { stats: RestaurantPageConfig["stats"] }) {
   return (
-    <section className={styles.statsSection} data-scroll-assist-section>
+    <section
+      className={styles.statsSection}
+      data-scroll-assist-section
+      data-scroll-assist-skip-prev="true"
+      data-scroll-assist-skip-next="true"
+    >
       {stats.map((item) => (
         <article key={item.count} className={styles.statCard}>
           <div>
@@ -830,11 +845,13 @@ function SignatureHero({ hero }: { hero: Extract<SeriesPageConfig["hero"], { typ
       <div className={styles.signatureDesktopHero} data-scroll-assist-section>
         <HeroScrollSection
           stripImage={hero.sachetStrip}
-          stripWidth={1550}
-          stripTop="calc(125vh - 334px)"
+          stripWidth={1280}
+          stripTop={SIGNATURE_HERO_SACHET_TOP}
           finalAlign="center"
           watermarkSelector=".signature-hero-watermark"
           waitForIntro={false}
+          stageWidth={1920}
+          stageHeight={864}
         >
           <section className={styles.signatureAnimatedHero}>
             <div className={styles.signatureAnimatedContent}>
@@ -987,7 +1004,7 @@ function RestaurantsPage({ config }: { config: RestaurantPageConfig }) {
       <StatsSection stats={config.stats} />
       <ValueSection heading={config.premium.heading} rows={config.premium.rows} />
       <RestaurantFeatureSections blocks={config.featureBlocks} />
-      <div className="desktop-real-impact" data-scroll-assist-section>
+      <div className="desktop-real-impact" data-scroll-assist-section data-scroll-assist-restaurants="true">
         <RealImpactScroll />
       </div>
       <MobileRealImpactSection />

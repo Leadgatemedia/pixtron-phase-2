@@ -26,10 +26,10 @@ function ArrowIcon({ white = false }: { white?: boolean }) {
 }
 
 export default function ProductPageHeader({
-  activeHref,
+  activeHref = "",
   darkHero = false,
 }: {
-  activeHref: string;
+  activeHref?: string;
   darkHero?: boolean;
 }) {
   const [atTop, setAtTop] = useState(true);

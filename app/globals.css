@@ -142,6 +142,7 @@
 
 .mobile-process-stacking-section-desktop {
   --process-desktop-card-sticky-top: clamp(244px, 28vh, 286px);
+  --process-card-stack-gap: 28px;
   height: 100%;
 }
 
@@ -159,14 +160,24 @@
 
 .mobile-process-stacking-section-desktop .mobile-process-card-stack {
   max-width: 500px;
+  grid-template-rows: repeat(var(--process-card-count), var(--process-card-height));
+  gap: var(--process-card-stack-gap);
   margin-bottom: 0;
-  padding-bottom: 0;
+  padding-bottom: calc(
+    var(--process-card-top-offset) +
+    var(--process-card-top-offset) +
+    var(--process-card-top-offset) +
+    var(--process-card-top-offset)
+  );
   position: relative;
   z-index: 2;
 }
 
 .mobile-process-stacking-section-desktop .mobile-process-stack-card {
   justify-self: center;
+  position: sticky;
+  top: var(--process-card-sticky-top);
+  padding-top: calc(var(--process-card-index) * var(--process-card-top-offset));
   width: 100%;
 }
 
@@ -215,6 +226,7 @@
 .mobile-process-large-desktop-stage .mobile-process-stacking-section {
   --process-card-height: 270px;
   --process-card-top-offset: 54px;
+  --process-card-stack-gap: 32px;
   --process-desktop-card-sticky-top: clamp(260px, 27vh, 308px);
 }
 

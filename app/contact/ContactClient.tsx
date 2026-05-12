@@ -1,12 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 
 import FooterSection from "../components/FooterSection";
-import MobileHeader from "../components/MobileHeader";
+import ProductPageHeader from "../components/ProductPageHeader";
 import { sendContactInquiry } from "./emailjs";
 
 type Step = "select" | "restaurant" | "advertiser";
@@ -28,93 +26,8 @@ function getFormFieldValue(formData: FormData, name: string) {
   return String(formData.get(name) ?? "").trim();
 }
 
-function ArrowIcon({ color = "dark" }: { color?: "white" | "dark" }) {
-  const file = color === "white" ? "/arrow-white.webp" : "/arrow-black.webp";
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={file}
-      width={24}
-      height={24}
-      alt=""
-      className="btn-arrow-img"
-      style={{ display: "block", transition: "filter 0.35s ease" }}
-    />
-  );
-}
-
 function SiteNavbar() {
-  return (
-    <nav
-      className="desktop-scroll-header"
-      style={{
-        position: "fixed",
-        top: 0,
-        zIndex: 50,
-        width: "100%",
-        height: 88,
-        background: "rgba(255,255,255,0.8)",
-        borderBottom: "1px solid rgba(0,0,0,0.06)",
-        backdropFilter: "blur(35px)",
-        WebkitBackdropFilter: "blur(35px)",
-        boxSizing: "border-box",
-        padding: "0 39px",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: 1820,
-          margin: "0 auto",
-          height: "100%",
-          display: "grid",
-          gridTemplateColumns: "480px 1fr 480px",
-          alignItems: "center",
-          columnGap: 16,
-        }}
-      >
-        <div style={{ width: 480, display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center" }}>
-            <Image
-              src="/logo.webp"
-              alt="Pixtron"
-              width={86}
-              height={64}
-              priority
-              style={{ width: "auto", height: 64 }}
-            />
-          </Link>
-        </div>
-
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-            <Link href="/about" className="nav-link">About</Link>
-            <Link href="/restaurants" className="nav-link">Restaurants</Link>
-            <Link href="/signature-series" className="nav-link">Signature Series</Link>
-            <Link href="/custom-series" className="nav-link">Custom Series</Link>
-          </div>
-        </div>
-
-        <div
-          style={{
-            width: 480,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Link
-            href="/contact"
-            className="btn-outline"
-            style={{ minHeight: 56, padding: "0 20px 0 22px", justifyContent: "center" }}
-          >
-            <span>Contact Us</span>
-            <ArrowIcon color="dark" />
-          </Link>
-        </div>
-      </div>
-    </nav>
-  );
+  return <ProductPageHeader />;
 }
 
 /* ─── Selection view ──────────────────────────────────────────────── */
@@ -1180,7 +1093,7 @@ export default function ContactClient({ initialStep = "select" }: { initialStep?
 
   return (
     <>
-      {isMobile ? <MobileHeader /> : <SiteNavbar />}
+      <SiteNavbar />
       <main style={{ background: isMobile ? "#f5f5f5" : "#fff", overflowX: "clip" }}>
         {step === "select" && <SelectionView onSelect={handleSelect} isMobile={isMobile} />}
         {step === "restaurant" && <RestaurantForm onBack={handleBack} isMobile={isMobile} />}

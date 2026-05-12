@@ -1,16 +1,21 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
 const DESKTOP_MEDIA = "(min-width: 768px) and (hover: hover) and (pointer: fine)";
 const SNAP_SELECTOR = "[data-scroll-assist-section]";
 
 export default function SmoothScroll() {
+  const pathname = usePathname();
+
   useEffect(() => {
     // Mobile has native momentum scroll; Lenis interferes with position:sticky
     // freeze animations on mobile so skip it entirely below 768px.
     if (window.innerWidth <= 767) return;
+
+    const snapAssistDisabled = pathname === "/custom-series" || pathname === "/signature-series";
 
     const lenis = new Lenis({
       duration: 1.2,
@@ -23,9 +28,16 @@ export default function SmoothScroll() {
     let snapLock = false;
     let snapLockTimer = 0;
 
-    const getSnapSections = () =>
-      Array.from(document.querySelectorAll<HTMLElement>(SNAP_SELECTOR))
+    const getSnapSections = () => {
+      const sections = Array.from(document.querySelectorAll<HTMLElement>(SNAP_SELECTOR))
         .filter((section) => section.offsetParent !== null);
+
+      if (pathname === "/restaurants") {
+        return sections.filter((section) => section.dataset.scrollAssistRestaurants === "true");
+      }
+
+      return sections;
+    };
 
     const releaseSnapLock = () => {
       window.clearTimeout(snapLockTimer);
@@ -37,8 +49,12 @@ export default function SmoothScroll() {
     const scrollToSection = (section: HTMLElement) => {
       snapLock = true;
       lenis.scrollTo(section, {
-        duration: 1.05,
-        easing: (t) => 1 - Math.pow(1 - t, 3),
+        duration: 1.45,
+        easing: (t) => (
+          t < 0.5
+            ? 4 * t * t * t
+            : 1 - Math.pow(-2 * t + 2, 3) / 2
+        ),
         lock: true,
       });
       releaseSnapLock();
@@ -63,6 +79,7 @@ export default function SmoothScroll() {
         if (currentIndex === -1) return;
 
         const nextSection = sections[currentIndex + 1];
+        if (sections[currentIndex].dataset.scrollAssistSkipNext === "true") return;
         if (nextSection) scrollToSection(nextSection);
         return;
       }
@@ -73,6 +90,7 @@ export default function SmoothScroll() {
       });
 
       const previousSection = sections[currentIndex - 1];
+      if (sections[currentIndex]?.dataset.scrollAssistSkipPrev === "true") return;
       if (previousSection) scrollToSection(previousSection);
     };
 
@@ -104,16 +122,20 @@ export default function SmoothScroll() {
     }
 
     rafId = requestAnimationFrame(raf);
-    window.addEventListener("wheel", handleWheel, { passive: true });
+    if (!snapAssistDisabled) {
+      window.addEventListener("wheel", handleWheel, { passive: true });
+    }
 
     return () => {
-      window.removeEventListener("wheel", handleWheel);
+      if (!snapAssistDisabled) {
+        window.removeEventListener("wheel", handleWheel);
+      }
       window.clearTimeout(snapLockTimer);
       observer.disconnect();
       cancelAnimationFrame(rafId);
       lenis.destroy();
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }
