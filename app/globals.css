@@ -643,6 +643,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.landing-page-scale {
+  width: 100%;
+}
+
 .gradient-heading {
   background: linear-gradient(101deg, #000000 0%, rgba(0,0,0,0.5) 100%);
   -webkit-background-clip: text;
