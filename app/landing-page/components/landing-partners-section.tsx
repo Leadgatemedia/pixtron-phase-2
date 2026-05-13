@@ -31,7 +31,7 @@ const partnerLogos: PartnerLogo[] = [
     height: 44,
     mobileHeight: 28,
     logoClassName: `${baseLogoClass} contrast-110`,
-    desktopWrapperClassName: "left-[156px] top-[20px]",
+    desktopWrapperClassName: "left-[156px] top-[27px]",
   },
   {
     src: `${partnerBasePath}/Pixtron%20Website%20(Phase%201)%20(Copy)/LGM%20RESORTS.svg`,
