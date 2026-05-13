@@ -29,9 +29,9 @@ const partnerLogos: PartnerLogo[] = [
     alt: "Belora Casino",
     width: 109,
     height: 44,
-    mobileHeight: 18,
+    mobileHeight: 28,
     logoClassName: `${baseLogoClass} contrast-110`,
-    desktopWrapperClassName: "left-[156px] top-[27px]",
+    desktopWrapperClassName: "left-[156px] top-[20px]",
   },
   {
     src: `${partnerBasePath}/Pixtron%20Website%20(Phase%201)%20(Copy)/LGM%20RESORTS.svg`,
