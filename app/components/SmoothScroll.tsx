@@ -14,6 +14,7 @@ export default function SmoothScroll() {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
+    (window as any).__lenis = lenis;
 
     // Only pause while the homepage intro is actively running. Non-home pages do
     // not add intro-done, so treating its absence as a lock can freeze scrolling.
@@ -42,6 +43,7 @@ export default function SmoothScroll() {
       observer.disconnect();
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      delete (window as any).__lenis;
     };
   }, []);
 
