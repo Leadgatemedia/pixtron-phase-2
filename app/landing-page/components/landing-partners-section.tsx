@@ -25,7 +25,7 @@ const partnerLogos: PartnerLogo[] = [
     desktopWrapperClassName: "left-[3px] top-[7px]",
   },
   {
-    src: `${partnerBasePath}/Logo%20(1).svg`,
+    src: `${partnerBasePath}/belora-casino.svg`,
     alt: "Belora Casino",
     width: 109,
     height: 44,
